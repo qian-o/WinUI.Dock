@@ -12,5 +12,5 @@ public sealed partial class LayoutPanel : Control
         DefaultStyleKey = typeof(LayoutPanel);
     }
 
-    public ObservableCollection<ILayoutGroup> Children { get; } = [];
+    public ObservableCollection<Control> Children { get; } = [];
 }

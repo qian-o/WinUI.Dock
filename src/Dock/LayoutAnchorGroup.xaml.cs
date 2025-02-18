@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Markup;
 namespace Dock;
 
 [ContentProperty(Name = nameof(Children))]
-public sealed partial class LayoutAnchorGroup : Control, ILayoutGroup
+public sealed partial class LayoutAnchorGroup : Control
 {
     public LayoutAnchorGroup()
     {

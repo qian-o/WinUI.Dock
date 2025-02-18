@@ -2,11 +2,13 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;ARM64</Platforms>
-        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-        <PublishProfile>win-$(Platform).pubxml</PublishProfile>
-        <EnableMsixTooling>true</EnableMsixTooling>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <WindowsAppSdkSelfContained>True</WindowsAppSdkSelfContained>
+        <WindowsPackageType>None</WindowsPackageType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -17,28 +19,6 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Dock\Dock.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="Assets\SplashScreen.scale-200.png" />
-        <Content Include="Assets\LockScreenLogo.scale-200.png" />
-        <Content Include="Assets\Square150x150Logo.scale-200.png" />
-        <Content Include="Assets\Square44x44Logo.scale-200.png" />
-        <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-        <Content Include="Assets\StoreLogo.png" />
-        <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Manifest Include="$(ApplicationManifest)" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-        <ProjectCapability Include="Msix" />
-    </ItemGroup>
-
-    <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-        <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-    </PropertyGroup>
 
     <PropertyGroup>
         <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
