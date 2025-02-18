@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <WindowsAppSdkSelfContained>True</WindowsAppSdkSelfContained>
-        <WindowsPackageType>None</WindowsPackageType>
+        <WindowsAppSdkSelfContained>true</WindowsAppSdkSelfContained>
+        <WindowsPackageType>none</WindowsPackageType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,10 +21,10 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-        <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-        <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-        <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+        <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">false</PublishReadyToRun>
+        <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">true</PublishReadyToRun>
+        <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">false</PublishTrimmed>
+        <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">true</PublishTrimmed>
     </PropertyGroup>
 
 </Project>
