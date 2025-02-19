@@ -5,11 +5,38 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DockingManager">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Border Background="Red" />
-                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <ContentPresenter Content="{TemplateBinding LeftSide}"
+                                          Grid.Row="1"
+                                          Grid.Column="0" />
+
+                        <ContentPresenter Content="{TemplateBinding TopSide}"
+                                          Grid.Row="0"
+                                          Grid.Column="1" />
+
+                        <ContentPresenter Content="{TemplateBinding RightSide}"
+                                          Grid.Row="1"
+                                          Grid.Column="2" />
+
+                        <ContentPresenter Content="{TemplateBinding BottomSide}"
+                                          Grid.Row="2"
+                                          Grid.Column="1" />
+
+                        <ContentPresenter Content="{TemplateBinding RootPanel}"
+                                          Grid.Row="1"
+                                          Grid.Column="1" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

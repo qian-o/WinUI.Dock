@@ -2,7 +2,7 @@
 
 namespace Dock;
 
-public sealed partial class LayoutDocument : Control
+public sealed partial class LayoutDocument : ContentControl
 {
     public LayoutDocument()
     {

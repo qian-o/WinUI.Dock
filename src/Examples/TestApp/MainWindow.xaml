@@ -8,7 +8,18 @@
         Title="TestApp">
     <Grid>
         <dock:DockingManager>
-
+            <dock:DockingManager.TopSide>
+                <dock:LayoutSide>
+                    <dock:LayoutAnchorGroup>
+                        <dock:LayoutAnchor Title="Toolbox">
+                            <Border Background="LightGray" />
+                        </dock:LayoutAnchor>
+                        <dock:LayoutAnchor Title="Properties">
+                            <Border Background="LightGray" />
+                        </dock:LayoutAnchor>
+                    </dock:LayoutAnchorGroup>
+                </dock:LayoutSide>
+            </dock:DockingManager.TopSide>
         </dock:DockingManager>
     </Grid>
 </Window>
