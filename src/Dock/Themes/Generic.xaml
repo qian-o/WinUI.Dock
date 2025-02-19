@@ -3,10 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Dock/DockingManager.xaml" />
         <ResourceDictionary Source="ms-appx:///Dock/LayoutAnchor.xaml" />
-        <ResourceDictionary Source="ms-appx:///Dock/LayoutAnchorGroup.xaml" />
         <ResourceDictionary Source="ms-appx:///Dock/LayoutDocument.xaml" />
-        <ResourceDictionary Source="ms-appx:///Dock/LayoutDocumentGroup.xaml" />
-        <ResourceDictionary Source="ms-appx:///Dock/LayoutPanel.xaml" />
         <ResourceDictionary Source="ms-appx:///Dock/LayoutSide.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
