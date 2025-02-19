@@ -1,26 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:dock="using:Dock">
+                    xmlns:dock="using:Dock"
+                    xmlns:converters="using:Dock.Converters">
+
+    <converters:SideToOrientationConverter x:Key="SideToOrientationConverter" />
+
     <Style TargetType="dock:LayoutSide">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:LayoutSide">
-                    <StackPanel x:Name="PART_RootPanel"
-                                Orientation="Vertical">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="OrientationStates">
-                                <VisualState x:Name="TopOrBottom">
-                                    <VisualState.Setters>
-                                        <Setter Target="PART_RootPanel.Orientation"
-                                                Value="Horizontal" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <Button Content="123" />
-                        <Button Content="456" />
-                    </StackPanel>
+                    <ItemsControl x:Name="PART_Children">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="{Binding Side, Converter={StaticResource SideToOrientationConverter}}" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

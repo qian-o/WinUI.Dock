@@ -26,14 +26,4 @@ public sealed partial class LayoutSide : Control
     }
 
     public ObservableCollection<LayoutAnchorGroup> Children { get; } = [];
-
-    protected override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (Side is Side.Top or Side.Bottom)
-        {
-            VisualStateManager.GoToState(this, "TopOrBottom", false);
-        }
-    }
 }
