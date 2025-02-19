@@ -25,5 +25,5 @@ public sealed partial class LayoutSide : Control
         internal set => SetValue(SideProperty, value);
     }
 
-    public ObservableCollection<LayoutAnchorGroup> Children { get; } = [];
+    public ObservableCollection<LayoutAnchor> Children { get; } = [];
 }

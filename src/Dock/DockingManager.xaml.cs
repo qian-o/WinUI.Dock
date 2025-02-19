@@ -1,11 +1,12 @@
-﻿using Dock.Enums;
+﻿using System.Collections.ObjectModel;
+using Dock.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 
 namespace Dock;
 
-[ContentProperty(Name = nameof(RootPanel))]
+[ContentProperty(Name = nameof(Children))]
 public sealed partial class DockingManager : Control
 {
     public static readonly DependencyProperty LeftSideProperty = DependencyProperty.Register(nameof(LeftSide),
@@ -27,11 +28,6 @@ public sealed partial class DockingManager : Control
                                                                                                typeof(LayoutSide),
                                                                                                typeof(DockingManager),
                                                                                                new PropertyMetadata(null, OnBottomSideChanged));
-
-    public static readonly DependencyProperty RootPanelProperty = DependencyProperty.Register(nameof(RootPanel),
-                                                                                              typeof(LayoutPanel),
-                                                                                              typeof(DockingManager),
-                                                                                              new PropertyMetadata(null));
 
     public DockingManager()
     {
@@ -62,11 +58,7 @@ public sealed partial class DockingManager : Control
         set => SetValue(BottomSideProperty, value);
     }
 
-    public LayoutPanel? RootPanel
-    {
-        get => (LayoutPanel)GetValue(RootPanelProperty);
-        set => SetValue(RootPanelProperty, value);
-    }
+    public ObservableCollection<LayoutDocument> Children { get; } = [];
 
     private static void OnLeftSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

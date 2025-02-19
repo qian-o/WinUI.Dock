@@ -9,13 +9,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:LayoutSide">
-                    <ItemsControl x:Name="PART_Children">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="{Binding Side, Converter={StaticResource SideToOrientationConverter}}" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                    <ItemsRepeater ItemsSource="{Binding Children, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="{Binding Side, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource SideToOrientationConverter}}"
+                                         Spacing="{StaticResource RatingControlItemSpacing}" />
+                        </ItemsRepeater.Layout>
+
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Title}" />
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
