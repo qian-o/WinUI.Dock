@@ -8,7 +8,7 @@
         Title="TestApp">
     <Grid>
         <dock:DockingManager>
-            <dock:DockingManager.TopSide>
+            <dock:DockingManager.LeftSide>
                 <dock:LayoutSide>
                     <dock:LayoutAnchor Title="Toolbox">
                         <Border Background="LightGray" />
@@ -17,7 +17,27 @@
                         <Border Background="LightGray" />
                     </dock:LayoutAnchor>
                 </dock:LayoutSide>
-            </dock:DockingManager.TopSide>
+            </dock:DockingManager.LeftSide>
+            <dock:DockingManager.RightSide>
+                <dock:LayoutSide>
+                    <dock:LayoutAnchor Title="Solution Explorer">
+                        <Border Background="LightGray" />
+                    </dock:LayoutAnchor>
+                    <dock:LayoutAnchor Title="Git">
+                        <Border Background="LightGray" />
+                    </dock:LayoutAnchor>
+                </dock:LayoutSide>
+            </dock:DockingManager.RightSide>
+            <dock:DockingManager.BottomSide>
+                <dock:LayoutSide>
+                    <dock:LayoutAnchor Title="Error List">
+                        <Border Background="LightGray" />
+                    </dock:LayoutAnchor>
+                    <dock:LayoutAnchor Title="Output">
+                        <Border Background="LightGray" />
+                    </dock:LayoutAnchor>
+                </dock:LayoutSide>
+            </dock:DockingManager.BottomSide>
         </dock:DockingManager>
     </Grid>
 </Window>
