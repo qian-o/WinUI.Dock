@@ -1,45 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
                     xmlns:dock="using:Dock">
 
     <Style TargetType="dock:DockingManager">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="dock:DockingManager">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <ContentPresenter Content="{TemplateBinding LeftSide}"
-                                          Grid.Column="0"
-                                          Grid.Row="1" />
-
-                        <ContentPresenter Content="{TemplateBinding TopSide}"
-                                          Grid.Column="1"
-                                          Grid.Row="0" />
-
-                        <ContentPresenter Content="{TemplateBinding RightSide}"
-                                          Grid.Column="2"
-                                          Grid.Row="1" />
-
-                        <ContentPresenter Content="{TemplateBinding BottomSide}"
-                                          Grid.Column="1"
-                                          Grid.Row="2" />
-
-                        <controls:DockPanel x:Name="PART_DockPanel"
-                                            Grid.Column="1"
-                                            Grid.Row="1" />
-                    </Grid>
-                </ControlTemplate>
+                <ControlTemplate TargetType="dock:DockingManager" />
             </Setter.Value>
         </Setter>
     </Style>
