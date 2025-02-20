@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Dock.Abstractions;
 using Dock.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,6 +30,11 @@ public sealed partial class DockingManager : Control
                                                                                                typeof(DockingManager),
                                                                                                new PropertyMetadata(null, OnBottomSideChanged));
 
+    public static readonly DependencyProperty SideProperty = DependencyProperty.RegisterAttached("Side",
+                                                                                                 typeof(Side),
+                                                                                                 typeof(DockingManager),
+                                                                                                 new PropertyMetadata(Side.Left));
+
     public DockingManager()
     {
         DefaultStyleKey = typeof(DockingManager);
@@ -58,7 +64,17 @@ public sealed partial class DockingManager : Control
         set => SetValue(BottomSideProperty, value);
     }
 
-    public ObservableCollection<LayoutDocument> Children { get; } = [];
+    public ObservableCollection<LayoutItem> Children { get; } = [];
+
+    public static Side GetSide(LayoutAnchor obj)
+    {
+        return (Side)obj.GetValue(SideProperty);
+    }
+
+    public static void SetSide(LayoutAnchor obj, Side value)
+    {
+        obj.SetValue(SideProperty, value);
+    }
 
     private static void OnLeftSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

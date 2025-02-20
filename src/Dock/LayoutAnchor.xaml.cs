@@ -1,23 +1,11 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using Dock.Abstractions;
 
 namespace Dock;
 
-public sealed partial class LayoutAnchor : ContentControl
+public sealed partial class LayoutAnchor : LayoutItem
 {
-    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
-                                                                                          typeof(string),
-                                                                                          typeof(LayoutAnchor),
-                                                                                          new PropertyMetadata(string.Empty));
-
     public LayoutAnchor()
     {
         DefaultStyleKey = typeof(LayoutAnchor);
-    }
-
-    public string Title
-    {
-        get => (string)GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
     }
 }

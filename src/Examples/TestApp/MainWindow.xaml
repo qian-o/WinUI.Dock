@@ -38,6 +38,31 @@
                     </dock:LayoutAnchor>
                 </dock:LayoutSide>
             </dock:DockingManager.BottomSide>
+
+            <dock:LayoutDocument Title="Document 1">
+                <Border Background="LightGray" />
+            </dock:LayoutDocument>
+
+            <dock:LayoutDocument Title="Document 2">
+                <Border Background="LightGray" />
+            </dock:LayoutDocument>
+
+            <dock:LayoutAnchor Title="Toolbox"
+                               Group="Right"
+                               dock:DockingManager.Side="Right">
+                <Border Background="LightGray" />
+            </dock:LayoutAnchor>
+
+            <dock:LayoutAnchor Title="Properties"
+                               Group="Right"
+                               dock:DockingManager.Side="Top">
+                <Border Background="LightGray" />
+            </dock:LayoutAnchor>
+
+            <dock:LayoutAnchor Title="Solution Explorer"
+                               dock:DockingManager.Side="Bottom">
+                <Border Background="LightGray" />
+            </dock:LayoutAnchor>
         </dock:DockingManager>
     </Grid>
 </Window>

@@ -1,8 +1,8 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Dock.Abstractions;
 
 namespace Dock;
 
-public sealed partial class LayoutDocument : ContentControl
+public sealed partial class LayoutDocument : LayoutItem
 {
     public LayoutDocument()
     {
