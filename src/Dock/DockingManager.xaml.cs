@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using CommunityToolkit.WinUI.Controls;
 using Dock.Abstractions;
 using Dock.Enums;
 using Microsoft.UI.Xaml;
@@ -8,6 +9,7 @@ using Microsoft.UI.Xaml.Markup;
 namespace Dock;
 
 [ContentProperty(Name = nameof(Children))]
+[TemplatePart(Name = "PART_DockPanel", Type = typeof(DockPanel))]
 public sealed partial class DockingManager : Control
 {
     public static readonly DependencyProperty LeftSideProperty = DependencyProperty.Register(nameof(LeftSide),
@@ -30,14 +32,13 @@ public sealed partial class DockingManager : Control
                                                                                                typeof(DockingManager),
                                                                                                new PropertyMetadata(null, OnBottomSideChanged));
 
-    public static readonly DependencyProperty SideProperty = DependencyProperty.RegisterAttached("Side",
-                                                                                                 typeof(Side),
-                                                                                                 typeof(DockingManager),
-                                                                                                 new PropertyMetadata(Side.Left));
+    private DockPanel? dockPanel;
 
     public DockingManager()
     {
         DefaultStyleKey = typeof(DockingManager);
+
+        Children.CollectionChanged += (s, e) => UpdateDockPanel();
     }
 
     public LayoutSide? LeftSide
@@ -66,14 +67,26 @@ public sealed partial class DockingManager : Control
 
     public ObservableCollection<LayoutItem> Children { get; } = [];
 
-    public static Side GetSide(LayoutAnchor obj)
+    protected override void OnApplyTemplate()
     {
-        return (Side)obj.GetValue(SideProperty);
+        base.OnApplyTemplate();
+
+        dockPanel = GetTemplateChild("PART_DockPanel") as DockPanel;
+
+        UpdateDockPanel();
     }
 
-    public static void SetSide(LayoutAnchor obj, Side value)
+    private void UpdateDockPanel()
     {
-        obj.SetValue(SideProperty, value);
+        if (dockPanel is null)
+        {
+            return;
+        }
+
+        dockPanel.Children.Clear();
+
+        string[] anchorGroups = [.. Children.Where(item => item is LayoutAnchor).Select(x => x.Group).Distinct()];
+        string[] documentGroups = [.. Children.Where(item => item is LayoutDocument).Select(x => x.Group).Distinct()];
     }
 
     private static void OnLeftSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

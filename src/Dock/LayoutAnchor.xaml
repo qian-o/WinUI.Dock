@@ -5,6 +5,20 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:LayoutAnchor">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="{TemplateBinding Title}"
+                                   Margin="4"
+                                   FontWeight="Bold" />
+
+                        <ContentPresenter Grid.Row="1"
+                                          Content="{TemplateBinding Content}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -23,7 +23,7 @@ public abstract class LayoutItem : ContentControl
 
     public string Group
     {
-        get { return (string)GetValue(GroupProperty); }
-        set { SetValue(GroupProperty, value); }
+        get => (string)GetValue(GroupProperty);
+        set => SetValue(GroupProperty, value);
     }
 }

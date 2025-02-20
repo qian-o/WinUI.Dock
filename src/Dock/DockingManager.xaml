@@ -1,4 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
                     xmlns:dock="using:Dock">
 
@@ -34,7 +35,8 @@
                                           Grid.Column="1"
                                           Grid.Row="2" />
 
-                        <controls:DockPanel Grid.Column="1"
+                        <controls:DockPanel x:Name="PART_DockPanel"
+                                            Grid.Column="1"
                                             Grid.Row="1" />
                     </Grid>
                 </ControlTemplate>
