@@ -32,6 +32,11 @@ public sealed partial class DockingManager : Control
                                                                                                typeof(DockingManager),
                                                                                                new PropertyMetadata(null, OnBottomSideChanged));
 
+    public static readonly DependencyProperty SideProperty = DependencyProperty.RegisterAttached("Side",
+                                                                                                 typeof(Side),
+                                                                                                 typeof(DockingManager),
+                                                                                                 new PropertyMetadata(Side.Left));
+
     private DockPanel? dockPanel;
 
     public DockingManager()
@@ -66,6 +71,16 @@ public sealed partial class DockingManager : Control
     }
 
     public ObservableCollection<LayoutItem> Children { get; } = [];
+
+    public static Side GetSide(LayoutItem obj)
+    {
+        return (Side)obj.GetValue(SideProperty);
+    }
+
+    public static void SetSide(LayoutItem obj, Side value)
+    {
+        obj.SetValue(SideProperty, value);
+    }
 
     protected override void OnApplyTemplate()
     {
