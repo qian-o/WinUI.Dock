@@ -12,6 +12,8 @@ public partial class DockingManager : Control
         DefaultStyleKey = typeof(DockingManager);
     }
 
+    public ObservableCollection<LayoutContainer> Children { get; } = [];
+
     public ObservableCollection<Document> Left { get; } = [];
 
     public ObservableCollection<Document> Top { get; } = [];
@@ -19,6 +21,4 @@ public partial class DockingManager : Control
     public ObservableCollection<Document> Right { get; } = [];
 
     public ObservableCollection<Document> Bottom { get; } = [];
-
-    public ObservableCollection<LayoutContainer> Children { get; } = [];
 }
