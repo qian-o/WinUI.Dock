@@ -1,5 +1,3 @@
 ﻿namespace Dock.Interfaces;
 
-public interface IContainer
-{
-}
+public interface IContainer;
