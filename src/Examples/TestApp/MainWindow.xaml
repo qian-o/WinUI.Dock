@@ -3,8 +3,60 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dock="using:Dock"
         mc:Ignorable="d"
         Title="TestApp">
     <Grid>
+        <dock:DockingManager>
+            <dock:DockingManager.Left>
+                <dock:DocumentContainer>
+                    <dock:Document Title="工具箱">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                    <dock:Document Title="数据源">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                </dock:DocumentContainer>
+            </dock:DockingManager.Left>
+            <dock:DockingManager.Right>
+                <dock:DocumentContainer>
+                    <dock:Document Title="解决方案资源管理器">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                    <dock:Document Title="Git 更改">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                </dock:DocumentContainer>
+                <dock:DocumentContainer>
+                    <dock:Document Title="属性">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                </dock:DocumentContainer>
+            </dock:DockingManager.Right>
+            <dock:LayoutContainer Orientation="Vertical">
+                <dock:DocumentContainer CanAnchor="False">
+                    <dock:Document Title="Document 1"
+                                   CanClose="False">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                    <dock:Document Title="Document 2"
+                                   CanClose="False">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                </dock:DocumentContainer>
+                <dock:LayoutContainer Orientation="Horizontal">
+                    <dock:DocumentContainer>
+                        <dock:Document Title="错误列表">
+                            <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        </dock:Document>
+                    </dock:DocumentContainer>
+                    <dock:DocumentContainer>
+                        <dock:Document Title="输出">
+                            <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        </dock:Document>
+                    </dock:DocumentContainer>
+                </dock:LayoutContainer>
+            </dock:LayoutContainer>
+        </dock:DockingManager>
     </Grid>
 </Window>

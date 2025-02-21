@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using Dock.Abstracts;
+using Dock.Interfaces;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Markup;
 
 namespace Dock;
 
-[ContentProperty(Name = nameof(Children))]
-public partial class LayoutContainer : Control
+public partial class LayoutContainer : Container<IContainer>
 {
     public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
                                                                                                 typeof(Orientation),
@@ -17,8 +16,6 @@ public partial class LayoutContainer : Control
     {
         DefaultStyleKey = typeof(LayoutContainer);
     }
-
-    public ObservableCollection<DocumentContainer> Children { get; } = [];
 
     public Orientation Orientation
     {
