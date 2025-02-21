@@ -21,6 +21,8 @@
                                     <VisualState.Setters>
                                         <Setter Target="PART_Root.TabWidthMode"
                                                 Value="SizeToContent" />
+                                        <Setter Target="PART_PinButton.Visibility"
+                                                Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -29,7 +31,17 @@
                         <TabView x:Name="PART_Root"
                                  CanReorderTabs="False"
                                  TabWidthMode="Equal"
-                                 IsAddTabButtonVisible="False" />
+                                 IsAddTabButtonVisible="False">
+                            <TabView.TabStripFooter>
+                                <ToggleButton x:Name="PART_PinButton"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Center"
+                                              Visibility="Collapsed">
+                                    <FontIcon FontSize="{StaticResource CheckBoxGlyphSize}"
+                                              Glyph="&#xE718;" />
+                                </ToggleButton>
+                            </TabView.TabStripFooter>
+                        </TabView>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
