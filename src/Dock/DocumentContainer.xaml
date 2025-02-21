@@ -1,1 +1,20 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"></ResourceDictionary>
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dock="using:Dock">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Components/Card.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="dock:DocumentContainer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="dock:DocumentContainer">
+                    <Border Style="{StaticResource Card}">
+                        <TabView x:Name="PART_Root"
+                                 IsAddTabButtonVisible="False" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

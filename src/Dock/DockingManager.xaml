@@ -34,6 +34,9 @@
                                             Angle="0"
                                             Containers="{Binding Bottom, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
 
+                        <ContentPresenter Grid.Column="1"
+                                          Grid.Row="1"
+                                          Content="{TemplateBinding Container}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
              xmlns:dock="using:Dock"
-             xmlns:components="using:Dock.Components"
              mc:Ignorable="d">
 
     <controls:LayoutTransformControl>
@@ -13,7 +12,8 @@
             <RotateTransform Angle="{x:Bind Angle}" />
         </controls:LayoutTransformControl.Transform>
 
-        <ItemsRepeater ItemsSource="{x:Bind Containers}">
+        <ItemsRepeater ItemsSource="{x:Bind Containers}"
+                       Margin="0,4,0,4">
             <ItemsRepeater.Layout>
                 <StackLayout Orientation="Horizontal"
                              Spacing="{StaticResource RatingControlItemSpacing}" />

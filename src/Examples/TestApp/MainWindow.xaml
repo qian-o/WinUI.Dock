@@ -18,6 +18,7 @@
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Left>
+
             <dock:DockingManager.Right>
                 <dock:DocumentContainer>
                     <dock:Document Title="解决方案资源管理器">
@@ -33,6 +34,7 @@
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Right>
+
             <dock:LayoutContainer Orientation="Vertical">
                 <dock:DocumentContainer CanAnchor="False">
                     <dock:Document Title="Document 1"
@@ -44,6 +46,7 @@
                         <Grid Background="{StaticResource AccentFillColorDisabled}" />
                     </dock:Document>
                 </dock:DocumentContainer>
+
                 <dock:LayoutContainer Orientation="Horizontal">
                     <dock:DocumentContainer>
                         <dock:Document Title="错误列表">
