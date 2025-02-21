@@ -9,7 +9,7 @@ using static CommunityToolkit.WinUI.Controls.GridSplitter;
 namespace Dock;
 
 [TemplatePart(Name = "PART_Root", Type = typeof(Grid))]
-public partial class LayoutContainer : Container<IContainer>
+public partial class LayoutContainer : ChildrenContainer<IContainer>
 {
     public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
                                                                                                 typeof(Orientation),
@@ -50,11 +50,16 @@ public partial class LayoutContainer : Container<IContainer>
             return;
         }
 
-        root.ColumnDefinitions.Clear();
-        root.RowDefinitions.Clear();
-        root.Children.Clear();
+        if (Orientation is Orientation.Horizontal)
+        {
+            UpdateColumnDefinitions();
+        }
+        else
+        {
+            UpdateRowDefinitions();
+        }
 
-        bool isHorizontal = Orientation is Orientation.Horizontal;
+        root.Children.Clear();
 
         for (int i = 0; i < Children.Count; i++)
         {
@@ -72,7 +77,7 @@ public partial class LayoutContainer : Container<IContainer>
                 Grid.SetColumn(splitter, i);
                 Grid.SetRow(splitter, i);
 
-                if (isHorizontal)
+                if (Orientation is Orientation.Horizontal)
                 {
                     splitter.HorizontalAlignment = HorizontalAlignment.Left;
                     splitter.VerticalAlignment = VerticalAlignment.Stretch;
@@ -89,14 +94,65 @@ public partial class LayoutContainer : Container<IContainer>
 
                 root.Children.Add(splitter);
             }
+        }
+    }
 
-            if (isHorizontal)
+    private void UpdateColumnDefinitions()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        if (root.ColumnDefinitions.Count < Children.Count)
+        {
+            for (int i = root.ColumnDefinitions.Count; i < Children.Count; i++)
             {
-                root.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
+                IContainer container = Children[i];
+
+                root.ColumnDefinitions.Add(new()
+                {
+                    MinWidth = container.DesignMinWidth,
+                    MaxWidth = container.DesignMaxWidth,
+                    Width = container.DesignWidth
+                });
             }
-            else
+        }
+        else if (root.ColumnDefinitions.Count > Children.Count)
+        {
+            for (int i = root.ColumnDefinitions.Count - 1; i >= Children.Count; i--)
             {
-                root.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
+                root.ColumnDefinitions.RemoveAt(i);
+            }
+        }
+    }
+
+    private void UpdateRowDefinitions()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        if (root.RowDefinitions.Count < Children.Count)
+        {
+            for (int i = root.RowDefinitions.Count; i < Children.Count; i++)
+            {
+                IContainer container = Children[i];
+
+                root.RowDefinitions.Add(new()
+                {
+                    MinHeight = container.DesignMinHeight,
+                    MaxHeight = container.DesignMaxHeight,
+                    Height = container.DesignHeight
+                });
+            }
+        }
+        else if (root.RowDefinitions.Count > Children.Count)
+        {
+            for (int i = root.RowDefinitions.Count - 1; i >= Children.Count; i--)
+            {
+                root.RowDefinitions.RemoveAt(i);
             }
         }
     }
