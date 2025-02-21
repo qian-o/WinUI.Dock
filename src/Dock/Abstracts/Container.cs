@@ -5,69 +5,69 @@ namespace Dock.Abstracts;
 
 public abstract class Container : Control, IContainer
 {
-    public static readonly DependencyProperty DesignMinWidthProperty = DependencyProperty.Register(nameof(DesignMinWidth),
-                                                                                                   typeof(double),
-                                                                                                   typeof(Container),
-                                                                                                   new PropertyMetadata(0.0));
-
-    public static readonly DependencyProperty DesignMaxWidthProperty = DependencyProperty.Register(nameof(DesignMaxWidth),
-                                                                                                   typeof(double),
-                                                                                                   typeof(Container),
-                                                                                                   new PropertyMetadata(double.PositiveInfinity));
-
-    public static readonly DependencyProperty DesignWidthProperty = DependencyProperty.Register(nameof(DesignWidth),
-                                                                                                typeof(GridLength),
-                                                                                                typeof(Container),
-                                                                                                new PropertyMetadata(new GridLength(1, GridUnitType.Star)));
-
-    public static readonly DependencyProperty DesignMinHeightProperty = DependencyProperty.Register(nameof(DesignMinHeight),
-                                                                                                    typeof(double),
-                                                                                                    typeof(Container),
-                                                                                                    new PropertyMetadata(0.0));
-
-    public static readonly DependencyProperty DesignMaxHeightProperty = DependencyProperty.Register(nameof(DesignMaxHeight),
-                                                                                                    typeof(double),
-                                                                                                    typeof(Container),
-                                                                                                    new PropertyMetadata(double.PositiveInfinity));
-
-    public static readonly DependencyProperty DesignHeightProperty = DependencyProperty.Register(nameof(DesignHeight),
-                                                                                                 typeof(GridLength),
+    public static readonly DependencyProperty DockMinWidthProperty = DependencyProperty.Register(nameof(DockMinWidth),
+                                                                                                 typeof(double),
                                                                                                  typeof(Container),
-                                                                                                 new PropertyMetadata(new GridLength(1, GridUnitType.Star)));
+                                                                                                 new PropertyMetadata(0.0));
 
-    public double DesignMinWidth
+    public static readonly DependencyProperty DockMaxWidthProperty = DependencyProperty.Register(nameof(DockMaxWidth),
+                                                                                                 typeof(double),
+                                                                                                 typeof(Container),
+                                                                                                 new PropertyMetadata(double.PositiveInfinity));
+
+    public static readonly DependencyProperty DockWidthProperty = DependencyProperty.Register(nameof(DockWidth),
+                                                                                              typeof(GridLength),
+                                                                                              typeof(Container),
+                                                                                              new PropertyMetadata(new GridLength(1, GridUnitType.Star)));
+
+    public static readonly DependencyProperty DockMinHeightProperty = DependencyProperty.Register(nameof(DockMinHeight),
+                                                                                                  typeof(double),
+                                                                                                  typeof(Container),
+                                                                                                  new PropertyMetadata(0.0));
+
+    public static readonly DependencyProperty DockMaxHeightProperty = DependencyProperty.Register(nameof(DockMaxHeight),
+                                                                                                  typeof(double),
+                                                                                                  typeof(Container),
+                                                                                                  new PropertyMetadata(double.PositiveInfinity));
+
+    public static readonly DependencyProperty DockHeightProperty = DependencyProperty.Register(nameof(DockHeight),
+                                                                                               typeof(GridLength),
+                                                                                               typeof(Container),
+                                                                                               new PropertyMetadata(new GridLength(1, GridUnitType.Star)));
+
+    public double DockMinWidth
     {
-        get => (double)GetValue(DesignMinWidthProperty);
-        set => SetValue(DesignMinWidthProperty, value);
+        get => (double)GetValue(DockMinWidthProperty);
+        set => SetValue(DockMinWidthProperty, value);
     }
 
-    public double DesignMaxWidth
+    public double DockMaxWidth
     {
-        get => (double)GetValue(DesignMaxWidthProperty);
-        set => SetValue(DesignMaxWidthProperty, value);
+        get => (double)GetValue(DockMaxWidthProperty);
+        set => SetValue(DockMaxWidthProperty, value);
     }
 
-    public GridLength DesignWidth
+    public GridLength DockWidth
     {
-        get => (GridLength)GetValue(DesignWidthProperty);
-        set => SetValue(DesignWidthProperty, value);
+        get => (GridLength)GetValue(DockWidthProperty);
+        set => SetValue(DockWidthProperty, value);
     }
 
-    public double DesignMinHeight
+    public double DockMinHeight
     {
-        get => (double)GetValue(DesignMinHeightProperty);
-        set => SetValue(DesignMinHeightProperty, value);
+        get => (double)GetValue(DockMinHeightProperty);
+        set => SetValue(DockMinHeightProperty, value);
     }
 
-    public double DesignMaxHeight
+    public double DockMaxHeight
     {
-        get => (double)GetValue(DesignMaxHeightProperty);
-        set => SetValue(DesignMaxHeightProperty, value);
+        get => (double)GetValue(DockMaxHeightProperty);
+        set => SetValue(DockMaxHeightProperty, value);
     }
 
-    public GridLength DesignHeight
+    public GridLength DockHeight
     {
-        get => (GridLength)GetValue(DesignHeightProperty);
-        set => SetValue(DesignHeightProperty, value);
+        get => (GridLength)GetValue(DockHeightProperty);
+        set => SetValue(DockHeightProperty, value);
     }
 }

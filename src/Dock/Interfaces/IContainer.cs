@@ -4,15 +4,15 @@ namespace Dock.Interfaces;
 
 public interface IContainer
 {
-    double DesignMinWidth { get; set; }
+    double DockMinWidth { get; set; }
 
-    double DesignMaxWidth { get; set; }
+    double DockMaxWidth { get; set; }
 
-    GridLength DesignWidth { get; set; }
+    GridLength DockWidth { get; set; }
 
-    double DesignMinHeight { get; set; }
+    double DockMinHeight { get; set; }
 
-    double DesignMaxHeight { get; set; }
+    double DockMaxHeight { get; set; }
 
-    GridLength DesignHeight { get; set; }
+    GridLength DockHeight { get; set; }
 }

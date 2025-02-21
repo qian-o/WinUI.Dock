@@ -53,9 +53,9 @@
 
             <dock:LayoutContainer Orientation="Horizontal">
                 <dock:LayoutContainer Orientation="Vertical"
-                                      DesignWidth="4*">
+                                      DockWidth="4*">
                     <dock:DocumentContainer CanAnchor="False"
-                                            DesignHeight="3*">
+                                            DockHeight="3*">
                         <dock:Document Title="Document 1"
                                        CanClose="False">
                             <TextBlock Text="Document 1" />
@@ -67,13 +67,13 @@
                     </dock:DocumentContainer>
 
                     <dock:LayoutContainer Orientation="Horizontal"
-                                          DesignHeight="1*">
-                        <dock:DocumentContainer DesignWidth="1*">
+                                          DockHeight="1*">
+                        <dock:DocumentContainer DockWidth="1*">
                             <dock:Document Title="错误列表">
                                 <TextBlock Text="错误列表" />
                             </dock:Document>
                         </dock:DocumentContainer>
-                        <dock:DocumentContainer DesignWidth="1.5*">
+                        <dock:DocumentContainer DockWidth="1.5*">
                             <dock:Document Title="输出">
                                 <TextBlock Text="输出" />
                             </dock:Document>
@@ -81,7 +81,7 @@
                     </dock:LayoutContainer>
                 </dock:LayoutContainer>
 
-                <dock:DocumentContainer DesignWidth="1*">
+                <dock:DocumentContainer DockWidth="1*">
                     <dock:Document Title="Right 1">
                         <TextBlock Text="Right 1" />
                     </dock:Document>

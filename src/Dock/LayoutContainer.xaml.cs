@@ -112,9 +112,9 @@ public partial class LayoutContainer : ChildrenContainer<IContainer>
 
                 root.ColumnDefinitions.Add(new()
                 {
-                    MinWidth = container.DesignMinWidth,
-                    MaxWidth = container.DesignMaxWidth,
-                    Width = container.DesignWidth
+                    MinWidth = container.DockMinWidth,
+                    MaxWidth = container.DockMaxWidth,
+                    Width = container.DockWidth
                 });
             }
         }
@@ -142,9 +142,9 @@ public partial class LayoutContainer : ChildrenContainer<IContainer>
 
                 root.RowDefinitions.Add(new()
                 {
-                    MinHeight = container.DesignMinHeight,
-                    MaxHeight = container.DesignMaxHeight,
-                    Height = container.DesignHeight
+                    MinHeight = container.DockMinHeight,
+                    MaxHeight = container.DockMaxHeight,
+                    Height = container.DockHeight
                 });
             }
         }
