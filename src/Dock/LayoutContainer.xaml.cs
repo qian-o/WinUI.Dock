@@ -1,7 +1,10 @@
 ﻿using System.Collections.Specialized;
+using CommunityToolkit.WinUI.Controls;
 using Dock.Abstracts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using static CommunityToolkit.WinUI.Controls.GridSplitter;
 
 namespace Dock;
 
@@ -51,25 +54,50 @@ public partial class LayoutContainer : Container<IContainer>
         root.RowDefinitions.Clear();
         root.Children.Clear();
 
-        int count = 0;
-        foreach (IContainer item in Children)
+        bool isHorizontal = Orientation is Orientation.Horizontal;
+
+        for (int i = 0; i < Children.Count; i++)
         {
-            Control control = (Control)item;
+            Control control = (Control)Children[i];
 
-            if (Orientation is Orientation.Horizontal)
+            Grid.SetColumn(control, i);
+            Grid.SetRow(control, i);
+
+            root.Children.Add(control);
+
+            if (i > 0)
             {
-                Grid.SetColumn(control, count++);
+                GridSplitter splitter = new();
 
+                Grid.SetColumn(splitter, i);
+                Grid.SetRow(splitter, i);
+
+                if (isHorizontal)
+                {
+                    splitter.HorizontalAlignment = HorizontalAlignment.Left;
+                    splitter.VerticalAlignment = VerticalAlignment.Stretch;
+                    splitter.ResizeDirection = GridResizeDirection.Columns;
+                    splitter.RenderTransform = new TranslateTransform() { X = -12 };
+                }
+                else
+                {
+                    splitter.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    splitter.VerticalAlignment = VerticalAlignment.Top;
+                    splitter.ResizeDirection = GridResizeDirection.Rows;
+                    splitter.RenderTransform = new TranslateTransform() { Y = -12 };
+                }
+
+                root.Children.Add(splitter);
+            }
+
+            if (isHorizontal)
+            {
                 root.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
             }
             else
             {
-                Grid.SetRow(control, count++);
-
                 root.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
             }
-
-            root.Children.Add(control);
         }
     }
 }

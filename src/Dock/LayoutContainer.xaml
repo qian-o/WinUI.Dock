@@ -6,8 +6,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="dock:LayoutContainer">
                     <Grid x:Name="PART_Root"
-                          ColumnSpacing="8"
-                          RowSpacing="8" />
+                          ColumnSpacing="12"
+                          RowSpacing="12" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
