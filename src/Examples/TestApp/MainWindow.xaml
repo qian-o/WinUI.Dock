@@ -19,6 +19,14 @@
                 </dock:DocumentContainer>
             </dock:DockingManager.Left>
 
+            <dock:DockingManager.Top>
+                <dock:DocumentContainer>
+                    <dock:Document Title="菜单">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                </dock:DocumentContainer>
+            </dock:DockingManager.Top>
+
             <dock:DockingManager.Right>
                 <dock:DocumentContainer>
                     <dock:Document Title="解决方案资源管理器">
@@ -35,27 +43,35 @@
                 </dock:DocumentContainer>
             </dock:DockingManager.Right>
 
+            <dock:DockingManager.Bottom>
+                <dock:DocumentContainer>
+                    <dock:Document Title="状态栏">
+                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                    </dock:Document>
+                </dock:DocumentContainer>
+            </dock:DockingManager.Bottom>
+
             <dock:LayoutContainer Orientation="Vertical">
                 <dock:DocumentContainer CanAnchor="False">
                     <dock:Document Title="Document 1"
                                    CanClose="False">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="Document 1" />
                     </dock:Document>
                     <dock:Document Title="Document 2"
                                    CanClose="False">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="Document 2" />
                     </dock:Document>
                 </dock:DocumentContainer>
 
                 <dock:LayoutContainer Orientation="Horizontal">
                     <dock:DocumentContainer>
                         <dock:Document Title="错误列表">
-                            <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                            <TextBlock Text="错误列表" />
                         </dock:Document>
                     </dock:DocumentContainer>
                     <dock:DocumentContainer>
                         <dock:Document Title="输出">
-                            <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                            <TextBlock Text="输出" />
                         </dock:Document>
                     </dock:DocumentContainer>
                 </dock:LayoutContainer>
