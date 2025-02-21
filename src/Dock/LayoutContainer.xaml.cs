@@ -1,5 +1,4 @@
 ﻿using Dock.Abstracts;
-using Dock.Interfaces;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
