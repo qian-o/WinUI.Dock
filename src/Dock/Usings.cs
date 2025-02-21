@@ -1,0 +1,1 @@
+﻿global using IContainer = Dock.Interfaces.IContainer;

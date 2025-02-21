@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using IContainer = Dock.Interfaces.IContainer;
 
 namespace Dock.Abstracts;
 
