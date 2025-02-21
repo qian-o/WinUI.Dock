@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:toolkit="using:CommunityToolkit.WinUI"
                     xmlns:dock="using:Dock">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Components/Card.xaml" />
@@ -10,7 +11,24 @@
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DocumentContainer">
                     <Border Style="{StaticResource Card}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState>
+                                    <VisualState.StateTriggers>
+                                        <toolkit:IsEqualStateTrigger Value="{Binding CanAnchor, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                                     To="True" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_Root.TabWidthMode"
+                                                Value="SizeToContent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
                         <TabView x:Name="PART_Root"
+                                 CanReorderTabs="False"
+                                 TabWidthMode="Equal"
                                  IsAddTabButtonVisible="False" />
                     </Border>
                 </ControlTemplate>

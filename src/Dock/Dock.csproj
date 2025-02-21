@@ -5,20 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Components\Card.xaml" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+        <PackageReference Include="CommunityToolkit.WinUI.Triggers" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="Components\Card.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
     </ItemGroup>
 
 </Project>
