@@ -9,7 +9,7 @@ using static CommunityToolkit.WinUI.Controls.GridSplitter;
 namespace Dock;
 
 [TemplatePart(Name = "PART_Root", Type = typeof(Grid))]
-public partial class LayoutContainer : ChildrenContainer<Container>
+public partial class LayoutContainer : Container<IContainer>
 {
     public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
                                                                                                 typeof(Orientation),
@@ -65,12 +65,13 @@ public partial class LayoutContainer : ChildrenContainer<Container>
 
         for (int i = 0; i < Children.Count; i++)
         {
-            Container container = Children[i];
+            if (Children[i] is Control control)
+            {
+                Grid.SetColumn(control, i);
+                Grid.SetRow(control, i);
 
-            Grid.SetColumn(container, i);
-            Grid.SetRow(container, i);
-
-            root.Children.Add(container);
+                root.Children.Add(control);
+            }
 
             if (i > 0)
             {
@@ -110,7 +111,7 @@ public partial class LayoutContainer : ChildrenContainer<Container>
         {
             for (int i = root.ColumnDefinitions.Count; i < Children.Count; i++)
             {
-                Container container = Children[i];
+                IContainer container = Children[i];
 
                 root.ColumnDefinitions.Add(new()
                 {
@@ -140,7 +141,7 @@ public partial class LayoutContainer : ChildrenContainer<Container>
         {
             for (int i = root.RowDefinitions.Count; i < Children.Count; i++)
             {
-                Container container = Children[i];
+                IContainer container = Children[i];
 
                 root.RowDefinitions.Add(new()
                 {

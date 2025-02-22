@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace Dock;
 
 [TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
-public partial class DocumentContainer : ChildrenContainer<Document>
+public partial class DocumentContainer : Container<Document>
 {
     public static readonly DependencyProperty CanAnchorProperty = DependencyProperty.Register(nameof(CanAnchor),
                                                                                               typeof(bool),
