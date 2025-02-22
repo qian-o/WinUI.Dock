@@ -39,6 +39,6 @@ internal sealed partial class Sidebar : UserControl
 
         Document document = (Document)button.DataContext;
 
-        document.Manager?.Show(document, Orientation);
+        document.Manager?.Show(document);
     }
 }

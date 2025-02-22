@@ -36,7 +36,8 @@
                                 <ToggleButton x:Name="PART_PinButton"
                                               HorizontalAlignment="Right"
                                               VerticalAlignment="Center"
-                                              Visibility="Collapsed">
+                                              Visibility="Collapsed"
+                                              IsChecked="True">
                                     <FontIcon FontSize="{StaticResource CheckBoxGlyphSize}"
                                               Glyph="&#xE718;" />
                                 </ToggleButton>

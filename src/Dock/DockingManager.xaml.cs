@@ -46,7 +46,6 @@ public partial class DockingManager : Control
         base.OnApplyTemplate();
 
         popupContainer = (Grid)GetTemplateChild("PART_PopupContainer");
-        popupContainer.SizeChanged += PopupContainer_SizeChanged;
     }
 
     private static void OnContainerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -91,51 +90,31 @@ public partial class DockingManager : Control
 public partial class DockingManager
 {
     private Grid popupContainer = null!;
-    private SideDocument? currentDocument;
 
-    public void Show(Document document, Orientation orientation)
+    public void Show(Document document)
     {
-        currentDocument?.Uninstall();
+        DocumentContainer container = (DocumentContainer)document.Owner!;
 
-        popupContainer.Children.Clear();
-
-        if (currentDocument is not null && currentDocument.Document == document)
-        {
-            currentDocument = null;
-
-            return;
-        }
-
-        currentDocument = new(document, orientation);
-
-        currentDocument.Update(popupContainer.ActualWidth, popupContainer.ActualHeight);
+        SideDocument currentDocument = new(popupContainer,
+                                           document,
+                                           Left.Contains(container),
+                                           Top.Contains(container),
+                                           Right.Contains(container),
+                                           Bottom.Contains(container));
 
         Popup popup = new()
         {
-            IsOpen = true,
             XamlRoot = popupContainer.XamlRoot,
+            Child = currentDocument,
+            IsLightDismissEnabled = true,
+            LightDismissOverlayMode = LightDismissOverlayMode.On,
             ShouldConstrainToRootBounds = false,
-            Child = currentDocument
+            IsOpen = true
         };
 
-        DocumentContainer container = (DocumentContainer)document.Owner!;
+        popup.Closed += (_, __) => currentDocument.Uninstall();
 
-        if (Right.Contains(container))
-        {
-            popup.HorizontalOffset = popupContainer.ActualWidth - currentDocument.Width;
-            popup.VerticalOffset = 0;
-        }
-        else if (Bottom.Contains(container))
-        {
-            popup.HorizontalOffset = 0;
-            popup.VerticalOffset = popupContainer.ActualHeight - currentDocument.Height;
-        }
-
+        popupContainer.Children.Clear();
         popupContainer.Children.Add(popup);
-    }
-
-    private void PopupContainer_SizeChanged(object _1, SizeChangedEventArgs _2)
-    {
-        currentDocument?.Update(popupContainer!.ActualWidth, popupContainer!.ActualHeight);
     }
 }
