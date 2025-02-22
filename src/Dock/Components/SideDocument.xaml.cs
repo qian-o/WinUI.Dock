@@ -1,3 +1,4 @@
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -16,6 +17,8 @@ public sealed partial class SideDocument : UserControl
     {
         InitializeComponent();
 
+        SizeChanged += (_, __) => Update();
+
         Container = container;
         Popup = popup;
         Document = document;
@@ -24,9 +27,54 @@ public sealed partial class SideDocument : UserControl
         IsRight = isRight;
         IsBottom = isBottom;
 
-        Container.SizeChanged += OnSizeChanged;
+        Container.SizeChanged += (_, __) => Update();
 
         Update();
+
+        if (IsLeft)
+        {
+            ContentSizer.Orientation = Orientation.Vertical;
+            ContentSizer.FlowDirection = FlowDirection.LeftToRight;
+
+            Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
+            Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
+
+            Grid.SetColumn(Border, 0);
+            Grid.SetColumn(ContentSizer, 1);
+        }
+        else if (IsTop)
+        {
+            ContentSizer.Orientation = Orientation.Horizontal;
+            ContentSizer.FlowDirection = FlowDirection.LeftToRight;
+
+            Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
+            Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
+
+            Grid.SetRow(Border, 0);
+            Grid.SetRow(ContentSizer, 1);
+        }
+        else if (IsRight)
+        {
+            ContentSizer.Orientation = Orientation.Vertical;
+            ContentSizer.FlowDirection = FlowDirection.RightToLeft;
+
+            Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
+            Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
+
+            Grid.SetColumn(ContentSizer, 0);
+            Grid.SetColumn(Border, 1);
+        }
+        else if (IsBottom)
+        {
+            ContentSizer.Orientation = Orientation.Horizontal;
+            ContentSizer.FlowDirection = FlowDirection.RightToLeft;
+
+            Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
+            Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
+
+            Grid.SetRow(ContentSizer, 0);
+            Grid.SetRow(Border, 1);
+        }
     }
 
     public Grid Container { get; }
@@ -88,10 +136,5 @@ public sealed partial class SideDocument : UserControl
     {
         DocumentTab.Header = null;
         DocumentTab.Content = null;
-    }
-
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        Update();
     }
 }

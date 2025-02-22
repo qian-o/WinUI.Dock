@@ -3,29 +3,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d">
+             xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+             mc:Ignorable="d"
+             x:Name="Main">
     <UserControl.Resources>
         <ResourceDictionary Source="Card.xaml" />
     </UserControl.Resources>
 
-    <Border Style="{StaticResource Card}"
-            Background="{StaticResource SolidBackgroundFillColorQuarternaryBrush}"
-            BorderBrush="{StaticResource AccentFillColorDefaultBrush}">
-        <TabView CanReorderTabs="False"
-                 TabWidthMode="Equal"
-                 IsAddTabButtonVisible="False">
-            <TabView.TabStripFooter>
-                <ToggleButton x:Name="PinButton"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Center">
-                    <FontIcon FontSize="{StaticResource CheckBoxGlyphSize}"
-                              Glyph="&#xE718;" />
-                </ToggleButton>
-            </TabView.TabStripFooter>
+    <Grid x:Name="Grid">
+        <Border x:Name="Border"
+                Style="{StaticResource Card}"
+                Background="{StaticResource SolidBackgroundFillColorQuarternaryBrush}"
+                BorderBrush="{StaticResource AccentFillColorDefaultBrush}">
+            <TabView CanReorderTabs="False"
+                     TabWidthMode="Equal"
+                     IsAddTabButtonVisible="False">
+                <TabView.TabStripFooter>
+                    <ToggleButton x:Name="PinButton"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center">
+                        <FontIcon FontSize="{StaticResource CheckBoxGlyphSize}"
+                                  Glyph="&#xE718;" />
+                    </ToggleButton>
+                </TabView.TabStripFooter>
 
-            <TabViewItem x:Name="DocumentTab"
-                         Header="{x:Bind Document.Title}"
-                         Content="{x:Bind Document}" />
-        </TabView>
-    </Border>
+                <TabViewItem x:Name="DocumentTab"
+                             Header="{x:Bind Document.Title}"
+                             Content="{x:Bind Document}" />
+            </TabView>
+        </Border>
+
+        <controls:ContentSizer x:Name="ContentSizer"
+                               TargetControl="{x:Bind Main}" />
+    </Grid>
 </UserControl>

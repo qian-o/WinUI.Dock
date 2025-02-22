@@ -104,16 +104,22 @@ public partial class DockingManager
             IsOpen = true
         };
 
-        SideDocument currentDocument = new(popupContainer,
-                                           popup,
-                                           document,
-                                           Left.Contains(container),
-                                           Top.Contains(container),
-                                           Right.Contains(container),
-                                           Bottom.Contains(container));
+        SideDocument sideDocument = new(popupContainer,
+                                        popup,
+                                        document,
+                                        Left.Contains(container),
+                                        Top.Contains(container),
+                                        Right.Contains(container),
+                                        Bottom.Contains(container));
 
-        popup.Child = currentDocument;
-        popup.Closed += (_, __) => currentDocument.Uninstall();
+        popup.Child = sideDocument;
+        popup.Closed += (_, __) =>
+        {
+            document.Width = sideDocument.ActualWidth;
+            document.Height = sideDocument.ActualHeight;
+
+            sideDocument.Uninstall();
+        };
 
         popupContainer.Children.Clear();
         popupContainer.Children.Add(popup);
