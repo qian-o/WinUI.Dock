@@ -31,7 +31,7 @@ public partial class DocumentContainer : Container<Document>
 
     public void Install(int selectedIndex = -1)
     {
-        if (root is null)
+        if (root is null || Owner is null)
         {
             return;
         }

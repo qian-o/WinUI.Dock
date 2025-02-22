@@ -220,4 +220,14 @@ public sealed partial class SideDocument : UserControl
 
         container.Install(container.IndexOf(Document));
     }
+
+    private void DocumentTab_CloseRequested(TabViewItem sender, TabViewTabCloseRequestedEventArgs args)
+    {
+        Popup.IsOpen = false;
+
+        Uninstall();
+
+        DocumentContainer container = (DocumentContainer)Document.Owner!;
+        container.Remove(Document);
+    }
 }

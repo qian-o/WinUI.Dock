@@ -33,7 +33,8 @@
                 <TabViewItem x:Name="DocumentTab"
                              Header="{x:Bind Document.Title}"
                              Content="{x:Bind Document}"
-                             IsClosable="{x:Bind Document.CanClose}" />
+                             IsClosable="{x:Bind Document.CanClose}"
+                             CloseRequested="DocumentTab_CloseRequested" />
             </TabView>
         </Border>
 
