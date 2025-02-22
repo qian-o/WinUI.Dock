@@ -12,9 +12,9 @@ public sealed partial class SideDocument : UserControl
         Orientation = orientation;
     }
 
-    public Document Document { get; set; }
+    public Document Document { get; }
 
-    public Orientation Orientation { get; set; }
+    public Orientation Orientation { get; }
 
     public void Update(double width, double height)
     {
@@ -26,16 +26,24 @@ public sealed partial class SideDocument : UserControl
         if (Orientation == Orientation.Horizontal)
         {
             Width = width;
-            Height = Document.Height is not double.NaN ? Document.Height : height / 3;
+
+            if (Height is double.NaN)
+            {
+                Height = Document.Height is not double.NaN ? Document.Height : height / 3;
+            }
         }
         else
         {
-            Width = Document.Width is not double.NaN ? Document.Width : width / 3;
             Height = height;
+
+            if (Width is double.NaN)
+            {
+                Width = Document.Width is not double.NaN ? Document.Width : width / 3;
+            }
         }
     }
 
-    public void Close()
+    public void Uninstall()
     {
         DocumentTab.Header = null;
         DocumentTab.Content = null;

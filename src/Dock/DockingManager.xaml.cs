@@ -95,7 +95,7 @@ public partial class DockingManager
 
     public void Show(Document document, Orientation orientation)
     {
-        currentDocument?.Close();
+        currentDocument?.Uninstall();
 
         popupContainer.Children.Clear();
 
