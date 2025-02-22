@@ -37,6 +37,8 @@ public partial class DocumentContainer : ChildrenContainer<Document>
 
     protected override void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
+        base.OnCollectionChanged(sender, e);
+
         Update();
     }
 

@@ -1,9 +1,11 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using Dock.Abstracts;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Dock;
 
-public partial class Document : ContentControl
+[ContentProperty(Name = nameof(Content))]
+public partial class Document : Component
 {
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
                                                                                           typeof(string),
@@ -14,6 +16,11 @@ public partial class Document : ContentControl
                                                                                              typeof(bool),
                                                                                              typeof(Document),
                                                                                              new PropertyMetadata(true));
+
+    public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content),
+                                                                                            typeof(object),
+                                                                                            typeof(Document),
+                                                                                            new PropertyMetadata(null));
 
     public Document()
     {
@@ -30,5 +37,11 @@ public partial class Document : ContentControl
     {
         get => (bool)GetValue(CanCloseProperty);
         set => SetValue(CanCloseProperty, value);
+    }
+
+    public object? Content
+    {
+        get => GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
     }
 }

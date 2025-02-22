@@ -32,4 +32,8 @@ internal sealed partial class Sidebar : UserControl
         get => (ObservableCollection<DocumentContainer>)GetValue(ContainersProperty);
         set => SetValue(ContainersProperty, value);
     }
+
+    private void Document_Click(object sender, RoutedEventArgs e)
+    {
+    }
 }

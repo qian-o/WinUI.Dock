@@ -1,9 +1,8 @@
 ﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Dock.Abstracts;
 
-public abstract class Container : Control, IContainer
+public abstract class Container : Component, IContainer
 {
     public static readonly DependencyProperty DockMinWidthProperty = DependencyProperty.Register(nameof(DockMinWidth),
                                                                                                  typeof(double),

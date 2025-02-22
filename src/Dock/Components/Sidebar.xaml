@@ -29,7 +29,7 @@
 
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate x:DataType="dock:Document">
-                                <Button Content="{Binding Title}" />
+                                <Button Content="{Binding Title}" Click="Document_Click" />
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
