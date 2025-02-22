@@ -29,6 +29,49 @@ public partial class DocumentContainer : Container<Document>
         set => SetValue(CanAnchorProperty, value);
     }
 
+    public void Install(int selectedIndex = -1)
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        if (selectedIndex is -1)
+        {
+            selectedIndex = root.SelectedIndex;
+        }
+
+        Uninstall();
+
+        foreach (Document item in Children)
+        {
+            TabViewItem tabViewItem = new()
+            {
+                Header = item.Title,
+                Content = item,
+                IsClosable = item.CanClose
+            };
+
+            tabViewItem.CloseRequested += OnCloseRequested;
+
+            root.TabItems.Add(tabViewItem);
+        }
+
+        if (selectedIndex < root.TabItems.Count)
+        {
+            root.SelectedIndex = selectedIndex;
+        }
+        else
+        {
+            root.SelectedIndex = root.TabItems.Count - 1;
+        }
+
+        if (pinButton is not null)
+        {
+            pinButton.IsChecked = true;
+        }
+    }
+
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -41,11 +84,35 @@ public partial class DocumentContainer : Container<Document>
             pinButton.Click += PinButton_Click;
         }
 
-        Update();
+        Install();
+    }
+
+    protected override void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        base.OnCollectionChanged(sender, e);
+
+        Install();
+    }
+
+    private void Uninstall()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        foreach (TabViewItem item in root.TabItems.Cast<TabViewItem>())
+        {
+            item.Content = null;
+        }
+
+        root.TabItems.Clear();
     }
 
     private void PinButton_Click(object sender, RoutedEventArgs e)
     {
+        Uninstall();
+
         LayoutContainer container = (LayoutContainer)Owner!;
         DockingManager manager = Manager!;
 
@@ -54,11 +121,6 @@ public partial class DocumentContainer : Container<Document>
         if (index >= 0)
         {
             container.RemoveAt(index);
-        }
-
-        if (container.Count is 0 && container.Owner is IContainer parentContainer)
-        {
-            parentContainer.Remove(container);
         }
 
         if (index is 0)
@@ -82,30 +144,8 @@ public partial class DocumentContainer : Container<Document>
         }
     }
 
-    protected override void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void OnCloseRequested(TabViewItem sender, TabViewTabCloseRequestedEventArgs args)
     {
-        base.OnCollectionChanged(sender, e);
-
-        Update();
-    }
-
-    private void Update()
-    {
-        if (root is null)
-        {
-            return;
-        }
-
-        root.TabItems.Clear();
-
-        foreach (Document item in Children)
-        {
-            root.TabItems.Add(new TabViewItem()
-            {
-                Header = item.Title,
-                Content = item,
-                IsClosable = item.CanClose
-            });
-        }
+        Remove((IComponent)sender.Content!);
     }
 }

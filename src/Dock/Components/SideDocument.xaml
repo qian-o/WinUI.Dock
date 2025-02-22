@@ -16,7 +16,7 @@
                 Background="{StaticResource SolidBackgroundFillColorQuarternaryBrush}"
                 BorderBrush="{StaticResource AccentFillColorDefaultBrush}">
             <TabView CanReorderTabs="False"
-                     TabWidthMode="Equal"
+                     TabWidthMode="SizeToContent"
                      IsAddTabButtonVisible="False"
                      VerticalAlignment="Stretch">
                 <TabView.TabStripFooter>

@@ -17,7 +17,7 @@ public sealed partial class SideDocument : UserControl
     {
         InitializeComponent();
 
-        SizeChanged += (_, __) => Update();
+        SizeChanged += (_, __) => Install();
 
         Container = container;
         Popup = popup;
@@ -27,9 +27,9 @@ public sealed partial class SideDocument : UserControl
         IsRight = isRight;
         IsBottom = isBottom;
 
-        Container.SizeChanged += (_, __) => Update();
+        Container.SizeChanged += (_, __) => Install();
 
-        Update();
+        Install();
 
         PinButton.Visibility = ((DocumentContainer)Document.Owner!).CanAnchor ? Visibility.Visible : Visibility.Collapsed;
 
@@ -93,7 +93,7 @@ public sealed partial class SideDocument : UserControl
 
     public bool IsBottom { get; }
 
-    public void Update()
+    public void Install()
     {
         double width = Container.ActualWidth;
         double height = Container.ActualHeight;
@@ -217,5 +217,7 @@ public sealed partial class SideDocument : UserControl
 
             manager.Container = layoutContainer;
         }
+
+        container.Install(container.IndexOf(Document));
     }
 }

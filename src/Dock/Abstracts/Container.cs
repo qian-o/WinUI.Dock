@@ -109,5 +109,10 @@ public abstract class Container<T> : Component, IContainer where T : IComponent
                 }
             }
         }
+
+        if (Count is 0 && Owner is IContainer container)
+        {
+            container.Remove(this);
+        }
     }
 }

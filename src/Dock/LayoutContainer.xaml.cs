@@ -35,7 +35,7 @@ public partial class LayoutContainer : Container<IContainer>
 
         root = GetTemplateChild("PART_Root") as Grid;
 
-        Update();
+        Install();
     }
 
     protected override void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -64,20 +64,20 @@ public partial class LayoutContainer : Container<IContainer>
             }
         }
 
-        Update();
+        Install();
     }
 
-    private void Update()
+    private void Install()
     {
         if (root is null)
         {
             return;
         }
 
+        Uninstall();
+
         if (Orientation is Orientation.Horizontal)
         {
-            root.ColumnDefinitions.Clear();
-
             for (int i = 0; i < Count; i++)
             {
                 root.ColumnDefinitions.Add(new ColumnDefinition() { Width = this[i].DockWidth });
@@ -85,15 +85,11 @@ public partial class LayoutContainer : Container<IContainer>
         }
         else if (Orientation is Orientation.Vertical)
         {
-            root.RowDefinitions.Clear();
-
             for (int i = 0; i < Count; i++)
             {
                 root.RowDefinitions.Add(new RowDefinition() { Height = this[i].DockHeight });
             }
         }
-
-        root.Children.Clear();
 
         for (int i = 0; i < Count; i++)
         {
@@ -130,6 +126,18 @@ public partial class LayoutContainer : Container<IContainer>
                 root.Children.Add(splitter);
             }
         }
+    }
+
+    private void Uninstall()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        root.ColumnDefinitions.Clear();
+        root.RowDefinitions.Clear();
+        root.Children.Clear();
     }
 
     private void OnChildrenSizeChanged(object sender, SizeChangedEventArgs e)
