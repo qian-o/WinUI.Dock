@@ -11,13 +11,13 @@ public partial class OrientationToAngleConverter : IValueConverter
         {
             return orientation switch
             {
-                Orientation.Horizontal => 0,
-                Orientation.Vertical => 90,
-                _ => 0
+                Orientation.Horizontal => 0.0,
+                Orientation.Vertical => 90.0,
+                _ => 0.0
             };
         }
 
-        return 0;
+        return 0.0;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -10,48 +10,39 @@
              x:Name="Main">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Card.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
-            <ContentControl x:Key="Data"
-                            DataContext="{Binding ElementName=Main}" />
-
             <converters:OrientationToAngleConverter x:Key="OrientationToAngleConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ItemsRepeater ItemsSource="{x:Bind Containers}">
-        <ItemsRepeater.Layout>
-            <StackLayout Orientation="{x:Bind Orientation}"
-                         Spacing="{StaticResource RatingControlItemSpacing}" />
-        </ItemsRepeater.Layout>
+    <controls:LayoutTransformControl>
+        <controls:LayoutTransformControl.Transform>
+            <RotateTransform Angle="{x:Bind Orientation, Converter={StaticResource OrientationToAngleConverter}}" />
+        </controls:LayoutTransformControl.Transform>
 
-        <ItemsRepeater.ItemTemplate>
-            <DataTemplate x:DataType="dock:DocumentContainer">
-                <ItemsRepeater ItemsSource="{Binding Children}">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Orientation="{Binding DataContext.Orientation, Source={StaticResource Data}}"
-                                     Spacing="{StaticResource RatingControlItemSpacing}" />
-                    </ItemsRepeater.Layout>
+        <ItemsRepeater Margin="0,4,0,4"
+                       ItemsSource="{x:Bind Containers}">
+            <ItemsRepeater.Layout>
+                <StackLayout Orientation="Horizontal"
+                             Spacing="{StaticResource RatingControlItemSpacing}" />
+            </ItemsRepeater.Layout>
 
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="dock:Document">
-                            <Grid>
-                                <controls:LayoutTransformControl>
-                                    <controls:LayoutTransformControl.Transform>
-                                        <RotateTransform Angle="{Binding DataContext.Orientation, Source={StaticResource Data}, Converter={StaticResource OrientationToAngleConverter}}" />
-                                    </controls:LayoutTransformControl.Transform>
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="dock:DocumentContainer">
+                    <ItemsRepeater ItemsSource="{Binding Children}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="{StaticResource RatingControlItemSpacing}" />
+                        </ItemsRepeater.Layout>
 
-                                    <ToggleButton x:Name="DocumentButton"
-                                                  Margin="0,4,0,4"
-                                                  Content="{Binding Title}" />
-                                </controls:LayoutTransformControl>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-            </DataTemplate>
-        </ItemsRepeater.ItemTemplate>
-    </ItemsRepeater>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="dock:Document">
+                                <ToggleButton x:Name="DocumentButton"
+                                              Content="{Binding Title}" />
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+    </controls:LayoutTransformControl>
 </UserControl>
