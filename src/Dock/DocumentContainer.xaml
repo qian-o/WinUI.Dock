@@ -31,7 +31,8 @@
                         <TabView x:Name="PART_Root"
                                  CanReorderTabs="False"
                                  TabWidthMode="Equal"
-                                 IsAddTabButtonVisible="False">
+                                 IsAddTabButtonVisible="False"
+                                 VerticalAlignment="Stretch">
                             <TabView.TabStripFooter>
                                 <ToggleButton x:Name="PART_PinButton"
                                               HorizontalAlignment="Right"

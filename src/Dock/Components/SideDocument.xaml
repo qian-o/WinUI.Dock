@@ -17,7 +17,8 @@
                 BorderBrush="{StaticResource AccentFillColorDefaultBrush}">
             <TabView CanReorderTabs="False"
                      TabWidthMode="Equal"
-                     IsAddTabButtonVisible="False">
+                     IsAddTabButtonVisible="False"
+                     VerticalAlignment="Stretch">
                 <TabView.TabStripFooter>
                     <ToggleButton x:Name="PinButton"
                                   HorizontalAlignment="Right"
@@ -29,7 +30,8 @@
 
                 <TabViewItem x:Name="DocumentTab"
                              Header="{x:Bind Document.Title}"
-                             Content="{x:Bind Document}" />
+                             Content="{x:Bind Document}"
+                             IsClosable="{x:Bind Document.CanClose}" />
             </TabView>
         </Border>
 
