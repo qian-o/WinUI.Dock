@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Dock.Components;
 
@@ -32,26 +31,5 @@ internal sealed partial class Sidebar : UserControl
     {
         get => (ObservableCollection<DocumentContainer>)GetValue(ContainersProperty);
         set => SetValue(ContainersProperty, value);
-    }
-
-    private void Document_Opened(object sender, object _)
-    {
-        Popup popup = (Popup)sender;
-        Document document = (Document)popup.DataContext;
-        DocumentContainer container = (DocumentContainer)document.Owner!;
-        DockingManager manager = document.Manager!;
-
-        if (manager.Left.Contains(container))
-        {
-        }
-        else if (manager.Top.Contains(container))
-        {
-        }
-        else if (manager.Right.Contains(container))
-        {
-        }
-        else if (manager.Bottom.Contains(container))
-        {
-        }
     }
 }

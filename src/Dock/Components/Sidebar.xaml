@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:toolkit="using:CommunityToolkit.WinUI"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
              xmlns:dock="using:Dock"
              xmlns:converters="using:Dock.Converters"
@@ -22,25 +21,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ItemsRepeater x:Name="Items"
-                   Margin="0,4,0,4"
-                   ItemsSource="{x:Bind Containers}">
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <toolkit:IsEqualStateTrigger Value="{x:Bind Orientation}"
-                                                     To="Vertical" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Items.Margin"
-                                Value="4,0,4,0" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        
+    <ItemsRepeater ItemsSource="{x:Bind Containers}">
         <ItemsRepeater.Layout>
             <StackLayout Orientation="{x:Bind Orientation}"
                          Spacing="{StaticResource RatingControlItemSpacing}" />
@@ -63,14 +44,9 @@
                                     </controls:LayoutTransformControl.Transform>
 
                                     <ToggleButton x:Name="DocumentButton"
+                                                  Margin="0,4,0,4"
                                                   Content="{Binding Title}" />
                                 </controls:LayoutTransformControl>
-
-                                <Popup IsOpen="{Binding IsChecked, ElementName=DocumentButton}"
-                                       Opened="Document_Opened">
-                                    <Border Style="{StaticResource Card}"
-                                            Child="{Binding Content}" />
-                                </Popup>
                             </Grid>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>

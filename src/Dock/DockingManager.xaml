@@ -22,14 +22,17 @@
                                             Grid.Row="1"
                                             Orientation="Vertical"
                                             Containers="{Binding Left, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                        
                         <components:Sidebar Grid.Column="1"
                                             Grid.Row="0"
                                             Orientation="Horizontal"
                                             Containers="{Binding Top, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                        
                         <components:Sidebar Grid.Column="2"
                                             Grid.Row="1"
                                             Orientation="Vertical"
                                             Containers="{Binding Right, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                        
                         <components:Sidebar Grid.Column="1"
                                             Grid.Row="2"
                                             Orientation="Horizontal"
