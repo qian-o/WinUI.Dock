@@ -7,14 +7,28 @@
         mc:Ignorable="d"
         Title="TestApp">
     <Grid>
+        <Grid.Resources>
+            <Style x:Key="Space"
+                   TargetType="Border">
+                <Setter Property="BorderBrush"
+                        Value="Red" />
+                <Setter Property="BorderThickness"
+                        Value="2" />
+            </Style>
+        </Grid.Resources>
+
         <dock:DockingManager>
             <dock:DockingManager.Left>
                 <dock:DocumentContainer>
                     <dock:Document Title="工具箱">
-                        <TextBlock Text="工具箱" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="工具箱" />
+                        </Border>
                     </dock:Document>
                     <dock:Document Title="数据源">
-                        <TextBlock Text="数据源" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="数据源" />
+                        </Border>
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Left>
@@ -22,7 +36,9 @@
             <dock:DockingManager.Top>
                 <dock:DocumentContainer>
                     <dock:Document Title="菜单">
-                        <TextBlock Text="菜单" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="菜单" />
+                        </Border>
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Top>
@@ -30,15 +46,21 @@
             <dock:DockingManager.Right>
                 <dock:DocumentContainer>
                     <dock:Document Title="解决方案资源管理器">
-                        <TextBlock Text="解决方案资源管理器" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="解决方案资源管理器" />
+                        </Border>
                     </dock:Document>
                     <dock:Document Title="Git 更改">
-                        <TextBlock Text="Git 更改" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="Git 更改" />
+                        </Border>
                     </dock:Document>
                 </dock:DocumentContainer>
                 <dock:DocumentContainer>
                     <dock:Document Title="属性">
-                        <TextBlock Text="属性" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="属性" />
+                        </Border>
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Right>
@@ -46,7 +68,9 @@
             <dock:DockingManager.Bottom>
                 <dock:DocumentContainer>
                     <dock:Document Title="状态栏">
-                        <TextBlock Text="状态栏" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="状态栏" />
+                        </Border>
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Bottom>
@@ -58,11 +82,15 @@
                                             DockHeight="3*">
                         <dock:Document Title="Document 1"
                                        CanClose="False">
-                            <TextBlock Text="Document 1" />
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="Document 1" />
+                            </Border>
                         </dock:Document>
                         <dock:Document Title="Document 2"
                                        CanClose="False">
-                            <TextBlock Text="Document 2" />
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="Document 2" />
+                            </Border>
                         </dock:Document>
                     </dock:DocumentContainer>
 
@@ -70,12 +98,16 @@
                                           DockHeight="1*">
                         <dock:DocumentContainer DockWidth="1*">
                             <dock:Document Title="错误列表">
-                                <TextBlock Text="错误列表" />
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="错误列表" />
+                                </Border>
                             </dock:Document>
                         </dock:DocumentContainer>
                         <dock:DocumentContainer DockWidth="1.5*">
                             <dock:Document Title="输出">
-                                <TextBlock Text="输出" />
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="输出" />
+                                </Border>
                             </dock:Document>
                         </dock:DocumentContainer>
                     </dock:LayoutContainer>
@@ -83,7 +115,9 @@
 
                 <dock:DocumentContainer DockWidth="1*">
                     <dock:Document Title="Right 1">
-                        <TextBlock Text="Right 1" />
+                        <Border Style="{StaticResource Space}">
+                            <TextBlock Text="Right 1" />
+                        </Border>
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:LayoutContainer>
