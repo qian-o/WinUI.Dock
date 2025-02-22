@@ -95,23 +95,24 @@ public partial class DockingManager
     {
         DocumentContainer container = (DocumentContainer)document.Owner!;
 
-        SideDocument currentDocument = new(popupContainer,
-                                           document,
-                                           Left.Contains(container),
-                                           Top.Contains(container),
-                                           Right.Contains(container),
-                                           Bottom.Contains(container));
-
         Popup popup = new()
         {
             XamlRoot = popupContainer.XamlRoot,
-            Child = currentDocument,
             IsLightDismissEnabled = true,
             LightDismissOverlayMode = LightDismissOverlayMode.On,
             ShouldConstrainToRootBounds = false,
             IsOpen = true
         };
 
+        SideDocument currentDocument = new(popupContainer,
+                                           popup,
+                                           document,
+                                           Left.Contains(container),
+                                           Top.Contains(container),
+                                           Right.Contains(container),
+                                           Bottom.Contains(container));
+
+        popup.Child = currentDocument;
         popup.Closed += (_, __) => currentDocument.Uninstall();
 
         popupContainer.Children.Clear();

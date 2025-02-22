@@ -1,11 +1,13 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Dock.Components;
 
 public sealed partial class SideDocument : UserControl
 {
     public SideDocument(Grid container,
+                        Popup popup,
                         Document document,
                         bool isLeft,
                         bool isTop,
@@ -15,6 +17,7 @@ public sealed partial class SideDocument : UserControl
         InitializeComponent();
 
         Container = container;
+        Popup = popup;
         Document = document;
         IsLeft = isLeft;
         IsTop = isTop;
@@ -27,6 +30,8 @@ public sealed partial class SideDocument : UserControl
     }
 
     public Grid Container { get; }
+
+    public Popup Popup { get; }
 
     public Document Document { get; }
 
@@ -65,6 +70,17 @@ public sealed partial class SideDocument : UserControl
             {
                 Height = Document.Height is not double.NaN ? Document.Height : height / 3;
             }
+        }
+
+        if (IsRight)
+        {
+            Popup.HorizontalOffset = width - Width;
+            Popup.VerticalOffset = 0;
+        }
+        else if (IsBottom)
+        {
+            Popup.HorizontalOffset = 0;
+            Popup.VerticalOffset = height - Height;
         }
     }
 
