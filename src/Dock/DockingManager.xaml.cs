@@ -50,30 +50,19 @@ public partial class DockingManager : Control
 
     private static void OnContainerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (e.NewValue is LayoutContainer newContainer)
-        {
-            newContainer.Manager = (DockingManager)d;
-        }
-
         if (e.OldValue is LayoutContainer oldContainer)
         {
             oldContainer.Manager = null;
+        }
+
+        if (e.NewValue is LayoutContainer newContainer)
+        {
+            newContainer.Manager = (DockingManager)d;
         }
     }
 
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (e.NewItems is not null)
-        {
-            foreach (object? child in e.NewItems)
-            {
-                if (child is DocumentContainer container)
-                {
-                    container.Manager = this;
-                }
-            }
-        }
-
         if (e.OldItems is not null)
         {
             foreach (object? child in e.OldItems)
@@ -81,6 +70,17 @@ public partial class DockingManager : Control
                 if (child is DocumentContainer container)
                 {
                     container.Manager = null;
+                }
+            }
+        }
+
+        if (e.NewItems is not null)
+        {
+            foreach (object? child in e.NewItems)
+            {
+                if (child is DocumentContainer container)
+                {
+                    container.Manager = this;
                 }
             }
         }

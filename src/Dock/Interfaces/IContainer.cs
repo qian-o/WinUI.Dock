@@ -14,5 +14,7 @@ public interface IContainer : IComponent
 
     void RemoveAt(int index);
 
+    int IndexOf(IComponent component);
+
     void Clear();
 }

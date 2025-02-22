@@ -64,11 +64,15 @@ public abstract class Container<T> : Component, IContainer where T : IComponent
         Children.RemoveAt(index);
     }
 
-    protected override void OnOwnerChanged(IComponent? oldOwner, IComponent? newOwner)
+    public int IndexOf(IComponent component)
     {
-        foreach (T item in Children)
+        if (component is T child)
         {
-            item.Owner = newOwner;
+            return Children.IndexOf(child);
+        }
+        else
+        {
+            throw new InvalidOperationException($"Component must be of type {typeof(T).Name}");
         }
     }
 
@@ -82,18 +86,6 @@ public abstract class Container<T> : Component, IContainer where T : IComponent
 
     protected virtual void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (e.NewItems is not null)
-        {
-            foreach (object? child in e.NewItems)
-            {
-                if (child is IComponent component)
-                {
-                    component.Owner = this;
-                    component.Manager = Manager;
-                }
-            }
-        }
-
         if (e.OldItems is not null)
         {
             foreach (object? child in e.OldItems)
@@ -102,6 +94,18 @@ public abstract class Container<T> : Component, IContainer where T : IComponent
                 {
                     component.Owner = null;
                     component.Manager = null;
+                }
+            }
+        }
+
+        if (e.NewItems is not null)
+        {
+            foreach (object? child in e.NewItems)
+            {
+                if (child is IComponent component)
+                {
+                    component.Owner = this;
+                    component.Manager = Manager;
                 }
             }
         }
