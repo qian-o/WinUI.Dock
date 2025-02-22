@@ -65,19 +65,16 @@ public partial class LayoutContainer : ChildrenContainer<Container>
 
         for (int i = 0; i < Children.Count; i++)
         {
-            Control control = Children[i];
+            Container container = Children[i];
 
-            Grid.SetColumn(control, i);
-            Grid.SetRow(control, i);
+            Grid.SetColumn(container, i);
+            Grid.SetRow(container, i);
 
-            root.Children.Add(control);
+            root.Children.Add(container);
 
             if (i > 0)
             {
                 GridSplitter splitter = new();
-
-                Grid.SetColumn(splitter, i);
-                Grid.SetRow(splitter, i);
 
                 if (Orientation is Orientation.Horizontal)
                 {
@@ -93,6 +90,9 @@ public partial class LayoutContainer : ChildrenContainer<Container>
                     splitter.ResizeDirection = GridResizeDirection.Rows;
                     splitter.RenderTransform = new TranslateTransform() { Y = -12 };
                 }
+
+                Grid.SetColumn(splitter, i);
+                Grid.SetRow(splitter, i);
 
                 root.Children.Add(splitter);
             }
