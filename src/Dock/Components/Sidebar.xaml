@@ -5,36 +5,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
              xmlns:dock="using:Dock"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             x:Name="Main">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Card.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-    <controls:LayoutTransformControl>
-        <controls:LayoutTransformControl.Transform>
-            <RotateTransform Angle="{x:Bind Angle}" />
-        </controls:LayoutTransformControl.Transform>
+            <ContentControl x:Key="Data"
+                            DataContext="{Binding ElementName=Main}" />
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-        <ItemsRepeater ItemsSource="{x:Bind Containers}"
-                       Margin="0,4,0,4">
-            <ItemsRepeater.Layout>
-                <StackLayout Orientation="Horizontal"
-                             Spacing="{StaticResource RatingControlItemSpacing}" />
-            </ItemsRepeater.Layout>
+    <ItemsRepeater ItemsSource="{x:Bind Containers}"
+                   Margin="0,4,0,4">
+        <ItemsRepeater.Layout>
+            <StackLayout Orientation="{x:Bind Orientation}"
+                         Spacing="{StaticResource RatingControlItemSpacing}" />
+        </ItemsRepeater.Layout>
 
-            <ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="dock:DocumentContainer">
-                    <ItemsRepeater ItemsSource="{Binding Children}">
-                        <ItemsRepeater.Layout>
-                            <StackLayout Orientation="Horizontal"
-                                         Spacing="{StaticResource RatingControlItemSpacing}" />
-                        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="dock:DocumentContainer">
+                <ItemsRepeater ItemsSource="{Binding Children}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Orientation="{Binding DataContext.Orientation, Source={StaticResource Data}}"
+                                     Spacing="{StaticResource RatingControlItemSpacing}" />
+                    </ItemsRepeater.Layout>
 
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="dock:Document">
-                                <Button Content="{Binding Title}" Click="Document_Click" />
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
-        </ItemsRepeater>
-    </controls:LayoutTransformControl>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="dock:Document">
+                            <Grid>
+                                <controls:LayoutTransformControl>
+                                    <ToggleButton x:Name="DocumentButton"
+                                                  Content="{Binding Title}" />
+                                </controls:LayoutTransformControl>
+
+                                <Popup IsOpen="{Binding IsChecked, ElementName=DocumentButton}"
+                                       Opened="Document_Opened">
+                                    <Border Style="{StaticResource Card}"
+                                            Child="{Binding Content}" />
+                                </Popup>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+    </ItemsRepeater>
 </UserControl>

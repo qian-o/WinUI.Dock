@@ -14,6 +14,22 @@ public abstract class ChildrenContainer<T> : Container where T : IComponent
 
     public ObservableCollection<T> Children { get; } = [];
 
+    protected override void OnOwnerChanged(IComponent? oldOwner, IComponent? newOwner)
+    {
+        foreach (T item in Children)
+        {
+            item.Owner = newOwner;
+        }
+    }
+
+    protected override void OnManagerChanged(DockingManager? oldManager, DockingManager? newManager)
+    {
+        foreach (T item in Children)
+        {
+            item.Manager = newManager;
+        }
+    }
+
     protected virtual void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.NewItems is not null)
@@ -22,7 +38,8 @@ public abstract class ChildrenContainer<T> : Container where T : IComponent
             {
                 if (child is IComponent component)
                 {
-                    component.AttachTo(this);
+                    component.Owner = this;
+                    component.Manager = Manager;
                 }
             }
         }
@@ -33,7 +50,8 @@ public abstract class ChildrenContainer<T> : Container where T : IComponent
             {
                 if (child is IComponent component)
                 {
-                    component.Detach();
+                    component.Owner = null;
+                    component.Manager = null;
                 }
             }
         }

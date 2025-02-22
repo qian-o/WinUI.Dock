@@ -11,10 +11,10 @@
             <dock:DockingManager.Left>
                 <dock:DocumentContainer>
                     <dock:Document Title="工具箱">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="工具箱" />
                     </dock:Document>
                     <dock:Document Title="数据源">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="数据源" />
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Left>
@@ -22,7 +22,7 @@
             <dock:DockingManager.Top>
                 <dock:DocumentContainer>
                     <dock:Document Title="菜单">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="菜单" />
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Top>
@@ -30,15 +30,15 @@
             <dock:DockingManager.Right>
                 <dock:DocumentContainer>
                     <dock:Document Title="解决方案资源管理器">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="解决方案资源管理器" />
                     </dock:Document>
                     <dock:Document Title="Git 更改">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="Git 更改" />
                     </dock:Document>
                 </dock:DocumentContainer>
                 <dock:DocumentContainer>
                     <dock:Document Title="属性">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="属性" />
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Right>
@@ -46,7 +46,7 @@
             <dock:DockingManager.Bottom>
                 <dock:DocumentContainer>
                     <dock:Document Title="状态栏">
-                        <Grid Background="{StaticResource AccentFillColorDisabled}" />
+                        <TextBlock Text="状态栏" />
                     </dock:Document>
                 </dock:DocumentContainer>
             </dock:DockingManager.Bottom>

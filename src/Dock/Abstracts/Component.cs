@@ -4,15 +4,44 @@ namespace Dock.Abstracts;
 
 public abstract class Component : Control, IComponent
 {
-    public IComponent? Owner { get; private set; }
+    private IComponent? owner;
+    private DockingManager? manager;
 
-    public void AttachTo(IComponent? owner)
+    public IComponent? Owner
     {
-        Owner = owner;
+        get => owner;
+        set
+        {
+            if (owner != value)
+            {
+                IComponent? oldOwner = owner;
+                IComponent? newOwner = owner = value;
+
+                OnOwnerChanged(oldOwner, newOwner);
+            }
+        }
     }
 
-    public void Detach()
+    public DockingManager? Manager
     {
-        Owner = null;
+        get => manager;
+        set
+        {
+            if (manager != value)
+            {
+                DockingManager? oldManager = manager;
+                DockingManager? newManager = manager = value;
+
+                OnManagerChanged(oldManager, newManager);
+            }
+        }
+    }
+
+    protected virtual void OnOwnerChanged(IComponent? oldOwner, IComponent? newOwner)
+    {
+    }
+
+    protected virtual void OnManagerChanged(DockingManager? oldManager, DockingManager? newManager)
+    {
     }
 }

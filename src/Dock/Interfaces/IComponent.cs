@@ -2,9 +2,7 @@
 
 public interface IComponent
 {
-    IComponent? Owner { get; }
+    IComponent? Owner { get; set; }
 
-    void AttachTo(IComponent? owner);
-
-    void Detach();
+    DockingManager? Manager { get; set; }
 }

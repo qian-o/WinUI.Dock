@@ -1,15 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Dock.Components;
 
 internal sealed partial class Sidebar : UserControl
 {
-    public static readonly DependencyProperty AngleProperty = DependencyProperty.Register(nameof(Angle),
-                                                                                          typeof(int),
-                                                                                          typeof(Sidebar),
-                                                                                          new PropertyMetadata(0));
+    public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
+                                                                                                typeof(Orientation),
+                                                                                                typeof(Sidebar),
+                                                                                                new PropertyMetadata(Orientation.Horizontal));
 
     public static readonly DependencyProperty ContainersProperty = DependencyProperty.Register(nameof(Containers),
                                                                                                typeof(ObservableCollection<DocumentContainer>),
@@ -21,10 +22,10 @@ internal sealed partial class Sidebar : UserControl
         InitializeComponent();
     }
 
-    public int Angle
+    public Orientation Orientation
     {
-        get => (int)GetValue(AngleProperty);
-        set => SetValue(AngleProperty, value);
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
     }
 
     public ObservableCollection<DocumentContainer> Containers
@@ -33,7 +34,24 @@ internal sealed partial class Sidebar : UserControl
         set => SetValue(ContainersProperty, value);
     }
 
-    private void Document_Click(object sender, RoutedEventArgs e)
+    private void Document_Opened(object sender, object _)
     {
+        Popup popup = (Popup)sender;
+        Document document = (Document)popup.DataContext;
+        DocumentContainer container = (DocumentContainer)document.Owner!;
+        DockingManager manager = document.Manager!;
+
+        if (manager.Left.Contains(container))
+        {
+        }
+        else if (manager.Top.Contains(container))
+        {
+        }
+        else if (manager.Right.Contains(container))
+        {
+        }
+        else if (manager.Bottom.Contains(container))
+        {
+        }
     }
 }
