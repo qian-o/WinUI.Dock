@@ -4,8 +4,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Card.xaml" />
+    </UserControl.Resources>
 
-    <Grid Background="Red">
+    <Border Style="{StaticResource Card}"
+            Background="{StaticResource SolidBackgroundFillColorQuarternaryBrush}"
+            BorderBrush="{StaticResource AccentFillColorDefaultBrush}">
+        <TabView CanReorderTabs="False"
+                 TabWidthMode="Equal"
+                 IsAddTabButtonVisible="False">
+            <TabView.TabStripFooter>
+                <ToggleButton x:Name="PinButton"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center">
+                    <FontIcon FontSize="{StaticResource CheckBoxGlyphSize}"
+                              Glyph="&#xE718;" />
+                </ToggleButton>
+            </TabView.TabStripFooter>
 
-    </Grid>
+            <TabViewItem x:Name="DocumentTab"
+                         Header="{x:Bind Document.Title}"
+                         Content="{x:Bind Document}" />
+        </TabView>
+    </Border>
 </UserControl>
