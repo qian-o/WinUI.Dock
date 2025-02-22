@@ -124,4 +124,14 @@ public abstract class Component : Control, IComponent
     protected virtual void OnManagerChanged(DockingManager? oldManager, DockingManager? newManager)
     {
     }
+
+    public void SyncSize(IComponent component)
+    {
+        DockMinWidth = component.DockMinWidth;
+        DockMaxWidth = component.DockMaxWidth;
+        DockWidth = component.DockWidth;
+        DockMinHeight = component.DockMinHeight;
+        DockMaxHeight = component.DockMaxHeight;
+        DockHeight = component.DockHeight;
+    }
 }

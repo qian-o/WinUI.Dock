@@ -31,6 +31,8 @@ public sealed partial class SideDocument : UserControl
 
         Update();
 
+        PinButton.Visibility = ((DocumentContainer)Document.Owner!).CanAnchor ? Visibility.Visible : Visibility.Collapsed;
+
         if (IsLeft)
         {
             ContentSizer.Orientation = Orientation.Vertical;
@@ -142,7 +144,37 @@ public sealed partial class SideDocument : UserControl
 
     public void Uninstall()
     {
+        Document.DockWidth = new(ActualWidth, GridUnitType.Pixel);
+        Document.DockHeight = new(ActualHeight, GridUnitType.Pixel);
+
         DocumentTab.Header = null;
         DocumentTab.Content = null;
+    }
+
+    private void PinButton_Click(object _, RoutedEventArgs __)
+    {
+        Popup.IsOpen = false;
+
+        Uninstall();
+
+        DockingManager manager = Document.Manager!;
+        DocumentContainer container = (DocumentContainer)Document.Owner!;
+        container.SyncSize(Document);
+
+        if (IsLeft)
+        {
+            manager.Left.Remove(container);
+
+            manager.Container!.Add(container, 0);
+        }
+        else if (IsTop)
+        {
+        }
+        else if (IsRight)
+        {
+        }
+        else if (IsBottom)
+        {
+        }
     }
 }

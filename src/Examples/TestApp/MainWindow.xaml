@@ -34,7 +34,7 @@
             </dock:DockingManager.Left>
 
             <dock:DockingManager.Top>
-                <dock:DocumentContainer>
+                <dock:DocumentContainer CanAnchor="False">
                     <dock:Document Title="菜单">
                         <Border Style="{StaticResource Space}">
                             <TextBlock Text="菜单" />

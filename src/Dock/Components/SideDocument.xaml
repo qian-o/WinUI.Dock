@@ -22,7 +22,9 @@
                 <TabView.TabStripFooter>
                     <ToggleButton x:Name="PinButton"
                                   HorizontalAlignment="Right"
-                                  VerticalAlignment="Center">
+                                  VerticalAlignment="Center"
+                                  IsChecked="False"
+                                  Click="PinButton_Click">
                         <FontIcon FontSize="{StaticResource CheckBoxGlyphSize}"
                                   Glyph="&#xE718;" />
                     </ToggleButton>

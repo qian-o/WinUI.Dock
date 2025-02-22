@@ -113,13 +113,7 @@ public partial class DockingManager
                                         Bottom.Contains(container));
 
         popup.Child = sideDocument;
-        popup.Closed += (_, __) =>
-        {
-            document.DockWidth = new(sideDocument.ActualWidth, GridUnitType.Pixel);
-            document.DockHeight = new(sideDocument.ActualHeight, GridUnitType.Pixel);
-
-            sideDocument.Uninstall();
-        };
+        popup.Closed += (_, __) => sideDocument.Uninstall();
 
         popupContainer.Children.Clear();
         popupContainer.Children.Add(popup);

@@ -19,4 +19,6 @@ public interface IComponent
     IComponent? Owner { get; set; }
 
     DockingManager? Manager { get; set; }
+
+    void SyncSize(IComponent component);
 }
