@@ -221,7 +221,7 @@ public sealed partial class SideDocument : UserControl
         container.Install(container.IndexOf(Document));
     }
 
-    private void DocumentTab_CloseRequested(TabViewItem sender, TabViewTabCloseRequestedEventArgs args)
+    private void DocumentTab_CloseRequested(TabViewItem _, TabViewTabCloseRequestedEventArgs __)
     {
         Popup.IsOpen = false;
 
