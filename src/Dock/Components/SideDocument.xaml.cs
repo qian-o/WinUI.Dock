@@ -96,10 +96,10 @@ public sealed partial class SideDocument : UserControl
         double width = Container.ActualWidth;
         double height = Container.ActualHeight;
 
-        MinWidth = Document!.MinWidth;
-        MaxWidth = Document.MaxWidth;
-        MinHeight = Document.MinHeight;
-        MaxHeight = Document.MaxHeight;
+        MinWidth = Document!.DockMinWidth;
+        MaxWidth = Document.DockMaxWidth;
+        MinHeight = Document.DockMinHeight;
+        MaxHeight = Document.DockMaxHeight;
 
         if (IsLeft || IsRight)
         {
@@ -107,7 +107,11 @@ public sealed partial class SideDocument : UserControl
 
             if (Width is double.NaN)
             {
-                Width = Document.Width is not double.NaN ? Document.Width : width / 3;
+                Width = Document.DockWidth.GridUnitType switch
+                {
+                    GridUnitType.Pixel => Document.DockWidth.Value,
+                    _ => width / 3
+                };
             }
         }
         else
@@ -116,7 +120,11 @@ public sealed partial class SideDocument : UserControl
 
             if (Height is double.NaN)
             {
-                Height = Document.Height is not double.NaN ? Document.Height : height / 3;
+                Height = Document.DockHeight.GridUnitType switch
+                {
+                    GridUnitType.Pixel => Document.DockHeight.Value,
+                    _ => height / 3
+                };
             }
         }
 
