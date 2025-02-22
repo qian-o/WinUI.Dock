@@ -44,6 +44,11 @@
 
                         <!--在代码中创建 GridSplitter 无法应用样式，应该由 CommunityToolkit 解决该问题。-->
                         <controls:GridSplitter Visibility="Collapsed" />
+
+                        <!--WinUI 的 Window 不支持设置 Position，因此使用 Popup 代替。-->
+                        <Grid Grid.Column="1"
+                              Grid.Row="1">
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
