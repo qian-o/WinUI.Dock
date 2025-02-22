@@ -36,8 +36,8 @@
 
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate x:DataType="dock:Document">
-                                <ToggleButton x:Name="DocumentButton"
-                                              Content="{Binding Title}" />
+                                <Button Content="{Binding Title}"
+                                        Click="Document_Click" />
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
