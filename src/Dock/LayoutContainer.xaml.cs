@@ -63,9 +63,9 @@ public partial class LayoutContainer : Container<IContainer>
 
         root.Children.Clear();
 
-        for (int i = 0; i < Children.Count; i++)
+        for (int i = 0; i < Count; i++)
         {
-            if (Children[i] is Control control)
+            if (this[i] is Control control)
             {
                 Grid.SetColumn(control, i);
                 Grid.SetRow(control, i);
@@ -107,23 +107,23 @@ public partial class LayoutContainer : Container<IContainer>
             return;
         }
 
-        if (root.ColumnDefinitions.Count < Children.Count)
+        if (root.ColumnDefinitions.Count < Count)
         {
-            for (int i = root.ColumnDefinitions.Count; i < Children.Count; i++)
+            for (int i = root.ColumnDefinitions.Count; i < Count; i++)
             {
-                IContainer container = Children[i];
+                IComponent component = this[i];
 
                 root.ColumnDefinitions.Add(new()
                 {
-                    MinWidth = container.DockMinWidth,
-                    MaxWidth = container.DockMaxWidth,
-                    Width = container.DockWidth
+                    MinWidth = component.DockMinWidth,
+                    MaxWidth = component.DockMaxWidth,
+                    Width = component.DockWidth
                 });
             }
         }
-        else if (root.ColumnDefinitions.Count > Children.Count)
+        else if (root.ColumnDefinitions.Count > Count)
         {
-            for (int i = root.ColumnDefinitions.Count - 1; i >= Children.Count; i--)
+            for (int i = root.ColumnDefinitions.Count - 1; i >= Count; i--)
             {
                 root.ColumnDefinitions.RemoveAt(i);
             }
@@ -137,23 +137,23 @@ public partial class LayoutContainer : Container<IContainer>
             return;
         }
 
-        if (root.RowDefinitions.Count < Children.Count)
+        if (root.RowDefinitions.Count < Count)
         {
-            for (int i = root.RowDefinitions.Count; i < Children.Count; i++)
+            for (int i = root.RowDefinitions.Count; i < Count; i++)
             {
-                IContainer container = Children[i];
+                IComponent component = this[i];
 
                 root.RowDefinitions.Add(new()
                 {
-                    MinHeight = container.DockMinHeight,
-                    MaxHeight = container.DockMaxHeight,
-                    Height = container.DockHeight
+                    MinHeight = component.DockMinHeight,
+                    MaxHeight = component.DockMaxHeight,
+                    Height = component.DockHeight
                 });
             }
         }
-        else if (root.RowDefinitions.Count > Children.Count)
+        else if (root.RowDefinitions.Count > Count)
         {
-            for (int i = root.RowDefinitions.Count - 1; i >= Children.Count; i--)
+            for (int i = root.RowDefinitions.Count - 1; i >= Count; i--)
             {
                 root.RowDefinitions.RemoveAt(i);
             }
