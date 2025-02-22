@@ -42,6 +42,28 @@ public partial class LayoutContainer : Container<IContainer>
     {
         base.OnCollectionChanged(sender, e);
 
+        if (e.NewItems is not null)
+        {
+            foreach (object? child in e.NewItems)
+            {
+                if (child is Control control)
+                {
+                    control.SizeChanged += OnChildrenSizeChanged;
+                }
+            }
+        }
+
+        if (e.OldItems is not null)
+        {
+            foreach (object? child in e.OldItems)
+            {
+                if (child is Control control)
+                {
+                    control.SizeChanged -= OnChildrenSizeChanged;
+                }
+            }
+        }
+
         Update();
     }
 
@@ -54,11 +76,21 @@ public partial class LayoutContainer : Container<IContainer>
 
         if (Orientation is Orientation.Horizontal)
         {
-            UpdateColumnDefinitions();
+            root.ColumnDefinitions.Clear();
+
+            for (int i = 0; i < Count; i++)
+            {
+                root.ColumnDefinitions.Add(new ColumnDefinition() { Width = this[i].DockWidth });
+            }
         }
-        else
+        else if (Orientation is Orientation.Vertical)
         {
-            UpdateRowDefinitions();
+            root.RowDefinitions.Clear();
+
+            for (int i = 0; i < Count; i++)
+            {
+                root.RowDefinitions.Add(new RowDefinition() { Height = this[i].DockHeight });
+            }
         }
 
         root.Children.Clear();
@@ -100,63 +132,12 @@ public partial class LayoutContainer : Container<IContainer>
         }
     }
 
-    private void UpdateColumnDefinitions()
+    private void OnChildrenSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (root is null)
-        {
-            return;
-        }
+        Control control = (Control)sender;
+        IComponent component = (IComponent)sender;
 
-        if (root.ColumnDefinitions.Count < Count)
-        {
-            for (int i = root.ColumnDefinitions.Count; i < Count; i++)
-            {
-                IComponent component = this[i];
-
-                root.ColumnDefinitions.Add(new()
-                {
-                    MinWidth = component.DockMinWidth,
-                    MaxWidth = component.DockMaxWidth,
-                    Width = component.DockWidth
-                });
-            }
-        }
-        else if (root.ColumnDefinitions.Count > Count)
-        {
-            for (int i = root.ColumnDefinitions.Count - 1; i >= Count; i--)
-            {
-                root.ColumnDefinitions.RemoveAt(i);
-            }
-        }
-    }
-
-    private void UpdateRowDefinitions()
-    {
-        if (root is null)
-        {
-            return;
-        }
-
-        if (root.RowDefinitions.Count < Count)
-        {
-            for (int i = root.RowDefinitions.Count; i < Count; i++)
-            {
-                IComponent component = this[i];
-
-                root.RowDefinitions.Add(new()
-                {
-                    MinHeight = component.DockMinHeight,
-                    MaxHeight = component.DockMaxHeight,
-                    Height = component.DockHeight
-                });
-            }
-        }
-        else if (root.RowDefinitions.Count > Count)
-        {
-            for (int i = root.RowDefinitions.Count - 1; i >= Count; i--)
-            {
-                root.RowDefinitions.RemoveAt(i);
-            }
-        }
+        component.DockWidth = new(control.ActualWidth, GridUnitType.Star);
+        component.DockHeight = new(control.ActualHeight, GridUnitType.Star);
     }
 }

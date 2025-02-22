@@ -144,8 +144,8 @@ public sealed partial class SideDocument : UserControl
 
     public void Uninstall()
     {
-        Document.DockWidth = new(ActualWidth, GridUnitType.Pixel);
-        Document.DockHeight = new(ActualHeight, GridUnitType.Pixel);
+        Document.DockWidth = new(ActualWidth);
+        Document.DockHeight = new(ActualHeight);
 
         DocumentTab.Header = null;
         DocumentTab.Content = null;
@@ -165,16 +165,57 @@ public sealed partial class SideDocument : UserControl
         {
             manager.Left.Remove(container);
 
-            manager.Container!.Add(container, 0);
+            LayoutContainer layoutContainer = new()
+            {
+                Orientation = Orientation.Horizontal
+            };
+
+            layoutContainer.Add(container);
+            layoutContainer.Add(manager.Container!);
+
+            manager.Container = layoutContainer;
         }
         else if (IsTop)
         {
+            manager.Top.Remove(container);
+
+            LayoutContainer layoutContainer = new()
+            {
+                Orientation = Orientation.Vertical
+            };
+
+            layoutContainer.Add(container);
+            layoutContainer.Add(manager.Container!);
+
+            manager.Container = layoutContainer;
         }
         else if (IsRight)
         {
+            manager.Right.Remove(container);
+
+            LayoutContainer layoutContainer = new()
+            {
+                Orientation = Orientation.Horizontal
+            };
+
+            layoutContainer.Add(manager.Container!);
+            layoutContainer.Add(container);
+
+            manager.Container = layoutContainer;
         }
         else if (IsBottom)
         {
+            manager.Bottom.Remove(container);
+
+            LayoutContainer layoutContainer = new()
+            {
+                Orientation = Orientation.Vertical
+            };
+
+            layoutContainer.Add(manager.Container!);
+            layoutContainer.Add(container);
+
+            manager.Container = layoutContainer;
         }
     }
 }
