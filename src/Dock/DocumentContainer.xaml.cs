@@ -56,6 +56,11 @@ public partial class DocumentContainer : Container<Document>
             container.RemoveAt(index);
         }
 
+        if (container.Count is 0 && container.Owner is IContainer parentContainer)
+        {
+            parentContainer.Remove(container);
+        }
+
         if (index is 0)
         {
             if (container.Orientation is Orientation.Horizontal)
