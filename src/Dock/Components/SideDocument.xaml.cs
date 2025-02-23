@@ -144,8 +144,15 @@ public sealed partial class SideDocument : UserControl
 
     public void Uninstall()
     {
-        Document.DockWidth = new(ActualWidth);
-        Document.DockHeight = new(ActualHeight);
+        if (ActualWidth is not 0)
+        {
+            Document.DockWidth = new(ActualWidth);
+        }
+
+        if (ActualHeight is not 0)
+        {
+            Document.DockHeight = new(ActualHeight);
+        }
 
         DocumentTab.Header = null;
         DocumentTab.Content = null;

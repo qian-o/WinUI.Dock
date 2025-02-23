@@ -99,7 +99,7 @@ public partial class DockingManager
         {
             XamlRoot = popupContainer.XamlRoot,
             IsLightDismissEnabled = true,
-            LightDismissOverlayMode = LightDismissOverlayMode.On,
+            LightDismissOverlayMode = LightDismissOverlayMode.Auto,
             IsOpen = true
         };
 
