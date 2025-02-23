@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using Dock.Abstracts;
+using Dock.Components;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -45,16 +46,16 @@ public partial class DocumentContainer : Container<Document>
 
         foreach (Document item in Children)
         {
-            TabViewItem tabViewItem = new()
+            DragTabViewItem dragTabViewItem = new()
             {
-                Header = item.Title,
+                Header = new DragControl() { Content = item.Title },
                 Content = item,
                 IsClosable = item.CanClose
             };
 
-            tabViewItem.CloseRequested += OnCloseRequested;
+            dragTabViewItem.CloseRequested += OnCloseRequested;
 
-            root.TabItems.Add(tabViewItem);
+            root.TabItems.Add(dragTabViewItem);
         }
 
         if (selectedIndex < root.TabItems.Count)

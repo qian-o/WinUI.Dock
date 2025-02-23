@@ -1,8 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Dock/Components/DragControl.xaml" />
+
         <ResourceDictionary Source="ms-appx:///Dock/DockingManager.xaml" />
         <ResourceDictionary Source="ms-appx:///Dock/Document.xaml" />
         <ResourceDictionary Source="ms-appx:///Dock/DocumentContainer.xaml" />
         <ResourceDictionary Source="ms-appx:///Dock/LayoutContainer.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

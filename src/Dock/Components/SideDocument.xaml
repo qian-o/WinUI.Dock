@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+             xmlns:components="using:Dock.Components"
              mc:Ignorable="d"
              x:Name="Main">
     <UserControl.Resources>
@@ -30,11 +31,14 @@
                     </ToggleButton>
                 </TabView.TabStripFooter>
 
-                <TabViewItem x:Name="DocumentTab"
-                             Header="{x:Bind Document.Title}"
-                             Content="{x:Bind Document}"
-                             IsClosable="{x:Bind Document.CanClose}"
-                             CloseRequested="DocumentTab_CloseRequested" />
+                <components:DragTabViewItem x:Name="DocumentTab"
+                                            Content="{x:Bind Document}"
+                                            IsClosable="{x:Bind Document.CanClose}"
+                                            CloseRequested="DocumentTab_CloseRequested">
+                    <components:DragTabViewItem.Header>
+                        <components:DragControl Content="{x:Bind Document.Title}" />
+                    </components:DragTabViewItem.Header>
+                </components:DragTabViewItem>
             </TabView>
         </Border>
 
