@@ -234,7 +234,6 @@ public sealed partial class SideDocument : UserControl
 
         Uninstall();
 
-        DocumentContainer container = (DocumentContainer)Document.Owner!;
-        container.Remove(Document);
+        Document.Detach();
     }
 }

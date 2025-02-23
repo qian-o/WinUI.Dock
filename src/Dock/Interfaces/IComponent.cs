@@ -21,4 +21,6 @@ public interface IComponent
     DockingManager? Manager { get; set; }
 
     void SyncSize(IComponent component);
+
+    void Detach();
 }

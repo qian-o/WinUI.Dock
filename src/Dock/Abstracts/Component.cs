@@ -134,4 +134,12 @@ public abstract class Component : Control, IComponent
         DockMaxHeight = component.DockMaxHeight;
         DockHeight = component.DockHeight;
     }
+
+    public void Detach()
+    {
+        if (Owner is IContainer container)
+        {
+            container.Remove(this);
+        }
+    }
 }

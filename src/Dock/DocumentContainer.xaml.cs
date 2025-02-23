@@ -1,6 +1,5 @@
 ﻿using System.Collections.Specialized;
 using Dock.Abstracts;
-using Dock.Components;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -32,6 +31,8 @@ public partial class DocumentContainer : Container<Document>
 
     public void Install(int selectedIndex = -1)
     {
+        Uninstall();
+
         if (root is null || Owner is null)
         {
             return;
@@ -42,18 +43,16 @@ public partial class DocumentContainer : Container<Document>
             selectedIndex = root.SelectedIndex;
         }
 
-        Uninstall();
-
         foreach (Document item in Children)
         {
-            DragTabViewItem dragTabViewItem = new()
+            TabViewItem dragTabViewItem = new()
             {
-                Header = new DragControl() { Content = item.Title },
+                Header = item.Title,
                 Content = item,
                 IsClosable = item.CanClose
             };
 
-            dragTabViewItem.CloseRequested += OnCloseRequested;
+            dragTabViewItem.CloseRequested += (_, _) => item.Detach();
 
             root.TabItems.Add(dragTabViewItem);
         }
@@ -143,10 +142,5 @@ public partial class DocumentContainer : Container<Document>
         {
             manager.Bottom.Add(this);
         }
-    }
-
-    private void OnCloseRequested(TabViewItem sender, TabViewTabCloseRequestedEventArgs args)
-    {
-        Remove((IComponent)sender.Content!);
     }
 }
