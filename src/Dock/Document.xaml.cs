@@ -1,11 +1,8 @@
 ﻿using Dock.Abstracts;
-using Dock.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage.Streams;
 
 namespace Dock;
 
@@ -34,7 +31,6 @@ public partial class Document : Component
     {
         DefaultStyleKey = typeof(Document);
 
-        DragStarting += OnDragStarting;
         DragOver += OnDragOver;
         DragLeave += OnDragLeave;
         Drop += OnDrop;
@@ -68,27 +64,6 @@ public partial class Document : Component
         base.OnApplyTemplate();
 
         dragIndicator = (Grid)GetTemplateChild("PART_DragIndicator");
-    }
-
-    private async void OnDragStarting(UIElement sender, DragStartingEventArgs args)
-    {
-        args.Data.SetText(DragDropHelpers.AddData(this));
-
-        RenderTargetBitmap renderTargetBitmap = new();
-        await renderTargetBitmap.RenderAsync(this);
-        IBuffer buffer = await renderTargetBitmap.GetPixelsAsync();
-
-        using InMemoryRandomAccessStream stream = new();
-        await stream.WriteAsync(buffer);
-
-        BitmapImage bitmapImage = new();
-        bitmapImage.SetSource(stream);
-
-        args.DragUI.SetContentFromBitmapImage(bitmapImage);
-
-        SyncSize(Owner!);
-
-        Detach();
     }
 
     private void OnDragOver(object sender, DragEventArgs e)

@@ -53,14 +53,15 @@ public sealed partial class DockTarget : UserControl
         e.AcceptedOperation = DataPackageOperation.None;
     }
 
-    private void OnDrop(object sender, DragEventArgs e)
+    private async void OnDrop(object sender, DragEventArgs e)
     {
         Opacity = 0.4;
 
-        Document document = (Document)DragDropHelpers.GetData(e.DataView.GetTextAsync().GetResults());
+        Document document = (Document)DragDropHelpers.GetData(await e.DataView.GetTextAsync());
 
         DocumentContainer selfContainer = (DocumentContainer)Document.Owner!;
         IContainer container = (IContainer)selfContainer.Owner!;
+        DockingManager manager = Document.Manager!;
 
         switch (Target)
         {
@@ -79,7 +80,10 @@ public sealed partial class DockTarget : UserControl
 
                     selfContainer.Detach();
 
-                    DocumentContainer left = new();
+                    DocumentContainer left = new()
+                    {
+                        CanAnchor = false
+                    };
                     left.Add(document);
 
                     left.SyncSize(document);
@@ -101,18 +105,176 @@ public sealed partial class DockTarget : UserControl
                 }
                 break;
             case Target.SplitTop:
+                {
+                    container.AutoRemove = false;
+
+                    int index = container.IndexOf(selfContainer);
+
+                    selfContainer.Detach();
+
+                    DocumentContainer top = new()
+                    {
+                        CanAnchor = false
+                    };
+                    top.Add(document);
+
+                    top.SyncSize(document);
+
+                    DocumentContainer bottom = selfContainer;
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Vertical
+                    };
+                    layoutContainer.Add(top);
+                    layoutContainer.Add(bottom);
+
+                    layoutContainer.SyncSize(selfContainer);
+
+                    container.Add(layoutContainer, index);
+
+                    container.AutoRemove = true;
+                }
                 break;
             case Target.SplitRight:
+                {
+                    container.AutoRemove = false;
+
+                    int index = container.IndexOf(selfContainer);
+
+                    selfContainer.Detach();
+
+                    DocumentContainer left = selfContainer;
+
+                    DocumentContainer right = new()
+                    {
+                        CanAnchor = false
+                    };
+                    right.Add(document);
+
+                    right.SyncSize(document);
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Horizontal
+                    };
+                    layoutContainer.Add(left);
+                    layoutContainer.Add(right);
+
+                    layoutContainer.SyncSize(selfContainer);
+
+                    container.Add(layoutContainer, index);
+
+                    container.AutoRemove = true;
+                }
                 break;
             case Target.SplitBottom:
+                {
+                    container.AutoRemove = false;
+
+                    int index = container.IndexOf(selfContainer);
+
+                    selfContainer.Detach();
+
+                    DocumentContainer top = selfContainer;
+
+                    DocumentContainer bottom = new()
+                    {
+                        CanAnchor = false
+                    };
+                    bottom.Add(document);
+
+                    bottom.SyncSize(document);
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Vertical
+                    };
+                    layoutContainer.Add(top);
+                    layoutContainer.Add(bottom);
+
+                    layoutContainer.SyncSize(selfContainer);
+
+                    container.Add(layoutContainer, index);
+
+                    container.AutoRemove = true;
+                }
                 break;
             case Target.DockLeft:
+                {
+                    DocumentContainer documentContainer = new()
+                    {
+                        CanAnchor = true
+                    };
+                    documentContainer.Add(document);
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Horizontal
+                    };
+
+                    layoutContainer.Add(documentContainer);
+                    layoutContainer.Add(manager.Container!);
+
+                    manager.Container = layoutContainer;
+                }
                 break;
             case Target.DockTop:
+                {
+                    DocumentContainer documentContainer = new()
+                    {
+                        CanAnchor = true
+                    };
+                    documentContainer.Add(document);
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Vertical
+                    };
+
+                    layoutContainer.Add(documentContainer);
+                    layoutContainer.Add(manager.Container!);
+
+                    manager.Container = layoutContainer;
+                }
                 break;
             case Target.DockRight:
+                {
+                    DocumentContainer documentContainer = new()
+                    {
+                        CanAnchor = true
+                    };
+                    documentContainer.Add(document);
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Horizontal
+                    };
+
+                    layoutContainer.Add(manager.Container!);
+                    layoutContainer.Add(documentContainer);
+
+                    manager.Container = layoutContainer;
+                }
                 break;
             case Target.DockBottom:
+                {
+                    DocumentContainer documentContainer = new()
+                    {
+                        CanAnchor = true
+                    };
+                    documentContainer.Add(document);
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Vertical
+                    };
+
+                    layoutContainer.Add(manager.Container!);
+                    layoutContainer.Add(documentContainer);
+
+                    manager.Container = layoutContainer;
+                }
                 break;
         }
 

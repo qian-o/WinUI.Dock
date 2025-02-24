@@ -3,8 +3,6 @@
                     xmlns:components="using:Dock.Components">
 
     <Style TargetType="dock:Document">
-        <Setter Property="CanDrag"
-                Value="True" />
         <Setter Property="AllowDrop"
                 Value="True" />
         <Setter Property="Template">
