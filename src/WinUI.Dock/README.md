@@ -1,1 +1,1 @@
-﻿这是最终实现 Dock 功能的项目，打算支持 WinUI 和 Uno Platform。
+﻿This is the final project to implement the docking functionality, intended to support both WinUI and the Uno Platform.
