@@ -58,7 +58,6 @@ public sealed partial class DockTarget : UserControl
         Opacity = 0.4;
 
         Document document = (Document)DragDropHelpers.GetData(e.DataView.GetTextAsync().GetResults());
-        DocumentContainer documentContainer = (DocumentContainer)document.Owner!;
 
         DocumentContainer selfContainer = (DocumentContainer)Document.Owner!;
         IContainer container = (IContainer)selfContainer.Owner!;
