@@ -30,6 +30,7 @@
 
                         <TabView x:Name="PART_Root"
                                  CanReorderTabs="False"
+                                 CanDragTabs="True"
                                  TabWidthMode="Equal"
                                  IsAddTabButtonVisible="False"
                                  VerticalAlignment="Stretch">
