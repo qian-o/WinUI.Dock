@@ -69,12 +69,12 @@ public partial class LayoutContainer : Container<IContainer>
 
     private void Install()
     {
+        Uninstall();
+
         if (root is null)
         {
             return;
         }
-
-        Uninstall();
 
         if (Orientation is Orientation.Horizontal)
         {

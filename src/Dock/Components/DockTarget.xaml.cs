@@ -1,4 +1,5 @@
 ﻿using Dock.Enums;
+using Dock.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
@@ -12,18 +13,30 @@ public sealed partial class DockTarget : UserControl
                                                                                            typeof(DockTarget),
                                                                                            new PropertyMetadata(Target.Center));
 
+    public static readonly DependencyProperty DocumentProperty = DependencyProperty.Register(nameof(Document),
+                                                                                             typeof(Document),
+                                                                                             typeof(DockTarget),
+                                                                                             new PropertyMetadata(null));
+
     public DockTarget()
     {
         InitializeComponent();
 
         DragOver += OnDragOver;
         DragLeave += OnDragLeave;
+        Drop += OnDrop;
     }
 
     public Target Target
     {
         get => (Target)GetValue(TargetProperty);
         set => SetValue(TargetProperty, value);
+    }
+
+    public Document Document
+    {
+        get { return (Document)GetValue(DocumentProperty); }
+        set { SetValue(DocumentProperty, value); }
     }
 
     private void OnDragOver(object sender, DragEventArgs e)
@@ -39,6 +52,71 @@ public sealed partial class DockTarget : UserControl
         Opacity = 0.4;
 
         e.AcceptedOperation = DataPackageOperation.None;
-        e.Handled = true;
+    }
+
+    private void OnDrop(object sender, DragEventArgs e)
+    {
+        Opacity = 0.4;
+
+        Document document = (Document)DragDropHelpers.GetData(e.DataView.GetTextAsync().GetResults());
+        DocumentContainer documentContainer = (DocumentContainer)document.Owner!;
+
+        DocumentContainer documentContainer1 = (DocumentContainer)Document.Owner!;
+        IContainer container = (IContainer)documentContainer1.Owner!;
+
+        switch (Target)
+        {
+            case Target.Center:
+                {
+                    document.Detach();
+
+                    documentContainer1.Add(document);
+
+                    documentContainer1.Install(documentContainer1.Count - 1);
+                }
+                break;
+            case Target.SplitLeft:
+                {
+                    int containerIndex = ((IContainer)documentContainer1.Owner!).IndexOf(documentContainer1);
+
+                    document.Detach();
+                    documentContainer1.Detach();
+
+                    DocumentContainer left = new()
+                    {
+                        CanAnchor = documentContainer.CanAnchor
+                    };
+                    left.Add(document);
+                    left.SyncSize(documentContainer);
+
+                    DocumentContainer right = documentContainer1;
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Horizontal
+                    };
+                    layoutContainer.Add(left);
+                    layoutContainer.Add(right);
+
+                    layoutContainer.SyncSize(documentContainer1);
+
+                    container.Add(layoutContainer, containerIndex);
+                }
+                break;
+            case Target.SplitTop:
+                break;
+            case Target.SplitRight:
+                break;
+            case Target.SplitBottom:
+                break;
+            case Target.DockLeft:
+                break;
+            case Target.DockTop:
+                break;
+            case Target.DockRight:
+                break;
+            case Target.DockBottom:
+                break;
+        }
     }
 }

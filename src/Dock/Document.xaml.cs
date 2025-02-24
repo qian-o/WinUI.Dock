@@ -1,8 +1,11 @@
 ﻿using Dock.Abstracts;
+using Dock.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Streams;
 
 namespace Dock;
 
@@ -31,8 +34,10 @@ public partial class Document : Component
     {
         DefaultStyleKey = typeof(Document);
 
-        DragOver += Document_DragOver;
-        DragLeave += Document_DragLeave;
+        DragStarting += OnDragStarting;
+        DragOver += OnDragOver;
+        DragLeave += OnDragLeave;
+        Drop += OnDrop;
     }
 
     public string Title
@@ -60,7 +65,26 @@ public partial class Document : Component
         dragIndicator = (Grid)GetTemplateChild("PART_DragIndicator");
     }
 
-    private void Document_DragOver(object sender, DragEventArgs e)
+    private async void OnDragStarting(UIElement sender, DragStartingEventArgs args)
+    {
+        args.Data.SetText(DragDropHelpers.AddData(this));
+
+        RenderTargetBitmap renderTargetBitmap = new();
+        await renderTargetBitmap.RenderAsync(this);
+        IBuffer buffer = await renderTargetBitmap.GetPixelsAsync();
+
+        using InMemoryRandomAccessStream stream = new();
+        await stream.WriteAsync(buffer);
+
+        BitmapImage bitmapImage = new();
+        bitmapImage.SetSource(stream);
+
+        args.DragUI.SetContentFromBitmapImage(bitmapImage);
+
+        Detach();
+    }
+
+    private void OnDragOver(object sender, DragEventArgs e)
     {
         dragIndicator.Visibility = Visibility.Visible;
 
@@ -68,11 +92,15 @@ public partial class Document : Component
         e.Handled = true;
     }
 
-    private void Document_DragLeave(object sender, DragEventArgs e)
+    private void OnDragLeave(object sender, DragEventArgs e)
     {
         dragIndicator.Visibility = Visibility.Collapsed;
 
         e.AcceptedOperation = DataPackageOperation.None;
-        e.Handled = true;
+    }
+
+    private void OnDrop(object sender, DragEventArgs e)
+    {
+        dragIndicator.Visibility = Visibility.Collapsed;
     }
 }

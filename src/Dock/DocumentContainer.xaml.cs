@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using Dock.Abstracts;
+using Dock.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -38,23 +39,32 @@ public partial class DocumentContainer : Container<Document>
             return;
         }
 
-        if (selectedIndex is -1)
+        if (selectedIndex < 0)
         {
-            selectedIndex = root.SelectedIndex;
+            if (root.SelectedIndex > 0)
+            {
+                selectedIndex = root.SelectedIndex;
+            }
+            else
+            {
+                selectedIndex = 0;
+            }
         }
 
         foreach (Document item in Children)
         {
-            TabViewItem dragTabViewItem = new()
+            TabViewItem tabViewItem = new()
             {
                 Header = item.Title,
                 Content = item,
                 IsClosable = item.CanClose
             };
 
-            dragTabViewItem.CloseRequested += (_, _) => item.Detach();
+            tabViewItem.DragStarting +=  (_, e) => e.Data.SetText(DragDropHelpers.AddData(item));
 
-            root.TabItems.Add(dragTabViewItem);
+            tabViewItem.CloseRequested += (_, _) => item.Detach();
+
+            root.TabItems.Add(tabViewItem);
         }
 
         if (selectedIndex < root.TabItems.Count)

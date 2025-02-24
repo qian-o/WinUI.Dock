@@ -45,39 +45,48 @@
 
                                 <components:DockTarget Grid.Column="0"
                                                        Grid.Row="2"
-                                                       Target="DockLeft" />
+                                                       Target="DockLeft"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="1"
                                                        Grid.Row="2"
-                                                       Target="SplitLeft" />
+                                                       Target="SplitLeft"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="2"
                                                        Grid.Row="2"
-                                                       Target="Center" />
+                                                       Target="Center"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="3"
                                                        Grid.Row="2"
-                                                       Target="SplitRight" />
+                                                       Target="SplitRight"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="4"
                                                        Grid.Row="2"
-                                                       Target="DockRight" />
+                                                       Target="DockRight"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="2"
                                                        Grid.Row="0"
-                                                       Target="DockTop" />
+                                                       Target="DockTop"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="2"
                                                        Grid.Row="1"
-                                                       Target="SplitTop" />
+                                                       Target="SplitTop"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="2"
                                                        Grid.Row="3"
-                                                       Target="SplitBottom" />
+                                                       Target="SplitBottom"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                                 <components:DockTarget Grid.Column="2"
                                                        Grid.Row="4"
-                                                       Target="DockBottom" />
+                                                       Target="DockBottom"
+                                                       Document="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
                             </Grid>
                         </Grid>
                     </Grid>
