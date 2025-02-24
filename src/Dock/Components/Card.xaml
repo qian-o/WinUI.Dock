@@ -4,9 +4,9 @@
     <Style x:Key="Card"
            TargetType="Border">
         <Setter Property="Background"
-                Value="{StaticResource CardBackgroundFillColorDefaultBrush}" />
+                Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
         <Setter Property="BorderBrush"
-                Value="{StaticResource CardStrokeColorDefaultBrush}" />
+                Value="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness"
                 Value="1" />
         <Setter Property="CornerRadius"

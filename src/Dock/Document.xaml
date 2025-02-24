@@ -1,11 +1,86 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:dock="using:Dock">
+                    xmlns:dock="using:Dock"
+                    xmlns:components="using:Dock.Components">
+
     <Style TargetType="dock:Document">
+        <Setter Property="CanDrag"
+                Value="True" />
+        <Setter Property="AllowDrop"
+                Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:Document">
-                    <ContentPresenter Padding="8"
-                                      Content="{TemplateBinding Content}" />
+                    <Grid Background="Transparent">
+                        <ContentPresenter Padding="8"
+                                          Content="{TemplateBinding Content}" />
+
+                        <Grid Name="PART_DragIndicator"
+                              Width="184"
+                              Height="184"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Visibility="Collapsed">
+                            <Path Data="M0,19.42 L0,12.59 L10.89,12.59 L12.58,10.9 L12.58,0.01 L19.41,0.01 L19.41,10.9 L21.1,12.59 L31.99,12.59 L31.99,19.42 L21.1,19.42 L19.41,21.11 L19.41,32 L12.58,32 L12.58,21.11 L10.89,19.42 L0,19.42 Z"
+                                  Fill="{ThemeResource ControlFillColorDefaultBrush}"
+                                  Stretch="Uniform"
+                                  Stroke="{ThemeResource CardStrokeColorDefaultBrush}"
+                                  StrokeThickness="1" />
+
+                            <Grid HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <components:DockTarget Grid.Column="0"
+                                                       Grid.Row="2"
+                                                       Target="DockLeft" />
+
+                                <components:DockTarget Grid.Column="1"
+                                                       Grid.Row="2"
+                                                       Target="SplitLeft" />
+
+                                <components:DockTarget Grid.Column="2"
+                                                       Grid.Row="2"
+                                                       Target="Center" />
+
+                                <components:DockTarget Grid.Column="3"
+                                                       Grid.Row="2"
+                                                       Target="SplitRight" />
+
+                                <components:DockTarget Grid.Column="4"
+                                                       Grid.Row="2"
+                                                       Target="DockRight" />
+
+                                <components:DockTarget Grid.Column="2"
+                                                       Grid.Row="0"
+                                                       Target="DockTop" />
+
+                                <components:DockTarget Grid.Column="2"
+                                                       Grid.Row="1"
+                                                       Target="SplitTop" />
+
+                                <components:DockTarget Grid.Column="2"
+                                                       Grid.Row="3"
+                                                       Target="SplitBottom" />
+
+                                <components:DockTarget Grid.Column="2"
+                                                       Grid.Row="4"
+                                                       Target="DockBottom" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
