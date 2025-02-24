@@ -18,6 +18,8 @@ public abstract class Container<T> : Component, IContainer where T : IComponent
 
     public int Count => Children.Count;
 
+    public bool AutoRemove { get; set; } = true;
+
     public void Add(IComponent component)
     {
         if (component is T child)
@@ -110,7 +112,7 @@ public abstract class Container<T> : Component, IContainer where T : IComponent
             }
         }
 
-        if (Count is 0 && Owner is IContainer container)
+        if (AutoRemove && Count is 0 && Owner is IContainer container)
         {
             container.Remove(this);
         }

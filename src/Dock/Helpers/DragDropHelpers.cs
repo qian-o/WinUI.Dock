@@ -2,7 +2,7 @@
 
 internal static class DragDropHelpers
 {
-    private readonly static Dictionary<string, object> datas = [];
+    private static readonly Dictionary<string, object> datas = [];
 
     public static string AddData(object data)
     {

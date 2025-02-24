@@ -6,6 +6,8 @@ public interface IContainer : IComponent
 
     int Count { get; }
 
+    bool AutoRemove { get; set; }
+
     void Add(IComponent component);
 
     void Add(IComponent component, int index);

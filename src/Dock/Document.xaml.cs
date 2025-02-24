@@ -58,6 +58,11 @@ public partial class Document : Component
         set => SetValue(ContentProperty, value);
     }
 
+    public void IsDrop()
+    {
+        dragIndicator.Visibility = Visibility.Collapsed;
+    }
+
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
@@ -80,6 +85,8 @@ public partial class Document : Component
         bitmapImage.SetSource(stream);
 
         args.DragUI.SetContentFromBitmapImage(bitmapImage);
+
+        SyncSize(Owner!);
 
         Detach();
     }

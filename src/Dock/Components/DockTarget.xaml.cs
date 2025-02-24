@@ -35,8 +35,7 @@ public sealed partial class DockTarget : UserControl
 
     public Document Document
     {
-        get { return (Document)GetValue(DocumentProperty); }
-        set { SetValue(DocumentProperty, value); }
+        get => (Document)GetValue(DocumentProperty); set => SetValue(DocumentProperty, value);
     }
 
     private void OnDragOver(object sender, DragEventArgs e)
@@ -61,35 +60,32 @@ public sealed partial class DockTarget : UserControl
         Document document = (Document)DragDropHelpers.GetData(e.DataView.GetTextAsync().GetResults());
         DocumentContainer documentContainer = (DocumentContainer)document.Owner!;
 
-        DocumentContainer documentContainer1 = (DocumentContainer)Document.Owner!;
-        IContainer container = (IContainer)documentContainer1.Owner!;
+        DocumentContainer selfContainer = (DocumentContainer)Document.Owner!;
+        IContainer container = (IContainer)selfContainer.Owner!;
 
         switch (Target)
         {
             case Target.Center:
                 {
-                    document.Detach();
+                    selfContainer.Add(document);
 
-                    documentContainer1.Add(document);
-
-                    documentContainer1.Install(documentContainer1.Count - 1);
+                    selfContainer.Install(selfContainer.Count - 1);
                 }
                 break;
             case Target.SplitLeft:
                 {
-                    int containerIndex = ((IContainer)documentContainer1.Owner!).IndexOf(documentContainer1);
+                    container.AutoRemove = false;
 
-                    document.Detach();
-                    documentContainer1.Detach();
+                    int index = container.IndexOf(selfContainer);
 
-                    DocumentContainer left = new()
-                    {
-                        CanAnchor = documentContainer.CanAnchor
-                    };
+                    selfContainer.Detach();
+
+                    DocumentContainer left = new();
                     left.Add(document);
-                    left.SyncSize(documentContainer);
 
-                    DocumentContainer right = documentContainer1;
+                    left.SyncSize(document);
+
+                    DocumentContainer right = selfContainer;
 
                     LayoutContainer layoutContainer = new()
                     {
@@ -98,9 +94,11 @@ public sealed partial class DockTarget : UserControl
                     layoutContainer.Add(left);
                     layoutContainer.Add(right);
 
-                    layoutContainer.SyncSize(documentContainer1);
+                    layoutContainer.SyncSize(selfContainer);
 
-                    container.Add(layoutContainer, containerIndex);
+                    container.Add(layoutContainer, index);
+
+                    container.AutoRemove = true;
                 }
                 break;
             case Target.SplitTop:
@@ -118,5 +116,7 @@ public sealed partial class DockTarget : UserControl
             case Target.DockBottom:
                 break;
         }
+
+        Document.IsDrop();
     }
 }

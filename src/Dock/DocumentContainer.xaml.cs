@@ -60,7 +60,7 @@ public partial class DocumentContainer : Container<Document>
                 IsClosable = item.CanClose
             };
 
-            tabViewItem.DragStarting +=  (_, e) => e.Data.SetText(DragDropHelpers.AddData(item));
+            tabViewItem.DragStarting += (_, e) => e.Data.SetText(DragDropHelpers.AddData(item));
 
             tabViewItem.CloseRequested += (_, _) => item.Detach();
 
