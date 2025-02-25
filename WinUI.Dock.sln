@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUI.Dock", "src\WinUI.Doc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dock", "src\Dock\Dock.csproj", "{248805D1-FAF5-5A62-4C2F-90268E8D053F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{7455C207-E2C4-4873-B041-BF09A8C3B17D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUIApp", "examples\WinUIApp\WinUIApp.csproj", "{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,9 +33,18 @@ Global
 		{248805D1-FAF5-5A62-4C2F-90268E8D053F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{248805D1-FAF5-5A62-4C2F-90268E8D053F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{248805D1-FAF5-5A62-4C2F-90268E8D053F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8}.Debug|Any CPU.Build.0 = Debug|x64
+		{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8}.Release|Any CPU.ActiveCfg = Release|x64
+		{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8}.Release|Any CPU.Build.0 = Release|x64
+		{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8}.Release|Any CPU.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3DEF334-4D72-4CBA-9B4B-BD1C7FB13CE8} = {7455C207-E2C4-4873-B041-BF09A8C3B17D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D3DD2FB-A68E-4D44-B2F8-70D1A4D1A294}
