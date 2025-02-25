@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 
 namespace Dock;
@@ -81,6 +82,37 @@ public partial class DocumentContainer : Container<Document>
                 item.SyncSize(item.Owner!);
 
                 item.Detach();
+            };
+
+            tabViewItem.DropCompleted += (_, e) =>
+            {
+                if (e.DropResult is DataPackageOperation.Link or DataPackageOperation.None)
+                {
+                    DocumentContainer documentContainer = new()
+                    {
+                        CanAnchor = false
+                    };
+                    documentContainer.Add(item);
+
+                    LayoutContainer layoutContainer = new()
+                    {
+                        Orientation = Orientation.Horizontal
+                    };
+                    layoutContainer.Add(documentContainer);
+
+                    DockingManager dockingManager = new()
+                    {
+                        Container = layoutContainer
+                    };
+
+                    Window window = new()
+                    {
+                        ExtendsContentIntoTitleBar = true,
+                        Content = dockingManager
+                    };
+
+                    window.Activate();
+                }
             };
 
             tabViewItem.CloseRequested += (_, _) => item.Detach();
