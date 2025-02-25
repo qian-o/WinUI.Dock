@@ -4,6 +4,8 @@ using Dock.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
 
 namespace Dock;
 
@@ -60,9 +62,21 @@ public partial class DocumentContainer : Container<Document>
                 IsClosable = item.CanClose
             };
 
-            tabViewItem.DragStarting += (_, e) =>
+            tabViewItem.DragStarting += async (_, e) =>
             {
                 e.Data.SetText(DragDropHelpers.AddData(item));
+
+                RenderTargetBitmap renderTargetBitmap = new();
+                await renderTargetBitmap.RenderAsync(this);
+                IBuffer buffer = await renderTargetBitmap.GetPixelsAsync();
+
+                using InMemoryRandomAccessStream stream = new();
+                await stream.WriteAsync(buffer);
+
+                BitmapImage bitmapImage = new();
+                bitmapImage.SetSource(stream);
+
+                e.DragUI.SetContentFromBitmapImage(bitmapImage);
 
                 item.SyncSize(item.Owner!);
 
