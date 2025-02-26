@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="using:WinUI.Dock">
+                    xmlns:dock="using:WinUI.Dock">
 
-    <Style TargetType="local:Document">
+    <Style TargetType="dock:Document">
 
     </Style>
 
