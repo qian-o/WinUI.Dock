@@ -8,7 +8,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DockingManager">
-                    
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
