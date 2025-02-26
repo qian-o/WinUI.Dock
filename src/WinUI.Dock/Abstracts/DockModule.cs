@@ -1,58 +1,55 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿namespace WinUI.Dock.Abstracts;
 
-namespace WinUI.Dock.Abstracts;
-
-public abstract class DockControl : Control
+public abstract class DockModule : Control
 {
     public static readonly DependencyProperty OwnerProperty = DependencyProperty.Register(nameof(Owner),
-                                                                                          typeof(DockControl),
-                                                                                          typeof(DockControl),
+                                                                                          typeof(DockModule),
+                                                                                          typeof(DockModule),
                                                                                           new PropertyMetadata(null));
 
     public static readonly DependencyProperty RootProperty = DependencyProperty.Register(nameof(Root),
                                                                                          typeof(DockingManager),
-                                                                                         typeof(DockControl),
+                                                                                         typeof(DockModule),
                                                                                          new PropertyMetadata(null));
 
     public static readonly DependencyProperty DockMinWidthProperty = DependencyProperty.Register(nameof(DockMinWidth),
                                                                                                  typeof(double),
-                                                                                                 typeof(DockControl),
+                                                                                                 typeof(DockModule),
                                                                                                  new PropertyMetadata(0.0));
 
     public static readonly DependencyProperty DockMaxWidthProperty = DependencyProperty.Register(nameof(DockMaxWidth),
                                                                                                  typeof(double),
-                                                                                                 typeof(DockControl),
+                                                                                                 typeof(DockModule),
                                                                                                  new PropertyMetadata(double.PositiveInfinity));
 
     public static readonly DependencyProperty DockWidthProperty = DependencyProperty.Register(nameof(DockWidth),
                                                                                               typeof(double),
-                                                                                              typeof(DockControl),
+                                                                                              typeof(DockModule),
                                                                                               new PropertyMetadata(double.NaN));
 
     public static readonly DependencyProperty DockMinHeightProperty = DependencyProperty.Register(nameof(DockMinHeight),
                                                                                                   typeof(double),
-                                                                                                  typeof(DockControl),
+                                                                                                  typeof(DockModule),
                                                                                                   new PropertyMetadata(0.0));
 
     public static readonly DependencyProperty DockMaxHeightProperty = DependencyProperty.Register(nameof(DockMaxHeight),
                                                                                                   typeof(double),
-                                                                                                  typeof(DockControl),
+                                                                                                  typeof(DockModule),
                                                                                                   new PropertyMetadata(double.PositiveInfinity));
 
     public static readonly DependencyProperty DockHeightProperty = DependencyProperty.Register(nameof(DockHeight),
                                                                                                typeof(double),
-                                                                                               typeof(DockControl),
+                                                                                               typeof(DockModule),
                                                                                                new PropertyMetadata(double.NaN));
 
-    protected DockControl()
+    protected DockModule()
     {
         SizeChanged += OnSizeChanged;
     }
 
-    public DockControl? Owner
+    public DockModule? Owner
     {
-        get => (DockControl)GetValue(OwnerProperty);
+        get => (DockModule)GetValue(OwnerProperty);
         internal set => SetValue(OwnerProperty, value);
     }
 
@@ -98,7 +95,7 @@ public abstract class DockControl : Control
         set => SetValue(DockHeightProperty, value);
     }
 
-    public void Attach(DockControl owner)
+    public void Attach(DockModule owner)
     {
         if (Owner == owner)
         {
@@ -113,9 +110,9 @@ public abstract class DockControl : Control
 
     public void Detach()
     {
-        if (Owner is DockControlGroup group)
+        if (Owner is DockContainer container)
         {
-            group.Children.Remove(this);
+            container.Children.Remove(this);
         }
 
         Owner = null;
