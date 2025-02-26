@@ -9,6 +9,11 @@ public partial class SplitPanel : DockContainer
                                                                                                 typeof(SplitPanel),
                                                                                                 new PropertyMetadata(Orientation.Vertical));
 
+    public SplitPanel()
+    {
+        DefaultStyleKey = typeof(SplitPanel);
+    }
+
     public Orientation Orientation
     {
         get => (Orientation)GetValue(OrientationProperty);

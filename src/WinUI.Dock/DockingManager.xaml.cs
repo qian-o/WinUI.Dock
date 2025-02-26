@@ -10,6 +10,11 @@ public partial class DockingManager : Control
                                                                                           typeof(DockingManager),
                                                                                           new PropertyMetadata(null));
 
+    public DockingManager()
+    {
+        DefaultStyleKey = typeof(DockingManager);
+    }
+
     public SplitPanel? Panel
     {
         get => (SplitPanel)GetValue(PanelProperty);

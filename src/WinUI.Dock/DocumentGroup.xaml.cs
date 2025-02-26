@@ -4,6 +4,11 @@ namespace WinUI.Dock;
 
 public partial class DocumentGroup : DockContainer
 {
+    public DocumentGroup()
+    {
+        DefaultStyleKey = typeof(DocumentGroup);
+    }
+
     protected override void LoadChildren()
     {
     }
