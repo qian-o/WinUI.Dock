@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI.Controls;
+﻿using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -36,7 +36,7 @@ public sealed partial class SideDocument : UserControl
         if (IsLeft)
         {
             ContentSizer.Orientation = Orientation.Vertical;
-            ContentSizer.FlowDirection = FlowDirection.LeftToRight;
+            ContentSizer.IsDragInverted = false;
 
             Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
             Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
@@ -47,7 +47,7 @@ public sealed partial class SideDocument : UserControl
         else if (IsTop)
         {
             ContentSizer.Orientation = Orientation.Horizontal;
-            ContentSizer.FlowDirection = FlowDirection.LeftToRight;
+            ContentSizer.IsDragInverted = false;
 
             Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
             Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
@@ -58,7 +58,7 @@ public sealed partial class SideDocument : UserControl
         else if (IsRight)
         {
             ContentSizer.Orientation = Orientation.Vertical;
-            ContentSizer.FlowDirection = FlowDirection.RightToLeft;
+            ContentSizer.IsDragInverted = true;
 
             Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
             Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
@@ -69,7 +69,7 @@ public sealed partial class SideDocument : UserControl
         else if (IsBottom)
         {
             ContentSizer.Orientation = Orientation.Horizontal;
-            ContentSizer.FlowDirection = FlowDirection.RightToLeft;
+            ContentSizer.IsDragInverted = true;
 
             Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
             Grid.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
