@@ -2,9 +2,9 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/DockingManagerTemplate.xaml" />
+        <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/DockLayoutTemplate.xaml" />
         <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/DocumentTemplate.xaml" />
         <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/DocumentGroupTemplate.xaml" />
-        <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/SplitPanelTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

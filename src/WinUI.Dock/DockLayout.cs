@@ -2,16 +2,16 @@
 
 namespace WinUI.Dock;
 
-public partial class SplitPanel : DockContainer
+public partial class DockLayout : DockContainer
 {
     public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
                                                                                                 typeof(Orientation),
-                                                                                                typeof(SplitPanel),
+                                                                                                typeof(DockLayout),
                                                                                                 new PropertyMetadata(Orientation.Vertical));
 
-    public SplitPanel()
+    public DockLayout()
     {
-        DefaultStyleKey = typeof(SplitPanel);
+        DefaultStyleKey = typeof(DockLayout);
     }
 
     public Orientation Orientation
