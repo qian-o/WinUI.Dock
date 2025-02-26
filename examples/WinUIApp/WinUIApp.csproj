@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Dock\Dock.csproj" />
+        <ProjectReference Include="..\..\src\WinUI.Dock\WinUI.Dock.csproj" />
     </ItemGroup>
 
     <PropertyGroup>

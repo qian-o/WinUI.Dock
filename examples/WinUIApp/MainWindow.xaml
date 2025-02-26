@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dock="using:Dock"
+        xmlns:winuiDock="using:WinUI.Dock"
         mc:Ignorable="d"
         Title="WinUIApp">
     <Grid>
@@ -17,110 +18,125 @@
             </Style>
         </Grid.Resources>
 
-        <dock:DockingManager>
-            <dock:DockingManager.Left>
-                <dock:DocumentContainer>
-                    <dock:Document Title="工具箱">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="工具箱" />
-                        </Border>
-                    </dock:Document>
-                    <dock:Document Title="数据源">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="数据源" />
-                        </Border>
-                    </dock:Document>
-                </dock:DocumentContainer>
-            </dock:DockingManager.Left>
-
-            <dock:DockingManager.Top>
-                <dock:DocumentContainer CanAnchor="False">
-                    <dock:Document Title="菜单">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="菜单" />
-                        </Border>
-                    </dock:Document>
-                </dock:DocumentContainer>
-            </dock:DockingManager.Top>
-
-            <dock:DockingManager.Right>
-                <dock:DocumentContainer>
-                    <dock:Document Title="解决方案资源管理器">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="解决方案资源管理器" />
-                        </Border>
-                    </dock:Document>
-                    <dock:Document Title="Git 更改">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="Git 更改" />
-                        </Border>
-                    </dock:Document>
-                </dock:DocumentContainer>
-                <dock:DocumentContainer>
-                    <dock:Document Title="属性">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="属性" />
-                        </Border>
-                    </dock:Document>
-                </dock:DocumentContainer>
-            </dock:DockingManager.Right>
-
-            <dock:DockingManager.Bottom>
-                <dock:DocumentContainer>
-                    <dock:Document Title="状态栏">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="状态栏" />
-                        </Border>
-                    </dock:Document>
-                </dock:DocumentContainer>
-            </dock:DockingManager.Bottom>
-
-            <dock:LayoutContainer Orientation="Horizontal">
-                <dock:LayoutContainer Orientation="Vertical"
-                                      DockWidth="4*">
-                    <dock:DocumentContainer CanAnchor="False"
-                                            DockHeight="3*">
-                        <dock:Document Title="Document 1"
-                                       CanClose="False">
-                            <Border Style="{StaticResource Space}">
-                                <TextBlock Text="Document 1" />
-                            </Border>
-                        </dock:Document>
-                        <dock:Document Title="Document 2"
-                                       CanClose="False">
-                            <Border Style="{StaticResource Space}">
-                                <TextBlock Text="Document 2" />
-                            </Border>
-                        </dock:Document>
-                    </dock:DocumentContainer>
-
-                    <dock:LayoutContainer Orientation="Horizontal"
-                                          DockHeight="1*">
-                        <dock:DocumentContainer DockWidth="1*">
-                            <dock:Document Title="错误列表">
+        <TabView VerticalAlignment="Stretch">
+            <TabViewItem Header="Dock">
+                <dock:DockingManager>
+                    <dock:DockingManager.Left>
+                        <dock:DocumentContainer>
+                            <dock:Document Title="工具箱">
                                 <Border Style="{StaticResource Space}">
-                                    <TextBlock Text="错误列表" />
+                                    <TextBlock Text="工具箱" />
+                                </Border>
+                            </dock:Document>
+                            <dock:Document Title="数据源">
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="数据源" />
                                 </Border>
                             </dock:Document>
                         </dock:DocumentContainer>
-                        <dock:DocumentContainer DockWidth="1.5*">
-                            <dock:Document Title="输出">
+                    </dock:DockingManager.Left>
+
+                    <dock:DockingManager.Top>
+                        <dock:DocumentContainer CanAnchor="False">
+                            <dock:Document Title="菜单">
                                 <Border Style="{StaticResource Space}">
-                                    <TextBlock Text="输出" />
+                                    <TextBlock Text="菜单" />
+                                </Border>
+                            </dock:Document>
+                        </dock:DocumentContainer>
+                    </dock:DockingManager.Top>
+
+                    <dock:DockingManager.Right>
+                        <dock:DocumentContainer>
+                            <dock:Document Title="解决方案资源管理器">
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="解决方案资源管理器" />
+                                </Border>
+                            </dock:Document>
+                            <dock:Document Title="Git 更改">
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="Git 更改" />
+                                </Border>
+                            </dock:Document>
+                        </dock:DocumentContainer>
+                        <dock:DocumentContainer>
+                            <dock:Document Title="属性">
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="属性" />
+                                </Border>
+                            </dock:Document>
+                        </dock:DocumentContainer>
+                    </dock:DockingManager.Right>
+
+                    <dock:DockingManager.Bottom>
+                        <dock:DocumentContainer>
+                            <dock:Document Title="状态栏">
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="状态栏" />
+                                </Border>
+                            </dock:Document>
+                        </dock:DocumentContainer>
+                    </dock:DockingManager.Bottom>
+
+                    <dock:LayoutContainer Orientation="Horizontal">
+                        <dock:LayoutContainer Orientation="Vertical"
+                                              DockWidth="4*">
+                            <dock:DocumentContainer CanAnchor="False"
+                                                    DockHeight="3*">
+                                <dock:Document Title="Document 1"
+                                               CanClose="False">
+                                    <Border Style="{StaticResource Space}">
+                                        <TextBlock Text="Document 1" />
+                                    </Border>
+                                </dock:Document>
+                                <dock:Document Title="Document 2"
+                                               CanClose="False">
+                                    <Border Style="{StaticResource Space}">
+                                        <TextBlock Text="Document 2" />
+                                    </Border>
+                                </dock:Document>
+                            </dock:DocumentContainer>
+
+                            <dock:LayoutContainer Orientation="Horizontal"
+                                                  DockHeight="1*">
+                                <dock:DocumentContainer DockWidth="1*">
+                                    <dock:Document Title="错误列表">
+                                        <Border Style="{StaticResource Space}">
+                                            <TextBlock Text="错误列表" />
+                                        </Border>
+                                    </dock:Document>
+                                </dock:DocumentContainer>
+                                <dock:DocumentContainer DockWidth="1.5*">
+                                    <dock:Document Title="输出">
+                                        <Border Style="{StaticResource Space}">
+                                            <TextBlock Text="输出" />
+                                        </Border>
+                                    </dock:Document>
+                                </dock:DocumentContainer>
+                            </dock:LayoutContainer>
+                        </dock:LayoutContainer>
+
+                        <dock:DocumentContainer DockWidth="1*">
+                            <dock:Document Title="Right 1">
+                                <Border Style="{StaticResource Space}">
+                                    <TextBlock Text="Right 1" />
                                 </Border>
                             </dock:Document>
                         </dock:DocumentContainer>
                     </dock:LayoutContainer>
-                </dock:LayoutContainer>
-
-                <dock:DocumentContainer DockWidth="1*">
-                    <dock:Document Title="Right 1">
-                        <Border Style="{StaticResource Space}">
-                            <TextBlock Text="Right 1" />
-                        </Border>
-                    </dock:Document>
-                </dock:DocumentContainer>
-            </dock:LayoutContainer>
-        </dock:DockingManager>
+                </dock:DockingManager>
+            </TabViewItem>
+            <TabViewItem Header="WinUI Dock">
+                <winuiDock:DockingManager>
+                    <winuiDock:DockingManager.LeftSide>
+                        <winuiDock:Document Title="工具箱">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="工具箱" />
+                            </Border>
+                        </winuiDock:Document>
+                    </winuiDock:DockingManager.LeftSide>
+                </winuiDock:DockingManager>
+            </TabViewItem>
+        </TabView>
     </Grid>
 </Window>
