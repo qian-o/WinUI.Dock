@@ -1,1 +1,0 @@
-﻿This is the final project to implement the docking functionality, intended to support both WinUI and the Uno Platform.
