@@ -45,6 +45,11 @@ public abstract class DockControl : Control
                                                                                                typeof(DockControl),
                                                                                                new PropertyMetadata(double.NaN));
 
+    protected DockControl()
+    {
+        SizeChanged += OnSizeChanged;
+    }
+
     public DockControl? Owner
     {
         get => (DockControl)GetValue(OwnerProperty);
@@ -115,5 +120,11 @@ public abstract class DockControl : Control
 
         Owner = null;
         Root = null;
+    }
+
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        DockWidth = ActualWidth;
+        DockHeight = ActualHeight;
     }
 }

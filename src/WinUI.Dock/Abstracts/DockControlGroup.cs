@@ -14,27 +14,35 @@ public abstract class DockControlGroup : DockControl
 
     public ObservableCollection<DockControl> Children { get; } = [];
 
-    public void ClearEmptyGroup()
+    public void DetachByEmptyGroup()
     {
         for (int i = Children.Count - 1; i >= 0; i--)
         {
             if (Children[i] is DockControlGroup group)
             {
-                group.ClearEmptyGroup();
-
-                if (group.Children.Count is 0)
-                {
-                    Children.RemoveAt(i);
-                }
+                group.DetachByEmptyGroup();
             }
+        }
+
+        if (Children.Count is 0)
+        {
+            Detach();
         }
     }
 
+    protected abstract void LoadChildren();
+
+    protected abstract void UnloadChildren();
+
     protected virtual void Children_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
+        UnloadChildren();
+
         foreach (DockControl control in Children)
         {
             control.Attach(this);
         }
+
+        LoadChildren();
     }
 }
