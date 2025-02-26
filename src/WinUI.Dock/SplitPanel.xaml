@@ -3,7 +3,7 @@
                     xmlns:local="using:WinUI.Dock">
 
     <Style TargetType="local:SplitPanel">
-        
+
     </Style>
-    
+
 </ResourceDictionary>
