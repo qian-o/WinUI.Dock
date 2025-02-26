@@ -10,6 +10,11 @@ public partial class DockingManager : Control
                                                                                           typeof(DockingManager),
                                                                                           new PropertyMetadata(null));
 
+    public static readonly DependencyProperty ActiveDocumentProperty = DependencyProperty.Register(nameof(ActiveDocument),
+                                                                                                   typeof(Document),
+                                                                                                   typeof(DockingManager),
+                                                                                                   new PropertyMetadata(null));
+
     public DockingManager()
     {
         DefaultStyleKey = typeof(DockingManager);
@@ -19,6 +24,12 @@ public partial class DockingManager : Control
     {
         get => (SplitPanel)GetValue(PanelProperty);
         set => SetValue(PanelProperty, value);
+    }
+
+    public Document? ActiveDocument
+    {
+        get => (Document)GetValue(ActiveDocumentProperty);
+        set => SetValue(ActiveDocumentProperty, value);
     }
 
     public ObservableCollection<Document> LeftSide { get; } = [];
