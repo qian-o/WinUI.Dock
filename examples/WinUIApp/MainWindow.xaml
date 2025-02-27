@@ -127,15 +127,15 @@
                 </dock:DockingManager>
             </TabViewItem>
             <TabViewItem Header="WinUI Dock">
-                <winuiDock:DockingManager>
-                    <winuiDock:DockingManager.LeftSide>
+                <winuiDock:DockManager>
+                    <winuiDock:DockManager.LeftSide>
                         <winuiDock:Document Title="工具箱">
                             <Border Style="{StaticResource Space}">
                                 <TextBlock Text="工具箱" />
                             </Border>
                         </winuiDock:Document>
-                    </winuiDock:DockingManager.LeftSide>
-                </winuiDock:DockingManager>
+                    </winuiDock:DockManager.LeftSide>
+                </winuiDock:DockManager>
             </TabViewItem>
         </TabView>
     </Grid>

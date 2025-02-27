@@ -1,7 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/Styles.xaml" />
+        <ResourceDictionary Source="ms-appx:///WinUI.Dock/DockManager.xaml" />
+        <ResourceDictionary Source="ms-appx:///WinUI.Dock/Document.xaml" />
+        <ResourceDictionary Source="ms-appx:///WinUI.Dock/DocumentGroup.xaml" />
+        <ResourceDictionary Source="ms-appx:///WinUI.Dock/LayoutPanel.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

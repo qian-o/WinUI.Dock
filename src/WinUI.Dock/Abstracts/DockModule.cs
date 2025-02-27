@@ -8,7 +8,7 @@ public abstract class DockModule : Control
                                                                                           new PropertyMetadata(null));
 
     public static readonly DependencyProperty RootProperty = DependencyProperty.Register(nameof(Root),
-                                                                                         typeof(DockingManager),
+                                                                                         typeof(DockManager),
                                                                                          typeof(DockModule),
                                                                                          new PropertyMetadata(null));
 
@@ -53,9 +53,9 @@ public abstract class DockModule : Control
         internal set => SetValue(OwnerProperty, value);
     }
 
-    public DockingManager? Root
+    public DockManager? Root
     {
-        get => (DockingManager)GetValue(RootProperty);
+        get => (DockManager)GetValue(RootProperty);
         internal set => SetValue(RootProperty, value);
     }
 

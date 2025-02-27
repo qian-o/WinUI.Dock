@@ -5,8 +5,27 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="DockManager.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Document.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="DocumentGroup.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="LayoutPanel.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="DockManager.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 
     <Choose>
