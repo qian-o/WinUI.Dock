@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using WinUI.Dock.Enums;
 
 namespace WinUI.Dock.Controls;
@@ -47,7 +48,14 @@ public sealed partial class Sidebar : UserControl
     {
         if (d is Sidebar sidebar)
         {
-            VisualStateManager.GoToState(sidebar, sidebar.DockSide.ToString(), true);
+            VisualStateManager.GoToState(sidebar, sidebar.DockSide.ToString(), false);
         }
+    }
+
+    private void Document_Click(object sender, RoutedEventArgs _)
+    {
+        Document document = (Document)((Button)sender).DataContext;
+
+        Debug.WriteLine($"Document {document.Title} clicked.");
     }
 }

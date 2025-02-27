@@ -13,7 +13,8 @@
                 <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
                         BorderThickness="0,0,0,4"
                         CornerRadius="0"
-                        Content="{Binding Title}" />
+                        Content="{Binding Title}"
+                        Click="Document_Click" />
             </DataTemplate>
 
             <DataTemplate x:Key="TopTemplate"
@@ -21,7 +22,8 @@
                 <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
                         BorderThickness="0,4,0,0"
                         CornerRadius="0"
-                        Content="{Binding Title}" />
+                        Content="{Binding Title}"
+                        Click="Document_Click" />
             </DataTemplate>
 
             <DataTemplate x:Key="RightTemplate"
@@ -29,7 +31,8 @@
                 <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
                         BorderThickness="0,4,0,0"
                         CornerRadius="0"
-                        Content="{Binding Title}" />
+                        Content="{Binding Title}"
+                        Click="Document_Click" />
             </DataTemplate>
 
             <DataTemplate x:Key="BottomTemplate"
@@ -37,7 +40,8 @@
                 <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
                         BorderThickness="0,0,0,4"
                         CornerRadius="0"
-                        Content="{Binding Title}" />
+                        Content="{Binding Title}"
+                        Click="Document_Click" />
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
