@@ -129,12 +129,73 @@
             <TabViewItem Header="WinUI Dock">
                 <winuiDock:DockManager>
                     <winuiDock:DockManager.LeftSide>
-                        <winuiDock:Document Title="工具箱">
+                        <winuiDock:Document Title="左侧 1">
                             <Border Style="{StaticResource Space}">
-                                <TextBlock Text="工具箱" />
+                                <TextBlock Text="左侧 1" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="左侧 2">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="左侧 2" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="左侧 3">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="左侧 3" />
                             </Border>
                         </winuiDock:Document>
                     </winuiDock:DockManager.LeftSide>
+                    <winuiDock:DockManager.TopSide>
+                        <winuiDock:Document Title="顶部 1">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="顶部 1" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="顶部 2">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="顶部 2" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="顶部 3">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="顶部 3" />
+                            </Border>
+                        </winuiDock:Document>
+                    </winuiDock:DockManager.TopSide>
+                    <winuiDock:DockManager.RightSide>
+                        <winuiDock:Document Title="右侧 1">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="右侧 1" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="右侧 2">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="右侧 2" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="右侧 3">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="右侧 3" />
+                            </Border>
+                        </winuiDock:Document>
+                    </winuiDock:DockManager.RightSide>
+                    <winuiDock:DockManager.BottomSide>
+                        <winuiDock:Document Title="底部 1">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="底部 1" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="底部 2">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="底部 2" />
+                            </Border>
+                        </winuiDock:Document>
+                        <winuiDock:Document Title="底部 3">
+                            <Border Style="{StaticResource Space}">
+                                <TextBlock Text="底部 3" />
+                            </Border>
+                        </winuiDock:Document>
+                    </winuiDock:DockManager.BottomSide>
                 </winuiDock:DockManager>
             </TabViewItem>
         </TabView>

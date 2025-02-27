@@ -3,7 +3,97 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+             xmlns:dock="using:WinUI.Dock"
              mc:Ignorable="d">
-    <Grid>
-    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="LeftTemplate"
+                          x:DataType="dock:Document">
+                <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
+                        BorderThickness="0,0,0,4"
+                        CornerRadius="0"
+                        Content="{Binding Title}" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="TopTemplate"
+                          x:DataType="dock:Document">
+                <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
+                        BorderThickness="0,4,0,0"
+                        CornerRadius="0"
+                        Content="{Binding Title}" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="RightTemplate"
+                          x:DataType="dock:Document">
+                <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
+                        BorderThickness="0,4,0,0"
+                        CornerRadius="0"
+                        Content="{Binding Title}" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="BottomTemplate"
+                          x:DataType="dock:Document">
+                <Button BorderBrush="{ThemeResource AccentFillColorTertiaryBrush}"
+                        BorderThickness="0,0,0,4"
+                        CornerRadius="0"
+                        Content="{Binding Title}" />
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <controls:LayoutTransformControl>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Left">
+                    <VisualState.Setters>
+                        <Setter Target="Rotate.Angle"
+                                Value="90" />
+                        <Setter Target="Items.ItemTemplate"
+                                Value="{StaticResource LeftTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Top">
+                    <VisualState.Setters>
+                        <Setter Target="Rotate.Angle"
+                                Value="0" />
+                        <Setter Target="Items.ItemTemplate"
+                                Value="{StaticResource TopTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Right">
+                    <VisualState.Setters>
+                        <Setter Target="Rotate.Angle"
+                                Value="90" />
+                        <Setter Target="Items.ItemTemplate"
+                                Value="{StaticResource RightTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Bottom">
+                    <VisualState.Setters>
+                        <Setter Target="Rotate.Angle"
+                                Value="0" />
+                        <Setter Target="Items.ItemTemplate"
+                                Value="{StaticResource BottomTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <controls:LayoutTransformControl.Transform>
+            <RotateTransform x:Name="Rotate" />
+        </controls:LayoutTransformControl.Transform>
+
+        <ItemsRepeater x:Name="Items"
+                       Margin="0,4,0,4"
+                       ItemsSource="{x:Bind Documents}">
+            <ItemsRepeater.Layout>
+                <StackLayout Orientation="Horizontal"
+                             Spacing="{StaticResource RatingControlItemSpacing}" />
+            </ItemsRepeater.Layout>
+        </ItemsRepeater>
+    </controls:LayoutTransformControl>
 </UserControl>

@@ -1,6 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using WinUI.Dock.Controls;
-using WinUI.Dock.Enums;
 
 namespace WinUI.Dock;
 
@@ -17,18 +15,8 @@ public partial class DockManager : Control
                                                                                                    typeof(DockManager),
                                                                                                    new PropertyMetadata(null));
 
-    private readonly Sidebar leftSidebar;
-    private readonly Sidebar topSidebar;
-    private readonly Sidebar rightSidebar;
-    private readonly Sidebar bottomSidebar;
-
     public DockManager()
     {
-        leftSidebar = new(DockSide.Left, this);
-        topSidebar = new(DockSide.Top, this);
-        rightSidebar = new(DockSide.Right, this);
-        bottomSidebar = new(DockSide.Bottom, this);
-
         DefaultStyleKey = typeof(DockManager);
     }
 
@@ -44,11 +32,11 @@ public partial class DockManager : Control
         set => SetValue(ActiveDocumentProperty, value);
     }
 
-    public ObservableCollection<Document> LeftSide => leftSidebar.Documents;
+    public ObservableCollection<Document> LeftSide { get; } = [];
 
-    public ObservableCollection<Document> TopSide => topSidebar.Documents;
+    public ObservableCollection<Document> TopSide { get; } = [];
 
-    public ObservableCollection<Document> RightSide => rightSidebar.Documents;
+    public ObservableCollection<Document> RightSide { get; } = [];
 
-    public ObservableCollection<Document> BottomSide => bottomSidebar.Documents;
+    public ObservableCollection<Document> BottomSide { get; } = [];
 }
