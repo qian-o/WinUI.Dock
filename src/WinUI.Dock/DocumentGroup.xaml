@@ -8,15 +8,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DocumentGroup">
                     <Grid Background="Transparent">
-                        <TabView VerticalAlignment="Stretch"
-                                 TabItemsSource="{Binding Children, RelativeSource={RelativeSource TemplatedParent}}">
-                            <TabView.TabItemTemplate>
-                                <DataTemplate>
-                                    <TabViewItem Header="{Binding ActualTitle}"
-                                                 Content="{Binding}" />
-                                </DataTemplate>
-                            </TabView.TabItemTemplate>
-                        </TabView>
+                        <TabView VerticalAlignment="Stretch" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

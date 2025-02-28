@@ -8,7 +8,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style x:Key="SideLeftBottomButton"
+            <Style x:Key="LeftBottomButtonStyle"
                    TargetType="Button">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -50,7 +50,7 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="TopRightBottomButton"
+            <Style x:Key="TopRightButtonStyle"
                    TargetType="Button">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -94,14 +94,14 @@
 
             <DataTemplate x:Key="LeftBottomTemplate"
                           x:DataType="dock:Document">
-                <Button Style="{StaticResource SideLeftBottomButton}"
+                <Button Style="{StaticResource LeftBottomButtonStyle}"
                         Content="{Binding ActualTitle}"
                         Click="Document_Click" />
             </DataTemplate>
 
             <DataTemplate x:Key="TopRightTemplate"
                           x:DataType="dock:Document">
-                <Button Style="{StaticResource TopRightBottomButton}"
+                <Button Style="{StaticResource TopRightButtonStyle}"
                         Content="{Binding ActualTitle}"
                         Click="Document_Click" />
             </DataTemplate>
