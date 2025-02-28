@@ -1,6 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:dock="using:WinUI.Dock">
-    
-    <Style TargetType="dock:Document" />
+
+    <Style TargetType="dock:Document">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="dock:Document">
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

@@ -2,10 +2,22 @@
                     xmlns:dock="using:WinUI.Dock">
 
     <Style TargetType="dock:DocumentGroup">
+        <Setter Property="AllowDrop"
+                Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DocumentGroup">
-                    <Border Background="Red" />
+                    <Grid Background="Transparent">
+                        <TabView VerticalAlignment="Stretch"
+                                 TabItemsSource="{Binding Children, RelativeSource={RelativeSource TemplatedParent}}">
+                            <TabView.TabItemTemplate>
+                                <DataTemplate>
+                                    <TabViewItem Header="{Binding Title}"
+                                                 Content="{Binding}" />
+                                </DataTemplate>
+                            </TabView.TabItemTemplate>
+                        </TabView>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
