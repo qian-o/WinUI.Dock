@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Media;
 using WinUI.Dock.Abstracts;
-using static CommunityToolkit.WinUI.Controls.GridSplitter;
 
 namespace WinUI.Dock;
 
@@ -60,7 +59,7 @@ public partial class LayoutPanel : DockContainer
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Top,
-                    ResizeDirection = GridResizeDirection.Rows,
+                    ResizeDirection = GridSplitter.GridResizeDirection.Rows,
                     RenderTransform = new TranslateTransform() { Y = -12 }
                 };
 
@@ -91,7 +90,7 @@ public partial class LayoutPanel : DockContainer
                 {
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Stretch,
-                    ResizeDirection = GridResizeDirection.Columns,
+                    ResizeDirection = GridSplitter.GridResizeDirection.Columns,
                     RenderTransform = new TranslateTransform() { X = -12 }
                 };
 
