@@ -13,7 +13,9 @@
                             <TabView.TabItemTemplate>
                                 <DataTemplate>
                                     <TabViewItem Header="{Binding Title}"
-                                                 Content="{Binding}" />
+                                                 Content="{Binding}"
+                                                 BorderThickness="2,2,2,0"
+                                                 BorderBrush="Red" />
                                 </DataTemplate>
                             </TabView.TabItemTemplate>
                         </TabView>
