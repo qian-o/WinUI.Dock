@@ -10,7 +10,7 @@
                 <ControlTemplate TargetType="dock:DocumentGroup">
                     <Border>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
+                            <VisualStateGroup x:Name="TabPosition">
                                 <VisualState x:Name="Top">
                                     <VisualState.Setters>
                                         <Setter Target="Scale.ScaleY"
@@ -24,7 +24,8 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                            <VisualStateGroup>
+
+                            <VisualStateGroup x:Name="IsTabWidthBasedOnContent">
                                 <VisualState x:Name="TabWidthEqual">
                                     <VisualState.Setters>
                                         <Setter Target="PART_Root.TabWidthMode"
@@ -39,7 +40,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        
+
                         <TabView x:Name="PART_Root"
                                  CanReorderTabs="False"
                                  VerticalAlignment="Stretch"
