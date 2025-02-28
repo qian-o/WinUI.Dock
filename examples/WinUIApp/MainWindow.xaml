@@ -196,6 +196,50 @@
                             </Border>
                         </winuiDock:Document>
                     </winuiDock:DockManager.BottomSide>
+
+                    <winuiDock:LayoutPanel Orientation="Vertical">
+                        <winuiDock:LayoutPanel DockHeight="2"
+                                               Orientation="Horizontal">
+                            <winuiDock:DocumentGroup DockWidth="2">
+                                <winuiDock:Document Title="文档 1">
+                                    <Border Style="{StaticResource Space}">
+                                        <TextBlock Text="文档 1" />
+                                    </Border>
+                                </winuiDock:Document>
+                                <winuiDock:Document Title="文档 2">
+                                    <Border Style="{StaticResource Space}">
+                                        <TextBlock Text="文档 2" />
+                                    </Border>
+                                </winuiDock:Document>
+                            </winuiDock:DocumentGroup>
+
+                            <winuiDock:DocumentGroup DockWidth="1">
+                                <winuiDock:Document Title="解决方案资源管理器">
+                                    <Border Style="{StaticResource Space}">
+                                        <TextBlock Text="解决方案资源管理器" />
+                                    </Border>
+                                </winuiDock:Document>
+                            </winuiDock:DocumentGroup>
+                        </winuiDock:LayoutPanel>
+
+                        <winuiDock:LayoutPanel DockHeight="1"
+                                               Orientation="Horizontal">
+                            <winuiDock:DocumentGroup>
+                                <winuiDock:Document Title="错误列表">
+                                    <Border Style="{StaticResource Space}">
+                                        <TextBlock Text="错误列表" />
+                                    </Border>
+                                </winuiDock:Document>
+                            </winuiDock:DocumentGroup>
+                            <winuiDock:DocumentGroup>
+                                <winuiDock:Document Title="输出">
+                                    <Border Style="{StaticResource Space}">
+                                        <TextBlock Text="输出" />
+                                    </Border>
+                                </winuiDock:Document>
+                            </winuiDock:DocumentGroup>
+                        </winuiDock:LayoutPanel>
+                    </winuiDock:LayoutPanel>
                 </winuiDock:DockManager>
             </TabViewItem>
         </TabView>

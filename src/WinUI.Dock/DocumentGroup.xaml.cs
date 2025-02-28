@@ -32,6 +32,10 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(IsTabWidthBasedOnContentProperty, value);
     }
 
+    protected override void LoadPart()
+    {
+    }
+
     protected override void LoadChildren()
     {
     }

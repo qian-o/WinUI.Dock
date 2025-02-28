@@ -29,6 +29,17 @@ public abstract class DockContainer : DockModule
         }
     }
 
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        LoadPart();
+
+        LoadChildren();
+    }
+
+    protected abstract void LoadPart();
+
     protected abstract void LoadChildren();
 
     protected abstract void UnloadChildren();
