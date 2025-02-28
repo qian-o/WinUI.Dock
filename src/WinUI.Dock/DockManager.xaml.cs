@@ -16,8 +16,6 @@ public partial class DockManager : Control
                                                                                                    typeof(DockManager),
                                                                                                    new PropertyMetadata(null));
 
-    private Border? popupContainer;
-
     public DockManager()
     {
         DefaultStyleKey = typeof(DockManager);
@@ -43,12 +41,12 @@ public partial class DockManager : Control
 
     public ObservableCollection<Document> BottomSide { get; } = [];
 
-    public Border? PopupContainer => popupContainer;
+    public Border? PopupContainer { get; private set; }
 
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        popupContainer = GetTemplateChild("PART_PopupContainer") as Border;
+        PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
     }
 }
