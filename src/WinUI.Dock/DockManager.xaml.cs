@@ -3,6 +3,7 @@
 namespace WinUI.Dock;
 
 [ContentProperty(Name = nameof(Panel))]
+[TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
 public partial class DockManager : Control
 {
     public static readonly DependencyProperty PanelProperty = DependencyProperty.Register(nameof(Panel),
@@ -14,6 +15,8 @@ public partial class DockManager : Control
                                                                                                    typeof(Document),
                                                                                                    typeof(DockManager),
                                                                                                    new PropertyMetadata(null));
+
+    private Border? popupContainer;
 
     public DockManager()
     {
@@ -39,4 +42,13 @@ public partial class DockManager : Control
     public ObservableCollection<Document> RightSide { get; } = [];
 
     public ObservableCollection<Document> BottomSide { get; } = [];
+
+    public Border? PopupContainer => popupContainer;
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        popupContainer = GetTemplateChild("PART_PopupContainer") as Border;
+    }
 }
