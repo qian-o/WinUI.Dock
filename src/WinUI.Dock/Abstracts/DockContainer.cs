@@ -33,12 +33,12 @@ public abstract class DockContainer : DockModule
     {
         base.OnApplyTemplate();
 
-        LoadPart();
+        InitTemplate();
 
         LoadChildren();
     }
 
-    protected abstract void LoadPart();
+    protected abstract void InitTemplate();
 
     protected abstract void LoadChildren();
 

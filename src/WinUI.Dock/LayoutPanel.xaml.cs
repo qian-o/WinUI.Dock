@@ -25,7 +25,7 @@ public partial class LayoutPanel : DockContainer
         set => SetValue(OrientationProperty, value);
     }
 
-    protected override void LoadPart()
+    protected override void InitTemplate()
     {
         root = GetTemplateChild("PART_Root") as Grid;
     }

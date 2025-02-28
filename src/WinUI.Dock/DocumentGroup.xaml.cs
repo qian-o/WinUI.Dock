@@ -8,12 +8,12 @@ public partial class DocumentGroup : DockContainer
     public static readonly DependencyProperty TabPositionProperty = DependencyProperty.Register(nameof(TabPosition),
                                                                                                 typeof(TabPosition),
                                                                                                 typeof(DocumentGroup),
-                                                                                                new PropertyMetadata(TabPosition.Top));
+                                                                                                new PropertyMetadata(TabPosition.Top, OnTabPositionChanged));
 
     public static readonly DependencyProperty IsTabWidthBasedOnContentProperty = DependencyProperty.Register(nameof(IsTabWidthBasedOnContent),
                                                                                                              typeof(bool),
                                                                                                              typeof(DocumentGroup),
-                                                                                                             new PropertyMetadata(false));
+                                                                                                             new PropertyMetadata(false, OnIsTabWidthBasedOnContentChanged));
 
     public DocumentGroup()
     {
@@ -32,8 +32,9 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(IsTabWidthBasedOnContentProperty, value);
     }
 
-    protected override void LoadPart()
+    protected override void InitTemplate()
     {
+        UpdateVisualState();
     }
 
     protected override void LoadChildren()
@@ -47,5 +48,27 @@ public partial class DocumentGroup : DockContainer
     protected override bool ValidateChildren()
     {
         return Children.All(static item => item is Document);
+    }
+
+    private void UpdateVisualState()
+    {
+        VisualStateManager.GoToState(this, TabPosition.ToString(), false);
+        VisualStateManager.GoToState(this, IsTabWidthBasedOnContent ? "TabWidthSizeToContent" : "TabWidthEqual", false);
+    }
+
+    private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DocumentGroup documentGroup)
+        {
+            documentGroup.UpdateVisualState();
+        }
+    }
+
+    private static void OnIsTabWidthBasedOnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DocumentGroup documentGroup)
+        {
+            documentGroup.UpdateVisualState();
+        }
     }
 }

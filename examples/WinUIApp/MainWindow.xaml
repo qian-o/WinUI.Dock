@@ -224,14 +224,16 @@
 
                         <winuiDock:LayoutPanel DockHeight="1"
                                                Orientation="Horizontal">
-                            <winuiDock:DocumentGroup>
+                            <winuiDock:DocumentGroup TabPosition="Bottom"
+                                                     IsTabWidthBasedOnContent="True">
                                 <winuiDock:Document Title="侧边##错误列表">
                                     <Border Style="{StaticResource Space}">
                                         <TextBlock Text="错误列表" />
                                     </Border>
                                 </winuiDock:Document>
                             </winuiDock:DocumentGroup>
-                            <winuiDock:DocumentGroup>
+                            <winuiDock:DocumentGroup TabPosition="Bottom"
+                                                     IsTabWidthBasedOnContent="True">
                                 <winuiDock:Document Title="侧边##输出">
                                     <Border Style="{StaticResource Space}">
                                         <TextBlock Text="输出" />
