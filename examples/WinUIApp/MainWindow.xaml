@@ -225,14 +225,14 @@
                         <winuiDock:LayoutPanel DockHeight="1"
                                                Orientation="Horizontal">
                             <winuiDock:DocumentGroup>
-                                <winuiDock:Document Title="错误列表">
+                                <winuiDock:Document Title="侧边##错误列表">
                                     <Border Style="{StaticResource Space}">
                                         <TextBlock Text="错误列表" />
                                     </Border>
                                 </winuiDock:Document>
                             </winuiDock:DocumentGroup>
                             <winuiDock:DocumentGroup>
-                                <winuiDock:Document Title="输出">
+                                <winuiDock:Document Title="侧边##输出">
                                     <Border Style="{StaticResource Space}">
                                         <TextBlock Text="输出" />
                                     </Border>

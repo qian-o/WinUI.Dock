@@ -12,10 +12,8 @@
                                  TabItemsSource="{Binding Children, RelativeSource={RelativeSource TemplatedParent}}">
                             <TabView.TabItemTemplate>
                                 <DataTemplate>
-                                    <TabViewItem Header="{Binding Title}"
-                                                 Content="{Binding}"
-                                                 BorderThickness="2,2,2,0"
-                                                 BorderBrush="Red" />
+                                    <TabViewItem Header="{Binding ActualTitle}"
+                                                 Content="{Binding}" />
                                 </DataTemplate>
                             </TabView.TabItemTemplate>
                         </TabView>

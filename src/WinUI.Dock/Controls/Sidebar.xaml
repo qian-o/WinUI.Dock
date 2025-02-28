@@ -95,14 +95,14 @@
             <DataTemplate x:Key="LeftBottomTemplate"
                           x:DataType="dock:Document">
                 <Button Style="{StaticResource SideLeftBottomButton}"
-                        Content="{Binding Title}"
+                        Content="{Binding ActualTitle}"
                         Click="Document_Click" />
             </DataTemplate>
 
             <DataTemplate x:Key="TopRightTemplate"
                           x:DataType="dock:Document">
                 <Button Style="{StaticResource TopRightBottomButton}"
-                        Content="{Binding Title}"
+                        Content="{Binding ActualTitle}"
                         Click="Document_Click" />
             </DataTemplate>
         </ResourceDictionary>

@@ -8,7 +8,7 @@ public partial class Document : DockModule
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
                                                                                           typeof(string),
                                                                                           typeof(Document),
-                                                                                          new PropertyMetadata(string.Empty));
+                                                                                          new PropertyMetadata(string.Empty, OnTitleChanged));
 
     public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content),
                                                                                             typeof(object),
@@ -24,6 +24,11 @@ public partial class Document : DockModule
                                                                                              typeof(bool),
                                                                                              typeof(Document),
                                                                                              new PropertyMetadata(true));
+
+    private static readonly DependencyProperty ActualTitleProperty = DependencyProperty.Register(nameof(ActualTitle),
+                                                                                                 typeof(string),
+                                                                                                 typeof(Document),
+                                                                                                 new PropertyMetadata(string.Empty));
 
     public Document()
     {
@@ -52,5 +57,19 @@ public partial class Document : DockModule
     {
         get => (bool)GetValue(CanCloseProperty);
         set => SetValue(CanCloseProperty, value);
+    }
+
+    public string ActualTitle
+    {
+        get => (string)GetValue(ActualTitleProperty);
+        private set => SetValue(ActualTitleProperty, value);
+    }
+
+    private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Document document)
+        {
+            document.ActualTitle = document.Title.Split("##").LastOrDefault() ?? document.Title;
+        }
     }
 }
