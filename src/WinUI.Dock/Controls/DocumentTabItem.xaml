@@ -11,8 +11,39 @@
                 <ScaleTransform x:Name="HeaderScale" />
             </Grid.RenderTransform>
 
-            <TextBlock VerticalAlignment="Center"
-                       Text="{x:Bind Document.ActualTitle}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0"
+                        Orientation="Horizontal">
+                <Border Width="4"
+                        Margin="0,2,6,2"
+                        CornerRadius="2"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}" />
+
+                <TextBlock VerticalAlignment="Center"
+                           Text="{x:Bind Document.ActualTitle}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal">
+                <Button Style="{x:Null}"
+                        Padding="8"
+                        BorderThickness="0"
+                        Background="Transparent">
+                    <FontIcon FontSize="12"
+                              Glyph="&#xE840;" />
+                </Button>
+                <Button Style="{x:Null}"
+                        Padding="8"
+                        BorderThickness="0"
+                        Background="Transparent">
+                    <FontIcon FontSize="12"
+                              Glyph="&#xE711;" />
+                </Button>
+            </StackPanel>
         </Grid>
     </TabViewItem.Header>
 
