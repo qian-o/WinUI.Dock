@@ -4,6 +4,44 @@
              HorizontalContentAlignment="Stretch"
              VerticalContentAlignment="Stretch"
              IsClosable="False">
+    <TabViewItem.Resources>
+        <ResourceDictionary>
+            <Style x:Key="IconButtonStyle"
+                   TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Root"
+                                    Padding="8"
+                                    CornerRadius="4"
+                                    Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Background"
+                                                        Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Background"
+                                                        Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <FontIcon FontSize="12"
+                                          Glyph="{TemplateBinding Content}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </TabViewItem.Resources>
+
     <TabViewItem.Header>
         <Grid Background="Transparent"
               RenderTransformOrigin="0.5,0.5">
@@ -28,21 +66,13 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1"
-                        Orientation="Horizontal">
-                <Button Style="{x:Null}"
-                        Padding="8"
-                        BorderThickness="0"
-                        Background="Transparent">
-                    <FontIcon FontSize="12"
-                              Glyph="&#xE840;" />
-                </Button>
-                <Button Style="{x:Null}"
-                        Padding="8"
-                        BorderThickness="0"
-                        Background="Transparent">
-                    <FontIcon FontSize="12"
-                              Glyph="&#xE711;" />
-                </Button>
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Margin="8,0,0,0">
+                <Button Style="{StaticResource IconButtonStyle}"
+                        Content="&#xE840;" />
+                <Button Style="{StaticResource IconButtonStyle}"
+                        Content="&#xF78A;" />
             </StackPanel>
         </Grid>
     </TabViewItem.Header>
