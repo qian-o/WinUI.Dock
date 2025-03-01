@@ -45,5 +45,13 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void Close_Click(object _, RoutedEventArgs __)
     {
+        if (Document is not null)
+        {
+            LayoutPanel? panel = Document.Root?.Panel;
+
+            Document.Detach();
+
+            panel?.DetachByEmptyChildren();
+        }
     }
 }

@@ -46,6 +46,14 @@ public abstract class DockContainer : DockModule
 
     protected abstract bool ValidateChildren();
 
+    protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
+    {
+        foreach (DockModule module in Children)
+        {
+            module.Root = newRoot;
+        }
+    }
+
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (ValidateChildren())

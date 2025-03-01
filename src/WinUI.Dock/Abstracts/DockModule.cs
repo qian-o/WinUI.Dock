@@ -10,7 +10,7 @@ public abstract class DockModule : Control
     public static readonly DependencyProperty RootProperty = DependencyProperty.Register(nameof(Root),
                                                                                          typeof(DockManager),
                                                                                          typeof(DockModule),
-                                                                                         new PropertyMetadata(null));
+                                                                                         new PropertyMetadata(null, (d, e) => ((DockModule)d).OnRootChanged((DockManager?)e.OldValue, (DockManager?)e.NewValue)));
 
     public static readonly DependencyProperty DockMinWidthProperty = DependencyProperty.Register(nameof(DockMinWidth),
                                                                                                  typeof(double),
@@ -117,6 +117,10 @@ public abstract class DockModule : Control
 
         Owner = null;
         Root = null;
+    }
+
+    protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
+    {
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)

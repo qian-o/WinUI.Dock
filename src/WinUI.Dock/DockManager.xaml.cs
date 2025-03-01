@@ -9,7 +9,7 @@ public partial class DockManager : Control
     public static readonly DependencyProperty PanelProperty = DependencyProperty.Register(nameof(Panel),
                                                                                           typeof(LayoutPanel),
                                                                                           typeof(DockManager),
-                                                                                          new PropertyMetadata(null));
+                                                                                          new PropertyMetadata(null, OnPanelChanged));
 
     public static readonly DependencyProperty ActiveDocumentProperty = DependencyProperty.Register(nameof(ActiveDocument),
                                                                                                    typeof(Document),
@@ -48,5 +48,21 @@ public partial class DockManager : Control
         base.OnApplyTemplate();
 
         PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
+    }
+
+    private static void OnPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DockManager dockManager)
+        {
+            if (e.OldValue is LayoutPanel oldPanel)
+            {
+                oldPanel.Root = null;
+            }
+
+            if (e.NewValue is LayoutPanel newPanel)
+            {
+                newPanel.Root = dockManager;
+            }
+        }
     }
 }
