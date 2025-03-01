@@ -15,10 +15,10 @@ public partial class Document : DockModule
                                                                                             typeof(Document),
                                                                                             new PropertyMetadata(null));
 
-    public static readonly DependencyProperty CanAnchorProperty = DependencyProperty.Register(nameof(CanAnchor),
-                                                                                              typeof(bool),
-                                                                                              typeof(Document),
-                                                                                              new PropertyMetadata(true));
+    public static readonly DependencyProperty CanPinProperty = DependencyProperty.Register(nameof(CanPin),
+                                                                                           typeof(bool),
+                                                                                           typeof(Document),
+                                                                                           new PropertyMetadata(true));
 
     public static readonly DependencyProperty CanCloseProperty = DependencyProperty.Register(nameof(CanClose),
                                                                                              typeof(bool),
@@ -47,10 +47,10 @@ public partial class Document : DockModule
         set => SetValue(ContentProperty, value);
     }
 
-    public bool CanAnchor
+    public bool CanPin
     {
-        get => (bool)GetValue(CanAnchorProperty);
-        set => SetValue(CanAnchorProperty, value);
+        get => (bool)GetValue(CanPinProperty);
+        set => SetValue(CanPinProperty, value);
     }
 
     public bool CanClose

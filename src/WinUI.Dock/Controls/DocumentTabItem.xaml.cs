@@ -18,7 +18,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     public void UpdateTabPosition(TabPosition tabPosition)
     {
-        double scale = tabPosition == TabPosition.Bottom ? -1 : 1;
+        double scale = tabPosition == TabPosition.Bottom ? -1.0 : 1.0;
 
         HeaderScale.ScaleY = scale;
         ContentScale.ScaleY = scale;

@@ -201,12 +201,16 @@
                         <winuiDock:LayoutPanel DockHeight="2"
                                                Orientation="Horizontal">
                             <winuiDock:DocumentGroup DockWidth="2">
-                                <winuiDock:Document Title="文档 1">
+                                <winuiDock:Document Title="文档 1"
+                                                    CanPin="False"
+                                                    CanClose="False">
                                     <Border Style="{StaticResource Space}">
                                         <TextBlock Text="文档 1" />
                                     </Border>
                                 </winuiDock:Document>
-                                <winuiDock:Document Title="文档 2">
+                                <winuiDock:Document Title="文档 2"
+                                                    CanPin="False"
+                                                    CanClose="False">
                                     <Border Style="{StaticResource Space}">
                                         <TextBlock Text="文档 2" />
                                     </Border>
