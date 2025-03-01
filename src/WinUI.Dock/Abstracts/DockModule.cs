@@ -108,11 +108,16 @@ public abstract class DockModule : Control
         Root = owner.Root;
     }
 
-    public void Detach()
+    public void Detach(bool detachEmptyContainer = true)
     {
         if (Owner is DockContainer container)
         {
             container.Children.Remove(this);
+
+            if (detachEmptyContainer)
+            {
+                container.DetachEmptyContainer();
+            }
         }
 
         Owner = null;

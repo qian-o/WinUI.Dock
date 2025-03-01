@@ -13,19 +13,19 @@ public abstract class DockContainer : DockModule
 
     public ObservableCollection<DockModule> Children { get; } = [];
 
-    public void DetachByEmptyChildren()
+    public void DetachEmptyContainer()
     {
         for (int i = Children.Count - 1; i >= 0; i--)
         {
             if (Children[i] is DockContainer container)
             {
-                container.DetachByEmptyChildren();
+                container.DetachEmptyContainer();
             }
         }
 
         if (Children.Count is 0)
         {
-            Detach();
+            Detach(true);
         }
     }
 
