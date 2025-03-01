@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
 using WinUI.Dock.Converters;
 using WinUI.Dock.Enums;
 
@@ -56,6 +57,35 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void Pin_Click(object _, RoutedEventArgs __)
     {
+        DockManager dockManager = Document!.Root!;
+
+        Point point = TransformToVisual(dockManager).TransformPoint(new Point(0, 0));
+
+        double left = point.X;
+        double top = point.Y;
+        double right = dockManager.ActualWidth - point.X;
+        double bottom = dockManager.ActualHeight - point.Y;
+
+        double min = Math.Min(Math.Min(left, top), Math.Min(right, bottom));
+
+        if (min == left)
+        {
+            dockManager.LeftSide.Add(Document);
+        }
+        else if (min == top)
+        {
+            dockManager.TopSide.Add(Document);
+        }
+        else if (min == right)
+        {
+            dockManager.RightSide.Add(Document);
+        }
+        else if (min == bottom)
+        {
+            dockManager.BottomSide.Add(Document);
+        }
+
+        Document.Detach(true);
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
