@@ -1,4 +1,5 @@
-﻿using WinUI.Dock.Enums;
+﻿using Microsoft.UI.Xaml.Input;
+using WinUI.Dock.Enums;
 
 namespace WinUI.Dock.Controls;
 
@@ -26,5 +27,23 @@ public sealed partial class DocumentTabItem : TabViewItem
     public void Detach()
     {
         Document = null;
+    }
+
+    private void Header_PointerEntered(object _, PointerRoutedEventArgs __)
+    {
+        Options.Opacity = 1.0;
+    }
+
+    private void Header_PointerExited(object _, PointerRoutedEventArgs __)
+    {
+        Options.Opacity = 0.0;
+    }
+
+    private void Pin_Click(object _, RoutedEventArgs __)
+    {
+    }
+
+    private void Close_Click(object _, RoutedEventArgs __)
+    {
     }
 }

@@ -44,7 +44,9 @@
 
     <TabViewItem.Header>
         <Grid Background="Transparent"
-              RenderTransformOrigin="0.5,0.5">
+              RenderTransformOrigin="0.5,0.5"
+              PointerEntered="Header_PointerEntered"
+              PointerExited="Header_PointerExited">
             <Grid.RenderTransform>
                 <ScaleTransform x:Name="HeaderScale" />
             </Grid.RenderTransform>
@@ -55,24 +57,30 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0"
-                        Orientation="Horizontal">
-                <Border Width="4"
+                        Orientation="Horizontal"
+                        Margin="0,0,8,0">
+                <Border x:Name="ActiveIndicator"
+                        Width="4"
                         Margin="0,2,6,2"
                         CornerRadius="2"
-                        Background="{ThemeResource AccentFillColorDefaultBrush}" />
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        Visibility="Collapsed" />
 
                 <TextBlock VerticalAlignment="Center"
                            Text="{x:Bind Document.ActualTitle}" />
             </StackPanel>
 
-            <StackPanel Grid.Column="1"
+            <StackPanel x:Name="Options"
+                        Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center"
-                        Margin="8,0,0,0">
+                        Opacity="0.0">
                 <Button Style="{StaticResource IconButtonStyle}"
-                        Content="&#xE840;" />
+                        Content="&#xE840;"
+                        Click="Pin_Click" />
                 <Button Style="{StaticResource IconButtonStyle}"
-                        Content="&#xF78A;" />
+                        Content="&#xF78A;"
+                        Click="Close_Click" />
             </StackPanel>
         </Grid>
     </TabViewItem.Header>
