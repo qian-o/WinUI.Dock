@@ -49,12 +49,22 @@ public sealed partial class DocumentTabItem : TabViewItem
         Options.Opacity = 0.0;
     }
 
+    private void Document_PointerPressed(object _, PointerRoutedEventArgs __)
+    {
+        Document!.Root!.ActiveDocument = Document;
+    }
+
     private void Pin_Click(object _, RoutedEventArgs __)
     {
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
     {
-        Document!.Detach(true);
+        if (Document!.Root!.ActiveDocument == Document)
+        {
+            Document.Root.ActiveDocument = null;
+        }
+
+        Document.Detach(true);
     }
 }
