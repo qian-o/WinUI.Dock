@@ -39,18 +39,18 @@ public partial class LayoutPanel : DockContainer
 
         if (Orientation is Orientation.Vertical)
         {
-            foreach (DockModule module in Children)
+            foreach (DockContainer container in Children.Cast<DockContainer>())
             {
                 root.RowDefinitions.Add(new()
                 {
-                    MinHeight = module.MinHeight,
-                    MaxHeight = module.MaxHeight,
-                    Height = new(double.IsNaN(module.DockHeight) ? 1.0 : module.DockHeight, GridUnitType.Star)
+                    MinHeight = container.MinHeight,
+                    MaxHeight = container.MaxHeight,
+                    Height = new(double.IsNaN(container.DockHeight) ? 1.0 : container.DockHeight, GridUnitType.Star)
                 });
 
-                Grid.SetRow(module, root.RowDefinitions.Count - 1);
+                Grid.SetRow(container, root.RowDefinitions.Count - 1);
 
-                root.Children.Add(module);
+                root.Children.Add(container);
             }
 
             for (int i = 1; i < Children.Count; i++)
@@ -70,18 +70,18 @@ public partial class LayoutPanel : DockContainer
         }
         else
         {
-            foreach (DockModule module in Children)
+            foreach (DockContainer container in Children.Cast<DockContainer>())
             {
                 root.ColumnDefinitions.Add(new()
                 {
-                    MinWidth = module.MinWidth,
-                    MaxWidth = module.MaxWidth,
-                    Width = new(double.IsNaN(module.DockWidth) ? 1.0 : module.DockWidth, GridUnitType.Star)
+                    MinWidth = container.MinWidth,
+                    MaxWidth = container.MaxWidth,
+                    Width = new(double.IsNaN(container.DockWidth) ? 1.0 : container.DockWidth, GridUnitType.Star)
                 });
 
-                Grid.SetColumn(module, root.ColumnDefinitions.Count - 1);
+                Grid.SetColumn(container, root.ColumnDefinitions.Count - 1);
 
-                root.Children.Add(module);
+                root.Children.Add(container);
             }
 
             for (int i = 1; i < Children.Count; i++)

@@ -2,10 +2,14 @@
                     xmlns:dock="using:WinUI.Dock">
 
     <Style TargetType="dock:Document">
+        <Setter Property="Padding"
+                Value="16" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:Document">
-                    <ContentPresenter Content="{TemplateBinding Content}" />
+                    <Border Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -1,8 +1,10 @@
 ﻿using WinUI.Dock.Abstracts;
+using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
 
 namespace WinUI.Dock;
 
+[TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
 public partial class DocumentGroup : DockContainer
 {
     public static readonly DependencyProperty TabPositionProperty = DependencyProperty.Register(nameof(TabPosition),
@@ -14,6 +16,8 @@ public partial class DocumentGroup : DockContainer
                                                                                                              typeof(bool),
                                                                                                              typeof(DocumentGroup),
                                                                                                              new PropertyMetadata(false, OnIsTabWidthBasedOnContentChanged));
+
+    private TabView? root;
 
     public DocumentGroup()
     {
@@ -34,15 +38,37 @@ public partial class DocumentGroup : DockContainer
 
     protected override void InitTemplate()
     {
+        root = GetTemplateChild("PART_Root") as TabView;
+
         UpdateVisualState();
     }
 
     protected override void LoadChildren()
     {
+        if (root is null)
+        {
+            return;
+        }
+
+        foreach (Document document in Children.Cast<Document>())
+        {
+            root.TabItems.Add(new DocumentTabItem(TabPosition, document));
+        }
     }
 
     protected override void UnloadChildren()
     {
+        if (root is null)
+        {
+            return;
+        }
+
+        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        {
+            tabItem.Detach();
+        }
+
+        root.TabItems.Clear();
     }
 
     protected override bool ValidateChildren()
@@ -54,6 +80,16 @@ public partial class DocumentGroup : DockContainer
     {
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);
         VisualStateManager.GoToState(this, IsTabWidthBasedOnContent ? "TabWidthSizeToContent" : "TabWidthEqual", false);
+
+        if (root is null)
+        {
+            return;
+        }
+
+        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        {
+            tabItem.UpdateTabPosition(TabPosition);
+        }
     }
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

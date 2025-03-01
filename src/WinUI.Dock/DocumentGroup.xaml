@@ -45,17 +45,10 @@
                                  CanReorderTabs="False"
                                  VerticalAlignment="Stretch"
                                  IsAddTabButtonVisible="False"
-                                 RenderTransformOrigin="0.5,0.5"
-                                 TabItemsSource="{Binding Children, RelativeSource={RelativeSource TemplatedParent}}">
+                                 RenderTransformOrigin="0.5,0.5">
                             <TabView.RenderTransform>
                                 <ScaleTransform x:Name="Scale" />
                             </TabView.RenderTransform>
-
-                            <TabView.TabItemTemplate>
-                                <DataTemplate>
-                                    <TabViewItem Header="{Binding ActualTitle}" />
-                                </DataTemplate>
-                            </TabView.TabItemTemplate>
                         </TabView>
                     </Border>
                 </ControlTemplate>
