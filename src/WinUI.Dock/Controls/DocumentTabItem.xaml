@@ -66,8 +66,7 @@
                         Width="4"
                         Margin="0,2,6,2"
                         CornerRadius="2"
-                        Background="{ThemeResource AccentFillColorDefaultBrush}"
-                        Visibility="Collapsed" />
+                        Background="{ThemeResource AccentFillColorDefaultBrush}" />
 
                 <TextBlock VerticalAlignment="Center"
                            Text="{x:Bind Document.ActualTitle}" />

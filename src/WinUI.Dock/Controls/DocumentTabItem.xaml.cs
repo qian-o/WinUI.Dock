@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml.Input;
+﻿using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using WinUI.Dock.Converters;
 using WinUI.Dock.Enums;
 
 namespace WinUI.Dock.Controls;
@@ -12,6 +14,14 @@ public sealed partial class DocumentTabItem : TabViewItem
         Document = document;
 
         UpdateTabPosition(tabPosition);
+
+        ActiveIndicator.SetBinding(VisibilityProperty, new Binding
+        {
+            Source = Document.Root,
+            Path = new(nameof(DockManager.ActiveDocument)),
+            Converter = new ActiveDocumentToVisibilityConverter(),
+            ConverterParameter = Document
+        });
     }
 
     public Document? Document { get; private set; }
