@@ -68,21 +68,22 @@ public sealed partial class DocumentTabItem : TabViewItem
         double right = dockManager.ActualWidth - point.X;
         double bottom = dockManager.ActualHeight - point.Y;
 
-        double min = Math.Min(Math.Min(left, top), Math.Min(right, bottom));
-
-        if (min == left)
+        if (Document.ActualWidth < Document.ActualHeight)
         {
-            dockManager.LeftSide.Add(Document);
+            if (left < right)
+            {
+                dockManager.LeftSide.Add(Document);
+            }
+            else
+            {
+                dockManager.RightSide.Add(Document);
+            }
         }
-        else if (min == top)
+        else if (top < bottom)
         {
             dockManager.TopSide.Add(Document);
         }
-        else if (min == right)
-        {
-            dockManager.RightSide.Add(Document);
-        }
-        else if (min == bottom)
+        else
         {
             dockManager.BottomSide.Add(Document);
         }
