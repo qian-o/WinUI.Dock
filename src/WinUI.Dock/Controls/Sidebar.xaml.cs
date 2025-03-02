@@ -62,15 +62,12 @@ public sealed partial class Sidebar : UserControl
         {
             XamlRoot = DockManager!.PopupContainer!.XamlRoot,
             IsLightDismissEnabled = true,
-            LightDismissOverlayMode = LightDismissOverlayMode.Auto,
             Child = popupDocument,
             IsOpen = true
         };
 
         popup.Closed += (_, _) =>
         {
-            DockManager!.PopupContainer!.Child = null;
-
             if (DockSide is DockSide.Left or DockSide.Right)
             {
                 document.DockWidth = popupDocument.Width;
@@ -79,6 +76,10 @@ public sealed partial class Sidebar : UserControl
             {
                 document.DockHeight = popupDocument.Height;
             }
+
+            DockManager.PopupContainer.Child = null;
+
+            DockManager.ActiveDocument = null;
         };
 
         switch (DockSide)
@@ -119,5 +120,7 @@ public sealed partial class Sidebar : UserControl
         }
 
         DockManager.PopupContainer.Child = popup;
+
+        DockManager.ActiveDocument = document;
     }
 }
