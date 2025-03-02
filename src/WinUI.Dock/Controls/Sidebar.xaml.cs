@@ -60,11 +60,11 @@ public sealed partial class Sidebar : UserControl
 
         Popup popup = new()
         {
-            IsOpen = true,
-            Child = popupDocument,
-            IsLightDismissEnabled = true,
             XamlRoot = DockManager!.PopupContainer!.XamlRoot,
-            LightDismissOverlayMode = LightDismissOverlayMode.Auto
+            IsLightDismissEnabled = true,
+            LightDismissOverlayMode = LightDismissOverlayMode.Auto,
+            Child = popupDocument,
+            IsOpen = true
         };
 
         popup.Closed += (_, _) =>

@@ -4,5 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
-    <Grid Background="Red" />
+    <Border Padding="4"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+            Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}">
+        
+    </Border>
 </UserControl>
