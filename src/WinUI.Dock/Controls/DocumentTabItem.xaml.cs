@@ -38,6 +38,8 @@ public sealed partial class DocumentTabItem : TabViewItem
     public void Detach()
     {
         Document = null;
+
+        Bindings.Update();
     }
 
     private void Header_PointerEntered(object _, PointerRoutedEventArgs __)

@@ -79,6 +79,8 @@ public sealed partial class Sidebar : UserControl
         };
         popup.Closed += (_, _) =>
         {
+            popupDocument.Detach();
+
             if (DockSide is DockSide.Left or DockSide.Right)
             {
                 document.DockWidth = popupDocument.Width;

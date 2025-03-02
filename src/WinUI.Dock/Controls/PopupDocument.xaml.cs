@@ -63,5 +63,12 @@ public sealed partial class PopupDocument : UserControl
         }
     }
 
-    public Document Document { get; private set; }
+    public Document? Document { get; private set; }
+
+    public void Detach()
+    {
+        Document = null;
+
+        Bindings.Update();
+    }
 }

@@ -18,6 +18,22 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                      Height="40"
+                      Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind Document.Title}" />
+                </Grid>
+
+                <ContentControl Grid.Row="1"
+                                Content="{x:Bind Document}" />
             </Grid>
         </Border>
 
