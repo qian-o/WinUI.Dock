@@ -120,33 +120,58 @@ public sealed partial class PopupDocument : UserControl
 
         Detach(true);
 
+        DocumentGroup group = new();
+        group.CopySizeFrom(document);
+        group.Children.Add(document);
+
+        LayoutPanel panel = new();
+        panel.Children.Add(group);
+
         switch (DockSide)
         {
             case DockSide.Left:
                 {
-                    DocumentGroup group = new();
-                    group.Children.Add(document);
-
-                    group.CopySizeFrom(document);
-
-                    LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
-                    panel.Children.Add(group);
+                    panel.Orientation = Orientation.Horizontal;
 
                     if (DockManager.Panel is not null)
                     {
                         panel.Children.Add(DockManager.Panel);
                     }
-
-                    DockManager.Panel = panel;
                 }
                 break;
             case DockSide.Top:
+                {
+                    panel.Orientation = Orientation.Vertical;
+
+                    if (DockManager.Panel is not null)
+                    {
+                        panel.Children.Add(DockManager.Panel);
+                    }
+                }
                 break;
             case DockSide.Right:
+                {
+                    panel.Orientation = Orientation.Horizontal;
+
+                    if (DockManager.Panel is not null)
+                    {
+                        panel.Children.Insert(0, DockManager.Panel);
+                    }
+                }
                 break;
             case DockSide.Bottom:
+                {
+                    panel.Orientation = Orientation.Vertical;
+
+                    if (DockManager.Panel is not null)
+                    {
+                        panel.Children.Insert(0, DockManager.Panel);
+                    }
+                }
                 break;
         }
+
+        DockManager.Panel = panel;
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
