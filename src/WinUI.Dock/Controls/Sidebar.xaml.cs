@@ -8,7 +8,7 @@ public sealed partial class Sidebar : UserControl
     public static readonly DependencyProperty DockSideProperty = DependencyProperty.Register(nameof(DockSide),
                                                                                              typeof(DockSide),
                                                                                              typeof(Sidebar),
-                                                                                             new PropertyMetadata(DockSide.Left, OnDockSideChanged));
+                                                                                             new PropertyMetadata(DockSide.Left));
 
     public static readonly DependencyProperty DocumentsProperty = DependencyProperty.Register(nameof(Documents),
                                                                                               typeof(ObservableCollection<Document>),
@@ -23,8 +23,6 @@ public sealed partial class Sidebar : UserControl
     public Sidebar()
     {
         InitializeComponent();
-
-        VisualStateManager.GoToState(this, DockSide.ToString(), false);
     }
 
     public DockSide DockSide
@@ -45,12 +43,9 @@ public sealed partial class Sidebar : UserControl
         set => SetValue(DockManagerProperty, value);
     }
 
-    private static void OnDockSideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private void OnLoaded(object _, RoutedEventArgs __)
     {
-        if (d is Sidebar sidebar)
-        {
-            VisualStateManager.GoToState(sidebar, sidebar.DockSide.ToString(), false);
-        }
+        VisualStateManager.GoToState(this, DockSide.ToString(), false);
     }
 
     private void Document_Click(object sender, RoutedEventArgs _)
