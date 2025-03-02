@@ -8,7 +8,6 @@
              x:Name="Main">
     <Grid x:Name="Layout">
         <Border x:Name="Root"
-                Padding="4"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 BorderThickness="1"
                 BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
@@ -19,18 +18,24 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0"
-                      Height="40"
-                      Background="Transparent">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Border Grid.Row="0"
+                        Height="40"
+                        Padding="4"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        Background="Transparent">
+                    <Grid VerticalAlignment="Center"
+                          Margin="8,0,8,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0"
-                               VerticalAlignment="Center"
-                               Text="{x:Bind Document.Title}" />
-                </Grid>
+                        <TextBlock Grid.Column="0"
+                                   Style="{StaticResource BodyStrongTextBlockStyle}"
+                                   Text="{x:Bind Document.ActualTitle}" />
+                    </Grid>
+                </Border>
 
                 <ContentControl Grid.Row="1"
                                 Content="{x:Bind Document}" />
