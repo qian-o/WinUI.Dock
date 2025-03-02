@@ -5,4 +5,8 @@
         <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
+    </ItemGroup>
+
 </Project>
