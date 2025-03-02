@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 
 namespace WinUI.Dock;
 
-public record DocumentGroupReadyEventArgs(string Title, DocumentGroup Group);
+public record DocumentGroupReadyEventArgs(string DocumentTitle, DocumentGroup DocumentGroup);
 
 [ContentProperty(Name = nameof(Panel))]
 [TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
@@ -60,9 +60,9 @@ public partial class DockManager : Control
         PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
     }
 
-    internal void InvokeDocumentGroupReady(string title, DocumentGroup group)
+    internal void InvokeDocumentGroupReady(string documentTitle, DocumentGroup documentGroup)
     {
-        DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(title, group));
+        DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(documentTitle, documentGroup));
     }
 
     private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

@@ -17,72 +17,72 @@
             </Style>
         </Grid.Resources>
 
-        <dock:DockManager>
+        <dock:DockManager DocumentGroupReady="DockManager_DocumentGroupReady">
             <dock:DockManager.LeftSide>
-                <dock:Document Title="左侧 1">
+                <dock:Document Title="Side##Left 1">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="左侧 1" />
+                        <TextBlock Text="Left 1" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="左侧 2">
+                <dock:Document Title="Side##Left 2">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="左侧 2" />
+                        <TextBlock Text="Left 2" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="左侧 3">
+                <dock:Document Title="Side##Left 3">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="左侧 3" />
+                        <TextBlock Text="Left 3" />
                     </Border>
                 </dock:Document>
             </dock:DockManager.LeftSide>
             <dock:DockManager.TopSide>
-                <dock:Document Title="顶部 1">
+                <dock:Document Title="Side##Top 1">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="顶部 1" />
+                        <TextBlock Text="Top 1" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="顶部 2">
+                <dock:Document Title="Side##Top 2">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="顶部 2" />
+                        <TextBlock Text="Top 2" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="顶部 3">
+                <dock:Document Title="Side##Top 3">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="顶部 3" />
+                        <TextBlock Text="Top 3" />
                     </Border>
                 </dock:Document>
             </dock:DockManager.TopSide>
             <dock:DockManager.RightSide>
-                <dock:Document Title="右侧 1">
+                <dock:Document Title="Side##Right 1">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="右侧 1" />
+                        <TextBlock Text="Right 1" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="右侧 2">
+                <dock:Document Title="Side##Right 2">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="右侧 2" />
+                        <TextBlock Text="Right 2" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="右侧 3">
+                <dock:Document Title="Side##Right 3">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="右侧 3" />
+                        <TextBlock Text="Right 3" />
                     </Border>
                 </dock:Document>
             </dock:DockManager.RightSide>
             <dock:DockManager.BottomSide>
-                <dock:Document Title="底部 1">
+                <dock:Document Title="Side##Bottom 1">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="底部 1" />
+                        <TextBlock Text="Bottom 1" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="底部 2">
+                <dock:Document Title="Side##Bottom 2">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="底部 2" />
+                        <TextBlock Text="Bottom 2" />
                     </Border>
                 </dock:Document>
-                <dock:Document Title="底部 3">
+                <dock:Document Title="Side##Bottom 3">
                     <Border Style="{StaticResource Space}">
-                        <TextBlock Text="底部 3" />
+                        <TextBlock Text="Bottom 3" />
                     </Border>
                 </dock:Document>
             </dock:DockManager.BottomSide>
@@ -91,26 +91,26 @@
                 <dock:LayoutPanel DockHeight="2"
                                   Orientation="Horizontal">
                     <dock:DocumentGroup DockWidth="2">
-                        <dock:Document Title="文档 1"
+                        <dock:Document Title="Document 1"
                                        CanPin="False"
                                        CanClose="False">
                             <Border Style="{StaticResource Space}">
-                                <TextBlock Text="文档 1" />
+                                <TextBlock Text="Document 1" />
                             </Border>
                         </dock:Document>
-                        <dock:Document Title="文档 2"
+                        <dock:Document Title="Document 2"
                                        CanPin="False"
                                        CanClose="False">
                             <Border Style="{StaticResource Space}">
-                                <TextBlock Text="文档 2" />
+                                <TextBlock Text="Document 2" />
                             </Border>
                         </dock:Document>
                     </dock:DocumentGroup>
 
                     <dock:DocumentGroup DockWidth="1">
-                        <dock:Document Title="解决方案资源管理器">
+                        <dock:Document Title="Solution Explorer">
                             <Border Style="{StaticResource Space}">
-                                <TextBlock Text="解决方案资源管理器" />
+                                <TextBlock Text="Solution Explorer" />
                             </Border>
                         </dock:Document>
                     </dock:DocumentGroup>
@@ -120,17 +120,17 @@
                                   Orientation="Horizontal">
                     <dock:DocumentGroup TabPosition="Bottom"
                                         IsTabWidthBasedOnContent="True">
-                        <dock:Document Title="侧边##错误列表">
+                        <dock:Document Title="Side##Error List">
                             <Border Style="{StaticResource Space}">
-                                <TextBlock Text="错误列表" />
+                                <TextBlock Text="Error List" />
                             </Border>
                         </dock:Document>
                     </dock:DocumentGroup>
                     <dock:DocumentGroup TabPosition="Bottom"
                                         IsTabWidthBasedOnContent="True">
-                        <dock:Document Title="侧边##输出">
+                        <dock:Document Title="Side##Output">
                             <Border Style="{StaticResource Space}">
-                                <TextBlock Text="输出" />
+                                <TextBlock Text="Output" />
                             </Border>
                         </dock:Document>
                     </dock:DocumentGroup>
