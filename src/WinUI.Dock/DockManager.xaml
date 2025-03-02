@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:communityToolkit="using:CommunityToolkit.WinUI.Controls"
                     xmlns:dock="using:WinUI.Dock"
                     xmlns:controls="using:WinUI.Dock.Controls">
 
@@ -20,6 +21,14 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+
+                        <!--
+                        If you use GridSplitter directly in the cs file,
+                        the style of GridSplitter will have issues.
+                        So, create a hidden GridSplitter in the xaml file first,
+                        to ensure the style of GridSplitter is displayed correctly.
+                        -->
+                        <communityToolkit:GridSplitter Visibility="Collapsed" />
 
                         <controls:Sidebar Grid.Column="0"
                                           Grid.Row="1"
