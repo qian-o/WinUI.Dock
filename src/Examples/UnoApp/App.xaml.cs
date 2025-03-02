@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-
-namespace WinUIApp;
+﻿namespace UnoApp;
 
 public partial class App : Application
 {

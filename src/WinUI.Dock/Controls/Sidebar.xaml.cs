@@ -23,6 +23,8 @@ public sealed partial class Sidebar : UserControl
     public Sidebar()
     {
         InitializeComponent();
+
+        VisualStateManager.GoToState(this, DockSide.ToString(), false);
     }
 
     public DockSide DockSide

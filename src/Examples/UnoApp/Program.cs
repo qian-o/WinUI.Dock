@@ -1,9 +1,20 @@
-﻿namespace UnoApp;
+﻿using Uno.UI.Runtime.Skia;
+
+namespace UnoApp;
 
 internal static class Program
 {
+    [STAThread]
     private static void Main(string[] _)
     {
-        Console.WriteLine("Hello, World!");
+        SkiaHost host = SkiaHostBuilder.Create()
+                                       .App(() => new App())
+                                       .UseX11()
+                                       .UseMacOS()
+                                       .UseWindows()
+                                       .UseLinuxFrameBuffer()
+                                       .Build();
+
+        host.Run();
     }
 }
