@@ -1,0 +1,82 @@
+﻿<TabViewItem x:Class="WinUI.Dock.Controls.DocumentTabItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:WinUI.Dock.Converters"
+             HorizontalContentAlignment="Stretch"
+             VerticalContentAlignment="Stretch"
+             IsClosable="False">
+    <TabViewItem.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CommonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </TabViewItem.Resources>
+
+    <TabViewItem.Header>
+        <Grid Background="Transparent"
+              RenderTransformOrigin="0.5,0.5"
+              PointerEntered="Header_PointerEntered"
+              PointerExited="Header_PointerExited"
+              PointerPressed="Document_PointerPressed">
+            <Grid.RenderTransform>
+                <ScaleTransform x:Name="HeaderScale" />
+            </Grid.RenderTransform>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0"
+                        Orientation="Horizontal"
+                        Margin="0,0,8,0">
+                <Border x:Name="ActiveIndicator"
+                        Width="4"
+                        Height="16"
+                        Margin="0,0,6,0"
+                        CornerRadius="2"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}" />
+
+                <TextBlock VerticalAlignment="Center"
+                           Text="{x:Bind Document.ActualTitle}" />
+            </StackPanel>
+
+            <StackPanel x:Name="Options"
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Opacity="0.0">
+                <Button Style="{StaticResource IconButtonStyle}"
+                        Padding="6"
+                        Content="&#xE77A;"
+                        Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Click="Pin_Click" />
+                <Button Style="{StaticResource IconButtonStyle}"
+                        Padding="6"
+                        Content="&#xF78A;"
+                        Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Click="Close_Click" />
+            </StackPanel>
+        </Grid>
+    </TabViewItem.Header>
+
+    <TabViewItem.Content>
+        <Border CornerRadius="0,0,4,4"
+                BorderThickness="1,0,1,1"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                PointerPressed="Document_PointerPressed">
+            <ContentControl HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Content="{x:Bind Document}"
+                            RenderTransformOrigin="0.5,0.5">
+                <ContentControl.RenderTransform>
+                    <ScaleTransform x:Name="ContentScale" />
+                </ContentControl.RenderTransform>
+            </ContentControl>
+        </Border>
+    </TabViewItem.Content>
+</TabViewItem>

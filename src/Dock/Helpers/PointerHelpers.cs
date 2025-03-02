@@ -3,13 +3,13 @@ using Windows.Graphics;
 
 namespace Dock.Helpers;
 
-public static partial class PointerHelpers
+public static unsafe partial class PointerHelpers
 {
     [LibraryImport("USER32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static unsafe partial bool GetCursorPos(PointInt32* lpPoint);
+    private static partial bool GetCursorPos(PointInt32* lpPoint);
 
-    public static unsafe PointInt32 GetCursorPosition()
+    public static PointInt32 GetCursorPosition()
     {
         PointInt32 point = default;
 
