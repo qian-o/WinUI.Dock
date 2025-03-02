@@ -19,7 +19,7 @@ public sealed partial class PopupDocument : UserControl
         {
             case DockSide.Left:
                 {
-                    Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : document.DockWidth;
+                    Width = double.IsNaN(Document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
                     Height = DockManager.PopupContainer!.ActualHeight;
 
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
@@ -35,7 +35,7 @@ public sealed partial class PopupDocument : UserControl
             case DockSide.Top:
                 {
                     Width = DockManager.PopupContainer!.ActualWidth;
-                    Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : document.DockHeight;
+                    Height = double.IsNaN(Document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
 
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
@@ -49,7 +49,7 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Right:
                 {
-                    Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : document.DockWidth;
+                    Width = double.IsNaN(Document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
                     Height = DockManager.PopupContainer!.ActualHeight;
 
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
@@ -65,7 +65,7 @@ public sealed partial class PopupDocument : UserControl
             case DockSide.Bottom:
                 {
                     Width = DockManager.PopupContainer!.ActualWidth;
-                    Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : document.DockHeight;
+                    Height = double.IsNaN(Document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
 
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
@@ -86,17 +86,6 @@ public sealed partial class PopupDocument : UserControl
             XamlRoot = DockManager.PopupContainer!.XamlRoot
         };
 
-        popup.SizeChanged += (_, _) =>
-        {
-            if (DockSide is DockSide.Right)
-            {
-                popup.HorizontalOffset = DockManager.PopupContainer!.ActualWidth - ActualWidth;
-            }
-            else if (DockSide is DockSide.Bottom)
-            {
-                popup.VerticalOffset = DockManager.PopupContainer!.ActualHeight - ActualHeight;
-            }
-        };
         popup.Closed += (_, _) => Detach();
     }
 
@@ -112,6 +101,18 @@ public sealed partial class PopupDocument : UserControl
 
         DockManager.ActiveDocument = Document;
         DockManager.PopupContainer!.Child = popup;
+    }
+
+    private void OnSizeChanged(object _, SizeChangedEventArgs __)
+    {
+        if (DockSide is DockSide.Right)
+        {
+            popup.HorizontalOffset = DockManager.PopupContainer!.ActualWidth - ActualWidth;
+        }
+        else if (DockSide is DockSide.Bottom)
+        {
+            popup.VerticalOffset = DockManager.PopupContainer!.ActualHeight - ActualHeight;
+        }
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)
