@@ -66,6 +66,17 @@ public sealed partial class Sidebar : UserControl
             IsOpen = true
         };
 
+        popup.SizeChanged += (_, _) =>
+        {
+            if (DockSide is DockSide.Right)
+            {
+                popup.HorizontalOffset = DockManager.PopupContainer.ActualWidth - popupDocument.Width;
+            }
+            else if (DockSide is DockSide.Bottom)
+            {
+                popup.VerticalOffset = DockManager.PopupContainer.ActualHeight - popupDocument.Height;
+            }
+        };
         popup.Closed += (_, _) =>
         {
             if (DockSide is DockSide.Left or DockSide.Right)
@@ -108,15 +119,6 @@ public sealed partial class Sidebar : UserControl
                     popupDocument.Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer.ActualHeight / 3 : document.DockHeight;
                 }
                 break;
-        }
-
-        if (DockSide is DockSide.Right)
-        {
-            popup.HorizontalOffset = DockManager.PopupContainer.ActualWidth - popupDocument.Width;
-        }
-        else if (DockSide is DockSide.Bottom)
-        {
-            popup.VerticalOffset = DockManager.PopupContainer.ActualHeight - popupDocument.Height;
         }
 
         DockManager.PopupContainer.Child = popup;
