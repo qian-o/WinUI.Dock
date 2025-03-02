@@ -5,8 +5,4 @@
         <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\Dock\Dock.csproj" />
-    </ItemGroup>
-
 </Project>

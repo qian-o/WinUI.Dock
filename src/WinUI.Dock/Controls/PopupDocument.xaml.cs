@@ -124,6 +124,8 @@ public sealed partial class PopupDocument : UserControl
         group.CopySizeFrom(document);
         group.Children.Add(document);
 
+        DockManager.InvokeDocumentGroupReady(document.Title, group);
+
         LayoutPanel panel = new();
         panel.Children.Add(group);
 
