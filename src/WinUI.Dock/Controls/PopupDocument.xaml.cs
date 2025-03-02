@@ -68,7 +68,7 @@ public sealed partial class PopupDocument : UserControl
 
     public Document? Document { get; private set; }
 
-    public event EventHandler<object>? Closed;
+    public event EventHandler<object>? RequestClose;
 
     public void Detach()
     {
@@ -79,19 +79,19 @@ public sealed partial class PopupDocument : UserControl
 
     private void Pin_Click(object _, RoutedEventArgs __)
     {
-        CloseDocument();
+        RemoveDocument();
 
-        Closed?.Invoke(this, EventArgs.Empty);
+        RequestClose?.Invoke(this, EventArgs.Empty);
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
     {
-        CloseDocument();
+        RemoveDocument();
 
-        Closed?.Invoke(this, EventArgs.Empty);
+        RequestClose?.Invoke(this, EventArgs.Empty);
     }
 
-    private void CloseDocument()
+    private void RemoveDocument()
     {
         DockManager dockManager = Document!.Root!;
 

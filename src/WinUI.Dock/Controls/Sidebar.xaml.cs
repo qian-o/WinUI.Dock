@@ -66,7 +66,7 @@ public sealed partial class Sidebar : UserControl
             IsOpen = true
         };
 
-        popupDocument.Closed += (_, _) => popup.IsOpen = false;
+        popupDocument.RequestClose += (_, _) => popup.IsOpen = false;
 
         popup.SizeChanged += (_, _) =>
         {
