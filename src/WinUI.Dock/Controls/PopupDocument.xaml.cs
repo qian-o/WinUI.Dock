@@ -116,18 +116,37 @@ public sealed partial class PopupDocument : UserControl
 
     private void Pin_Click(object _, RoutedEventArgs __)
     {
-        Detach();
+        Detach(true);
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
     {
-        Detach();
+        Detach(true);
     }
 
-    private void Detach()
+    private void Detach(bool remove = false)
     {
         if (Document is not null)
         {
+            if (remove)
+            {
+                switch (DockSide)
+                {
+                    case DockSide.Left:
+                        DockManager.LeftSide.Remove(Document);
+                        break;
+                    case DockSide.Top:
+                        DockManager.TopSide.Remove(Document);
+                        break;
+                    case DockSide.Right:
+                        DockManager.RightSide.Remove(Document);
+                        break;
+                    case DockSide.Bottom:
+                        DockManager.BottomSide.Remove(Document);
+                        break;
+                }
+            }
+
             if (DockSide is DockSide.Left or DockSide.Right)
             {
                 Document.DockWidth = ActualWidth;
