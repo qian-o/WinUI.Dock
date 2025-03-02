@@ -1,13 +1,17 @@
+using Microsoft.UI.Xaml.Controls.Primitives;
 using WinUI.Dock.Enums;
 
 namespace WinUI.Dock.Controls;
 
 public sealed partial class PopupDocument : UserControl
 {
-    public PopupDocument(DockSide dockSide, Document document)
+    private readonly Popup popup;
+
+    public PopupDocument(DockManager dockManager, DockSide dockSide, Document document)
     {
         InitializeComponent();
 
+        DockManager = dockManager;
         DockSide = dockSide;
         Document = document;
 
@@ -15,6 +19,9 @@ public sealed partial class PopupDocument : UserControl
         {
             case DockSide.Left:
                 {
+                    Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : document.DockWidth;
+                    Height = DockManager.PopupContainer!.ActualHeight;
+
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
 
@@ -27,6 +34,9 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Top:
                 {
+                    Width = DockManager.PopupContainer!.ActualWidth;
+                    Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : document.DockHeight;
+
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
 
@@ -39,6 +49,9 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Right:
                 {
+                    Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : document.DockWidth;
+                    Height = DockManager.PopupContainer!.ActualHeight;
+
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
 
@@ -51,6 +64,9 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Bottom:
                 {
+                    Width = DockManager.PopupContainer!.ActualWidth;
+                    Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : document.DockHeight;
+
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
 
@@ -62,58 +78,73 @@ public sealed partial class PopupDocument : UserControl
                 }
                 break;
         }
+
+        popup = new()
+        {
+            Child = this,
+            IsLightDismissEnabled = true,
+            XamlRoot = DockManager.PopupContainer!.XamlRoot
+        };
+
+        popup.SizeChanged += (_, _) =>
+        {
+            if (DockSide is DockSide.Right)
+            {
+                popup.HorizontalOffset = DockManager.PopupContainer!.ActualWidth - ActualWidth;
+            }
+            else if (DockSide is DockSide.Bottom)
+            {
+                popup.VerticalOffset = DockManager.PopupContainer!.ActualHeight - ActualHeight;
+            }
+        };
+        popup.Closed += (_, _) => Detach();
     }
+
+    public DockManager DockManager { get; }
 
     public DockSide DockSide { get; }
 
     public Document? Document { get; private set; }
 
-    public event EventHandler<object>? RequestClose;
-
-    public void Detach()
+    public void Show()
     {
-        Document = null;
+        popup.IsOpen = true;
 
-        Bindings.Update();
+        DockManager.ActiveDocument = Document;
+        DockManager.PopupContainer!.Child = popup;
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)
     {
-        RemoveDocument();
-
-        RequestClose?.Invoke(this, EventArgs.Empty);
+        Detach();
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
     {
-        RemoveDocument();
-
-        RequestClose?.Invoke(this, EventArgs.Empty);
+        Detach();
     }
 
-    private void RemoveDocument()
+    private void Detach()
     {
-        DockManager dockManager = Document!.Root!;
-
-        if (dockManager.ActiveDocument == Document)
+        if (Document is not null)
         {
-            dockManager.ActiveDocument = null;
+            if (DockSide is DockSide.Left or DockSide.Right)
+            {
+                Document.DockWidth = ActualWidth;
+            }
+            else
+            {
+                Document.DockHeight = ActualHeight;
+            }
+
+            Document = null;
+
+            Bindings.Update();
         }
 
-        switch (DockSide)
-        {
-            case DockSide.Left:
-                dockManager.LeftSide.Remove(Document);
-                break;
-            case DockSide.Top:
-                dockManager.TopSide.Remove(Document);
-                break;
-            case DockSide.Right:
-                dockManager.RightSide.Remove(Document);
-                break;
-            case DockSide.Bottom:
-                dockManager.BottomSide.Remove(Document);
-                break;
-        }
+        popup.IsOpen = false;
+
+        DockManager.ActiveDocument = null;
+        DockManager.PopupContainer!.Child = null;
     }
 }

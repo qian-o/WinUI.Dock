@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using WinUI.Dock.Enums;
 
 namespace WinUI.Dock.Controls;
@@ -56,77 +55,6 @@ public sealed partial class Sidebar : UserControl
     {
         Document document = (Document)((Button)sender).DataContext;
 
-        PopupDocument popupDocument = new(DockSide, document);
-
-        Popup popup = new()
-        {
-            XamlRoot = DockManager!.PopupContainer!.XamlRoot,
-            IsLightDismissEnabled = true,
-            Child = popupDocument,
-            IsOpen = true
-        };
-
-        popupDocument.RequestClose += (_, _) => popup.IsOpen = false;
-
-        popup.SizeChanged += (_, _) =>
-        {
-            if (DockSide is DockSide.Right)
-            {
-                popup.HorizontalOffset = DockManager.PopupContainer.ActualWidth - popupDocument.Width;
-            }
-            else if (DockSide is DockSide.Bottom)
-            {
-                popup.VerticalOffset = DockManager.PopupContainer.ActualHeight - popupDocument.Height;
-            }
-        };
-        popup.Closed += (_, _) =>
-        {
-            popupDocument.Detach();
-
-            if (DockSide is DockSide.Left or DockSide.Right)
-            {
-                document.DockWidth = popupDocument.Width;
-            }
-            else
-            {
-                document.DockHeight = popupDocument.Height;
-            }
-
-            DockManager.PopupContainer.Child = null;
-
-            DockManager.ActiveDocument = null;
-        };
-
-        switch (DockSide)
-        {
-            case DockSide.Left:
-                {
-                    popupDocument.Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer.ActualWidth / 3 : document.DockWidth;
-                    popupDocument.Height = DockManager.PopupContainer.ActualHeight;
-                }
-                break;
-            case DockSide.Top:
-                {
-                    popupDocument.Width = DockManager.PopupContainer.ActualWidth;
-                    popupDocument.Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer.ActualHeight / 3 : document.DockHeight;
-                }
-                break;
-            case DockSide.Right:
-                {
-                    popupDocument.Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer.ActualWidth / 3 : document.DockWidth;
-                    popupDocument.Height = DockManager.PopupContainer.ActualHeight;
-                }
-                break;
-            case DockSide.Bottom:
-                {
-                    popupDocument.Width = DockManager.PopupContainer.ActualWidth;
-                    popupDocument.Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer.ActualHeight / 3 : document.DockHeight;
-                }
-                break;
-        }
-
-        DockManager.PopupContainer.Child = popup;
-
-        DockManager.ActiveDocument = document;
+        new PopupDocument(DockManager!, DockSide, document).Show();
     }
 }
