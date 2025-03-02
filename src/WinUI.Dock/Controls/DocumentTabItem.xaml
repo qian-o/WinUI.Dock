@@ -69,7 +69,9 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 PointerPressed="Document_PointerPressed">
-            <ContentControl Content="{x:Bind Document}"
+            <ContentControl HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Content="{x:Bind Document}"
                             RenderTransformOrigin="0.5,0.5">
                 <ContentControl.RenderTransform>
                     <ScaleTransform x:Name="ContentScale" />

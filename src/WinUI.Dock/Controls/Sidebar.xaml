@@ -157,6 +157,12 @@
                 <StackLayout Orientation="Horizontal"
                              Spacing="16" />
             </ItemsRepeater.Layout>
+
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="dock:Document">
+                    <TextBlock Text="{Binding ActualTitle}" />
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
         </ItemsRepeater>
     </controls:LayoutTransformControl>
 </UserControl>

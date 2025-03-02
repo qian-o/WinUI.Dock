@@ -63,6 +63,8 @@
                 </Border>
 
                 <ContentControl Grid.Row="1"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
                                 Content="{x:Bind Document}" />
             </Grid>
         </Border>
