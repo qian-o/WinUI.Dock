@@ -42,6 +42,7 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <TabView x:Name="PART_Root"
+                                 Padding="0"
                                  CanReorderTabs="False"
                                  VerticalAlignment="Stretch"
                                  IsAddTabButtonVisible="False"
