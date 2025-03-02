@@ -130,7 +130,8 @@ public abstract class DockModule : Control
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (Owner is not null)
+        // This is not the best solution. (TODO)
+        if (e.PreviousSize.Width is not 0 && e.PreviousSize.Height is not 0)
         {
             DockWidth = ActualWidth;
             DockHeight = ActualHeight;
