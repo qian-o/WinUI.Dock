@@ -1,11 +1,19 @@
 <UserControl x:Class="WinUI.Dock.Controls.PopupDocument"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-             mc:Ignorable="d"
+             xmlns:converters="using:WinUI.Dock.Converters"
              x:Name="Main">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CommonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid x:Name="Layout">
         <Border x:Name="Root"
                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -33,7 +41,22 @@
 
                         <TextBlock Grid.Column="0"
                                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                                   VerticalAlignment="Center"
                                    Text="{x:Bind Document.ActualTitle}" />
+
+                        <StackPanel x:Name="Options"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <Button Style="{StaticResource IconButtonStyle}"
+                                    Padding="8"
+                                    Content="&#xE840;"
+                                    Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <Button Style="{StaticResource IconButtonStyle}"
+                                    Padding="8"
+                                    Content="&#xF78A;"
+                                    Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </StackPanel>
                     </Grid>
                 </Border>
 

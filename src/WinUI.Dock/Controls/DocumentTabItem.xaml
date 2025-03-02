@@ -7,39 +7,9 @@
              IsClosable="False">
     <TabViewItem.Resources>
         <ResourceDictionary>
-            <Style x:Key="IconButtonStyle"
-                   TargetType="Button">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Border x:Name="Root"
-                                    Padding="6"
-                                    CornerRadius="4"
-                                    Background="Transparent">
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal" />
-                                        <VisualState x:Name="PointerOver">
-                                            <VisualState.Setters>
-                                                <Setter Target="Root.Background"
-                                                        Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <VisualState.Setters>
-                                                <Setter Target="Root.Background"
-                                                        Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                                <FontIcon FontSize="12"
-                                          Glyph="{TemplateBinding Content}" />
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="CommonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
@@ -80,10 +50,12 @@
                         VerticalAlignment="Center"
                         Opacity="0.0">
                 <Button Style="{StaticResource IconButtonStyle}"
+                        Padding="6"
                         Content="&#xE840;"
                         Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}"
                         Click="Pin_Click" />
                 <Button Style="{StaticResource IconButtonStyle}"
+                        Padding="6"
                         Content="&#xF78A;"
                         Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}"
                         Click="Close_Click" />
