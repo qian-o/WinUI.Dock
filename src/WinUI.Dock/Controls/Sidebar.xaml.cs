@@ -66,6 +66,8 @@ public sealed partial class Sidebar : UserControl
             IsOpen = true
         };
 
+        popupDocument.Closed += (_, _) => popup.IsOpen = false;
+
         popup.SizeChanged += (_, _) =>
         {
             if (DockSide is DockSide.Right)
