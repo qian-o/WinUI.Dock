@@ -56,7 +56,7 @@ public sealed partial class Sidebar : UserControl
     {
         Document document = (Document)((Button)sender).DataContext;
 
-        PopupDocument popupDocument = new(document, DockSide);
+        PopupDocument popupDocument = new(DockSide, document);
 
         Popup popup = new()
         {

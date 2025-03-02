@@ -4,13 +4,14 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class PopupDocument : UserControl
 {
-    public PopupDocument(Document document, DockSide dockSide)
+    public PopupDocument(DockSide dockSide, Document document)
     {
         InitializeComponent();
 
+        DockSide = dockSide;
         Document = document;
 
-        switch (dockSide)
+        switch (DockSide)
         {
             case DockSide.Left:
                 {
@@ -62,6 +63,8 @@ public sealed partial class PopupDocument : UserControl
                 break;
         }
     }
+
+    public DockSide DockSide { get; }
 
     public Document? Document { get; private set; }
 

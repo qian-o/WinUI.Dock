@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace WinUI.Dock;
 
@@ -19,6 +20,11 @@ public partial class DockManager : Control
     public DockManager()
     {
         DefaultStyleKey = typeof(DockManager);
+
+        LeftSide.CollectionChanged += OnSideCollectionChanged;
+        TopSide.CollectionChanged += OnSideCollectionChanged;
+        RightSide.CollectionChanged += OnSideCollectionChanged;
+        BottomSide.CollectionChanged += OnSideCollectionChanged;
     }
 
     public LayoutPanel? Panel
@@ -48,6 +54,25 @@ public partial class DockManager : Control
         base.OnApplyTemplate();
 
         PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
+    }
+
+    private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.OldItems is not null)
+        {
+            foreach (Document document in e.OldItems)
+            {
+                document.Root = null;
+            }
+        }
+
+        if (e.NewItems is not null)
+        {
+            foreach (Document document in e.NewItems)
+            {
+                document.Root = this;
+            }
+        }
     }
 
     private static void OnPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
