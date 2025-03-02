@@ -9,4 +9,5 @@ Currently, this project is under development, and the first version is expected 
 - [ ] Uno Platform
 
 ## Preview
-https://github.com/user-attachments/assets/50965ebd-82a5-477e-8e19-58ec1f7acaa6
+![QQ_1740906967281](https://github.com/user-attachments/assets/ff8afbc8-ab87-4852-a972-16d91674a151)
+![QQ_1740906989312](https://github.com/user-attachments/assets/5b54d9ff-a156-43fa-b526-d31aecbbd16d)
