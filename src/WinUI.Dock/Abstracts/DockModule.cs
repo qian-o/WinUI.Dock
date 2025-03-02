@@ -95,6 +95,16 @@ public abstract class DockModule : Control
         set => SetValue(DockHeightProperty, value);
     }
 
+    public void CopySizeFrom(DockModule module)
+    {
+        DockMinWidth = module.DockMinWidth;
+        DockMaxWidth = module.DockMaxWidth;
+        DockWidth = module.DockWidth;
+        DockMinHeight = module.DockMinHeight;
+        DockMaxHeight = module.DockMaxHeight;
+        DockHeight = module.DockHeight;
+    }
+
     public void Attach(DockModule owner)
     {
         if (Owner == owner)
@@ -130,11 +140,7 @@ public abstract class DockModule : Control
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        // This is not the best solution. (TODO)
-        if (e.PreviousSize.Width is not 0 && e.PreviousSize.Height is not 0)
-        {
-            DockWidth = ActualWidth;
-            DockHeight = ActualHeight;
-        }
+        DockWidth = ActualWidth;
+        DockHeight = ActualHeight;
     }
 }

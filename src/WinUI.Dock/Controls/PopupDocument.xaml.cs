@@ -116,7 +116,37 @@ public sealed partial class PopupDocument : UserControl
 
     private void Pin_Click(object _, RoutedEventArgs __)
     {
+        Document document = Document!;
+
         Detach(true);
+
+        switch (DockSide)
+        {
+            case DockSide.Left:
+                {
+                    DocumentGroup group = new();
+                    group.Children.Add(document);
+
+                    group.CopySizeFrom(document);
+
+                    LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
+                    panel.Children.Add(group);
+
+                    if (DockManager.Panel is not null)
+                    {
+                        panel.Children.Add(DockManager.Panel);
+                    }
+
+                    DockManager.Panel = panel;
+                }
+                break;
+            case DockSide.Top:
+                break;
+            case DockSide.Right:
+                break;
+            case DockSide.Bottom:
+                break;
+        }
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
