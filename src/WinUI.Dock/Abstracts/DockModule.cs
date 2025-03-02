@@ -130,7 +130,10 @@ public abstract class DockModule : Control
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        DockWidth = ActualWidth;
-        DockHeight = ActualHeight;
+        if (Owner is not null)
+        {
+            DockWidth = ActualWidth;
+            DockHeight = ActualHeight;
+        }
     }
 }
