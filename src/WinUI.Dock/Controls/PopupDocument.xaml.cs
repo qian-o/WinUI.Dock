@@ -71,4 +71,12 @@ public sealed partial class PopupDocument : UserControl
 
         Bindings.Update();
     }
+
+    private void Pin_Click(object _, RoutedEventArgs __)
+    {
+    }
+
+    private void Close_Click(object _, RoutedEventArgs __)
+    {
+    }
 }

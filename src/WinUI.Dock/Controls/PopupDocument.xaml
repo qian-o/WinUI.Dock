@@ -51,11 +51,13 @@
                             <Button Style="{StaticResource IconButtonStyle}"
                                     Padding="8"
                                     Content="&#xE840;"
-                                    Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Click="Pin_Click" />
                             <Button Style="{StaticResource IconButtonStyle}"
                                     Padding="8"
                                     Content="&#xF78A;"
-                                    Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Click="Close_Click" />
                         </StackPanel>
                     </Grid>
                 </Border>
