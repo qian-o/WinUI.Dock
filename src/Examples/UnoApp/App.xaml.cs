@@ -9,6 +9,12 @@ public partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        new MainWindow().Activate();
+        MainWindow mainWindow = new();
+
+#if DEBUG
+        mainWindow.UseStudio();
+#endif
+
+        mainWindow.Activate();
     }
 }
