@@ -52,8 +52,8 @@
                               Height="124"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center">
-                            <Path Data="M44,0 L80,0 A4,4,0,0,1,84,4 L84,36 A4,4,0,0,0,88,40 L120,40 A4,4,0,0,1,124,44 L124,80 A4,4,0,0,1,120,84 L88,84 A4,4,0,0,0,84,88 L84,120 A4,4,0,0,1,80,124 L44,124 A4,4,0,0,1,40,120 L40,88 A4,4,0,0,0,36,84 L4,84 A4,4,0,0,1,0,80 L0,44 A4,4,0,0,1,4,40 L36,40 A4,4,0,0,0,40,36 L40,4 A4,4,0,0,1,44,0 Z"
-                                  Fill="Red"
+                            <Path Data="m44,0 l36,0 a4,4,0,0,1,4,4 l0,32 a4,4,0,0,0,4,4 l32,0 a4,4,0,0,1,4,4 l0,36 a4,4,0,0,1,-4,4 l-32,0 a4,4,0,0,0,-4,4 l0,32 a4,4,0,0,1,-4,4 l-36,0 a4,4,0,0,1,-4,-4 l0,-32 a4,4,0,0,0,-4,-4 l-32,0 a4,4,0,0,1,-4,-4 l0,-36 a4,4,0,0,1,4,-4 l32,0 a4,4,0,0,0,4,-4 l0,-32 a4,4,0,0,1,4,-4 z"
+                                  Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                   Stretch="Uniform"
                                   Stroke="{ThemeResource CardStrokeColorDefaultBrush}"
                                   StrokeThickness="1" />
