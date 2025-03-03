@@ -31,17 +31,18 @@
                     <VisualState.Setters>
                         <Setter Target="Root.Child">
                             <Setter.Value>
-                                <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="2">
-                                    <Path HorizontalAlignment="Center"
-                                          Data="m 0,0 l 0,1"
+                                <Grid>
+                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="2" />
+                                    <Line HorizontalAlignment="Center"
                                           Stretch="Fill"
                                           Stroke="{ThemeResource AccentFillColorDefaultBrush}"
                                           StrokeDashArray="3,1"
-                                          StrokeThickness="2" />
-                                </Border>
+                                          StrokeThickness="1"
+                                          Y2="1" />
+                                </Grid>
                             </Setter.Value>
                         </Setter>
                     </VisualState.Setters>
@@ -51,17 +52,18 @@
                     <VisualState.Setters>
                         <Setter Target="Root.Child">
                             <Setter.Value>
-                                <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="2">
-                                    <Path VerticalAlignment="Center"
-                                          Data="m 0,0 l 1,0"
+                                <Grid>
+                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="2" />
+                                    <Line VerticalAlignment="Center"
                                           Stretch="Fill"
                                           Stroke="{ThemeResource AccentFillColorDefaultBrush}"
                                           StrokeDashArray="3,1"
-                                          StrokeThickness="2" />
-                                </Border>
+                                          StrokeThickness="1"
+                                          X2="1" />
+                                </Grid>
                             </Setter.Value>
                         </Setter>
                     </VisualState.Setters>
@@ -71,17 +73,18 @@
                     <VisualState.Setters>
                         <Setter Target="Root.Child">
                             <Setter.Value>
-                                <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="2">
-                                    <Path HorizontalAlignment="Center"
-                                          Data="m 0,0 l 0,1"
+                                <Grid>
+                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="2" />
+                                    <Line HorizontalAlignment="Center"
                                           Stretch="Fill"
                                           Stroke="{ThemeResource AccentFillColorDefaultBrush}"
                                           StrokeDashArray="3,1"
-                                          StrokeThickness="2" />
-                                </Border>
+                                          StrokeThickness="1"
+                                          Y2="1" />
+                                </Grid>
                             </Setter.Value>
                         </Setter>
                     </VisualState.Setters>
@@ -91,17 +94,18 @@
                     <VisualState.Setters>
                         <Setter Target="Root.Child">
                             <Setter.Value>
-                                <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                                        BorderThickness="1,3,1,1"
-                                        CornerRadius="2">
-                                    <Path VerticalAlignment="Center"
-                                          Data="m 0,0 l 1,0"
+                                <Grid>
+                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderThickness="1,3,1,1"
+                                            CornerRadius="2" />
+                                    <Line VerticalAlignment="Center"
                                           Stretch="Fill"
                                           Stroke="{ThemeResource AccentFillColorDefaultBrush}"
                                           StrokeDashArray="3,1"
-                                          StrokeThickness="2" />
-                                </Border>
+                                          StrokeThickness="1"
+                                          X2="1" />
+                                </Grid>
                             </Setter.Value>
                         </Setter>
                     </VisualState.Setters>
