@@ -60,6 +60,30 @@
                         <Border x:Name="PART_PopupContainer"
                                 Grid.Row="1"
                                 Grid.Column="1" />
+
+                        <Grid x:Name="PART_DockTargets"
+                              Grid.Row="1"
+                              Grid.Column="1">
+                            <controls:DockTargetButton HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       DockTarget="Center" />
+
+                            <controls:DockTargetButton HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       DockTarget="DockLeft" />
+
+                            <controls:DockTargetButton HorizontalAlignment="Center"
+                                                       VerticalAlignment="Top"
+                                                       DockTarget="DockTop" />
+
+                            <controls:DockTargetButton HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
+                                                       DockTarget="DockRight" />
+
+                            <controls:DockTargetButton HorizontalAlignment="Center"
+                                                       VerticalAlignment="Bottom"
+                                                       DockTarget="DockBottom" />
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -176,7 +176,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <FontIcon Grid.Column="0"
-                                              HorizontalAlignment="Right"
+                                              HorizontalAlignment="Left"
                                               VerticalAlignment="Center"
                                               FontSize="10"
                                               Glyph="&#xF08F;" />
@@ -204,7 +204,7 @@
 
                                     <FontIcon Grid.Row="0"
                                               HorizontalAlignment="Center"
-                                              VerticalAlignment="Bottom"
+                                              VerticalAlignment="Top"
                                               FontSize="10"
                                               Glyph="&#xF08E;" />
 

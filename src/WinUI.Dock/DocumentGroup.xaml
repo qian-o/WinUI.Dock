@@ -48,7 +48,8 @@
                             </TabView.RenderTransform>
                         </TabView>
 
-                        <Grid Width="124"
+                        <Grid x:Name="PART_DockTargets"
+                              Width="124"
                               Height="124"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center">
