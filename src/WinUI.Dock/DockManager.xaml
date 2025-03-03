@@ -10,16 +10,16 @@
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DockManager">
                     <Grid Background="Transparent">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
                         <!--
                             If you use GridSplitter directly in the cs file,
@@ -29,25 +29,17 @@
                         -->
                         <communityToolkit:GridSplitter Visibility="Collapsed" />
 
-                        <controls:Sidebar Grid.Row="0"
-                                          Grid.Column="1"
-                                          DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                          DockSide="Top"
-                                          Documents="{Binding TopSide, RelativeSource={RelativeSource TemplatedParent}}" />
-
                         <controls:Sidebar Grid.Row="1"
                                           Grid.Column="0"
                                           DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                           DockSide="Left"
                                           Documents="{Binding LeftSide, RelativeSource={RelativeSource TemplatedParent}}" />
 
-                        <ContentPresenter Grid.Row="1"
+                        <controls:Sidebar Grid.Row="0"
                                           Grid.Column="1"
-                                          Content="{TemplateBinding Panel}" />
-
-                        <Border x:Name="PART_PopupContainer"
-                                Grid.Row="1"
-                                Grid.Column="1" />
+                                          DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                          DockSide="Top"
+                                          Documents="{Binding TopSide, RelativeSource={RelativeSource TemplatedParent}}" />
 
                         <controls:Sidebar Grid.Row="1"
                                           Grid.Column="2"
@@ -60,6 +52,14 @@
                                           DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                           DockSide="Bottom"
                                           Documents="{Binding BottomSide, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                        <ContentPresenter Grid.Row="1"
+                                          Grid.Column="1"
+                                          Content="{TemplateBinding Panel}" />
+
+                        <Border x:Name="PART_PopupContainer"
+                                Grid.Row="1"
+                                Grid.Column="1" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

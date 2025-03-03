@@ -1,4 +1,4 @@
-using WinUI.Dock.Enums;
+﻿using WinUI.Dock.Enums;
 
 namespace WinUI.Dock.Controls;
 
@@ -18,5 +18,10 @@ public sealed partial class DockTargetButton : UserControl
     {
         get => (DockTarget)GetValue(DockTargetProperty);
         set => SetValue(DockTargetProperty, value);
+    }
+
+    private void OnLoaded(object _, RoutedEventArgs __)
+    {
+        VisualStateManager.GoToState(this, DockTarget.ToString(), false);
     }
 }

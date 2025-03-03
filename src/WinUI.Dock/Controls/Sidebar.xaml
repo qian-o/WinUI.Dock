@@ -99,10 +99,10 @@
     </UserControl.Resources>
 
     <controls:LayoutTransformControl>
-
         <controls:LayoutTransformControl.Transform>
             <RotateTransform x:Name="Rotate" />
         </controls:LayoutTransformControl.Transform>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Left">
