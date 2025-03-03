@@ -3,8 +3,7 @@
                     xmlns:dock="using:WinUI.Dock">
 
     <Style TargetType="dock:DocumentGroup">
-        <Setter Property="AllowDrop"
-                Value="True" />
+        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DocumentGroup">
@@ -13,14 +12,12 @@
                             <VisualStateGroup x:Name="TabPosition">
                                 <VisualState x:Name="Top">
                                     <VisualState.Setters>
-                                        <Setter Target="Scale.ScaleY"
-                                                Value="1" />
+                                        <Setter Target="Scale.ScaleY" Value="1" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Bottom">
                                     <VisualState.Setters>
-                                        <Setter Target="Scale.ScaleY"
-                                                Value="-1" />
+                                        <Setter Target="Scale.ScaleY" Value="-1" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -28,14 +25,12 @@
                             <VisualStateGroup x:Name="IsTabWidthBasedOnContent">
                                 <VisualState x:Name="TabWidthEqual">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_Root.TabWidthMode"
-                                                Value="Equal" />
+                                        <Setter Target="PART_Root.TabWidthMode" Value="Equal" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="TabWidthSizeToContent">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_Root.TabWidthMode"
-                                                Value="SizeToContent" />
+                                        <Setter Target="PART_Root.TabWidthMode" Value="SizeToContent" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -43,8 +38,8 @@
 
                         <TabView x:Name="PART_Root"
                                  Padding="0"
-                                 CanReorderTabs="False"
                                  VerticalAlignment="Stretch"
+                                 CanReorderTabs="False"
                                  IsAddTabButtonVisible="False"
                                  RenderTransformOrigin="0.5,0.5">
                             <TabView.RenderTransform>

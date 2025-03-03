@@ -17,10 +17,10 @@
 
     <TabViewItem.Header>
         <Grid Background="Transparent"
-              RenderTransformOrigin="0.5,0.5"
               PointerEntered="Header_PointerEntered"
               PointerExited="Header_PointerExited"
-              PointerPressed="Document_PointerPressed">
+              PointerPressed="Document_PointerPressed"
+              RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <ScaleTransform x:Name="HeaderScale" />
             </Grid.RenderTransform>
@@ -31,14 +31,14 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0"
-                        Orientation="Horizontal"
-                        Margin="0,0,8,0">
+                        Margin="0,0,8,0"
+                        Orientation="Horizontal">
                 <Border x:Name="ActiveIndicator"
                         Width="4"
                         Height="16"
                         Margin="0,0,6,0"
-                        CornerRadius="2"
-                        Background="{ThemeResource AccentFillColorDefaultBrush}" />
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        CornerRadius="2" />
 
                 <TextBlock VerticalAlignment="Center"
                            Text="{x:Bind Document.ActualTitle}" />
@@ -46,28 +46,28 @@
 
             <StackPanel x:Name="Options"
                         Grid.Column="1"
-                        Orientation="Horizontal"
                         VerticalAlignment="Center"
-                        Opacity="0.0">
-                <Button Style="{StaticResource IconButtonStyle}"
-                        Padding="6"
+                        Opacity="0.0"
+                        Orientation="Horizontal">
+                <Button Padding="6"
+                        Click="Pin_Click"
                         Content="&#xE77A;"
-                        Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}"
-                        Click="Pin_Click" />
-                <Button Style="{StaticResource IconButtonStyle}"
-                        Padding="6"
+                        Style="{StaticResource IconButtonStyle}"
+                        Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <Button Padding="6"
+                        Click="Close_Click"
                         Content="&#xF78A;"
-                        Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}"
-                        Click="Close_Click" />
+                        Style="{StaticResource IconButtonStyle}"
+                        Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}" />
             </StackPanel>
         </Grid>
     </TabViewItem.Header>
 
     <TabViewItem.Content>
-        <Border CornerRadius="0,0,4,4"
-                BorderThickness="1,0,1,1"
+        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderThickness="1,0,1,1"
+                CornerRadius="0,0,4,4"
                 PointerPressed="Document_PointerPressed">
             <ContentControl HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"

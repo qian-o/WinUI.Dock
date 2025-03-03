@@ -18,18 +18,14 @@
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="PointerOver">
                                             <VisualState.Setters>
-                                                <Setter Target="Content.Foreground"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                                <Setter Target="Mark.Background"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
                                             <VisualState.Setters>
-                                                <Setter Target="Content.Foreground"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                                <Setter Target="Mark.Background"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -39,8 +35,8 @@
                                     <Border x:Name="Mark"
                                             Height="4"
                                             Margin="0,2,0,0"
-                                            CornerRadius="2"
-                                            Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
+                                            Background="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                            CornerRadius="2" />
                                 </StackPanel>
                             </Border>
                         </ControlTemplate>
@@ -60,18 +56,14 @@
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="PointerOver">
                                             <VisualState.Setters>
-                                                <Setter Target="Mark.Background"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                                <Setter Target="Content.Foreground"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
                                             <VisualState.Setters>
-                                                <Setter Target="Mark.Background"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                                <Setter Target="Content.Foreground"
-                                                        Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -80,8 +72,8 @@
                                     <Border x:Name="Mark"
                                             Height="4"
                                             Margin="0,0,0,2"
-                                            CornerRadius="2"
-                                            Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
+                                            Background="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                            CornerRadius="2" />
                                     <ContentPresenter x:Name="Content" />
                                 </StackPanel>
                             </Border>
@@ -92,64 +84,56 @@
 
             <DataTemplate x:Key="LeftBottomTemplate"
                           x:DataType="dock:Document">
-                <Button Style="{StaticResource LeftBottomButtonStyle}"
+                <Button Click="Document_Click"
                         Content="{Binding ActualTitle}"
-                        Click="Document_Click" />
+                        Style="{StaticResource LeftBottomButtonStyle}" />
             </DataTemplate>
 
             <DataTemplate x:Key="TopRightTemplate"
                           x:DataType="dock:Document">
-                <Button Style="{StaticResource TopRightButtonStyle}"
+                <Button Click="Document_Click"
                         Content="{Binding ActualTitle}"
-                        Click="Document_Click" />
+                        Style="{StaticResource TopRightButtonStyle}" />
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <controls:LayoutTransformControl>
+
+        <controls:LayoutTransformControl.Transform>
+            <RotateTransform x:Name="Rotate" />
+        </controls:LayoutTransformControl.Transform>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Left">
                     <VisualState.Setters>
-                        <Setter Target="Rotate.Angle"
-                                Value="90" />
-                        <Setter Target="Items.ItemTemplate"
-                                Value="{StaticResource LeftBottomTemplate}" />
+                        <Setter Target="Rotate.Angle" Value="90" />
+                        <Setter Target="Items.ItemTemplate" Value="{StaticResource LeftBottomTemplate}" />
                     </VisualState.Setters>
                 </VisualState>
 
                 <VisualState x:Name="Top">
                     <VisualState.Setters>
-                        <Setter Target="Rotate.Angle"
-                                Value="0" />
-                        <Setter Target="Items.ItemTemplate"
-                                Value="{StaticResource TopRightTemplate}" />
+                        <Setter Target="Rotate.Angle" Value="0" />
+                        <Setter Target="Items.ItemTemplate" Value="{StaticResource TopRightTemplate}" />
                     </VisualState.Setters>
                 </VisualState>
 
                 <VisualState x:Name="Right">
                     <VisualState.Setters>
-                        <Setter Target="Rotate.Angle"
-                                Value="90" />
-                        <Setter Target="Items.ItemTemplate"
-                                Value="{StaticResource TopRightTemplate}" />
+                        <Setter Target="Rotate.Angle" Value="90" />
+                        <Setter Target="Items.ItemTemplate" Value="{StaticResource TopRightTemplate}" />
                     </VisualState.Setters>
                 </VisualState>
 
                 <VisualState x:Name="Bottom">
                     <VisualState.Setters>
-                        <Setter Target="Rotate.Angle"
-                                Value="0" />
-                        <Setter Target="Items.ItemTemplate"
-                                Value="{StaticResource LeftBottomTemplate}" />
+                        <Setter Target="Rotate.Angle" Value="0" />
+                        <Setter Target="Items.ItemTemplate" Value="{StaticResource LeftBottomTemplate}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
-        <controls:LayoutTransformControl.Transform>
-            <RotateTransform x:Name="Rotate" />
-        </controls:LayoutTransformControl.Transform>
 
         <ItemsRepeater x:Name="Items"
                        Margin="0,4,0,4"
