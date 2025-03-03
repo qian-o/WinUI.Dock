@@ -48,17 +48,19 @@
                             </TabView.RenderTransform>
                         </TabView>
 
-                        <Border Width="118"
-                                Height="118"
-                                Padding="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Background="AliceBlue"
-                                BorderBrush="Red"
-                                BorderThickness="1"
-                                CornerRadius="20">
-                            <Grid HorizontalAlignment="Center"
-                                  VerticalAlignment="Center">
+                        <Grid Width="124"
+                              Height="124"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center">
+                            <Path Data="M40,0 L84,0 L84,28 L96,40 L124,40 L124,84 L96,84 L84,96 L84,124 L40,124 L40,96 L28,84 L0,84 L0,40 L28,40 L40,28 L40,0 Z"
+                                  Fill="Red"
+                                  Stretch="Uniform"
+                                  Stroke="{ThemeResource CardStrokeColorDefaultBrush}"
+                                  StrokeThickness="1" />
+
+                            <Grid Width="120"
+                                  Height="120"
+                                  Margin="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
@@ -95,7 +97,7 @@
                                                            Margin="2"
                                                            DockTarget="SplitBottom" />
                             </Grid>
-                        </Border>
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
