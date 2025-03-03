@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Uno;
 using Uno.Extensions;
 using Uno.UI.Adapter.Microsoft.Extensions.Logging;
 using Uno.UI.Runtime.Skia;
@@ -10,6 +11,8 @@ internal static class Program
     [STAThread]
     private static void Main(string[] _)
     {
+        CompositionConfiguration.Configuration = CompositionConfiguration.Options.Enabled;
+
 #if DEBUG
         LogExtensionPoint.AmbientLoggerFactory = LoggerFactory.Create(builder =>
         {
