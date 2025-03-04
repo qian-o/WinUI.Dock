@@ -60,6 +60,20 @@ public partial class DockManager : Control
         PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
     }
 
+    protected override void OnDragEnter(DragEventArgs e)
+    {
+        base.OnDragEnter(e);
+
+        VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
+    }
+
+    protected override void OnDragLeave(DragEventArgs e)
+    {
+        base.OnDragLeave(e);
+
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
+    }
+
     internal void InvokeDocumentGroupReady(string documentTitle, DocumentGroup documentGroup)
     {
         DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(documentTitle, documentGroup));

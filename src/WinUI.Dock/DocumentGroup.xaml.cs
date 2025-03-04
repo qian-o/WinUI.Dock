@@ -36,6 +36,20 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(IsTabWidthBasedOnContentProperty, value);
     }
 
+    protected override void OnDragEnter(DragEventArgs e)
+    {
+        base.OnDragEnter(e);
+
+        VisualStateManager.GoToState(this, "ShowDockTargets", false);
+    }
+
+    protected override void OnDragLeave(DragEventArgs e)
+    {
+        base.OnDragLeave(e);
+
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
+    }
+
     protected override void InitTemplate()
     {
         root = GetTemplateChild("PART_Root") as TabView;

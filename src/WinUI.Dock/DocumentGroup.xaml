@@ -35,6 +35,19 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="OperationDockTargets">
+                                <VisualState x:Name="ShowDockTargets">
+                                    <VisualState.Setters>
+                                        <Setter Target="DockTargets.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HideDockTargets">
+                                    <VisualState.Setters>
+                                        <Setter Target="DockTargets.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <TabView x:Name="PART_Root"
@@ -48,11 +61,12 @@
                             </TabView.RenderTransform>
                         </TabView>
 
-                        <Grid x:Name="PART_DockTargets"
+                        <Grid x:Name="DockTargets"
                               Width="124"
                               Height="124"
                               HorizontalAlignment="Center"
-                              VerticalAlignment="Center">
+                              VerticalAlignment="Center"
+                              Visibility="Collapsed">
                             <Path Data="m44,0 l36,0 a4,4,0,0,1,4,4 l0,32 a4,4,0,0,0,4,4 l32,0 a4,4,0,0,1,4,4 l0,36 a4,4,0,0,1,-4,4 l-32,0 a4,4,0,0,0,-4,4 l0,32 a4,4,0,0,1,-4,4 l-36,0 a4,4,0,0,1,-4,-4 l0,-32 a4,4,0,0,0,-4,-4 l-32,0 a4,4,0,0,1,-4,-4 l0,-36 a4,4,0,0,1,4,-4 l32,0 a4,4,0,0,0,4,-4 l0,-32 a4,4,0,0,1,4,-4 z"
                                   Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                   Stretch="Uniform"

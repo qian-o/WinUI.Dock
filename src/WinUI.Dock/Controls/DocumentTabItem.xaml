@@ -4,6 +4,7 @@
              xmlns:converters="using:WinUI.Dock.Converters"
              HorizontalContentAlignment="Stretch"
              VerticalContentAlignment="Stretch"
+             CanDrag="True"
              IsClosable="False">
     <TabViewItem.Resources>
         <ResourceDictionary>

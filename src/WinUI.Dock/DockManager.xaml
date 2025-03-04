@@ -21,6 +21,28 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="OperationDockTargets">
+                                <VisualState x:Name="ShowSideDockTargets">
+                                    <VisualState.Setters>
+                                        <Setter Target="DockTargets.Visibility" Value="Visible" />
+                                        <Setter Target="DockTargetCenter.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="ShowAllDockTargets">
+                                    <VisualState.Setters>
+                                        <Setter Target="DockTargets.Visibility" Value="Visible" />
+                                        <Setter Target="DockTargetCenter.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HideDockTargets">
+                                    <VisualState.Setters>
+                                        <Setter Target="DockTargets.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
                         <!--
                             If you use GridSplitter directly in the cs file,
                             the style of GridSplitter will have issues.
@@ -61,10 +83,12 @@
                                 Grid.Row="1"
                                 Grid.Column="1" />
 
-                        <Grid x:Name="PART_DockTargets"
+                        <Grid x:Name="DockTargets"
                               Grid.Row="1"
-                              Grid.Column="1">
-                            <controls:DockTargetButton HorizontalAlignment="Center"
+                              Grid.Column="1"
+                              Visibility="Collapsed">
+                            <controls:DockTargetButton x:Name="DockTargetCenter"
+                                                       HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        DockTarget="Center" />
 
