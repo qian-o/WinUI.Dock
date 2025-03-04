@@ -90,23 +90,28 @@
                             <controls:DockTargetButton x:Name="DockTargetCenter"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       DockTarget="Center" />
+                                                       DockTarget="Center"
+                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                             <controls:DockTargetButton HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
-                                                       DockTarget="DockLeft" />
+                                                       DockTarget="DockLeft"
+                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                             <controls:DockTargetButton HorizontalAlignment="Center"
                                                        VerticalAlignment="Top"
-                                                       DockTarget="DockTop" />
+                                                       DockTarget="DockTop"
+                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                             <controls:DockTargetButton HorizontalAlignment="Right"
                                                        VerticalAlignment="Center"
-                                                       DockTarget="DockRight" />
+                                                       DockTarget="DockRight"
+                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
 
                             <controls:DockTargetButton HorizontalAlignment="Center"
                                                        VerticalAlignment="Bottom"
-                                                       DockTarget="DockBottom" />
+                                                       DockTarget="DockBottom"
+                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Windows.ApplicationModel.DataTransfer;
+﻿using Windows.ApplicationModel.DataTransfer;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
 
@@ -12,6 +11,11 @@ public sealed partial class DockTargetButton : UserControl
                                                                                                typeof(DockTargetButton),
                                                                                                new PropertyMetadata(DockTarget.Center));
 
+    public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(nameof(Target),
+                                                                                           typeof(Control),
+                                                                                           typeof(DockTargetButton),
+                                                                                           new PropertyMetadata(null));
+
     public DockTargetButton()
     {
         InitializeComponent();
@@ -21,6 +25,12 @@ public sealed partial class DockTargetButton : UserControl
     {
         get => (DockTarget)GetValue(DockTargetProperty);
         set => SetValue(DockTargetProperty, value);
+    }
+
+    public Control? Target
+    {
+        get => (Control)GetValue(TargetProperty);
+        set => SetValue(TargetProperty, value);
     }
 
     protected override void OnDragOver(DragEventArgs e)
@@ -36,7 +46,83 @@ public sealed partial class DockTargetButton : UserControl
 
         if (DragDropHelpers.GetDocument((string)await e.DataView.GetDataAsync(DragDropHelpers.Format)) is Document document)
         {
-            Debug.WriteLine($"Document Title: {document.Title}");
+            DocumentGroup group = new();
+            group.CopySizeFrom(document);
+            group.Children.Add(document);
+
+            switch (DockTarget)
+            {
+                case DockTarget.Center:
+                    break;
+                case DockTarget.SplitLeft:
+                    break;
+                case DockTarget.SplitTop:
+                    break;
+                case DockTarget.SplitRight:
+                    break;
+                case DockTarget.SplitBottom:
+                    break;
+                case DockTarget.DockLeft:
+                    {
+                        DockManager dockManager = (DockManager)Target!;
+
+                        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
+                        panel.Children.Add(group);
+
+                        if (dockManager.Panel is not null)
+                        {
+                            panel.Children.Add(dockManager.Panel);
+                        }
+
+                        dockManager.Panel = panel;
+                    }
+                    break;
+                case DockTarget.DockTop:
+                    {
+                        DockManager dockManager = (DockManager)Target!;
+
+                        LayoutPanel panel = new() { Orientation = Orientation.Vertical };
+                        panel.Children.Add(group);
+
+                        if (dockManager.Panel is not null)
+                        {
+                            panel.Children.Add(dockManager.Panel);
+                        }
+
+                        dockManager.Panel = panel;
+                    }
+                    break;
+                case DockTarget.DockRight:
+                    {
+                        DockManager dockManager = (DockManager)Target!;
+
+                        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
+                        panel.Children.Add(group);
+
+                        if (dockManager.Panel is not null)
+                        {
+                            panel.Children.Insert(0, dockManager.Panel);
+                        }
+
+                        dockManager.Panel = panel;
+                    }
+                    break;
+                case DockTarget.DockBottom:
+                    {
+                        DockManager dockManager = (DockManager)Target!;
+
+                        LayoutPanel panel = new() { Orientation = Orientation.Vertical };
+                        panel.Children.Add(group);
+
+                        if (dockManager.Panel is not null)
+                        {
+                            panel.Children.Insert(0, dockManager.Panel);
+                        }
+
+                        dockManager.Panel = panel;
+                    }
+                    break;
+            }
         }
     }
 
