@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.UI.Xaml.Data;
+﻿using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
@@ -74,7 +73,8 @@ public sealed partial class DocumentTabItem : TabViewItem
     {
         if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
         {
-            Debug.WriteLine($"Document Title: {document.Title}");
+            //DockWindow dockWindow = new(document);
+            //dockWindow.Activate();
 
             DragDropHelpers.RemoveDragKey(dragKey);
         }
