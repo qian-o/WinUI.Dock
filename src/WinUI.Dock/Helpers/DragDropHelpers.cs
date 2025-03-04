@@ -21,10 +21,12 @@ internal static class DragDropHelpers
         return text;
     }
 
-    public static bool GetDocument(string text, out Document? document)
+    public static Document? GetDocument(string text)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        return cache.TryGetValue(text, out document);
+        cache.TryGetValue(text, out Document? document);
+
+        return document;
     }
 }
