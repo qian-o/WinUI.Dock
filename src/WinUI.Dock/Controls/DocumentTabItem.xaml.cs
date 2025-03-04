@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
 using WinUI.Dock.Converters;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
@@ -47,9 +49,23 @@ public sealed partial class DocumentTabItem : TabViewItem
         Bindings.Update();
     }
 
-    private void OnDragStarting(UIElement _, DragStartingEventArgs args)
+    private async void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
         args.Data.SetData(DragDropHelpers.Format, dragKey = DragDropHelpers.GetDragKey(Document!));
+
+        RenderTargetBitmap renderTarget = new();
+
+        await renderTarget.RenderAsync(this);
+
+        using SoftwareBitmap software = SoftwareBitmap.CreateCopyFromBuffer(await renderTarget.GetPixelsAsync(),
+                                                                            BitmapPixelFormat.Bgra8,
+                                                                            renderTarget.PixelWidth,
+                                                                            renderTarget.PixelHeight,
+                                                                            BitmapAlphaMode.Premultiplied);
+
+#if WINDOWS
+        args.DragUI.SetContentFromSoftwareBitmap(software);
+#endif
 
         Document!.Detach(true);
     }
