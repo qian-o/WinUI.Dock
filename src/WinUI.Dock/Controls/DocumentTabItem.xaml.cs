@@ -1,9 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.Graphics.Imaging;
 using WinUI.Dock.Converters;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
@@ -48,36 +46,19 @@ public sealed partial class DocumentTabItem : TabViewItem
         Bindings.Update();
     }
 
-    private async void OnDragStarting(UIElement _, DragStartingEventArgs args)
+    private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
         args.Data.SetData(DragDropHelpers.Format, dragKey = DragDropHelpers.GetDragKey(Document!));
-
-        RenderTargetBitmap renderTarget = new();
-
-        await renderTarget.RenderAsync(this);
-
-        using SoftwareBitmap software = SoftwareBitmap.CreateCopyFromBuffer(await renderTarget.GetPixelsAsync(),
-                                                                            BitmapPixelFormat.Bgra8,
-                                                                            renderTarget.PixelWidth,
-                                                                            renderTarget.PixelHeight,
-                                                                            BitmapAlphaMode.Premultiplied);
-
-#if WINDOWS
-        args.DragUI.SetContentFromSoftwareBitmap(software);
-#endif
-
-        Document!.Detach();
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
+        if (args.DropResult is not DataPackageOperation.Move)
         {
-            //DockWindow dockWindow = new(document);
-            //dockWindow.Activate();
-
-            DragDropHelpers.RemoveDragKey(dragKey);
+            // TODO: Drag not completed, should create a new window.
         }
+
+        DragDropHelpers.RemoveDragKey(dragKey);
     }
 
     private void Header_PointerEntered(object _, PointerRoutedEventArgs __)

@@ -46,6 +46,8 @@ public sealed partial class DockTargetButton : UserControl
 
         if (DragDropHelpers.GetDocument((string)await e.DataView.GetDataAsync(DragDropHelpers.Format)) is Document document)
         {
+            document.Detach();
+
             if (Target is DockManager dockManager)
             {
                 dockManager.Dock(document, DockTarget);
