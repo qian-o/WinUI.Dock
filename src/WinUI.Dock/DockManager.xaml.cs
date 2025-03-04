@@ -79,6 +79,8 @@ public partial class DockManager : Control
     {
         VisualStateManager.GoToState(this, "HideDockTargets", false);
 
+        document.Detach();
+
         DocumentGroup group = new();
         group.CopySizeFrom(document);
         group.Children.Add(document);

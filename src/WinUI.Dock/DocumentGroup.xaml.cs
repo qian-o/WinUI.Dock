@@ -114,6 +114,15 @@ public partial class DocumentGroup : DockContainer
     {
         VisualStateManager.GoToState(this, "HideDockTargets", false);
 
+        if (document.Owner == this && Children.Count is 1)
+        {
+            return;
+        }
+        else
+        {
+            document.Detach();
+        }
+
         if (dockTarget is DockTarget.Center)
         {
             Children.Add(document);
