@@ -5,28 +5,32 @@ internal static class DragDropHelpers
     private static readonly Dictionary<string, Document> cache = [];
     private static readonly Lock @lock = new();
 
-    public static string GetText(Document document)
+    public const string Format = "Dock.Document";
+
+    public static string GetDragKey(Document document)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        string? text = cache.FirstOrDefault(x => x.Value == document).Key;
+        string dragKey = Guid.NewGuid().ToString();
 
-        if (text is null)
-        {
-            text = Guid.NewGuid().ToString();
+        cache[dragKey] = document;
 
-            cache.Add(text, document);
-        }
-
-        return text;
+        return dragKey;
     }
 
-    public static Document? GetDocument(string text)
+    public static Document? GetDocument(string dragKey)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        cache.TryGetValue(text, out Document? document);
+        cache.TryGetValue(dragKey, out Document? document);
 
         return document;
+    }
+
+    public static void RemoveDragKey(string dragKey)
+    {
+        using Lock.Scope scope = @lock.EnterScope();
+
+        cache.Remove(dragKey);
     }
 }

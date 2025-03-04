@@ -11,7 +11,7 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class DocumentTabItem : TabViewItem
 {
-    private Document? dragDocument;
+    private string dragKey = string.Empty;
 
     public DocumentTabItem(TabPosition tabPosition, Document document)
     {
@@ -49,15 +49,18 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetText(DragDropHelpers.GetText(dragDocument = Document!));
+        args.Data.SetData(DragDropHelpers.Format, dragKey = DragDropHelpers.GetDragKey(Document!));
+
+        Document!.Detach(true);
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move)
+        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
         {
-            // TODO: Create a new window.
-            Debug.WriteLine(dragDocument!.Title);
+            Debug.WriteLine($"Document Title: {document.Title}");
+
+            DragDropHelpers.RemoveDragKey(dragKey);
         }
     }
 

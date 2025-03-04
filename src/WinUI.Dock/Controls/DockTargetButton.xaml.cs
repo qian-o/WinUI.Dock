@@ -34,9 +34,7 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDrop(e);
 
-        string text = await e.DataView.GetTextAsync();
-
-        if (DragDropHelpers.GetDocument(text) is Document document)
+        if (DragDropHelpers.GetDocument((string)await e.DataView.GetDataAsync(DragDropHelpers.Format)) is Document document)
         {
             Debug.WriteLine($"Document Title: {document.Title}");
         }
