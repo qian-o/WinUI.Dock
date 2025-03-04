@@ -140,6 +140,11 @@ public partial class DockManager : Control
         Panel = panel;
     }
 
+    internal void InvokeDocumentGroupReady(string documentTitle, DocumentGroup documentGroup)
+    {
+        DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(documentTitle, documentGroup));
+    }
+
     private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.OldItems is not null)

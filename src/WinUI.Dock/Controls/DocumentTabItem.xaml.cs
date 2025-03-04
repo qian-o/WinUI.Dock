@@ -67,7 +67,7 @@ public sealed partial class DocumentTabItem : TabViewItem
         args.DragUI.SetContentFromSoftwareBitmap(software);
 #endif
 
-        Document!.Detach(true);
+        Document!.Detach();
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
@@ -126,7 +126,7 @@ public sealed partial class DocumentTabItem : TabViewItem
             dockManager.BottomSide.Add(Document);
         }
 
-        Document.Detach(true);
+        Document.Detach();
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
@@ -136,6 +136,6 @@ public sealed partial class DocumentTabItem : TabViewItem
             Document.Root.ActiveDocument = null;
         }
 
-        Document.Detach(true);
+        Document.Detach();
     }
 }

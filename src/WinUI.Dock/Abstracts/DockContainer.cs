@@ -25,7 +25,7 @@ public abstract class DockContainer : DockModule
 
         if (Children.Count is 0)
         {
-            Detach(true);
+            Detach();
         }
     }
 

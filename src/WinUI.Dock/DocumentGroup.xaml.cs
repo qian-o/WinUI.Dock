@@ -119,6 +119,65 @@ public partial class DocumentGroup : DockContainer
 
     internal void Dock(Document document, DockTarget dockTarget)
     {
+        if (dockTarget is DockTarget.Center)
+        {
+            Children.Add(document);
+
+            SelectedIndex = Children.Count - 1;
+        }
+        else
+        {
+            LayoutPanel owner = (LayoutPanel)Owner!;
+            DockManager root = owner.Root!;
+
+            int index = owner.Children.IndexOf(this);
+
+            Detach(false);
+
+            DocumentGroup group = new();
+            group.CopySizeFrom(this);
+            group.Children.Add(document);
+
+            root.InvokeDocumentGroupReady(document.Title, group);
+
+            LayoutPanel panel = new();
+            panel.CopySizeFrom(this);
+            panel.Children.Add(group);
+
+            switch (dockTarget)
+            {
+                case DockTarget.SplitLeft:
+                    {
+                        panel.Orientation = Orientation.Horizontal;
+
+                        panel.Children.Add(this);
+                    }
+                    break;
+                case DockTarget.SplitTop:
+                    {
+                        panel.Orientation = Orientation.Vertical;
+
+                        panel.Children.Add(this);
+                    }
+                    break;
+                case DockTarget.SplitRight:
+                    {
+                        panel.Orientation = Orientation.Horizontal;
+
+                        panel.Children.Insert(0, this);
+                    }
+                    break;
+                case DockTarget.SplitBottom:
+                    {
+                        panel.Orientation = Orientation.Vertical;
+
+                        panel.Children.Insert(0, this);
+                    }
+                    break;
+            }
+
+            owner.Children.Insert(index, panel);
+        }
     }
 
     private void UpdateVisualState()
