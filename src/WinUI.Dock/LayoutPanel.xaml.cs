@@ -39,13 +39,15 @@ public partial class LayoutPanel : DockContainer
 
         if (Orientation is Orientation.Vertical)
         {
+            double totalHeight = Children.Cast<DockContainer>().Sum(static item => double.IsNaN(item.DockHeight) ? 1.0 : item.DockHeight);
+
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
                 root.RowDefinitions.Add(new()
                 {
                     MinHeight = container.MinHeight,
                     MaxHeight = container.MaxHeight,
-                    Height = new(double.IsNaN(container.DockHeight) ? 1.0 : container.DockHeight, GridUnitType.Star)
+                    Height = new(double.IsNaN(container.DockHeight) ? totalHeight / 4 : container.DockHeight, GridUnitType.Star)
                 });
 
                 Grid.SetRow(container, root.RowDefinitions.Count - 1);
@@ -70,13 +72,15 @@ public partial class LayoutPanel : DockContainer
         }
         else
         {
+            double totalWidth = Children.Cast<DockContainer>().Sum(static item => double.IsNaN(item.DockWidth) ? 1.0 : item.DockWidth);
+
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
                 root.ColumnDefinitions.Add(new()
                 {
                     MinWidth = container.MinWidth,
                     MaxWidth = container.MaxWidth,
-                    Width = new(double.IsNaN(container.DockWidth) ? 1.0 : container.DockWidth, GridUnitType.Star)
+                    Width = new(double.IsNaN(container.DockWidth) ? totalWidth / 4 : container.DockWidth, GridUnitType.Star)
                 });
 
                 Grid.SetColumn(container, root.ColumnDefinitions.Count - 1);
