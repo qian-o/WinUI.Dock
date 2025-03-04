@@ -23,9 +23,9 @@ public sealed partial class DockTargetButton : UserControl
         set => SetValue(DockTargetProperty, value);
     }
 
-    protected override void OnDragEnter(DragEventArgs e)
+    protected override void OnDragOver(DragEventArgs e)
     {
-        base.OnDragEnter(e);
+        base.OnDragOver(e);
 
         e.AcceptedOperation = DataPackageOperation.Move;
     }
