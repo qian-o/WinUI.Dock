@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using WinUI.Dock.Enums;
 
 namespace WinUI.Dock;
 
@@ -81,9 +82,62 @@ public partial class DockManager : Control
         VisualStateManager.GoToState(this, "HideDockTargets", false);
     }
 
-    internal void InvokeDocumentGroupReady(string documentTitle, DocumentGroup documentGroup)
+    internal void Dock(Document document, DockTarget target)
     {
-        DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(documentTitle, documentGroup));
+        DocumentGroup group = new();
+        group.CopySizeFrom(document);
+        group.Children.Add(document);
+
+        DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(document.Title, group));
+
+        LayoutPanel panel = new();
+        panel.Children.Add(group);
+
+        switch (target)
+        {
+            case DockTarget.DockLeft:
+                {
+                    panel.Orientation = Orientation.Horizontal;
+
+                    if (Panel is not null)
+                    {
+                        panel.Children.Add(Panel);
+                    }
+                }
+                break;
+            case DockTarget.DockTop:
+                {
+                    panel.Orientation = Orientation.Vertical;
+
+                    if (Panel is not null)
+                    {
+                        panel.Children.Add(Panel);
+                    }
+                }
+                break;
+            case DockTarget.DockRight:
+                {
+                    panel.Orientation = Orientation.Horizontal;
+
+                    if (Panel is not null)
+                    {
+                        panel.Children.Insert(0, Panel);
+                    }
+                }
+                break;
+            case DockTarget.DockBottom:
+                {
+                    panel.Orientation = Orientation.Vertical;
+
+                    if (Panel is not null)
+                    {
+                        panel.Children.Insert(0, Panel);
+                    }
+                }
+                break;
+        }
+
+        Panel = panel;
     }
 
     private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

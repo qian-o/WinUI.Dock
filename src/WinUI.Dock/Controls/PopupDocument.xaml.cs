@@ -121,60 +121,14 @@ public sealed partial class PopupDocument : UserControl
 
         Detach(true);
 
-        DocumentGroup group = new();
-        group.CopySizeFrom(document);
-        group.Children.Add(document);
-
-        DockManager.InvokeDocumentGroupReady(document.Title, group);
-
-        LayoutPanel panel = new();
-        panel.Children.Add(group);
-
-        switch (DockSide)
+        DockManager.Dock(document, DockSide switch
         {
-            case DockSide.Left:
-                {
-                    panel.Orientation = Orientation.Horizontal;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Add(DockManager.Panel);
-                    }
-                }
-                break;
-            case DockSide.Top:
-                {
-                    panel.Orientation = Orientation.Vertical;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Add(DockManager.Panel);
-                    }
-                }
-                break;
-            case DockSide.Right:
-                {
-                    panel.Orientation = Orientation.Horizontal;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Insert(0, DockManager.Panel);
-                    }
-                }
-                break;
-            case DockSide.Bottom:
-                {
-                    panel.Orientation = Orientation.Vertical;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Insert(0, DockManager.Panel);
-                    }
-                }
-                break;
-        }
-
-        DockManager.Panel = panel;
+            DockSide.Left => DockTarget.DockLeft,
+            DockSide.Top => DockTarget.DockTop,
+            DockSide.Right => DockTarget.DockRight,
+            DockSide.Bottom => DockTarget.DockBottom,
+            _ => throw new NotSupportedException()
+        });
     }
 
     private void Close_Click(object _, RoutedEventArgs __)

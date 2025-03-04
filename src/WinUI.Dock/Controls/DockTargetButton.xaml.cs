@@ -46,82 +46,13 @@ public sealed partial class DockTargetButton : UserControl
 
         if (DragDropHelpers.GetDocument((string)await e.DataView.GetDataAsync(DragDropHelpers.Format)) is Document document)
         {
-            DocumentGroup group = new();
-            group.CopySizeFrom(document);
-            group.Children.Add(document);
-
-            switch (DockTarget)
+            if (Target is DockManager dockManager)
             {
-                case DockTarget.Center:
-                    break;
-                case DockTarget.SplitLeft:
-                    break;
-                case DockTarget.SplitTop:
-                    break;
-                case DockTarget.SplitRight:
-                    break;
-                case DockTarget.SplitBottom:
-                    break;
-                case DockTarget.DockLeft:
-                    {
-                        DockManager dockManager = (DockManager)Target!;
-
-                        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
-                        panel.Children.Add(group);
-
-                        if (dockManager.Panel is not null)
-                        {
-                            panel.Children.Add(dockManager.Panel);
-                        }
-
-                        dockManager.Panel = panel;
-                    }
-                    break;
-                case DockTarget.DockTop:
-                    {
-                        DockManager dockManager = (DockManager)Target!;
-
-                        LayoutPanel panel = new() { Orientation = Orientation.Vertical };
-                        panel.Children.Add(group);
-
-                        if (dockManager.Panel is not null)
-                        {
-                            panel.Children.Add(dockManager.Panel);
-                        }
-
-                        dockManager.Panel = panel;
-                    }
-                    break;
-                case DockTarget.DockRight:
-                    {
-                        DockManager dockManager = (DockManager)Target!;
-
-                        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
-                        panel.Children.Add(group);
-
-                        if (dockManager.Panel is not null)
-                        {
-                            panel.Children.Insert(0, dockManager.Panel);
-                        }
-
-                        dockManager.Panel = panel;
-                    }
-                    break;
-                case DockTarget.DockBottom:
-                    {
-                        DockManager dockManager = (DockManager)Target!;
-
-                        LayoutPanel panel = new() { Orientation = Orientation.Vertical };
-                        panel.Children.Add(group);
-
-                        if (dockManager.Panel is not null)
-                        {
-                            panel.Children.Insert(0, dockManager.Panel);
-                        }
-
-                        dockManager.Panel = panel;
-                    }
-                    break;
+                dockManager.Dock(document, DockTarget);
+            }
+            else if (Target is DocumentGroup documentGroup)
+            {
+                documentGroup.Dock(document, DockTarget);
             }
         }
     }

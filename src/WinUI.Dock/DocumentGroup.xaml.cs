@@ -117,6 +117,10 @@ public partial class DocumentGroup : DockContainer
         return Children.All(static item => item is Document);
     }
 
+    internal void Dock(Document document, DockTarget dockTarget)
+    {
+    }
+
     private void UpdateVisualState()
     {
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);
