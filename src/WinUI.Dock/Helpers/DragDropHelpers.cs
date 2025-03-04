@@ -2,8 +2,8 @@
 
 internal static class DragDropHelpers
 {
-    private readonly static Dictionary<string, Document> cache = [];
-    private readonly static Lock @lock = new();
+    private static readonly Dictionary<string, Document> cache = [];
+    private static readonly Lock @lock = new();
 
     public static string GetText(Document document)
     {
