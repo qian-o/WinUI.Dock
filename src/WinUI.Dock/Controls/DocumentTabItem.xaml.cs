@@ -11,6 +11,8 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class DocumentTabItem : TabViewItem
 {
+    private Document? dragDocument;
+
     public DocumentTabItem(TabPosition tabPosition, Document document)
     {
         InitializeComponent();
@@ -47,7 +49,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetText(DragDropHelpers.GetText(Document!));
+        args.Data.SetText(DragDropHelpers.GetText(dragDocument = Document!));
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
@@ -55,7 +57,7 @@ public sealed partial class DocumentTabItem : TabViewItem
         if (args.DropResult is not DataPackageOperation.Move)
         {
             // TODO: Create a new window.
-            Debug.WriteLine(Document!.Title);
+            Debug.WriteLine(dragDocument!.Title);
         }
     }
 

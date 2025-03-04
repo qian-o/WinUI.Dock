@@ -55,7 +55,8 @@
                                  VerticalAlignment="Stretch"
                                  CanReorderTabs="False"
                                  IsAddTabButtonVisible="False"
-                                 RenderTransformOrigin="0.5,0.5">
+                                 RenderTransformOrigin="0.5,0.5"
+                                 SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <TabView.RenderTransform>
                                 <ScaleTransform x:Name="Scale" />
                             </TabView.RenderTransform>

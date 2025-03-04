@@ -17,6 +17,11 @@ public partial class DocumentGroup : DockContainer
                                                                                                              typeof(DocumentGroup),
                                                                                                              new PropertyMetadata(false, OnIsTabWidthBasedOnContentChanged));
 
+    public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex),
+                                                                                                  typeof(int),
+                                                                                                  typeof(DocumentGroup),
+                                                                                                  new PropertyMetadata(-1));
+
     private TabView? root;
 
     public DocumentGroup()
@@ -34,6 +39,12 @@ public partial class DocumentGroup : DockContainer
     {
         get => (bool)GetValue(IsTabWidthBasedOnContentProperty);
         set => SetValue(IsTabWidthBasedOnContentProperty, value);
+    }
+
+    public int SelectedIndex
+    {
+        get => (int)GetValue(SelectedIndexProperty);
+        set => SetValue(SelectedIndexProperty, value);
     }
 
     protected override void OnDragEnter(DragEventArgs e)
@@ -74,6 +85,15 @@ public partial class DocumentGroup : DockContainer
         foreach (Document document in Children.Cast<Document>())
         {
             root.TabItems.Add(new DocumentTabItem(TabPosition, document));
+        }
+
+        if (SelectedIndex < 0)
+        {
+            SelectedIndex = 0;
+        }
+        else if (SelectedIndex >= Children.Count)
+        {
+            SelectedIndex = Children.Count - 1;
         }
     }
 
