@@ -5,6 +5,8 @@
              HorizontalContentAlignment="Stretch"
              VerticalContentAlignment="Stretch"
              CanDrag="True"
+             DragStarting="OnDragStarting"
+             DropCompleted="OnDropCompleted"
              IsClosable="False">
     <TabViewItem.Resources>
         <ResourceDictionary>

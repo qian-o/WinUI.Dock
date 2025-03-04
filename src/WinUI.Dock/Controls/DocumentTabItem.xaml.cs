@@ -1,8 +1,11 @@
-﻿using Microsoft.UI.Xaml.Data;
+﻿using System.Diagnostics;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using WinUI.Dock.Converters;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock.Controls;
 
@@ -40,6 +43,20 @@ public sealed partial class DocumentTabItem : TabViewItem
         Document = null;
 
         Bindings.Update();
+    }
+
+    private void OnDragStarting(UIElement _, DragStartingEventArgs args)
+    {
+        args.Data.SetText(DragDropHelpers.GetText(Document!));
+    }
+
+    private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
+    {
+        if (args.DropResult is not DataPackageOperation.Move)
+        {
+            // TODO: Create a new window.
+            Debug.WriteLine(Document!.Title);
+        }
     }
 
     private void Header_PointerEntered(object _, PointerRoutedEventArgs __)
