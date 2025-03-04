@@ -61,13 +61,6 @@ public partial class DocumentGroup : DockContainer
         VisualStateManager.GoToState(this, "HideDockTargets", false);
     }
 
-    protected override void OnDrop(DragEventArgs e)
-    {
-        base.OnDrop(e);
-
-        VisualStateManager.GoToState(this, "HideDockTargets", false);
-    }
-
     protected override void InitTemplate()
     {
         root = GetTemplateChild("PART_Root") as TabView;
@@ -119,6 +112,8 @@ public partial class DocumentGroup : DockContainer
 
     internal void Dock(Document document, DockTarget dockTarget)
     {
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
+
         if (dockTarget is DockTarget.Center)
         {
             Children.Add(document);
