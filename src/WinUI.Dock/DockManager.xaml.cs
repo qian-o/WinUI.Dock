@@ -75,13 +75,6 @@ public partial class DockManager : Control
         VisualStateManager.GoToState(this, "HideDockTargets", false);
     }
 
-    protected override void OnDrop(DragEventArgs e)
-    {
-        base.OnDrop(e);
-
-        VisualStateManager.GoToState(this, "HideDockTargets", false);
-    }
-
     internal void Dock(Document document, DockTarget target)
     {
         DocumentGroup group = new();
@@ -143,6 +136,11 @@ public partial class DockManager : Control
     internal void InvokeDocumentGroupReady(string documentTitle, DocumentGroup documentGroup)
     {
         DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(documentTitle, documentGroup));
+    }
+
+    internal void HideDockTargets()
+    {
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
     }
 
     private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

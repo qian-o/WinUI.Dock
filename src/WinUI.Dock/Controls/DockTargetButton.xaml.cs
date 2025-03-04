@@ -54,6 +54,8 @@ public sealed partial class DockTargetButton : UserControl
             {
                 documentGroup.Dock(document, DockTarget);
             }
+
+            document.Root!.HideDockTargets();
         }
     }
 
