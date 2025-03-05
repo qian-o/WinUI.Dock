@@ -13,7 +13,8 @@
             </Style>
         </Grid.Resources>
 
-        <dock:DockManager DocumentGroupReady="DockManager_DocumentGroupReady"
+        <dock:DockManager CreateNewWindow="DockManager_CreateNewWindow"
+                          DocumentGroupReady="DockManager_DocumentGroupReady"
                           ParentWindow="{Binding ElementName=Main}">
             <dock:DockManager.LeftSide>
                 <dock:Document Title="Side##Left 1">

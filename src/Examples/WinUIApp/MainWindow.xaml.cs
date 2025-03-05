@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using WinUI.Dock;
 using WinUI.Dock.Enums;
 
@@ -9,6 +11,11 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+    }
+
+    private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
+    {
+        e.TitleBar.Background = new SolidColorBrush(Colors.DarkGray);
     }
 
     private void DockManager_DocumentGroupReady(object _, DocumentGroupReadyEventArgs e)

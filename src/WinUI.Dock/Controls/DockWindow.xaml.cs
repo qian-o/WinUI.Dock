@@ -37,6 +37,8 @@ public sealed partial class DockWindow : Window
         panel.Children.Add(group);
 
         Panel.Children.Add(panel);
+
+        Panel.Root!.InvokeCreateNewWindow(document, TitleBar);
     }
 
     private void OnDragEnter(object _, DragEventArgs __)

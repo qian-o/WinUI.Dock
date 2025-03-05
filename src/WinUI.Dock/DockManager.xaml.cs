@@ -4,6 +4,8 @@ using WinUI.Dock.Enums;
 
 namespace WinUI.Dock;
 
+public record CreateNewWindowEventArgs(Document Document, Border TitleBar);
+
 public record DocumentGroupReadyEventArgs(string DocumentTitle, DocumentGroup DocumentGroup);
 
 [ContentProperty(Name = nameof(Panel))]
@@ -62,6 +64,8 @@ public partial class DockManager : Control
     public ObservableCollection<Document> BottomSide { get; } = [];
 
     public Border? PopupContainer { get; private set; }
+
+    public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
 
     public event EventHandler<DocumentGroupReadyEventArgs>? DocumentGroupReady;
 
@@ -148,6 +152,11 @@ public partial class DockManager : Control
         }
 
         Panel = panel;
+    }
+
+    internal void InvokeCreateNewWindow(Document document, Border titleBar)
+    {
+        CreateNewWindow?.Invoke(this, new CreateNewWindowEventArgs(document, titleBar));
     }
 
     internal void InvokeDocumentGroupReady(string documentTitle, DocumentGroup documentGroup)
