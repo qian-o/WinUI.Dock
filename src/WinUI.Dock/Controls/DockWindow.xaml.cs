@@ -4,9 +4,11 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class DockWindow : Window
 {
-    public DockWindow(Document document)
+    public DockWindow(DockManager dockManager, Document document)
     {
         InitializeComponent();
+
+        dockManager.InvokeCreateNewWindow(document, TitleBar);
 
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBar);
@@ -26,7 +28,7 @@ public sealed partial class DockWindow : Window
             }
         };
 
-        Panel.Root = document.Root;
+        Panel.Root = dockManager;
 
         document.Detach();
 
@@ -37,8 +39,6 @@ public sealed partial class DockWindow : Window
         panel.Children.Add(group);
 
         Panel.Children.Add(panel);
-
-        Panel.Root!.InvokeCreateNewWindow(document, TitleBar);
     }
 
     private void OnDragEnter(object _, DragEventArgs __)

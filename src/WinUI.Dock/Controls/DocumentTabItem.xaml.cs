@@ -55,7 +55,7 @@ public sealed partial class DocumentTabItem : TabViewItem
     {
         if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
         {
-            DockWindow dockWindow = new(document);
+            DockWindow dockWindow = new(document.Root!, document);
 
             dockWindow.Activate();
         }

@@ -1,11 +1,15 @@
-using Microsoft.UI.Xaml.Controls.Primitives;
+﻿using Microsoft.UI.Xaml.Controls.Primitives;
+using Windows.ApplicationModel.DataTransfer;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock.Controls;
 
 public sealed partial class PopupDocument : UserControl
 {
     private readonly Popup popup;
+
+    private string dragKey = string.Empty;
 
     public PopupDocument(DockManager dockManager, DockSide dockSide, Document document)
     {
@@ -113,6 +117,25 @@ public sealed partial class PopupDocument : UserControl
         {
             popup.VerticalOffset = DockManager.PopupContainer!.ActualHeight - ActualHeight;
         }
+    }
+
+    private void Header_DragStarting(UIElement _, DragStartingEventArgs args)
+    {
+        args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
+
+        Detach(true);
+    }
+
+    private void Header_DropCompleted(UIElement _, DropCompletedEventArgs args)
+    {
+        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
+        {
+            DockWindow dockWindow = new(DockManager, document);
+
+            dockWindow.Activate();
+        }
+
+        DragDropHelpers.RemoveDragKey(dragKey);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)
