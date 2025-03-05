@@ -6,12 +6,13 @@
           Background="Transparent"
           DragEnter="OnDragEnter">
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
         <Border x:Name="TitleBar"
-                Grid.Row="0" />
+                Grid.Row="0"
+                Height="32" />
 
         <dock:LayoutPanel x:Name="Panel"
                           Grid.Row="1" />

@@ -14,8 +14,8 @@ public sealed partial class DockWindow : Window
         AppWindow.Move(PointerHelpers.GetCursorPosition());
         AppWindow.Resize(new()
         {
-            Width = (int)document.DockWidth,
-            Height = (int)document.DockHeight
+            Width = (int)(double.IsNaN(document.DockWidth) ? 400 : document.DockWidth),
+            Height = (int)(double.IsNaN(document.DockHeight) ? 400 : document.DockHeight)
         });
 
         Panel.Children.CollectionChanged += (sender, e) =>
