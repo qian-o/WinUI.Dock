@@ -1,4 +1,6 @@
-﻿namespace WinUI.Dock.Controls;
+﻿using WinUI.Dock.Helpers;
+
+namespace WinUI.Dock.Controls;
 
 public sealed partial class DockWindow : Window
 {
@@ -8,6 +10,13 @@ public sealed partial class DockWindow : Window
 
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBar);
+
+        AppWindow.Move(PointerHelpers.GetCursorPosition());
+        AppWindow.Resize(new()
+        {
+            Width = (int)document.DockWidth,
+            Height = (int)document.DockHeight
+        });
 
         Panel.Children.CollectionChanged += (sender, e) =>
         {
