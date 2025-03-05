@@ -1,10 +1,8 @@
 ﻿using Microsoft.UI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using WinUI.Dock;
 using WinUI.Dock.Enums;
 
-namespace WinUIApp;
+namespace UnoApp;
 
 public sealed partial class MainWindow : Window
 {

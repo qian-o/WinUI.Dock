@@ -1,11 +1,15 @@
-using Microsoft.UI.Xaml.Controls.Primitives;
+﻿using Microsoft.UI.Xaml.Controls.Primitives;
+using Windows.ApplicationModel.DataTransfer;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock.Controls;
 
 public sealed partial class PopupDocument : UserControl
 {
     private readonly Popup popup;
+
+    private string dragKey = string.Empty;
 
     public PopupDocument(DockManager dockManager, DockSide dockSide, Document document)
     {
@@ -19,7 +23,7 @@ public sealed partial class PopupDocument : UserControl
         {
             case DockSide.Left:
                 {
-                    Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : document.DockWidth;
+                    Width = double.IsNaN(Document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
                     Height = DockManager.PopupContainer!.ActualHeight;
 
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
@@ -35,7 +39,7 @@ public sealed partial class PopupDocument : UserControl
             case DockSide.Top:
                 {
                     Width = DockManager.PopupContainer!.ActualWidth;
-                    Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : document.DockHeight;
+                    Height = double.IsNaN(Document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
 
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
@@ -49,7 +53,7 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Right:
                 {
-                    Width = double.IsNaN(document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : document.DockWidth;
+                    Width = double.IsNaN(Document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
                     Height = DockManager.PopupContainer!.ActualHeight;
 
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
@@ -65,7 +69,7 @@ public sealed partial class PopupDocument : UserControl
             case DockSide.Bottom:
                 {
                     Width = DockManager.PopupContainer!.ActualWidth;
-                    Height = double.IsNaN(document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : document.DockHeight;
+                    Height = double.IsNaN(Document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
 
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
@@ -86,17 +90,6 @@ public sealed partial class PopupDocument : UserControl
             XamlRoot = DockManager.PopupContainer!.XamlRoot
         };
 
-        popup.SizeChanged += (_, _) =>
-        {
-            if (DockSide is DockSide.Right)
-            {
-                popup.HorizontalOffset = DockManager.PopupContainer!.ActualWidth - ActualWidth;
-            }
-            else if (DockSide is DockSide.Bottom)
-            {
-                popup.VerticalOffset = DockManager.PopupContainer!.ActualHeight - ActualHeight;
-            }
-        };
         popup.Closed += (_, _) => Detach();
     }
 
@@ -114,66 +107,51 @@ public sealed partial class PopupDocument : UserControl
         DockManager.PopupContainer!.Child = popup;
     }
 
+    private void OnSizeChanged(object _, SizeChangedEventArgs __)
+    {
+        if (DockSide is DockSide.Right)
+        {
+            popup.HorizontalOffset = DockManager.PopupContainer!.ActualWidth - ActualWidth;
+        }
+        else if (DockSide is DockSide.Bottom)
+        {
+            popup.VerticalOffset = DockManager.PopupContainer!.ActualHeight - ActualHeight;
+        }
+    }
+
+    private void Header_DragStarting(UIElement _, DragStartingEventArgs args)
+    {
+        args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
+
+        Detach(true);
+    }
+
+    private void Header_DropCompleted(UIElement _, DropCompletedEventArgs args)
+    {
+        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
+        {
+            DockWindow dockWindow = new(DockManager, document);
+
+            dockWindow.Activate();
+        }
+
+        DragDropHelpers.RemoveDragKey(dragKey);
+    }
+
     private void Pin_Click(object _, RoutedEventArgs __)
     {
         Document document = Document!;
 
         Detach(true);
 
-        DocumentGroup group = new();
-        group.CopySizeFrom(document);
-        group.Children.Add(document);
-
-        DockManager.InvokeDocumentGroupReady(document.Title, group);
-
-        LayoutPanel panel = new();
-        panel.Children.Add(group);
-
-        switch (DockSide)
+        DockManager.Dock(document, DockSide switch
         {
-            case DockSide.Left:
-                {
-                    panel.Orientation = Orientation.Horizontal;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Add(DockManager.Panel);
-                    }
-                }
-                break;
-            case DockSide.Top:
-                {
-                    panel.Orientation = Orientation.Vertical;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Add(DockManager.Panel);
-                    }
-                }
-                break;
-            case DockSide.Right:
-                {
-                    panel.Orientation = Orientation.Horizontal;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Insert(0, DockManager.Panel);
-                    }
-                }
-                break;
-            case DockSide.Bottom:
-                {
-                    panel.Orientation = Orientation.Vertical;
-
-                    if (DockManager.Panel is not null)
-                    {
-                        panel.Children.Insert(0, DockManager.Panel);
-                    }
-                }
-                break;
-        }
-
-        DockManager.Panel = panel;
+            DockSide.Left => DockTarget.DockLeft,
+            DockSide.Top => DockTarget.DockTop,
+            DockSide.Right => DockTarget.DockRight,
+            DockSide.Bottom => DockTarget.DockBottom,
+            _ => throw new NotSupportedException()
+        });
     }
 
     private void Close_Click(object _, RoutedEventArgs __)

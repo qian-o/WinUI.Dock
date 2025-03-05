@@ -17,10 +17,6 @@
             </ItemGroup>
         </When>
         <Otherwise>
-            <PropertyGroup>
-                <SignAssembly>false</SignAssembly>
-            </PropertyGroup>
-
             <ItemGroup>
                 <PackageReference Include="Uno.Fonts.Fluent" />
                 <PackageReference Include="Uno.WinUI" />

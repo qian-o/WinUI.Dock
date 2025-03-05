@@ -1,9 +1,9 @@
-﻿<Window x:Class="WinUIApp.MainWindow"
+﻿<Window x:Class="UnoApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dock="using:WinUI.Dock"
         x:Name="Main"
-        Title="WinUIApp">
+        Title="UnoApp">
     <Grid>
         <Grid.Resources>
             <Style x:Key="Space"

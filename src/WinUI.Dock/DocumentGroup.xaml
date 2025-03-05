@@ -1,26 +1,24 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:WinUI.Dock.Controls"
                     xmlns:dock="using:WinUI.Dock">
 
     <Style TargetType="dock:DocumentGroup">
-        <Setter Property="AllowDrop"
-                Value="True" />
+        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DocumentGroup">
-                    <Border>
+                    <Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="TabPosition">
                                 <VisualState x:Name="Top">
                                     <VisualState.Setters>
-                                        <Setter Target="Scale.ScaleY"
-                                                Value="1" />
+                                        <Setter Target="Scale.ScaleY" Value="1" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Bottom">
                                     <VisualState.Setters>
-                                        <Setter Target="Scale.ScaleY"
-                                                Value="-1" />
+                                        <Setter Target="Scale.ScaleY" Value="-1" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -28,14 +26,25 @@
                             <VisualStateGroup x:Name="IsTabWidthBasedOnContent">
                                 <VisualState x:Name="TabWidthEqual">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_Root.TabWidthMode"
-                                                Value="Equal" />
+                                        <Setter Target="PART_Root.TabWidthMode" Value="Equal" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="TabWidthSizeToContent">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_Root.TabWidthMode"
-                                                Value="SizeToContent" />
+                                        <Setter Target="PART_Root.TabWidthMode" Value="SizeToContent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="OperationDockTargets">
+                                <VisualState x:Name="ShowDockTargets">
+                                    <VisualState.Setters>
+                                        <Setter Target="DockTargets.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HideDockTargets">
+                                    <VisualState.Setters>
+                                        <Setter Target="DockTargets.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -43,15 +52,74 @@
 
                         <TabView x:Name="PART_Root"
                                  Padding="0"
-                                 CanReorderTabs="False"
                                  VerticalAlignment="Stretch"
+                                 CanReorderTabs="False"
                                  IsAddTabButtonVisible="False"
-                                 RenderTransformOrigin="0.5,0.5">
+                                 RenderTransformOrigin="0.5,0.5"
+                                 SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <TabView.RenderTransform>
                                 <ScaleTransform x:Name="Scale" />
                             </TabView.RenderTransform>
                         </TabView>
-                    </Border>
+
+                        <Grid x:Name="DockTargets"
+                              Width="124"
+                              Height="124"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Visibility="Collapsed">
+                            <Path Data="m44,0 l36,0 a4,4,0,0,1,4,4 l0,32 a4,4,0,0,0,4,4 l32,0 a4,4,0,0,1,4,4 l0,36 a4,4,0,0,1,-4,4 l-32,0 a4,4,0,0,0,-4,4 l0,32 a4,4,0,0,1,-4,4 l-36,0 a4,4,0,0,1,-4,-4 l0,-32 a4,4,0,0,0,-4,-4 l-32,0 a4,4,0,0,1,-4,-4 l0,-36 a4,4,0,0,1,4,-4 l32,0 a4,4,0,0,0,4,-4 l0,-32 a4,4,0,0,1,4,-4 z"
+                                  Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                  Stretch="Uniform"
+                                  Stroke="{ThemeResource CardStrokeColorDefaultBrush}"
+                                  StrokeThickness="1" />
+
+                            <Grid Width="120"
+                                  Height="120"
+                                  Margin="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <controls:DockTargetButton Grid.Row="1"
+                                                           Grid.Column="1"
+                                                           Margin="2"
+                                                           DockTarget="Center"
+                                                           Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+
+                                <controls:DockTargetButton Grid.Row="1"
+                                                           Grid.Column="0"
+                                                           Margin="2"
+                                                           DockTarget="SplitLeft"
+                                                           Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+
+                                <controls:DockTargetButton Grid.Row="0"
+                                                           Grid.Column="1"
+                                                           Margin="2"
+                                                           DockTarget="SplitTop"
+                                                           Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+
+                                <controls:DockTargetButton Grid.Row="1"
+                                                           Grid.Column="2"
+                                                           Margin="2"
+                                                           DockTarget="SplitRight"
+                                                           Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+
+                                <controls:DockTargetButton Grid.Row="2"
+                                                           Grid.Column="1"
+                                                           Margin="2"
+                                                           DockTarget="SplitBottom"
+                                                           Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -17,6 +17,11 @@ public partial class DocumentGroup : DockContainer
                                                                                                              typeof(DocumentGroup),
                                                                                                              new PropertyMetadata(false, OnIsTabWidthBasedOnContentChanged));
 
+    public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex),
+                                                                                                  typeof(int),
+                                                                                                  typeof(DocumentGroup),
+                                                                                                  new PropertyMetadata(-1));
+
     private TabView? root;
 
     public DocumentGroup()
@@ -36,6 +41,26 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(IsTabWidthBasedOnContentProperty, value);
     }
 
+    public int SelectedIndex
+    {
+        get => (int)GetValue(SelectedIndexProperty);
+        set => SetValue(SelectedIndexProperty, value);
+    }
+
+    protected override void OnDragEnter(DragEventArgs e)
+    {
+        base.OnDragEnter(e);
+
+        VisualStateManager.GoToState(this, "ShowDockTargets", false);
+    }
+
+    protected override void OnDragLeave(DragEventArgs e)
+    {
+        base.OnDragLeave(e);
+
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
+    }
+
     protected override void InitTemplate()
     {
         root = GetTemplateChild("PART_Root") as TabView;
@@ -53,6 +78,15 @@ public partial class DocumentGroup : DockContainer
         foreach (Document document in Children.Cast<Document>())
         {
             root.TabItems.Add(new DocumentTabItem(TabPosition, document));
+        }
+
+        if (SelectedIndex < 0)
+        {
+            SelectedIndex = 0;
+        }
+        else if (SelectedIndex >= Children.Count)
+        {
+            SelectedIndex = Children.Count - 1;
         }
     }
 
@@ -74,6 +108,80 @@ public partial class DocumentGroup : DockContainer
     protected override bool ValidateChildren()
     {
         return Children.All(static item => item is Document);
+    }
+
+    internal void Dock(Document document, DockTarget dockTarget)
+    {
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
+
+        if (document.Owner == this && Children.Count is 1)
+        {
+            return;
+        }
+        else
+        {
+            document.Detach();
+        }
+
+        if (dockTarget is DockTarget.Center)
+        {
+            Children.Add(document);
+
+            SelectedIndex = Children.Count - 1;
+        }
+        else
+        {
+            LayoutPanel owner = (LayoutPanel)Owner!;
+            DockManager root = owner.Root!;
+
+            int index = owner.Children.IndexOf(this);
+
+            Detach(false);
+
+            DocumentGroup group = new();
+            group.CopySizeFrom(this);
+            group.Children.Add(document);
+
+            root.InvokeDocumentGroupReady(document.Title, group);
+
+            LayoutPanel panel = new();
+            panel.CopySizeFrom(this);
+            panel.Children.Add(group);
+
+            switch (dockTarget)
+            {
+                case DockTarget.SplitLeft:
+                    {
+                        panel.Orientation = Orientation.Horizontal;
+
+                        panel.Children.Add(this);
+                    }
+                    break;
+                case DockTarget.SplitTop:
+                    {
+                        panel.Orientation = Orientation.Vertical;
+
+                        panel.Children.Add(this);
+                    }
+                    break;
+                case DockTarget.SplitRight:
+                    {
+                        panel.Orientation = Orientation.Horizontal;
+
+                        panel.Children.Insert(0, this);
+                    }
+                    break;
+                case DockTarget.SplitBottom:
+                    {
+                        panel.Orientation = Orientation.Vertical;
+
+                        panel.Children.Insert(0, this);
+                    }
+                    break;
+            }
+
+            owner.Children.Insert(index, panel);
+        }
     }
 
     private void UpdateVisualState()

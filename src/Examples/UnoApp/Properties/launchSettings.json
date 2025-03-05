@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "UnoApp": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2"
+    }
+  }
+}

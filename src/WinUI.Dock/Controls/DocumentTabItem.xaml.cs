@@ -1,13 +1,17 @@
 ﻿using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using WinUI.Dock.Converters;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock.Controls;
 
 public sealed partial class DocumentTabItem : TabViewItem
 {
+    private string dragKey = string.Empty;
+
     public DocumentTabItem(TabPosition tabPosition, Document document)
     {
         InitializeComponent();
@@ -40,6 +44,23 @@ public sealed partial class DocumentTabItem : TabViewItem
         Document = null;
 
         Bindings.Update();
+    }
+
+    private void OnDragStarting(UIElement _, DragStartingEventArgs args)
+    {
+        args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
+    }
+
+    private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
+    {
+        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
+        {
+            DockWindow dockWindow = new(document.Root!, document);
+
+            dockWindow.Activate();
+        }
+
+        DragDropHelpers.RemoveDragKey(dragKey);
     }
 
     private void Header_PointerEntered(object _, PointerRoutedEventArgs __)
@@ -88,7 +109,7 @@ public sealed partial class DocumentTabItem : TabViewItem
             dockManager.BottomSide.Add(Document);
         }
 
-        Document.Detach(true);
+        Document.Detach();
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
@@ -98,6 +119,6 @@ public sealed partial class DocumentTabItem : TabViewItem
             Document.Root.ActiveDocument = null;
         }
 
-        Document.Detach(true);
+        Document.Detach();
     }
 }
