@@ -6,6 +6,9 @@ WinUI.Dock is a docking control similar to Visual Studio, based on WinUI 3. Its 
 - [x] WinUI 3.0
 - [x] Uno Platform (partially available)
 
+## Usage
+- See the example projects under the Examples directory.
+
 ## Notes
 - The project is currently in an early stage and may have many issues. Please do not use it in production environments.
 - The Uno Platform has only been tested on the Skia platform and does not support cross-window dragging. It works properly if used within a single window.
