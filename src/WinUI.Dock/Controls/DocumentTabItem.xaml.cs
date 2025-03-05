@@ -53,9 +53,11 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move)
+        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
         {
-            // TODO: Drag not completed, should create a new window.
+            DockWindow dockWindow = new(document);
+
+            dockWindow.Activate();
         }
 
         DragDropHelpers.RemoveDragKey(dragKey);
