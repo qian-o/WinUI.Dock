@@ -118,10 +118,8 @@ public partial class DocumentGroup : DockContainer
         {
             return;
         }
-        else
-        {
-            document.Detach();
-        }
+
+        document.Detach();
 
         if (dockTarget is DockTarget.Center)
         {

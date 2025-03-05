@@ -5,7 +5,7 @@
         <TargetFramework>net9.0-desktop</TargetFramework>
         <UnoSingleProject>true</UnoSingleProject>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
         <Compile Update="**\*.xaml.cs">
@@ -15,12 +15,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="MainWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
     </ItemGroup>
 
 </Project>
