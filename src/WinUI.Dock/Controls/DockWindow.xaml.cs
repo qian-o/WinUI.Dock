@@ -38,4 +38,9 @@ public sealed partial class DockWindow : Window
 
         Panel.Children.Add(panel);
     }
+
+    private void OnDragEnter(object _, DragEventArgs __)
+    {
+        Activate();
+    }
 }

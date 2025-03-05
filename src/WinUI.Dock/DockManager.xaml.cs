@@ -20,6 +20,11 @@ public partial class DockManager : Control
                                                                                                    typeof(DockManager),
                                                                                                    new PropertyMetadata(null));
 
+    public static readonly DependencyProperty ParentWindowProperty = DependencyProperty.Register(nameof(ParentWindow),
+                                                                                                 typeof(Window),
+                                                                                                 typeof(DockManager),
+                                                                                                 new PropertyMetadata(null));
+
     public DockManager()
     {
         DefaultStyleKey = typeof(DockManager);
@@ -40,6 +45,12 @@ public partial class DockManager : Control
     {
         get => (Document)GetValue(ActiveDocumentProperty);
         set => SetValue(ActiveDocumentProperty, value);
+    }
+
+    public Window? ParentWindow
+    {
+        get => (Window)GetValue(ParentWindowProperty);
+        set => SetValue(ParentWindowProperty, value);
     }
 
     public ObservableCollection<Document> LeftSide { get; } = [];
@@ -64,6 +75,8 @@ public partial class DockManager : Control
     protected override void OnDragEnter(DragEventArgs e)
     {
         base.OnDragEnter(e);
+
+        ParentWindow?.Activate();
 
         VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
     }
