@@ -48,7 +48,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetData(DragDropHelpers.Format, dragKey = DragDropHelpers.GetDragKey(Document!));
+        args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)

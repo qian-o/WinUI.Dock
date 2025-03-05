@@ -5,7 +5,7 @@ internal static class DragDropHelpers
     private static readonly Dictionary<string, Document> cache = [];
     private static readonly Lock @lock = new();
 
-    public const string Format = "Dock.Document";
+    public const string FormatId = "Dock.Document";
 
     public static string GetDragKey(Document document)
     {
