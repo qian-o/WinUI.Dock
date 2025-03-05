@@ -1,5 +1,7 @@
 ﻿# WinUI.Dock
 
+[![NuGet Version](https://img.shields.io/nuget/v/WinUI.Dock)](https://nuget.org/packages/WinUI.Dock)
+
 WinUI.Dock is a docking control similar to Visual Studio, based on WinUI 3. Its design is inspired by [AvalonDock](https://github.com/Dirkster99/AvalonDock) and [ImGui](https://github.com/ocornut/imgui).
 
 ## Supported Platforms

@@ -11,9 +11,6 @@ internal static class Program
     [STAThread]
     private static void Main(string[] _)
     {
-        CompositionConfiguration.Configuration = CompositionConfiguration.Options.Enabled;
-
-#if DEBUG
         LogExtensionPoint.AmbientLoggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddConsole();
@@ -22,7 +19,8 @@ internal static class Program
         });
 
         LoggingAdapter.Initialize();
-#endif
+
+        CompositionConfiguration.Configuration = CompositionConfiguration.Options.Enabled;
 
         SkiaHost host = SkiaHostBuilder.Create()
                                        .App(() => new App())
