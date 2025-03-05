@@ -6,6 +6,9 @@ public sealed partial class DockWindow : Window
     {
         InitializeComponent();
 
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(TitleBar);
+
         Panel.Children.CollectionChanged += (sender, e) =>
         {
             if (Panel.Children.Count is 0)
@@ -21,6 +24,9 @@ public sealed partial class DockWindow : Window
         DocumentGroup group = new();
         group.Children.Add(document);
 
-        Panel.Children.Add(group);
+        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
+        panel.Children.Add(group);
+
+        Panel.Children.Add(panel);
     }
 }
