@@ -1,9 +1,14 @@
-﻿using WinUI.Dock.Helpers;
+﻿using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Windows.Graphics;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock.Controls;
 
 public sealed partial class DockWindow : Window
 {
+    private PointInt32 dragStart;
+
     public DockWindow(DockManager dockManager, Document document)
     {
         InitializeComponent();
@@ -11,7 +16,10 @@ public sealed partial class DockWindow : Window
         dockManager.InvokeCreateNewWindow(document, TitleBar);
 
         ExtendsContentIntoTitleBar = true;
-        SetTitleBar(TitleBar);
+
+#if WINDOWS
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
+#endif
 
         AppWindow.Move(PointerHelpers.GetCursorPosition());
         AppWindow.Resize(new()
@@ -44,5 +52,23 @@ public sealed partial class DockWindow : Window
     private void OnDragEnter(object _, DragEventArgs __)
     {
         Activate();
+    }
+
+    private void TitleBar_DragStarted(object _, DragStartedEventArgs __)
+    {
+        dragStart = PointerHelpers.GetCursorPosition();
+    }
+
+    private void TitleBar_DragDelta(object _, DragDeltaEventArgs __)
+    {
+        PointInt32 dragEnd = PointerHelpers.GetCursorPosition();
+
+        AppWindow.Move(new()
+        {
+            X = AppWindow.Position.X + (dragEnd.X - dragStart.X),
+            Y = AppWindow.Position.Y + (dragEnd.Y - dragStart.Y)
+        });
+
+        dragStart = dragEnd;
     }
 }
