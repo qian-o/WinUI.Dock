@@ -21,7 +21,7 @@ public sealed partial class DockWindow : Window
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
 #endif
 
-        AppWindow.Move(PointerHelpers.GetCursorPosition());
+        AppWindow.Move(PointerHelpers.GetPointerPosition());
         AppWindow.Resize(new()
         {
             Width = (int)(double.IsNaN(document.DockWidth) ? 400 : document.DockWidth),
@@ -56,12 +56,12 @@ public sealed partial class DockWindow : Window
 
     private void TitleBar_DragStarted(object _, DragStartedEventArgs __)
     {
-        dragStart = PointerHelpers.GetCursorPosition();
+        dragStart = PointerHelpers.GetPointerPosition();
     }
 
     private void TitleBar_DragDelta(object _, DragDeltaEventArgs __)
     {
-        PointInt32 dragEnd = PointerHelpers.GetCursorPosition();
+        PointInt32 dragEnd = PointerHelpers.GetPointerPosition();
 
         AppWindow.Move(new()
         {
