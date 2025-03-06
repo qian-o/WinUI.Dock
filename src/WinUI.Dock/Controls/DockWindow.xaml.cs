@@ -7,7 +7,7 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class DockWindow : Window
 {
-    private PointInt32 dragStart;
+    private PointInt32 dragOffset;
 
     public DockWindow(DockManager dockManager, Document document)
     {
@@ -56,19 +56,23 @@ public sealed partial class DockWindow : Window
 
     private void TitleBar_DragStarted(object _, DragStartedEventArgs __)
     {
-        dragStart = PointerHelpers.GetPointerPosition();
+        PointInt32 point = PointerHelpers.GetPointerPosition();
+
+        dragOffset = new PointInt32
+        {
+            X = point.X - AppWindow.Position.X,
+            Y = point.Y - AppWindow.Position.Y
+        };
     }
 
     private void TitleBar_DragDelta(object _, DragDeltaEventArgs __)
     {
-        PointInt32 dragEnd = PointerHelpers.GetPointerPosition();
+        PointInt32 point = PointerHelpers.GetPointerPosition();
 
         AppWindow.Move(new()
         {
-            X = AppWindow.Position.X + (dragEnd.X - dragStart.X),
-            Y = AppWindow.Position.Y + (dragEnd.Y - dragStart.Y)
+            X = point.X - dragOffset.X,
+            Y = point.Y - dragOffset.Y
         });
-
-        dragStart = dragEnd;
     }
 }
