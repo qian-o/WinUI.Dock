@@ -13,17 +13,26 @@
         <WindowsPackageType>none</WindowsPackageType>
     </PropertyGroup>
 
+    <Choose>
+        <When Condition="'$(Configuration)' == 'Debug'">
+            <PropertyGroup>
+                <PublishTrimmed>false</PublishTrimmed>
+                <PublishReadyToRun>false</PublishReadyToRun>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <PublishTrimmed>true</PublishTrimmed>
+                <PublishReadyToRun>true</PublishReadyToRun>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+
+
     <ItemGroup>
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
     </ItemGroup>
-
-    <PropertyGroup>
-        <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">false</PublishReadyToRun>
-        <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">true</PublishReadyToRun>
-        <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">false</PublishTrimmed>
-        <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">true</PublishTrimmed>
-    </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
