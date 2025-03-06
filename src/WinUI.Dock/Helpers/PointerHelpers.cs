@@ -9,6 +9,7 @@ public static unsafe partial class PointerHelpers
     private struct CGPoint
     {
         public double X;
+
         public double Y;
     }
 
