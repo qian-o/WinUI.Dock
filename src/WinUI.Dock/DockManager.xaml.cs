@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
@@ -82,7 +83,10 @@ public partial class DockManager : Control
 
         ParentWindow?.Activate();
 
-        VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
+        if (e.DataView.Contains(DragDropHelpers.FormatId))
+        {
+            VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
+        }
     }
 
     protected override void OnDragLeave(DragEventArgs e)

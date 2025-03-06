@@ -1,6 +1,7 @@
 ﻿using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
@@ -51,7 +52,10 @@ public partial class DocumentGroup : DockContainer
     {
         base.OnDragEnter(e);
 
-        VisualStateManager.GoToState(this, "ShowDockTargets", false);
+        if (e.DataView.Contains(DragDropHelpers.FormatId))
+        {
+            VisualStateManager.GoToState(this, "ShowDockTargets", false);
+        }
     }
 
     protected override void OnDragLeave(DragEventArgs e)
