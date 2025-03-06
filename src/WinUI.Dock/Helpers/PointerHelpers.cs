@@ -21,13 +21,13 @@ public static unsafe partial class PointerHelpers
     [LibraryImport("libX11.so")]
     private static partial int XQueryPointer(nint display,
                                              nint window,
-                                             out nint root_return,
-                                             out nint child_return,
-                                             out int root_x_return,
-                                             out int root_y_return,
-                                             out int win_x_return,
-                                             out int win_y_return,
-                                             out uint mask_return);
+                                             out nint root,
+                                             out nint child,
+                                             out int rootX,
+                                             out int rootY,
+                                             out int winX,
+                                             out int winY,
+                                             out uint mask);
 
     [LibraryImport("libX11.so")]
     private static partial nint XDefaultRootWindow(nint display);
@@ -79,7 +79,7 @@ public static unsafe partial class PointerHelpers
         }
         else if (OperatingSystem.IsMacOS())
         {
-            CGPoint cgPoint = CGEventGetLocation(0);
+            CGPoint cgPoint = CGEventGetLocation((nint)null);
 
             point.X = (int)cgPoint.X;
             point.Y = (int)cgPoint.Y;
