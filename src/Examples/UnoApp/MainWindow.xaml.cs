@@ -1,5 +1,4 @@
-﻿using Microsoft.UI;
-using WinUI.Dock;
+﻿using WinUI.Dock;
 using WinUI.Dock.Enums;
 
 namespace UnoApp;
@@ -11,17 +10,22 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
+    private void DockManager_CreateNewGroup(object _, CreateNewGroupEventArgs e)
     {
-        e.TitleBar.Background = new SolidColorBrush(Colors.DarkGray);
+        if (e.Title.Contains("Side"))
+        {
+            e.Group.TabPosition = TabPosition.Bottom;
+            e.Group.IsTabWidthBasedOnContent = true;
+        }
     }
 
-    private void DockManager_DocumentGroupReady(object _, DocumentGroupReadyEventArgs e)
+    private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
     {
-        if (e.DocumentTitle.Contains("Side"))
+        e.TitleBar.Child = new TextBlock()
         {
-            e.DocumentGroup.TabPosition = TabPosition.Bottom;
-            e.DocumentGroup.IsTabWidthBasedOnContent = true;
-        }
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Text = "Custom Title"
+        };
     }
 }

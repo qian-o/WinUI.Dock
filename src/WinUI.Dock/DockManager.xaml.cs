@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
-public record CreateNewWindowEventArgs(Document Document, Border TitleBar);
+public record CreateNewGroupEventArgs(string Title, DocumentGroup Group);
 
-public record DocumentGroupReadyEventArgs(string DocumentTitle, DocumentGroup DocumentGroup);
+public record CreateNewWindowEventArgs(Border TitleBar);
 
 [ContentProperty(Name = nameof(Panel))]
 [TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
@@ -65,9 +66,9 @@ public partial class DockManager : Control
 
     public Border? PopupContainer { get; private set; }
 
-    public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
+    public event EventHandler<CreateNewGroupEventArgs>? CreateNewGroup;
 
-    public event EventHandler<DocumentGroupReadyEventArgs>? DocumentGroupReady;
+    public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
 
     protected override void OnApplyTemplate()
     {
@@ -82,7 +83,10 @@ public partial class DockManager : Control
 
         ParentWindow?.Activate();
 
-        VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
+        if (e.DataView.Contains(DragDropHelpers.FormatId))
+        {
+            VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
+        }
     }
 
     protected override void OnDragLeave(DragEventArgs e)
@@ -102,7 +106,7 @@ public partial class DockManager : Control
         group.CopySizeFrom(document);
         group.Children.Add(document);
 
-        DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(document.Title, group));
+        CreateNewGroup?.Invoke(this, new CreateNewGroupEventArgs(document.Title, group));
 
         LayoutPanel panel = new();
         panel.Children.Add(group);
@@ -154,19 +158,19 @@ public partial class DockManager : Control
         Panel = panel;
     }
 
-    internal void InvokeCreateNewWindow(Document document, Border titleBar)
-    {
-        CreateNewWindow?.Invoke(this, new CreateNewWindowEventArgs(document, titleBar));
-    }
-
-    internal void InvokeDocumentGroupReady(string documentTitle, DocumentGroup documentGroup)
-    {
-        DocumentGroupReady?.Invoke(this, new DocumentGroupReadyEventArgs(documentTitle, documentGroup));
-    }
-
     internal void HideDockTargets()
     {
         VisualStateManager.GoToState(this, "HideDockTargets", false);
+    }
+
+    internal void InvokeCreateNewGroup(string title, DocumentGroup group)
+    {
+        CreateNewGroup?.Invoke(this, new CreateNewGroupEventArgs(title, group));
+    }
+
+    internal void InvokeCreateNewWindow(Border titleBar)
+    {
+        CreateNewWindow?.Invoke(this, new CreateNewWindowEventArgs(titleBar));
     }
 
     private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

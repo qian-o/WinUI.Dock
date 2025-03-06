@@ -1,6 +1,7 @@
 ﻿using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
@@ -51,7 +52,10 @@ public partial class DocumentGroup : DockContainer
     {
         base.OnDragEnter(e);
 
-        VisualStateManager.GoToState(this, "ShowDockTargets", false);
+        if (e.DataView.Contains(DragDropHelpers.FormatId))
+        {
+            VisualStateManager.GoToState(this, "ShowDockTargets", false);
+        }
     }
 
     protected override void OnDragLeave(DragEventArgs e)
@@ -140,7 +144,7 @@ public partial class DocumentGroup : DockContainer
             group.CopySizeFrom(this);
             group.Children.Add(document);
 
-            root.InvokeDocumentGroupReady(document.Title, group);
+            root.InvokeCreateNewGroup(document.Title, group);
 
             LayoutPanel panel = new();
             panel.CopySizeFrom(this);
