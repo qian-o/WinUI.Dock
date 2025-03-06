@@ -144,7 +144,7 @@ public partial class DocumentGroup : DockContainer
             group.CopySizeFrom(this);
             group.Children.Add(document);
 
-            root.InvokeDocumentGroupReady(document.Title, group);
+            root.InvokeCreateNewGroup(document.Title, group);
 
             LayoutPanel panel = new();
             panel.CopySizeFrom(this);

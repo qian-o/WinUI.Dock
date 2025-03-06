@@ -13,7 +13,7 @@ public sealed partial class DockWindow : Window
     {
         InitializeComponent();
 
-        dockManager.InvokeCreateNewWindow(document, TitleBar);
+        dockManager.InvokeCreateNewWindow(TitleBar);
 
         ExtendsContentIntoTitleBar = true;
 

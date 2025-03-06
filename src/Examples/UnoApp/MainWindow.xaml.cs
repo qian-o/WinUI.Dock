@@ -10,6 +10,15 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private void DockManager_CreateNewGroup(object _, CreateNewGroupEventArgs e)
+    {
+        if (e.Title.Contains("Side"))
+        {
+            e.Group.TabPosition = TabPosition.Bottom;
+            e.Group.IsTabWidthBasedOnContent = true;
+        }
+    }
+
     private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
     {
         e.TitleBar.Child = new TextBlock()
@@ -18,14 +27,5 @@ public sealed partial class MainWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             Text = "Custom Title"
         };
-    }
-
-    private void DockManager_DocumentGroupReady(object _, DocumentGroupReadyEventArgs e)
-    {
-        if (e.DocumentTitle.Contains("Side"))
-        {
-            e.DocumentGroup.TabPosition = TabPosition.Bottom;
-            e.DocumentGroup.IsTabWidthBasedOnContent = true;
-        }
     }
 }
