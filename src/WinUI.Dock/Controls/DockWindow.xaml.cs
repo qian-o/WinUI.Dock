@@ -13,7 +13,36 @@ public sealed partial class DockWindow : Window
     {
         InitializeComponent();
 
-        dockManager.InvokeCreateNewWindow(TitleBar);
+        InitializePanel(dockManager, document);
+        InitializeWindow(dockManager, document);
+    }
+
+    private void InitializePanel(DockManager dockManager, Document document)
+    {
+        Panel.Root = dockManager;
+
+        Panel.Children.CollectionChanged += (sender, e) =>
+        {
+            if (Panel.Children.Count is 0)
+            {
+                Close();
+            }
+        };
+
+        document.Detach();
+
+        DocumentGroup group = new();
+        group.Children.Add(document);
+
+        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
+        panel.Children.Add(group);
+
+        Panel.Children.Add(panel);
+    }
+
+    private void InitializeWindow(DockManager dockManager, Document document)
+    {
+        Closed += (_, _) => DockWindowHelpers.RemoveWindow(dockManager, this);
 
         ExtendsContentIntoTitleBar = true;
 
@@ -28,25 +57,9 @@ public sealed partial class DockWindow : Window
             Height = (int)(double.IsNaN(document.DockHeight) ? 400 : document.DockHeight)
         });
 
-        Panel.Children.CollectionChanged += (sender, e) =>
-        {
-            if (Panel.Children.Count is 0)
-            {
-                Close();
-            }
-        };
+        dockManager.InvokeCreateNewWindow(TitleBar);
 
-        Panel.Root = dockManager;
-
-        document.Detach();
-
-        DocumentGroup group = new();
-        group.Children.Add(document);
-
-        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
-        panel.Children.Add(group);
-
-        Panel.Children.Add(panel);
+        DockWindowHelpers.AddWindow(dockManager, this);
     }
 
     private void OnDragEnter(object _, DragEventArgs __)
