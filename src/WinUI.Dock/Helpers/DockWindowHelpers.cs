@@ -33,7 +33,7 @@ public static class DockWindowHelpers
     {
         if (windows.TryGetValue(dockManager, out List<DockWindow>? value))
         {
-            foreach (DockWindow window in value)
+            foreach (DockWindow window in value.ToArray())
             {
                 window.Close();
             }
