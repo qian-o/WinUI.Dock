@@ -11,8 +11,8 @@
         <Version>1.0.3</Version>
         <Authors>qian-o</Authors>
         <Copyright>MIT</Copyright>
-        <PackageTags>WinUI;Dock;DockManager</PackageTags>
-        <Description>Dock manager based on WinUI 3.</Description>
+        <PackageTags>WinUI;Uno Platform;Dock;DockManager;Visual Studio</PackageTags>
+        <Description>Docked controls similar to Visual Studio, available with WinUI 3 and Uno Platform.</Description>
         <RepositoryUrl>https://github.com/qian-o/WinUI.Dock</RepositoryUrl>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
