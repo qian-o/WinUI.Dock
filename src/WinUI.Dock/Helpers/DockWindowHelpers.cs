@@ -37,6 +37,8 @@ public static class DockWindowHelpers
             {
                 window.Close();
             }
+
+            windows.Remove(dockManager);
         }
     }
 }
