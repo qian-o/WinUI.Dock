@@ -33,6 +33,39 @@ public sealed partial class DockTargetButton : UserControl
         set => SetValue(TargetProperty, value);
     }
 
+    protected override async void OnDragEnter(DragEventArgs e)
+    {
+        base.OnDragEnter(e);
+
+        string dragKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.FormatId);
+
+        if (DragDropHelpers.GetDocument(dragKey) is Document document)
+        {
+            if (Target is DockManager dockManager)
+            {
+                dockManager.ShowDockPreview(document, DockTarget);
+            }
+            else if (Target is DocumentGroup documentGroup)
+            {
+                documentGroup.ShowDockPreview(DockTarget);
+            }
+        }
+    }
+
+    protected override void OnDragLeave(DragEventArgs e)
+    {
+        base.OnDragLeave(e);
+
+        if (Target is DockManager dockManager)
+        {
+            dockManager.HideDockPreview();
+        }
+        else if (Target is DocumentGroup documentGroup)
+        {
+            documentGroup.HideDockPreview();
+        }
+    }
+
     protected override void OnDragOver(DragEventArgs e)
     {
         base.OnDragOver(e);
@@ -44,23 +77,22 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDrop(e);
 
-        if (e.DataView.Contains(DragDropHelpers.FormatId))
+        string dragKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.FormatId);
+
+        if (DragDropHelpers.GetDocument(dragKey) is Document document)
         {
-            string dragKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.FormatId);
-
-            if (DragDropHelpers.GetDocument(dragKey) is Document document)
+            if (Target is DockManager dockManager)
             {
-                if (Target is DockManager dockManager)
-                {
-                    dockManager.Dock(document, DockTarget);
-                }
-                else if (Target is DocumentGroup documentGroup)
-                {
-                    documentGroup.Dock(document, DockTarget);
-                }
-
-                document.Root!.HideDockTargets();
+                dockManager.HideDockPreview();
+                dockManager.Dock(document, DockTarget);
             }
+            else if (Target is DocumentGroup documentGroup)
+            {
+                documentGroup.HideDockPreview();
+                documentGroup.Dock(document, DockTarget);
+            }
+
+            document.Root!.HideDockTargets();
         }
     }
 

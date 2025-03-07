@@ -11,6 +11,7 @@ public record CreateNewWindowEventArgs(Border TitleBar);
 
 [ContentProperty(Name = nameof(Panel))]
 [TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
+[TemplatePart(Name = "PART_DockPreview", Type = typeof(Border))]
 public partial class DockManager : Control
 {
     public static readonly DependencyProperty PanelProperty = DependencyProperty.Register(nameof(Panel),
@@ -27,6 +28,8 @@ public partial class DockManager : Control
                                                                                                  typeof(Window),
                                                                                                  typeof(DockManager),
                                                                                                  new PropertyMetadata(null));
+
+    private Border? dockPreview;
 
     public DockManager()
     {
@@ -77,6 +80,8 @@ public partial class DockManager : Control
         base.OnApplyTemplate();
 
         PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
+
+        dockPreview = GetTemplateChild("PART_DockPreview") as Border;
     }
 
     protected override void OnDragEnter(DragEventArgs e)
@@ -96,6 +101,70 @@ public partial class DockManager : Control
         base.OnDragLeave(e);
 
         VisualStateManager.GoToState(this, "HideDockTargets", false);
+    }
+
+    internal void ShowDockPreview(Document document, DockTarget dockTarget)
+    {
+        if (dockPreview is null)
+        {
+            return;
+        }
+
+        dockPreview.Visibility = Visibility.Visible;
+
+        switch (dockTarget)
+        {
+            case DockTarget.Center:
+                {
+                    dockPreview.Width = double.NaN;
+                    dockPreview.Height = double.NaN;
+                    dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
+                }
+                break;
+            case DockTarget.DockLeft:
+                {
+                    dockPreview.Width = document.DockWidth;
+                    dockPreview.Height = double.NaN;
+                    dockPreview.HorizontalAlignment = HorizontalAlignment.Left;
+                    dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
+                }
+                break;
+            case DockTarget.DockTop:
+                {
+                    dockPreview.Width = double.NaN;
+                    dockPreview.Height = document.DockHeight;
+                    dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    dockPreview.VerticalAlignment = VerticalAlignment.Top;
+                }
+                break;
+            case DockTarget.DockRight:
+                {
+                    dockPreview.Width = document.DockWidth;
+                    dockPreview.Height = double.NaN;
+                    dockPreview.HorizontalAlignment = HorizontalAlignment.Right;
+                    dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
+                }
+                break;
+            case DockTarget.DockBottom:
+                {
+                    dockPreview.Width = double.NaN;
+                    dockPreview.Height = document.DockHeight;
+                    dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    dockPreview.VerticalAlignment = VerticalAlignment.Bottom;
+                }
+                break;
+        }
+    }
+
+    internal void HideDockPreview()
+    {
+        if (dockPreview is null)
+        {
+            return;
+        }
+
+        dockPreview.Visibility = Visibility.Collapsed;
     }
 
     internal void Dock(Document document, DockTarget target)
