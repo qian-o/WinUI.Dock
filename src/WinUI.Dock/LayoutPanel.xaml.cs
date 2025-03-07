@@ -39,15 +39,13 @@ public partial class LayoutPanel : DockContainer
 
         if (Orientation is Orientation.Vertical)
         {
-            double totalHeight = Children.Cast<DockContainer>().Sum(static item => double.IsNaN(item.DockHeight) ? 1.0 : item.DockHeight);
-
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
                 root.RowDefinitions.Add(new()
                 {
                     MinHeight = container.MinHeight,
                     MaxHeight = container.MaxHeight,
-                    Height = new(double.IsNaN(container.DockHeight) ? totalHeight / 4 : container.DockHeight, GridUnitType.Star)
+                    Height = new(CalculateHeight(container, true), GridUnitType.Star)
                 });
 
                 Grid.SetRow(container, root.RowDefinitions.Count - 1);
@@ -72,15 +70,13 @@ public partial class LayoutPanel : DockContainer
         }
         else
         {
-            double totalWidth = Children.Cast<DockContainer>().Sum(static item => double.IsNaN(item.DockWidth) ? 1.0 : item.DockWidth);
-
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
                 root.ColumnDefinitions.Add(new()
                 {
                     MinWidth = container.MinWidth,
                     MaxWidth = container.MaxWidth,
-                    Width = new(double.IsNaN(container.DockWidth) ? totalWidth / 4 : container.DockWidth, GridUnitType.Star)
+                    Width = new(CalculateWidth(container, true), GridUnitType.Star)
                 });
 
                 Grid.SetColumn(container, root.ColumnDefinitions.Count - 1);
@@ -120,5 +116,35 @@ public partial class LayoutPanel : DockContainer
     protected override bool ValidateChildren()
     {
         return Children.All(static item => item is DockContainer);
+    }
+
+    internal double CalculateHeight(DockModule module, bool isStar)
+    {
+        DockModule[] children = Children.Contains(module) ? [.. Children] : [.. Children, module];
+
+        double totalHeight = children.Sum(static item => double.IsNaN(item.DockHeight) ? 1.0 : item.DockHeight);
+        double moduleHeight = double.IsNaN(module.DockHeight) ? totalHeight / children.Length : module.DockHeight;
+
+        if (isStar)
+        {
+            return moduleHeight;
+        }
+
+        return ActualHeight / totalHeight * moduleHeight;
+    }
+
+    internal double CalculateWidth(DockModule module, bool isStar)
+    {
+        DockModule[] children = Children.Contains(module) ? [.. Children] : [.. Children, module];
+
+        double totalWidth = children.Sum(static item => double.IsNaN(item.DockWidth) ? 1.0 : item.DockWidth);
+        double moduleWidth = double.IsNaN(module.DockWidth) ? totalWidth / children.Length : module.DockWidth;
+
+        if (isStar)
+        {
+            return moduleWidth;
+        }
+
+        return ActualWidth / totalWidth * moduleWidth;
     }
 }

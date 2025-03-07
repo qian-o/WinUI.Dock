@@ -124,7 +124,7 @@ public partial class DockManager : Control
                 break;
             case DockTarget.DockLeft:
                 {
-                    dockPreview.Width = document.DockWidth;
+                    dockPreview.Width = Panel!.CalculateWidth(document, false);
                     dockPreview.Height = double.NaN;
                     dockPreview.HorizontalAlignment = HorizontalAlignment.Left;
                     dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
@@ -133,14 +133,14 @@ public partial class DockManager : Control
             case DockTarget.DockTop:
                 {
                     dockPreview.Width = double.NaN;
-                    dockPreview.Height = document.DockHeight;
+                    dockPreview.Height = Panel!.CalculateHeight(document, false);
                     dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
                     dockPreview.VerticalAlignment = VerticalAlignment.Top;
                 }
                 break;
             case DockTarget.DockRight:
                 {
-                    dockPreview.Width = document.DockWidth;
+                    dockPreview.Width = Panel!.CalculateWidth(document, false);
                     dockPreview.Height = double.NaN;
                     dockPreview.HorizontalAlignment = HorizontalAlignment.Right;
                     dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
@@ -149,7 +149,7 @@ public partial class DockManager : Control
             case DockTarget.DockBottom:
                 {
                     dockPreview.Width = double.NaN;
-                    dockPreview.Height = document.DockHeight;
+                    dockPreview.Height = Panel!.CalculateHeight(document, false);
                     dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
                     dockPreview.VerticalAlignment = VerticalAlignment.Bottom;
                 }
