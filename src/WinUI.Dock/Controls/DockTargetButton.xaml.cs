@@ -37,18 +37,18 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDragEnter(e);
 
-        string dragKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.FormatId);
-
-        if (DragDropHelpers.GetDocument(dragKey) is Document document)
+        if (Target is DockManager dockManager)
         {
-            if (Target is DockManager dockManager)
+            string dragKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.FormatId);
+
+            if (DragDropHelpers.GetDocument(dragKey) is Document document)
             {
                 dockManager.ShowDockPreview(document, DockTarget);
             }
-            else if (Target is DocumentGroup documentGroup)
-            {
-                documentGroup.ShowDockPreview(DockTarget);
-            }
+        }
+        else if (Target is DocumentGroup documentGroup)
+        {
+            documentGroup.ShowDockPreview(DockTarget);
         }
     }
 

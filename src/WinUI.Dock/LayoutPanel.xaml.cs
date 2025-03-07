@@ -125,12 +125,7 @@ public partial class LayoutPanel : DockContainer
         double totalHeight = children.Sum(static item => double.IsNaN(item.DockHeight) ? 1.0 : item.DockHeight);
         double moduleHeight = double.IsNaN(module.DockHeight) ? totalHeight / children.Length : module.DockHeight;
 
-        if (isStar)
-        {
-            return moduleHeight;
-        }
-
-        return ActualHeight / totalHeight * moduleHeight;
+        return isStar ? moduleHeight : ActualHeight / totalHeight * moduleHeight;
     }
 
     internal double CalculateWidth(DockModule module, bool isStar)
@@ -140,11 +135,6 @@ public partial class LayoutPanel : DockContainer
         double totalWidth = children.Sum(static item => double.IsNaN(item.DockWidth) ? 1.0 : item.DockWidth);
         double moduleWidth = double.IsNaN(module.DockWidth) ? totalWidth / children.Length : module.DockWidth;
 
-        if (isStar)
-        {
-            return moduleWidth;
-        }
-
-        return ActualWidth / totalWidth * moduleWidth;
+        return isStar ? moduleWidth : ActualWidth / totalWidth * moduleWidth;
     }
 }
