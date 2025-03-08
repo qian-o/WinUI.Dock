@@ -77,15 +77,6 @@ public partial class DockManager : Control
 
     public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
 
-    public string SaveLayout()
-    {
-        return "";
-    }
-
-    public void LoadLayout(string json)
-    {
-    }
-
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
