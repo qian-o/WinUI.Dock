@@ -1,7 +1,4 @@
-﻿using System.Text.Json.Nodes;
-using WinUI.Dock.Helpers;
-
-namespace WinUI.Dock.Abstracts;
+﻿namespace WinUI.Dock.Abstracts;
 
 public abstract class DockModule : Control
 {
@@ -139,30 +136,6 @@ public abstract class DockModule : Control
 
     protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
-    }
-
-    internal virtual JsonObject Serialize()
-    {
-        JsonObject json = [];
-
-        json.Add(nameof(DockMinWidth), DockMinWidth);
-        json.Add(nameof(DockMaxWidth), DockMaxWidth);
-        json.Add(nameof(DockWidth), DockWidth);
-        json.Add(nameof(DockMinHeight), DockMinHeight);
-        json.Add(nameof(DockMaxHeight), DockMaxHeight);
-        json.Add(nameof(DockHeight), DockHeight);
-
-        return json;
-    }
-
-    internal virtual void Deserialize(JsonObject json)
-    {
-        DockMinWidth = json.Get<double>(nameof(DockMinWidth));
-        DockMaxWidth = json.Get<double>(nameof(DockMaxWidth));
-        DockWidth = json.Get<double>(nameof(DockWidth));
-        DockMinHeight = json.Get<double>(nameof(DockMinHeight));
-        DockMaxHeight = json.Get<double>(nameof(DockMaxHeight));
-        DockHeight = json.Get<double>(nameof(DockHeight));
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)

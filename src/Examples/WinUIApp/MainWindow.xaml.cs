@@ -12,6 +12,16 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private void Save_Click(object _, RoutedEventArgs __)
+    {
+        File.WriteAllText(@"D:\layout.json", dockManager.SaveLayout());
+    }
+
+    private void Open_Click(object _, RoutedEventArgs __)
+    {
+        dockManager.LoadLayout(File.ReadAllText(@"D:\layout.json"));
+    }
+
     private void DockManager_CreateNewGroup(object _, CreateNewGroupEventArgs e)
     {
         if (e.Title.Contains("Side"))

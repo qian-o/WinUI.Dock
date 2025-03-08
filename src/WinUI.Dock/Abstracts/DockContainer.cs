@@ -55,15 +55,6 @@ public abstract class DockContainer : DockModule
         }
     }
 
-    internal override JsonObject Serialize()
-    {
-        JsonObject json = base.Serialize();
-
-        json.Add(nameof(Children), new JsonArray([.. Children.Select(static item => item.Serialize())]));
-
-        return json;
-    }
-
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (ValidateChildren())
