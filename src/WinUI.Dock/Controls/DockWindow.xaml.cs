@@ -9,17 +9,17 @@ public sealed partial class DockWindow : Window
 {
     private PointInt32 dragOffset;
 
-    public DockWindow(DockManager dockManager, Document document)
+    public DockWindow(DockManager manager, Document document)
     {
         InitializeComponent();
 
-        InitializePanel(dockManager, document);
-        InitializeWindow(dockManager, document);
+        InitializePanel(manager, document);
+        InitializeWindow(manager, document);
     }
 
-    private void InitializePanel(DockManager dockManager, Document document)
+    private void InitializePanel(DockManager manager, Document document)
     {
-        Panel.Root = dockManager;
+        Panel.Root = manager;
 
         Panel.Children.CollectionChanged += (sender, e) =>
         {
@@ -40,9 +40,9 @@ public sealed partial class DockWindow : Window
         Panel.Children.Add(panel);
     }
 
-    private void InitializeWindow(DockManager dockManager, Document document)
+    private void InitializeWindow(DockManager manager, Document document)
     {
-        Closed += (_, _) => DockWindowHelpers.RemoveWindow(dockManager, this);
+        Closed += (_, _) => DockWindowHelpers.RemoveWindow(manager, this);
 
         ExtendsContentIntoTitleBar = true;
 
@@ -57,9 +57,9 @@ public sealed partial class DockWindow : Window
             Height = (int)(double.IsNaN(document.DockHeight) ? 400 : document.DockHeight)
         });
 
-        dockManager.InvokeCreateNewWindow(TitleBar);
+        manager.InvokeCreateNewWindow(TitleBar);
 
-        DockWindowHelpers.AddWindow(dockManager, this);
+        DockWindowHelpers.AddWindow(manager, this);
     }
 
     private void OnDragEnter(object _, DragEventArgs __)

@@ -271,17 +271,17 @@ public partial class DocumentGroup : DockContainer
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is DocumentGroup documentGroup)
+        if (d is DocumentGroup group)
         {
-            documentGroup.UpdateVisualState();
+            group.UpdateVisualState();
         }
     }
 
     private static void OnIsTabWidthBasedOnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is DocumentGroup documentGroup)
+        if (d is DocumentGroup group)
         {
-            documentGroup.UpdateVisualState();
+            group.UpdateVisualState();
         }
     }
 }

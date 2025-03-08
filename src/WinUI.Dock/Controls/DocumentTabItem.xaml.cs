@@ -80,33 +80,33 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void Pin_Click(object _, RoutedEventArgs __)
     {
-        DockManager dockManager = Document!.Root!;
+        DockManager manager = Document!.Root!;
 
-        Point point = TransformToVisual(dockManager).TransformPoint(new Point(0, 0));
+        Point point = TransformToVisual(manager).TransformPoint(new Point(0, 0));
 
         double left = point.X;
         double top = point.Y;
-        double right = dockManager.ActualWidth - point.X;
-        double bottom = dockManager.ActualHeight - point.Y;
+        double right = manager.ActualWidth - point.X;
+        double bottom = manager.ActualHeight - point.Y;
 
         if (Document.ActualWidth < Document.ActualHeight)
         {
             if (left < right)
             {
-                dockManager.LeftSide.Add(Document);
+                manager.LeftSide.Add(Document);
             }
             else
             {
-                dockManager.RightSide.Add(Document);
+                manager.RightSide.Add(Document);
             }
         }
         else if (top < bottom)
         {
-            dockManager.TopSide.Add(Document);
+            manager.TopSide.Add(Document);
         }
         else
         {
-            dockManager.BottomSide.Add(Document);
+            manager.BottomSide.Add(Document);
         }
 
         Document.Detach();
