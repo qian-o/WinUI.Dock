@@ -5,6 +5,8 @@ using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
+public record CreateNewDocumentEventArgs(string Title, Document Document);
+
 public record CreateNewGroupEventArgs(string Title, DocumentGroup Group);
 
 public record CreateNewWindowEventArgs(Border TitleBar);
@@ -265,7 +267,7 @@ public partial class DockManager : Control
 
     private static void OnPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is DockManager dockManager)
+        if (d is DockManager manager)
         {
             if (e.OldValue is LayoutPanel oldPanel)
             {
@@ -274,7 +276,7 @@ public partial class DockManager : Control
 
             if (e.NewValue is LayoutPanel newPanel)
             {
-                newPanel.Root = dockManager;
+                newPanel.Root = manager;
             }
         }
     }

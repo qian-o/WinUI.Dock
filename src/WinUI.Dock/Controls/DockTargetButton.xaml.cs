@@ -37,18 +37,18 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDragEnter(e);
 
-        if (Target is DockManager dockManager)
+        if (Target is DockManager manager)
         {
             string dragKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.FormatId);
 
             if (DragDropHelpers.GetDocument(dragKey) is Document document)
             {
-                dockManager.ShowDockPreview(document, DockTarget);
+                manager.ShowDockPreview(document, DockTarget);
             }
         }
-        else if (Target is DocumentGroup documentGroup)
+        else if (Target is DocumentGroup group)
         {
-            documentGroup.ShowDockPreview(DockTarget);
+            group.ShowDockPreview(DockTarget);
         }
     }
 
@@ -56,13 +56,13 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDragLeave(e);
 
-        if (Target is DockManager dockManager)
+        if (Target is DockManager manager)
         {
-            dockManager.HideDockPreview();
+            manager.HideDockPreview();
         }
-        else if (Target is DocumentGroup documentGroup)
+        else if (Target is DocumentGroup group)
         {
-            documentGroup.HideDockPreview();
+            group.HideDockPreview();
         }
     }
 
@@ -81,15 +81,15 @@ public sealed partial class DockTargetButton : UserControl
 
         if (DragDropHelpers.GetDocument(dragKey) is Document document)
         {
-            if (Target is DockManager dockManager)
+            if (Target is DockManager manager)
             {
-                dockManager.HideDockPreview();
-                dockManager.Dock(document, DockTarget);
+                manager.HideDockPreview();
+                manager.Dock(document, DockTarget);
             }
-            else if (Target is DocumentGroup documentGroup)
+            else if (Target is DocumentGroup group)
             {
-                documentGroup.HideDockPreview();
-                documentGroup.Dock(document, DockTarget);
+                group.HideDockPreview();
+                group.Dock(document, DockTarget);
             }
 
             document.Root!.HideDockTargets();

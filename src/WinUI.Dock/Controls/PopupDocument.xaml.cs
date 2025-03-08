@@ -11,11 +11,11 @@ public sealed partial class PopupDocument : UserControl
 
     private string dragKey = string.Empty;
 
-    public PopupDocument(DockManager dockManager, DockSide dockSide, Document document)
+    public PopupDocument(DockManager manager, DockSide dockSide, Document document)
     {
         InitializeComponent();
 
-        DockManager = dockManager;
+        Manager = manager;
         DockSide = dockSide;
         Document = document;
 
@@ -23,8 +23,8 @@ public sealed partial class PopupDocument : UserControl
         {
             case DockSide.Left:
                 {
-                    Width = double.IsNaN(Document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
-                    Height = DockManager.PopupContainer!.ActualHeight;
+                    Width = double.IsNaN(Document.DockWidth) ? Manager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
+                    Height = Manager.PopupContainer!.ActualHeight;
 
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
@@ -38,8 +38,8 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Top:
                 {
-                    Width = DockManager.PopupContainer!.ActualWidth;
-                    Height = double.IsNaN(Document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
+                    Width = Manager.PopupContainer!.ActualWidth;
+                    Height = double.IsNaN(Document.DockHeight) ? Manager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
 
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
@@ -53,8 +53,8 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Right:
                 {
-                    Width = double.IsNaN(Document.DockWidth) ? DockManager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
-                    Height = DockManager.PopupContainer!.ActualHeight;
+                    Width = double.IsNaN(Document.DockWidth) ? Manager.PopupContainer!.ActualWidth / 3 : Document.DockWidth;
+                    Height = Manager.PopupContainer!.ActualHeight;
 
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Auto) });
                     Layout.ColumnDefinitions.Add(new ColumnDefinition { Width = new(1, GridUnitType.Star) });
@@ -68,8 +68,8 @@ public sealed partial class PopupDocument : UserControl
                 break;
             case DockSide.Bottom:
                 {
-                    Width = DockManager.PopupContainer!.ActualWidth;
-                    Height = double.IsNaN(Document.DockHeight) ? DockManager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
+                    Width = Manager.PopupContainer!.ActualWidth;
+                    Height = double.IsNaN(Document.DockHeight) ? Manager.PopupContainer!.ActualHeight / 3 : Document.DockHeight;
 
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Auto) });
                     Layout.RowDefinitions.Add(new RowDefinition { Height = new(1, GridUnitType.Star) });
@@ -87,13 +87,13 @@ public sealed partial class PopupDocument : UserControl
         {
             Child = this,
             IsLightDismissEnabled = true,
-            XamlRoot = DockManager.PopupContainer!.XamlRoot
+            XamlRoot = Manager.PopupContainer!.XamlRoot
         };
 
         popup.Closed += (_, _) => Detach();
     }
 
-    public DockManager DockManager { get; }
+    public DockManager Manager { get; }
 
     public DockSide DockSide { get; }
 
@@ -103,19 +103,19 @@ public sealed partial class PopupDocument : UserControl
     {
         popup.IsOpen = true;
 
-        DockManager.ActiveDocument = Document;
-        DockManager.PopupContainer!.Child = popup;
+        Manager.ActiveDocument = Document;
+        Manager.PopupContainer!.Child = popup;
     }
 
     private void OnSizeChanged(object _, SizeChangedEventArgs __)
     {
         if (DockSide is DockSide.Right)
         {
-            popup.HorizontalOffset = DockManager.PopupContainer!.ActualWidth - ActualWidth;
+            popup.HorizontalOffset = Manager.PopupContainer!.ActualWidth - ActualWidth;
         }
         else if (DockSide is DockSide.Bottom)
         {
-            popup.VerticalOffset = DockManager.PopupContainer!.ActualHeight - ActualHeight;
+            popup.VerticalOffset = Manager.PopupContainer!.ActualHeight - ActualHeight;
         }
     }
 
@@ -130,7 +130,7 @@ public sealed partial class PopupDocument : UserControl
     {
         if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
         {
-            DockWindow dockWindow = new(DockManager, document);
+            DockWindow dockWindow = new(Manager, document);
 
             dockWindow.Activate();
         }
@@ -144,7 +144,7 @@ public sealed partial class PopupDocument : UserControl
 
         Detach(true);
 
-        DockManager.Dock(document, DockSide switch
+        Manager.Dock(document, DockSide switch
         {
             DockSide.Left => DockTarget.DockLeft,
             DockSide.Top => DockTarget.DockTop,
@@ -168,16 +168,16 @@ public sealed partial class PopupDocument : UserControl
                 switch (DockSide)
                 {
                     case DockSide.Left:
-                        DockManager.LeftSide.Remove(Document);
+                        Manager.LeftSide.Remove(Document);
                         break;
                     case DockSide.Top:
-                        DockManager.TopSide.Remove(Document);
+                        Manager.TopSide.Remove(Document);
                         break;
                     case DockSide.Right:
-                        DockManager.RightSide.Remove(Document);
+                        Manager.RightSide.Remove(Document);
                         break;
                     case DockSide.Bottom:
-                        DockManager.BottomSide.Remove(Document);
+                        Manager.BottomSide.Remove(Document);
                         break;
                 }
             }
@@ -198,7 +198,7 @@ public sealed partial class PopupDocument : UserControl
 
         popup.IsOpen = false;
 
-        DockManager.ActiveDocument = null;
-        DockManager.PopupContainer!.Child = null;
+        Manager.ActiveDocument = null;
+        Manager.PopupContainer!.Child = null;
     }
 }

@@ -10,6 +10,16 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private void Save_Click(object _, RoutedEventArgs __)
+    {
+        // Save the layout.
+    }
+
+    private void Open_Click(object _, RoutedEventArgs __)
+    {
+        // Open the layout.
+    }
+
     private void DockManager_CreateNewGroup(object _, CreateNewGroupEventArgs e)
     {
         if (e.Title.Contains("Side"))

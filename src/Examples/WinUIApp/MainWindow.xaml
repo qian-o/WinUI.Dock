@@ -13,7 +13,23 @@
             </Style>
         </Grid.Resources>
 
-        <dock:DockManager CreateNewGroup="DockManager_CreateNewGroup"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <MenuBar Grid.Row="0">
+            <MenuBarItem Title="Layout">
+                <MenuFlyoutItem Click="Save_Click"
+                                Text="Save" />
+                <MenuFlyoutItem Click="Open_Click"
+                                Text="Open..." />
+            </MenuBarItem>
+        </MenuBar>
+
+        <dock:DockManager x:Name="dockManager"
+                          Grid.Row="1"
+                          CreateNewGroup="DockManager_CreateNewGroup"
                           CreateNewWindow="DockManager_CreateNewWindow"
                           ParentWindow="{Binding ElementName=Main}">
             <dock:DockManager.LeftSide>
