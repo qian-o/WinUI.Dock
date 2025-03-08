@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.Json.Nodes;
 
 namespace WinUI.Dock.Abstracts;
 
@@ -52,6 +53,15 @@ public abstract class DockContainer : DockModule
         {
             module.Root = newRoot;
         }
+    }
+
+    internal override JsonObject Serialize()
+    {
+        JsonObject json = base.Serialize();
+
+        json.Add(nameof(Children), new JsonArray([.. Children.Select(static item => item.Serialize())]));
+
+        return json;
     }
 
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
