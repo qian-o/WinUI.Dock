@@ -6,11 +6,12 @@
         <UseWinUI>true</UseWinUI>
         <Platforms>x86;x64;ARM64</Platforms>
         <ApplicationManifest>app.manifest</ApplicationManifest>
+        <EnableMsixTooling>true</EnableMsixTooling>
     </PropertyGroup>
 
     <PropertyGroup>
+        <WindowsPackageType>None</WindowsPackageType>
         <WindowsAppSdkSelfContained>true</WindowsAppSdkSelfContained>
-        <WindowsPackageType>none</WindowsPackageType>
     </PropertyGroup>
 
     <Choose>
