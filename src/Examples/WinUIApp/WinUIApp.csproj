@@ -29,7 +29,6 @@
         </Otherwise>
     </Choose>
 
-
     <ItemGroup>
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />

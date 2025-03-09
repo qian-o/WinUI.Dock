@@ -7,11 +7,9 @@
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-
         <Title>$(AssemblyName)</Title>
         <Version>1.0.3</Version>
         <Authors>qian-o</Authors>
