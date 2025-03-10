@@ -22,8 +22,10 @@
             <MenuBarItem Title="Layout">
                 <MenuFlyoutItem Click="Save_Click"
                                 Text="Save" />
+                <MenuFlyoutItem Click="Clear_Click"
+                                Text="Clear" />
                 <MenuFlyoutItem Click="Open_Click"
-                                Text="Open..." />
+                                Text="Open" />
             </MenuBarItem>
         </MenuBar>
 

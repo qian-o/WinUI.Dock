@@ -12,12 +12,21 @@ public sealed partial class MainWindow : Window
 
     private void Save_Click(object _, RoutedEventArgs __)
     {
-        // Save the layout.
+        File.WriteAllText("layout.json", dockManager.SaveLayout());
+    }
+
+    private void Clear_Click(object _, RoutedEventArgs __)
+    {
+        dockManager.Panel = null;
+        dockManager.LeftSide.Clear();
+        dockManager.TopSide.Clear();
+        dockManager.RightSide.Clear();
+        dockManager.BottomSide.Clear();
     }
 
     private void Open_Click(object _, RoutedEventArgs __)
     {
-        // Open the layout.
+        dockManager.LoadLayout(File.ReadAllText("layout.json"));
     }
 
     private void DockManager_CreateNewGroup(object _, CreateNewGroupEventArgs e)
