@@ -1,4 +1,5 @@
-﻿using WinUI.Dock.Abstracts;
+﻿using System.Text.Json.Nodes;
+using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
@@ -273,6 +274,27 @@ public partial class DocumentGroup : DockContainer
 
             IsListening = true;
         }
+    }
+
+    internal override void SaveLayout(JsonObject writer)
+    {
+        writer.WriteByModuleType(this);
+        writer.WriteDockModuleProperties(this);
+        writer.WriteDockContainerChildren(this);
+
+        writer[nameof(TabPosition)] = (int)TabPosition;
+        writer[nameof(IsTabWidthBasedOnContent)] = IsTabWidthBasedOnContent;
+        writer[nameof(SelectedIndex)] = SelectedIndex;
+    }
+
+    internal override void LoadLayout(JsonObject reader)
+    {
+        reader.ReadDockModuleProperties(this);
+        reader.ReadDockContainerChildren(this);
+
+        TabPosition = (TabPosition)reader[nameof(TabPosition)]!.GetValue<int>();
+        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)]!.GetValue<bool>();
+        SelectedIndex = reader[nameof(SelectedIndex)]!.GetValue<int>();
     }
 
     private void UpdateVisualState()

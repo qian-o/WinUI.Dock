@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.WinUI.Controls;
+﻿using System.Text.Json.Nodes;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Media;
 using WinUI.Dock.Abstracts;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
@@ -136,5 +138,22 @@ public partial class LayoutPanel : DockContainer
         double moduleWidth = double.IsNaN(module.DockWidth) ? totalWidth / children.Length : module.DockWidth;
 
         return isStar ? moduleWidth : ActualWidth / totalWidth * moduleWidth;
+    }
+
+    internal override void SaveLayout(JsonObject writer)
+    {
+        writer.WriteByModuleType(this);
+        writer.WriteDockModuleProperties(this);
+        writer.WriteDockContainerChildren(this);
+
+        writer[nameof(Orientation)] = (int)Orientation;
+    }
+
+    internal override void LoadLayout(JsonObject reader)
+    {
+        reader.ReadDockModuleProperties(this);
+        reader.ReadDockContainerChildren(this);
+
+        Orientation = (Orientation)reader[nameof(Orientation)]!.GetValue<int>();
     }
 }

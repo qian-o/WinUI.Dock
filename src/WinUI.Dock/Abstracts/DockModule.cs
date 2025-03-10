@@ -1,4 +1,6 @@
-﻿namespace WinUI.Dock.Abstracts;
+﻿using System.Text.Json.Nodes;
+
+namespace WinUI.Dock.Abstracts;
 
 public abstract class DockModule : Control
 {
@@ -137,6 +139,10 @@ public abstract class DockModule : Control
     protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
     }
+
+    internal abstract void SaveLayout(JsonObject writer);
+
+    internal abstract void LoadLayout(JsonObject reader);
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
