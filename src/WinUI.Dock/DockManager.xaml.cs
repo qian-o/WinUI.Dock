@@ -97,7 +97,7 @@ public partial class DockManager : Control
         writer.WriteSideDocuments(RightSide, nameof(RightSide));
         writer.WriteSideDocuments(BottomSide, nameof(BottomSide));
 
-        return writer.ToString();
+        return writer.ToJsonString(LayoutHelpers.SerializerOptions);
     }
 
     public void LoadLayout(string layout)

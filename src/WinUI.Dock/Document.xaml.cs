@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using WinUI.Dock.Abstracts;
 using WinUI.Dock.Helpers;
 
@@ -81,9 +82,9 @@ public partial class Document : DockModule
     {
         reader.ReadDockModuleProperties(this);
 
-        Title = reader[nameof(Title)]!.GetValue<string>();
-        CanPin = reader[nameof(CanPin)]!.GetValue<bool>();
-        CanClose = reader[nameof(CanClose)]!.GetValue<bool>();
+        Title = reader[nameof(Title)].Deserialize<string>(LayoutHelpers.SerializerOptions)!;
+        CanPin = reader[nameof(CanPin)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
+        CanClose = reader[nameof(CanClose)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
     }
 
     private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

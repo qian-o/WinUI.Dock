@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Media;
 using WinUI.Dock.Abstracts;
@@ -154,6 +155,6 @@ public partial class LayoutPanel : DockContainer
         reader.ReadDockModuleProperties(this);
         reader.ReadDockContainerChildren(this);
 
-        Orientation = (Orientation)reader[nameof(Orientation)]!.GetValue<int>();
+        Orientation = (Orientation)reader[nameof(Orientation)].Deserialize<int>(LayoutHelpers.SerializerOptions);
     }
 }

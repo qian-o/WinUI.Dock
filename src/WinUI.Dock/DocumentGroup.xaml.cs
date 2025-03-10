@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
@@ -292,9 +293,9 @@ public partial class DocumentGroup : DockContainer
         reader.ReadDockModuleProperties(this);
         reader.ReadDockContainerChildren(this);
 
-        TabPosition = (TabPosition)reader[nameof(TabPosition)]!.GetValue<int>();
-        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)]!.GetValue<bool>();
-        SelectedIndex = reader[nameof(SelectedIndex)]!.GetValue<int>();
+        TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>(LayoutHelpers.SerializerOptions);
+        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
+        SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>(LayoutHelpers.SerializerOptions);
     }
 
     private void UpdateVisualState()
