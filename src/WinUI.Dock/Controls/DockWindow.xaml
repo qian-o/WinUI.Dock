@@ -26,6 +26,7 @@
         </Grid>
 
         <dock:LayoutPanel x:Name="Panel"
-                          Grid.Row="1" />
+                          Grid.Row="1"
+                          x:FieldModifier="internal" />
     </Grid>
 </Window>

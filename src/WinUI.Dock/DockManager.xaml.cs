@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
@@ -76,6 +77,8 @@ public partial class DockManager : Control
 
     public Border? PopupContainer { get; private set; }
 
+    public event EventHandler<CreateNewDocumentEventArgs>? CreateNewDocument;
+
     public event EventHandler<CreateNewGroupEventArgs>? CreateNewGroup;
 
     public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
@@ -141,7 +144,10 @@ public partial class DockManager : Control
         if (reader.ContainsKey(nameof(Panel)))
         {
             Panel = new() { Root = this };
+
             Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());
+
+            InvokeCreateNewDocument(Panel!);
         }
 
         reader.ReadSideDocuments(LeftSide, nameof(LeftSide));
@@ -156,6 +162,23 @@ public partial class DockManager : Control
             window.LoadLayout(windowReader);
 
             window.Activate();
+
+            InvokeCreateNewDocument(window.Panel);
+        }
+
+        void InvokeCreateNewDocument(DockContainer container)
+        {
+            foreach (DockModule child in container.Children)
+            {
+                if (child is Document document)
+                {
+                    CreateNewDocument?.Invoke(this, new CreateNewDocumentEventArgs(document.Title, document));
+                }
+                else if (child is DockContainer childContainer)
+                {
+                    InvokeCreateNewDocument(childContainer);
+                }
+            }
         }
     }
 

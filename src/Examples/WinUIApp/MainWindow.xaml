@@ -31,6 +31,7 @@
 
         <dock:DockManager x:Name="dockManager"
                           Grid.Row="1"
+                          CreateNewDocument="DockManager_CreateNewDocument"
                           CreateNewGroup="DockManager_CreateNewGroup"
                           CreateNewWindow="DockManager_CreateNewWindow"
                           ParentWindow="{Binding ElementName=Main}">

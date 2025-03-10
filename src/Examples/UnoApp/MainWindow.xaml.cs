@@ -25,6 +25,16 @@ public sealed partial class MainWindow : Window
         dockManager.LoadLayout(File.ReadAllText("layout.json"));
     }
 
+    private void DockManager_CreateNewDocument(object _, CreateNewDocumentEventArgs e)
+    {
+        e.Document.Content = new TextBlock()
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Text = $"New Document {e.Title}"
+        };
+    }
+
     private void DockManager_CreateNewGroup(object _, CreateNewGroupEventArgs e)
     {
         if (e.Title.Contains("Side"))
