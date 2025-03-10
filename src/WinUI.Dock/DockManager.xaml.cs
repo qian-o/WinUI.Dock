@@ -79,6 +79,17 @@ public partial class DockManager : Control
 
     public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
 
+    public void ClearLayout()
+    {
+        Panel = null;
+        LeftSide.Clear();
+        TopSide.Clear();
+        RightSide.Clear();
+        BottomSide.Clear();
+
+        DockWindowHelpers.CloseAllWindows(this);
+    }
+
     public string SaveLayout()
     {
         JsonObject writer = [];
@@ -107,6 +118,8 @@ public partial class DockManager : Control
             return;
         }
 
+        ClearLayout();
+
         using JsonDocument document = JsonDocument.Parse(layout);
 
         JsonObject reader = JsonObject.Create(document.RootElement)!;
@@ -117,16 +130,9 @@ public partial class DockManager : Control
             Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());
         }
 
-        LeftSide.Clear();
         reader.ReadSideDocuments(LeftSide, nameof(LeftSide));
-
-        TopSide.Clear();
         reader.ReadSideDocuments(TopSide, nameof(TopSide));
-
-        RightSide.Clear();
         reader.ReadSideDocuments(RightSide, nameof(RightSide));
-
-        BottomSide.Clear();
         reader.ReadSideDocuments(BottomSide, nameof(BottomSide));
     }
 

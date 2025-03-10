@@ -19,11 +19,7 @@ public sealed partial class MainWindow : Window
 
     private void Clear_Click(object _, RoutedEventArgs __)
     {
-        dockManager.Panel = null;
-        dockManager.LeftSide.Clear();
-        dockManager.TopSide.Clear();
-        dockManager.RightSide.Clear();
-        dockManager.BottomSide.Clear();
+        dockManager.ClearLayout();
     }
 
     private void Open_Click(object _, RoutedEventArgs __)
