@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Windowing;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Graphics;
 using WinUI.Dock.Helpers;
@@ -9,7 +11,7 @@ public sealed partial class DockWindow : Window
 {
     private PointInt32 dragOffset;
 
-    public DockWindow(DockManager manager, Document document)
+    public DockWindow(DockManager manager, Document? document)
     {
         InitializeComponent();
 
@@ -17,7 +19,45 @@ public sealed partial class DockWindow : Window
         InitializeWindow(manager, document);
     }
 
-    private void InitializePanel(DockManager manager, Document document)
+    internal void SaveLayout(JsonObject writer)
+    {
+        writer["Position"] = new JsonObject
+        {
+            ["X"] = AppWindow.Position.X,
+            ["Y"] = AppWindow.Position.Y
+        };
+
+        writer["Size"] = new JsonObject
+        {
+            ["Width"] = AppWindow.Size.Width,
+            ["Height"] = AppWindow.Size.Height
+        };
+
+        JsonObject panelWriter = [];
+
+        Panel.SaveLayout(panelWriter);
+
+        writer[nameof(Panel)] = panelWriter;
+    }
+
+    internal void LoadLayout(JsonObject reader)
+    {
+        AppWindow.Move(new()
+        {
+            X = reader["Position"]!.AsObject()["X"].Deserialize<int>(LayoutHelpers.SerializerOptions),
+            Y = reader["Position"]!.AsObject()["Y"].Deserialize<int>(LayoutHelpers.SerializerOptions)
+        });
+
+        AppWindow.Resize(new()
+        {
+            Width = reader["Size"]!.AsObject()["Width"].Deserialize<int>(LayoutHelpers.SerializerOptions),
+            Height = reader["Size"]!.AsObject()["Height"].Deserialize<int>(LayoutHelpers.SerializerOptions)
+        });
+
+        Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());
+    }
+
+    private void InitializePanel(DockManager manager, Document? document)
     {
         Panel.Root = manager;
 
@@ -29,18 +69,21 @@ public sealed partial class DockWindow : Window
             }
         };
 
-        document.Detach();
+        if (document is not null)
+        {
+            document.Detach();
 
-        DocumentGroup group = new();
-        group.Children.Add(document);
+            DocumentGroup group = new();
+            group.Children.Add(document);
 
-        LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
-        panel.Children.Add(group);
+            LayoutPanel panel = new() { Orientation = Orientation.Horizontal };
+            panel.Children.Add(group);
 
-        Panel.Children.Add(panel);
+            Panel.Children.Add(panel);
+        }
     }
 
-    private void InitializeWindow(DockManager manager, Document document)
+    private void InitializeWindow(DockManager manager, Document? document)
     {
         Closed += (_, _) => DockWindowHelpers.RemoveWindow(manager, this);
 
@@ -51,11 +94,15 @@ public sealed partial class DockWindow : Window
 #endif
 
         AppWindow.Move(PointerHelpers.GetPointerPosition());
-        AppWindow.Resize(new()
+
+        if (document is not null)
         {
-            Width = (int)(double.IsNaN(document.DockWidth) ? 400 : document.DockWidth),
-            Height = (int)(double.IsNaN(document.DockHeight) ? 400 : document.DockHeight)
-        });
+            AppWindow.Resize(new()
+            {
+                Width = (int)(double.IsNaN(document.DockWidth) ? 400 : document.DockWidth),
+                Height = (int)(double.IsNaN(document.DockHeight) ? 400 : document.DockHeight)
+            });
+        }
 
         manager.InvokeCreateNewWindow(TitleBar);
 

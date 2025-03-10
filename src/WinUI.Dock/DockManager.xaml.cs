@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
 
@@ -108,6 +109,19 @@ public partial class DockManager : Control
         writer.WriteSideDocuments(RightSide, nameof(RightSide));
         writer.WriteSideDocuments(BottomSide, nameof(BottomSide));
 
+        JsonArray windows = [];
+
+        foreach (DockWindow window in DockWindowHelpers.GetWindows(this))
+        {
+            JsonObject windowWriter = [];
+
+            window.SaveLayout(windowWriter);
+
+            windows.Add(windowWriter);
+        }
+
+        writer["Windows"] = windows;
+
         return writer.ToJsonString(LayoutHelpers.SerializerOptions);
     }
 
@@ -134,6 +148,15 @@ public partial class DockManager : Control
         reader.ReadSideDocuments(TopSide, nameof(TopSide));
         reader.ReadSideDocuments(RightSide, nameof(RightSide));
         reader.ReadSideDocuments(BottomSide, nameof(BottomSide));
+
+        foreach (JsonObject windowReader in reader["Windows"]!.AsArray().Cast<JsonObject>())
+        {
+            DockWindow window = new(this, null);
+
+            window.LoadLayout(windowReader);
+
+            window.Activate();
+        }
     }
 
     protected override void OnApplyTemplate()

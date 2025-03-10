@@ -77,8 +77,6 @@ public static class LayoutHelpers
 
     public static void ReadDockContainerChildren(this JsonObject reader, DockContainer container)
     {
-        container.Children.Clear();
-
         foreach (JsonObject childReader in reader[nameof(DockContainer.Children)]!.AsArray().Cast<JsonObject>())
         {
             DockModule child = CreateByModuleType(childReader);
@@ -107,8 +105,6 @@ public static class LayoutHelpers
 
     public static void ReadSideDocuments(this JsonObject reader, ObservableCollection<Document> side, string sideName)
     {
-        side.Clear();
-
         foreach (JsonObject documentReader in reader[sideName]!.AsArray().Cast<JsonObject>())
         {
             Document document = new();
