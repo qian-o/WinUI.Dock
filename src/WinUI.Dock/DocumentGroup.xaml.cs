@@ -253,6 +253,28 @@ public partial class DocumentGroup : DockContainer
         }
     }
 
+    internal void TryReorder(DocumentTabItem tabItem, Document document)
+    {
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
+
+        if (Children.Count is 1)
+        {
+            return;
+        }
+
+        int index1 = root!.TabItems.IndexOf(tabItem);
+        int index2 = Children.IndexOf(document);
+
+        if (index1 != index2)
+        {
+            IsListening = false;
+
+            Children.Move(index2, index1);
+
+            IsListening = true;
+        }
+    }
+
     private void UpdateVisualState()
     {
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);

@@ -53,7 +53,20 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
+        if (args.DropResult is DataPackageOperation.Move)
+        {
+            // If a move operation was performed but no action was taken,
+            // the current document may have been sorted or an invalid operation was performed.
+            if (Document is not null)
+            {
+                DocumentGroup group = (DocumentGroup)Document.Owner!;
+
+                group.TryReorder(this, Document);
+
+                Document.Root!.HideDockTargets();
+            }
+        }
+        else if (DragDropHelpers.GetDocument(dragKey) is Document document)
         {
             DockWindow dockWindow = new(document.Root!, document);
 
