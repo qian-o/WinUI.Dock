@@ -101,7 +101,6 @@ public partial class DockManager : Control
         if (Panel is not null)
         {
             JsonObject panelWriter = [];
-
             Panel.SaveLayout(panelWriter);
 
             writer[nameof(Panel)] = panelWriter;
@@ -117,7 +116,6 @@ public partial class DockManager : Control
         foreach (DockWindow window in DockWindowHelpers.GetWindows(this))
         {
             JsonObject windowWriter = [];
-
             window.SaveLayout(windowWriter);
 
             windows.Add(windowWriter);
@@ -144,39 +142,43 @@ public partial class DockManager : Control
         if (reader.ContainsKey(nameof(Panel)))
         {
             Panel = new() { Root = this };
-
             Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());
 
-            InvokeCreateNewDocument(Panel!);
+            InvokeCreateNewDocument(Panel.Children);
         }
 
         reader.ReadSideDocuments(LeftSide, nameof(LeftSide));
+        InvokeCreateNewDocument(LeftSide);
+
         reader.ReadSideDocuments(TopSide, nameof(TopSide));
+        InvokeCreateNewDocument(TopSide);
+
         reader.ReadSideDocuments(RightSide, nameof(RightSide));
+        InvokeCreateNewDocument(RightSide);
+
         reader.ReadSideDocuments(BottomSide, nameof(BottomSide));
+        InvokeCreateNewDocument(BottomSide);
 
         foreach (JsonObject windowReader in reader["Windows"]!.AsArray().Cast<JsonObject>())
         {
             DockWindow window = new(this, null);
-
             window.LoadLayout(windowReader);
-
             window.Activate();
 
-            InvokeCreateNewDocument(window.Panel);
+            InvokeCreateNewDocument(window.Panel.Children);
         }
 
-        void InvokeCreateNewDocument(DockContainer container)
+        void InvokeCreateNewDocument(IEnumerable<DockModule> modules)
         {
-            foreach (DockModule child in container.Children)
+            foreach (DockModule module in modules)
             {
-                if (child is Document document)
+                if (module is Document document)
                 {
                     CreateNewDocument?.Invoke(this, new CreateNewDocumentEventArgs(document.Title, document));
                 }
-                else if (child is DockContainer childContainer)
+                else if (module is DockContainer container)
                 {
-                    InvokeCreateNewDocument(childContainer);
+                    InvokeCreateNewDocument(container.Children);
                 }
             }
         }

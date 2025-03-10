@@ -66,7 +66,6 @@ public static class LayoutHelpers
         foreach (DockModule child in container.Children)
         {
             JsonObject childWriter = [];
-
             child.SaveLayout(childWriter);
 
             children.Add(childWriter);
@@ -80,7 +79,6 @@ public static class LayoutHelpers
         foreach (JsonObject childReader in reader[nameof(DockContainer.Children)]!.AsArray().Cast<JsonObject>())
         {
             DockModule child = CreateByModuleType(childReader);
-
             child.LoadLayout(childReader);
 
             container.Children.Add(child);
@@ -94,7 +92,6 @@ public static class LayoutHelpers
         foreach (Document document in side)
         {
             JsonObject documentWriter = [];
-
             document.SaveLayout(documentWriter);
 
             documents.Add(documentWriter);
@@ -108,7 +105,6 @@ public static class LayoutHelpers
         foreach (JsonObject documentReader in reader[sideName]!.AsArray().Cast<JsonObject>())
         {
             Document document = new();
-
             document.LoadLayout(documentReader);
 
             side.Add(document);
