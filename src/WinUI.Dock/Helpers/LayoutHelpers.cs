@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Collections.ObjectModel;
+using System.Text.Json.Nodes;
 using WinUI.Dock.Abstracts;
 
 namespace WinUI.Dock.Helpers;
@@ -78,6 +79,36 @@ public static class LayoutHelpers
             child.LoadLayout(childReader);
 
             container.Children.Add(child);
+        }
+    }
+
+    public static void WriteSideDocuments(this JsonObject writer, ObservableCollection<Document> side, string sideName)
+    {
+        JsonArray documents = [];
+
+        foreach (Document document in side)
+        {
+            JsonObject documentWriter = [];
+
+            document.SaveLayout(documentWriter);
+
+            documents.Add(documentWriter);
+        }
+
+        writer[sideName] = documents;
+    }
+
+    public static void ReadSideDocuments(this JsonObject reader, ObservableCollection<Document> side, string sideName)
+    {
+        side.Clear();
+
+        foreach (JsonObject documentReader in reader[sideName]!.AsArray().Cast<JsonObject>())
+        {
+            Document document = new();
+
+            document.LoadLayout(documentReader);
+
+            side.Add(document);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
 
@@ -76,6 +78,57 @@ public partial class DockManager : Control
     public event EventHandler<CreateNewGroupEventArgs>? CreateNewGroup;
 
     public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
+
+    public string SaveLayout()
+    {
+        JsonObject writer = [];
+
+        if (Panel is not null)
+        {
+            JsonObject panelWriter = [];
+
+            Panel.SaveLayout(panelWriter);
+
+            writer[nameof(Panel)] = panelWriter;
+        }
+
+        writer.WriteSideDocuments(LeftSide, nameof(LeftSide));
+        writer.WriteSideDocuments(TopSide, nameof(TopSide));
+        writer.WriteSideDocuments(RightSide, nameof(RightSide));
+        writer.WriteSideDocuments(BottomSide, nameof(BottomSide));
+
+        return writer.ToString();
+    }
+
+    public void LoadLayout(string layout)
+    {
+        if (string.IsNullOrEmpty(layout))
+        {
+            return;
+        }
+
+        using JsonDocument document = JsonDocument.Parse(layout);
+
+        JsonObject reader = JsonObject.Create(document.RootElement)!;
+
+        if (reader.ContainsKey(nameof(Panel)))
+        {
+            Panel = new() { Root = this };
+            Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());
+        }
+
+        LeftSide.Clear();
+        reader.ReadSideDocuments(LeftSide, nameof(LeftSide));
+
+        TopSide.Clear();
+        reader.ReadSideDocuments(TopSide, nameof(TopSide));
+
+        RightSide.Clear();
+        reader.ReadSideDocuments(RightSide, nameof(RightSide));
+
+        BottomSide.Clear();
+        reader.ReadSideDocuments(BottomSide, nameof(BottomSide));
+    }
 
     protected override void OnApplyTemplate()
     {
