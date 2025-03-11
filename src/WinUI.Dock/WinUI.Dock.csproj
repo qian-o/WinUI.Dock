@@ -11,7 +11,7 @@
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <Title>$(AssemblyName)</Title>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
         <Authors>qian-o</Authors>
         <Copyright>MIT</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
