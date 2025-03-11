@@ -85,7 +85,7 @@ public static class LayoutHelpers
         }
     }
 
-    public static void WriteSideDocuments(this JsonObject writer, ObservableCollection<Document> side, string sideName)
+    public static void WriteSideDocuments(this JsonObject writer, string sideName, ObservableCollection<Document> side)
     {
         JsonArray documents = [];
 
@@ -100,7 +100,7 @@ public static class LayoutHelpers
         writer[sideName] = documents;
     }
 
-    public static void ReadSideDocuments(this JsonObject reader, ObservableCollection<Document> side, string sideName)
+    public static void ReadSideDocuments(this JsonObject reader, string sideName, ObservableCollection<Document> side)
     {
         foreach (JsonObject documentReader in reader[sideName]!.AsArray().Cast<JsonObject>())
         {

@@ -41,7 +41,7 @@ public partial class DockManager : Control
     {
         DefaultStyleKey = typeof(DockManager);
 
-        Unloaded += (_, _) => DockWindowHelpers.CloseAllWindows(this);
+        Unloaded += (_, _) => DockWindowHelpers.CloseWindows(this);
 
         LeftSide.CollectionChanged += OnSideCollectionChanged;
         TopSide.CollectionChanged += OnSideCollectionChanged;
@@ -91,7 +91,7 @@ public partial class DockManager : Control
         RightSide.Clear();
         BottomSide.Clear();
 
-        DockWindowHelpers.CloseAllWindows(this);
+        DockWindowHelpers.CloseWindows(this);
     }
 
     public string SaveLayout()
@@ -106,10 +106,10 @@ public partial class DockManager : Control
             writer[nameof(Panel)] = panelWriter;
         }
 
-        writer.WriteSideDocuments(LeftSide, nameof(LeftSide));
-        writer.WriteSideDocuments(TopSide, nameof(TopSide));
-        writer.WriteSideDocuments(RightSide, nameof(RightSide));
-        writer.WriteSideDocuments(BottomSide, nameof(BottomSide));
+        writer.WriteSideDocuments(nameof(LeftSide), LeftSide);
+        writer.WriteSideDocuments(nameof(TopSide), TopSide);
+        writer.WriteSideDocuments(nameof(RightSide), RightSide);
+        writer.WriteSideDocuments(nameof(BottomSide), BottomSide);
 
         JsonArray windows = [];
 
@@ -141,22 +141,22 @@ public partial class DockManager : Control
 
         if (reader.ContainsKey(nameof(Panel)))
         {
-            Panel = new() { Root = this };
+            Panel = new();
             Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());
 
             InvokeCreateNewDocument(Panel.Children);
         }
 
-        reader.ReadSideDocuments(LeftSide, nameof(LeftSide));
+        reader.ReadSideDocuments(nameof(LeftSide), LeftSide);
         InvokeCreateNewDocument(LeftSide);
 
-        reader.ReadSideDocuments(TopSide, nameof(TopSide));
+        reader.ReadSideDocuments(nameof(TopSide), TopSide);
         InvokeCreateNewDocument(TopSide);
 
-        reader.ReadSideDocuments(RightSide, nameof(RightSide));
+        reader.ReadSideDocuments(nameof(RightSide), RightSide);
         InvokeCreateNewDocument(RightSide);
 
-        reader.ReadSideDocuments(BottomSide, nameof(BottomSide));
+        reader.ReadSideDocuments(nameof(BottomSide), BottomSide);
         InvokeCreateNewDocument(BottomSide);
 
         foreach (JsonObject windowReader in reader["Windows"]!.AsArray().Cast<JsonObject>())

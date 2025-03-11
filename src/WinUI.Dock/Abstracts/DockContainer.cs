@@ -58,12 +58,7 @@ public abstract class DockContainer : DockModule
 
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (!IsListening)
-        {
-            return;
-        }
-
-        if (ValidateChildren())
+        if (IsListening && ValidateChildren())
         {
             UnloadChildren();
 

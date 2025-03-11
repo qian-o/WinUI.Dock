@@ -34,7 +34,7 @@ public static class DockWindowHelpers
         return windows.TryGetValue(manager, out List<DockWindow>? value) ? [.. value] : [];
     }
 
-    public static void CloseAllWindows(DockManager manager)
+    public static void CloseWindows(DockManager manager)
     {
         if (windows.TryGetValue(manager, out List<DockWindow>? value))
         {

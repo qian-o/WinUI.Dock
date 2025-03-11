@@ -34,7 +34,6 @@ public sealed partial class DockWindow : Window
         };
 
         JsonObject panelWriter = [];
-
         Panel.SaveLayout(panelWriter);
 
         writer[nameof(Panel)] = panelWriter;
