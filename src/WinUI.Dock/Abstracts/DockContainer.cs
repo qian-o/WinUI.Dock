@@ -13,6 +13,8 @@ public abstract class DockContainer : DockModule
 
     public ObservableCollection<DockModule> Children { get; } = [];
 
+    internal bool IsListening { get; set; } = true;
+
     public void DetachEmptyContainer()
     {
         for (int i = Children.Count - 1; i >= 0; i--)
@@ -56,6 +58,11 @@ public abstract class DockContainer : DockModule
 
     private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
+        if (!IsListening)
+        {
+            return;
+        }
+
         if (ValidateChildren())
         {
             UnloadChildren();

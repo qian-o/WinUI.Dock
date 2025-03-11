@@ -1,27 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <GenerateLibraryLayout>true</GenerateLibraryLayout>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <TargetFrameworks>net9.0-windows10.0.22621.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
-    <PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <GenerateLibraryLayout>true</GenerateLibraryLayout>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <Title>$(AssemblyName)</Title>
         <Version>1.0.3</Version>
         <Authors>qian-o</Authors>
         <Copyright>MIT</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <RepositoryUrl>https://github.com/qian-o/WinUI.Dock</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/qian-o/WinUI.Dock</PackageProjectUrl>
         <PackageTags>WinUI;Uno Platform;Dock;DockManager;Visual Studio</PackageTags>
         <Description>Docked controls similar to Visual Studio, available with WinUI 3 and Uno Platform.</Description>
-        <RepositoryUrl>https://github.com/qian-o/WinUI.Dock</RepositoryUrl>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
-    </ItemGroup>
 
     <ItemGroup>
         <None Include="..\..\LICENSE">
@@ -35,6 +34,11 @@
             <Pack>true</Pack>
             <PackagePath>\</PackagePath>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     </ItemGroup>
 
     <Choose>

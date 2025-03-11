@@ -8,7 +8,7 @@
         <PackageVersion Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.1.240916" />
         <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240916" />
         <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.1.240916" />
-        <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3065.39" />
+        <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3124.44" />
         <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
         <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
         <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />

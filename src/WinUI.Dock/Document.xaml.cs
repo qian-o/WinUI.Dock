@@ -1,4 +1,7 @@
-﻿using WinUI.Dock.Abstracts;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+using WinUI.Dock.Abstracts;
+using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
@@ -63,6 +66,25 @@ public partial class Document : DockModule
     {
         get => (string)GetValue(ActualTitleProperty);
         private set => SetValue(ActualTitleProperty, value);
+    }
+
+    internal override void SaveLayout(JsonObject writer)
+    {
+        writer.WriteByModuleType(this);
+        writer.WriteDockModuleProperties(this);
+
+        writer[nameof(Title)] = Title;
+        writer[nameof(CanPin)] = CanPin;
+        writer[nameof(CanClose)] = CanClose;
+    }
+
+    internal override void LoadLayout(JsonObject reader)
+    {
+        reader.ReadDockModuleProperties(this);
+
+        Title = reader[nameof(Title)].Deserialize<string>(LayoutHelpers.SerializerOptions)!;
+        CanPin = reader[nameof(CanPin)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
+        CanClose = reader[nameof(CanClose)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
     }
 
     private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

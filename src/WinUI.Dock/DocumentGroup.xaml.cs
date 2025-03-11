@@ -1,4 +1,6 @@
-﻿using WinUI.Dock.Abstracts;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
@@ -251,6 +253,49 @@ public partial class DocumentGroup : DockContainer
 
             owner.Children.Insert(index, panel);
         }
+    }
+
+    internal void TryReorder(DocumentTabItem tabItem, Document document)
+    {
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
+
+        if (Children.Count is 1)
+        {
+            return;
+        }
+
+        int index1 = root!.TabItems.IndexOf(tabItem);
+        int index2 = Children.IndexOf(document);
+
+        if (index1 != index2)
+        {
+            IsListening = false;
+
+            Children.Move(index2, index1);
+
+            IsListening = true;
+        }
+    }
+
+    internal override void SaveLayout(JsonObject writer)
+    {
+        writer.WriteByModuleType(this);
+        writer.WriteDockModuleProperties(this);
+        writer.WriteDockContainerChildren(this);
+
+        writer[nameof(TabPosition)] = (int)TabPosition;
+        writer[nameof(IsTabWidthBasedOnContent)] = IsTabWidthBasedOnContent;
+        writer[nameof(SelectedIndex)] = SelectedIndex;
+    }
+
+    internal override void LoadLayout(JsonObject reader)
+    {
+        reader.ReadDockModuleProperties(this);
+        reader.ReadDockContainerChildren(this);
+
+        TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>(LayoutHelpers.SerializerOptions);
+        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
+        SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>(LayoutHelpers.SerializerOptions);
     }
 
     private void UpdateVisualState()

@@ -1,5 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using WinUI.Dock.Abstracts;
+using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
 using WinUI.Dock.Helpers;
 
@@ -73,9 +77,112 @@ public partial class DockManager : Control
 
     public Border? PopupContainer { get; private set; }
 
+    public event EventHandler<CreateNewDocumentEventArgs>? CreateNewDocument;
+
     public event EventHandler<CreateNewGroupEventArgs>? CreateNewGroup;
 
     public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
+
+    public void ClearLayout()
+    {
+        Panel = null;
+        LeftSide.Clear();
+        TopSide.Clear();
+        RightSide.Clear();
+        BottomSide.Clear();
+
+        DockWindowHelpers.CloseAllWindows(this);
+    }
+
+    public string SaveLayout()
+    {
+        JsonObject writer = [];
+
+        if (Panel is not null)
+        {
+            JsonObject panelWriter = [];
+            Panel.SaveLayout(panelWriter);
+
+            writer[nameof(Panel)] = panelWriter;
+        }
+
+        writer.WriteSideDocuments(LeftSide, nameof(LeftSide));
+        writer.WriteSideDocuments(TopSide, nameof(TopSide));
+        writer.WriteSideDocuments(RightSide, nameof(RightSide));
+        writer.WriteSideDocuments(BottomSide, nameof(BottomSide));
+
+        JsonArray windows = [];
+
+        foreach (DockWindow window in DockWindowHelpers.GetWindows(this))
+        {
+            JsonObject windowWriter = [];
+            window.SaveLayout(windowWriter);
+
+            windows.Add(windowWriter);
+        }
+
+        writer["Windows"] = windows;
+
+        return writer.ToJsonString(LayoutHelpers.SerializerOptions);
+    }
+
+    public void LoadLayout(string layout)
+    {
+        if (string.IsNullOrEmpty(layout))
+        {
+            return;
+        }
+
+        ClearLayout();
+
+        using JsonDocument document = JsonDocument.Parse(layout);
+
+        JsonObject reader = JsonObject.Create(document.RootElement)!;
+
+        if (reader.ContainsKey(nameof(Panel)))
+        {
+            Panel = new() { Root = this };
+            Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());
+
+            InvokeCreateNewDocument(Panel.Children);
+        }
+
+        reader.ReadSideDocuments(LeftSide, nameof(LeftSide));
+        InvokeCreateNewDocument(LeftSide);
+
+        reader.ReadSideDocuments(TopSide, nameof(TopSide));
+        InvokeCreateNewDocument(TopSide);
+
+        reader.ReadSideDocuments(RightSide, nameof(RightSide));
+        InvokeCreateNewDocument(RightSide);
+
+        reader.ReadSideDocuments(BottomSide, nameof(BottomSide));
+        InvokeCreateNewDocument(BottomSide);
+
+        foreach (JsonObject windowReader in reader["Windows"]!.AsArray().Cast<JsonObject>())
+        {
+            DockWindow window = new(this, null);
+            window.LoadLayout(windowReader);
+            window.Activate();
+
+            InvokeCreateNewDocument(window.Panel.Children);
+        }
+
+        void InvokeCreateNewDocument(IEnumerable<DockModule> modules)
+        {
+            foreach (DockModule module in modules)
+            {
+                if (module is Document document)
+                {
+                    CreateNewDocument?.Invoke(this, new CreateNewDocumentEventArgs(document.Title, document));
+                }
+                else if (module is DockContainer container)
+                {
+                    InvokeCreateNewDocument(container.Children);
+                }
+            }
+        }
+    }
 
     protected override void OnApplyTemplate()
     {

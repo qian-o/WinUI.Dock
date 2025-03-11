@@ -5,12 +5,13 @@
         <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
         <UseWinUI>true</UseWinUI>
         <Platforms>x86;x64;ARM64</Platforms>
+        <EnableMsixTooling>true</EnableMsixTooling>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
 
     <PropertyGroup>
+        <WindowsPackageType>None</WindowsPackageType>
         <WindowsAppSdkSelfContained>true</WindowsAppSdkSelfContained>
-        <WindowsPackageType>none</WindowsPackageType>
     </PropertyGroup>
 
     <Choose>
@@ -27,7 +28,6 @@
             </PropertyGroup>
         </Otherwise>
     </Choose>
-
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
