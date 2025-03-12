@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 namespace WinUI.Dock.Abstracts;
 
 [ContentProperty(Name = nameof(Children))]
-public abstract class DockContainer : DockModule
+public abstract partial class DockContainer : DockModule
 {
     protected DockContainer()
     {

@@ -2,7 +2,7 @@
 
 namespace WinUI.Dock.Abstracts;
 
-public abstract class DockModule : Control
+public abstract partial class DockModule : Control
 {
     public static readonly DependencyProperty OwnerProperty = DependencyProperty.Register(nameof(Owner),
                                                                                           typeof(DockModule),
