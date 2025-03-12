@@ -85,14 +85,16 @@
             <DataTemplate x:Key="LeftBottomTemplate"
                           x:DataType="dock:Document">
                 <Button Click="Document_Click"
-                        Content="{Binding ActualTitle}"
+                        Content="{x:Bind ActualTitle}"
+                        DataContext="{x:Bind}"
                         Style="{StaticResource LeftBottomButtonStyle}" />
             </DataTemplate>
 
             <DataTemplate x:Key="TopRightTemplate"
                           x:DataType="dock:Document">
                 <Button Click="Document_Click"
-                        Content="{Binding ActualTitle}"
+                        Content="{x:Bind ActualTitle}"
+                        DataContext="{x:Bind}"
                         Style="{StaticResource TopRightButtonStyle}" />
             </DataTemplate>
         </ResourceDictionary>
@@ -145,7 +147,7 @@
 
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="dock:Document">
-                    <TextBlock Text="{Binding ActualTitle}" />
+                    <TextBlock Text="{x:Bind ActualTitle}" />
                 </DataTemplate>
             </ItemsRepeater.ItemTemplate>
         </ItemsRepeater>
