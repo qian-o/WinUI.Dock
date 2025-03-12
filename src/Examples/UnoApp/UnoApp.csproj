@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
         <Compile Update="**\*.xaml.cs">
             <DependentUpon>%(Filename)</DependentUpon>
         </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
     </ItemGroup>
 
 </Project>

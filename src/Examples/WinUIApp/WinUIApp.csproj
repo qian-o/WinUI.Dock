@@ -30,12 +30,12 @@
     </Choose>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" />
+        <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" />
     </ItemGroup>
 
 </Project>
