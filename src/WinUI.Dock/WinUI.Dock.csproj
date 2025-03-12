@@ -26,6 +26,15 @@
         <Description>Docked controls similar to Visual Studio, available with WinUI 3 and Uno Platform.</Description>
     </PropertyGroup>
 
+    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+        <NoWarn>IDE0028</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
@@ -52,10 +61,5 @@
             </ItemGroup>
         </Otherwise>
     </Choose>
-
-    <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
-        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
 
 </Project>
