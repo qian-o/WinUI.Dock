@@ -8,7 +8,7 @@ using WinUI.Dock.Helpers;
 namespace WinUI.Dock;
 
 [TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
-[TemplatePart(Name = "PART_DockPreview", Type = typeof(Border))]
+[TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
 public partial class DocumentGroup : DockContainer
 {
     public static readonly DependencyProperty TabPositionProperty = DependencyProperty.Register(nameof(TabPosition),
@@ -27,7 +27,7 @@ public partial class DocumentGroup : DockContainer
                                                                                                   new PropertyMetadata(-1));
 
     private TabView? root;
-    private Border? dockPreview;
+    private AnimationPreview? preview;
 
     public DocumentGroup()
     {
@@ -72,7 +72,7 @@ public partial class DocumentGroup : DockContainer
     protected override void InitTemplate()
     {
         root = GetTemplateChild("PART_Root") as TabView;
-        dockPreview = GetTemplateChild("PART_DockPreview") as Border;
+        preview = GetTemplateChild("PART_Preview") as AnimationPreview;
 
         UpdateVisualState();
     }
@@ -121,66 +121,56 @@ public partial class DocumentGroup : DockContainer
 
     internal void ShowDockPreview(DockTarget dockTarget)
     {
-        if (dockPreview is null)
+        if (preview is null)
         {
             return;
         }
 
-        dockPreview.Visibility = Visibility.Visible;
+        preview.Visibility = Visibility.Visible;
 
         switch (dockTarget)
         {
             case DockTarget.Center:
-                {
-                    dockPreview.Width = double.NaN;
-                    dockPreview.Height = double.NaN;
-                    dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
-                }
+                preview.Show(double.NaN,
+                             double.NaN,
+                             HorizontalAlignment.Stretch,
+                             VerticalAlignment.Stretch);
                 break;
             case DockTarget.SplitLeft:
-                {
-                    dockPreview.Width = ActualWidth / 2;
-                    dockPreview.Height = double.NaN;
-                    dockPreview.HorizontalAlignment = HorizontalAlignment.Left;
-                    dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
-                }
+                preview.Show(ActualWidth / 2,
+                             double.NaN,
+                             HorizontalAlignment.Left,
+                             VerticalAlignment.Stretch);
                 break;
             case DockTarget.SplitTop:
-                {
-                    dockPreview.Width = double.NaN;
-                    dockPreview.Height = ActualHeight / 2;
-                    dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    dockPreview.VerticalAlignment = VerticalAlignment.Top;
-                }
+                preview.Show(double.NaN,
+                             ActualHeight / 2,
+                             HorizontalAlignment.Stretch,
+                             VerticalAlignment.Top);
                 break;
             case DockTarget.SplitRight:
-                {
-                    dockPreview.Width = ActualWidth / 2;
-                    dockPreview.Height = double.NaN;
-                    dockPreview.HorizontalAlignment = HorizontalAlignment.Right;
-                    dockPreview.VerticalAlignment = VerticalAlignment.Stretch;
-                }
+                preview.Show(ActualWidth / 2,
+                             double.NaN,
+                             HorizontalAlignment.Right,
+                             VerticalAlignment.Stretch);
                 break;
             case DockTarget.SplitBottom:
-                {
-                    dockPreview.Width = double.NaN;
-                    dockPreview.Height = ActualHeight / 2;
-                    dockPreview.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    dockPreview.VerticalAlignment = VerticalAlignment.Bottom;
-                }
+                preview.Show(double.NaN,
+                             ActualHeight / 2,
+                             HorizontalAlignment.Stretch,
+                             VerticalAlignment.Bottom);
                 break;
         }
     }
 
     internal void HideDockPreview()
     {
-        if (dockPreview is null)
+        if (preview is null)
         {
             return;
         }
 
-        dockPreview.Visibility = Visibility.Collapsed;
+        preview.Visibility = Visibility.Collapsed;
     }
 
     internal void Dock(Document document, DockTarget dockTarget)

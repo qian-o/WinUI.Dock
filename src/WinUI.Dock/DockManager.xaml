@@ -114,16 +114,10 @@
                                                        Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
 
-                        <Border x:Name="PART_DockPreview"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Background="{ThemeResource AccentAcrylicBackgroundFillColorBaseBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="4"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                IsHitTestVisible="False"
-                                Opacity="0.4"
-                                Visibility="Collapsed" />
+                        <controls:AnimationPreview x:Name="PART_Preview"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1"
+                                                   Visibility="Collapsed" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

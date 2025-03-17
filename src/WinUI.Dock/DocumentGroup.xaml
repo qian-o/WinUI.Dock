@@ -121,14 +121,8 @@
                             </Grid>
                         </Grid>
 
-                        <Border x:Name="PART_DockPreview"
-                                Background="{ThemeResource AccentAcrylicBackgroundFillColorBaseBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="4"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                IsHitTestVisible="False"
-                                Opacity="0.4"
-                                Visibility="Collapsed" />
+                        <controls:AnimationPreview x:Name="PART_Preview"
+                                                   Visibility="Collapsed" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
