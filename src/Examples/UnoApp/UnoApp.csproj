@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net9.0-desktop;net9.0-maccatalyst</TargetFrameworks>
+        <TargetFramework>net9.0-desktop</TargetFramework>
         <UnoSingleProject>true</UnoSingleProject>
     </PropertyGroup>
 
