@@ -36,7 +36,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.WinUI.Animations" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     </ItemGroup>
