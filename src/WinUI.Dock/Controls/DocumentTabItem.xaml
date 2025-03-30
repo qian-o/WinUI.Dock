@@ -29,7 +29,7 @@
             </Grid.RenderTransform>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
@@ -72,14 +72,27 @@
                 BorderThickness="1,0,1,1"
                 CornerRadius="0,0,4,4"
                 PointerPressed="Document_PointerPressed">
-            <ContentControl HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Content="{x:Bind Document}"
-                            RenderTransformOrigin="0.5,0.5">
-                <ContentControl.RenderTransform>
+            <Border RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
                     <ScaleTransform x:Name="ContentScale" />
-                </ContentControl.RenderTransform>
-            </ContentControl>
+                </Border.RenderTransform>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions />
+                    </Grid>
+
+                    <ContentControl Grid.Row="1"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Content="{x:Bind Document}" />
+                </Grid>
+            </Border>
         </Border>
     </TabViewItem.Content>
 </TabViewItem>
