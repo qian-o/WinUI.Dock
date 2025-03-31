@@ -33,10 +33,13 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     public void UpdateTabPosition(TabPosition tabPosition)
     {
-        double scale = tabPosition == TabPosition.Bottom ? -1.0 : 1.0;
+        double scale = tabPosition is TabPosition.Bottom ? -1.0 : 1.0;
 
         HeaderScale.ScaleY = scale;
         ContentScale.ScaleY = scale;
+
+        HeaderOptions.Visibility = tabPosition is TabPosition.Bottom ? Visibility.Collapsed : Visibility.Visible;
+        ContentOptions.Visibility = tabPosition is TabPosition.Bottom ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public void Detach()
@@ -78,12 +81,12 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void Header_PointerEntered(object _, PointerRoutedEventArgs __)
     {
-        Options.Opacity = 1.0;
+        HeaderOptions.Opacity = 1.0;
     }
 
     private void Header_PointerExited(object _, PointerRoutedEventArgs __)
     {
-        Options.Opacity = 0.0;
+        HeaderOptions.Opacity = 0.0;
     }
 
     private void Document_PointerPressed(object _, PointerRoutedEventArgs __)

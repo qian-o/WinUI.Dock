@@ -29,7 +29,7 @@
             </Grid.RenderTransform>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
@@ -47,11 +47,12 @@
                            Text="{x:Bind Document.ActualTitle}" />
             </StackPanel>
 
-            <StackPanel x:Name="Options"
+            <StackPanel x:Name="HeaderOptions"
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Opacity="0.0"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
                 <Button Padding="6"
                         Click="Pin_Click"
                         Content="&#xE77A;"
@@ -72,14 +73,61 @@
                 BorderThickness="1,0,1,1"
                 CornerRadius="0,0,4,4"
                 PointerPressed="Document_PointerPressed">
-            <ContentControl HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Content="{x:Bind Document}"
-                            RenderTransformOrigin="0.5,0.5">
-                <ContentControl.RenderTransform>
+            <Border RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
                     <ScaleTransform x:Name="ContentScale" />
-                </ContentControl.RenderTransform>
-            </ContentControl>
+                </Border.RenderTransform>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border x:Name="ContentOptions"
+                            Grid.Row="0"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,0,0,1"
+                            CanDrag="True"
+                            DragStarting="OnDragStarting"
+                            DropCompleted="OnDropCompleted"
+                            Visibility="Collapsed">
+                        <Grid Margin="8,6,8,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Margin="0,0,8,0"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                                       Text="{x:Bind Document.ActualTitle}" />
+
+                            <StackPanel Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Button Padding="6"
+                                        Click="Pin_Click"
+                                        Content="&#xE77A;"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <Button Padding="6"
+                                        Click="Close_Click"
+                                        Content="&#xF78A;"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <ContentControl Grid.Row="1"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Content="{x:Bind Document}" />
+                </Grid>
+            </Border>
         </Border>
     </TabViewItem.Content>
 </TabViewItem>
