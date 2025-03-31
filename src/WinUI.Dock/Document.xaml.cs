@@ -28,11 +28,6 @@ public partial class Document : DockModule
                                                                                              typeof(Document),
                                                                                              new PropertyMetadata(true));
 
-    public static readonly DependencyProperty UseTitleBarProperty = DependencyProperty.Register(nameof(UseTitleBar),
-                                                                                                typeof(bool),
-                                                                                                typeof(Document),
-                                                                                                new PropertyMetadata(false));
-
     private static readonly DependencyProperty ActualTitleProperty = DependencyProperty.Register(nameof(ActualTitle),
                                                                                                  typeof(string),
                                                                                                  typeof(Document),
@@ -65,12 +60,6 @@ public partial class Document : DockModule
     {
         get => (bool)GetValue(CanCloseProperty);
         set => SetValue(CanCloseProperty, value);
-    }
-
-    public bool UseTitleBar
-    {
-        get => (bool)GetValue(UseTitleBarProperty);
-        set => SetValue(UseTitleBarProperty, value);
     }
 
     public string ActualTitle

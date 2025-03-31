@@ -47,11 +47,12 @@
                            Text="{x:Bind Document.ActualTitle}" />
             </StackPanel>
 
-            <StackPanel x:Name="Options"
+            <StackPanel x:Name="HeaderOptions"
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Opacity="0.0"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
                 <Button Padding="6"
                         Click="Pin_Click"
                         Content="&#xE77A;"
@@ -83,9 +84,37 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions />
-                    </Grid>
+                    <Border x:Name="ContentOptions"
+                            Grid.Row="0"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,0,0,1"
+                            Visibility="Collapsed">
+                        <Grid Margin="8,6,8,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Margin="0,0,8,0"
+                                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                                       Text="{x:Bind Document.ActualTitle}" />
+
+                            <StackPanel Grid.Column="1"
+                                        Orientation="Horizontal">
+                                <Button Padding="6"
+                                        Click="Pin_Click"
+                                        Content="&#xE77A;"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Visibility="{x:Bind Document.CanPin, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <Button Padding="6"
+                                        Click="Close_Click"
+                                        Content="&#xF78A;"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Visibility="{x:Bind Document.CanClose, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
 
                     <ContentControl Grid.Row="1"
                                     HorizontalContentAlignment="Stretch"
