@@ -93,7 +93,7 @@
                             DragStarting="OnDragStarting"
                             DropCompleted="OnDropCompleted"
                             Visibility="Collapsed">
-                        <Grid Margin="8">
+                        <Grid Margin="8,6,8,6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -101,10 +101,12 @@
 
                             <TextBlock Grid.Column="0"
                                        Margin="0,0,8,0"
+                                       VerticalAlignment="Center"
                                        Style="{StaticResource BodyStrongTextBlockStyle}"
                                        Text="{x:Bind Document.ActualTitle}" />
 
                             <StackPanel Grid.Column="1"
+                                        VerticalAlignment="Center"
                                         Orientation="Horizontal">
                                 <Button Padding="6"
                                         Click="Pin_Click"
