@@ -33,13 +33,15 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     public void UpdateTabPosition(TabPosition tabPosition)
     {
-        double scale = tabPosition is TabPosition.Bottom ? -1.0 : 1.0;
+        bool isBottom = tabPosition is TabPosition.Bottom;
+
+        double scale = isBottom ? -1.0 : 1.0;
 
         HeaderScale.ScaleY = scale;
         ContentScale.ScaleY = scale;
 
-        HeaderOptions.Visibility = tabPosition is TabPosition.Bottom ? Visibility.Collapsed : Visibility.Visible;
-        ContentOptions.Visibility = tabPosition is TabPosition.Bottom ? Visibility.Visible : Visibility.Collapsed;
+        HeaderOptions.Visibility = isBottom ? Visibility.Collapsed : Visibility.Visible;
+        ContentOptions.Visibility = isBottom ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public void Detach()
