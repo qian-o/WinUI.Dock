@@ -5,6 +5,8 @@ namespace UnoApp;
 
 public sealed partial class MainWindow : Window
 {
+    const string LayoutFile = "layout.json";
+
     public MainWindow()
     {
         InitializeComponent();
@@ -12,7 +14,7 @@ public sealed partial class MainWindow : Window
 
     private void Save_Click(object _, RoutedEventArgs __)
     {
-        File.WriteAllText("layout.json", dockManager.SaveLayout());
+        File.WriteAllText(LayoutFile, dockManager.SaveLayout());
     }
 
     private void Clear_Click(object _, RoutedEventArgs __)
@@ -22,7 +24,10 @@ public sealed partial class MainWindow : Window
 
     private void Open_Click(object _, RoutedEventArgs __)
     {
-        dockManager.LoadLayout(File.ReadAllText("layout.json"));
+        if (File.Exists(LayoutFile))
+        {
+            dockManager.LoadLayout(File.ReadAllText(LayoutFile));
+        }
     }
 
     private void DockManager_CreateNewDocument(object _, CreateNewDocumentEventArgs e)
