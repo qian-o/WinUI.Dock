@@ -5,7 +5,7 @@ namespace UnoApp;
 
 public sealed partial class MainWindow : Window
 {
-    const string LayoutFile = "layout.json";
+    private const string LayoutFile = "layout.json";
 
     public MainWindow()
     {
