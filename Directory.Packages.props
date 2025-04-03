@@ -1,19 +1,19 @@
 ﻿<Project>
+    
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageVersion Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.1.240916" />
-        <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240916" />
-        <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.1.240916" />
-        <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3124.44" />
-        <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-        <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
-        <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />
-        <PackageVersion Include="Uno.Fonts.Fluent" Version="2.6.1" />
-        <PackageVersion Include="Uno.WinUI" Version="5.6.81" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.2.250402" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.1.240916" />
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3124.44" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />
+    <PackageVersion Include="Uno.Fonts.Fluent" Version="2.6.1" />
+    <PackageVersion Include="Uno.WinUI" Version="5.6.81" />
+  </ItemGroup>
 
 </Project>
