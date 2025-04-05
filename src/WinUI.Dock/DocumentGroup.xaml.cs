@@ -97,6 +97,8 @@ public partial class DocumentGroup : DockContainer
         {
             SelectedIndex = Children.Count - 1;
         }
+
+        UpdateActiveDocumentStyle();
     }
 
     protected override void UnloadChildren()
@@ -317,18 +319,16 @@ public partial class DocumentGroup : DockContainer
         {
             tabItem.UpdateTabPosition(TabPosition);
         }
-
-        UpdateActiveDocument();
     }
 
-    private void UpdateActiveDocument()
+    private void UpdateActiveDocumentStyle()
     {
-        if (root is null || Root is null)
+        if (root is null)
         {
             return;
         }
 
-        if (Root.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
+        if (Root!.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
         {
             SelectedIndex = index;
 
@@ -352,7 +352,7 @@ public partial class DocumentGroup : DockContainer
 
     private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
     {
-        UpdateActiveDocument();
+        UpdateActiveDocumentStyle();
     }
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
