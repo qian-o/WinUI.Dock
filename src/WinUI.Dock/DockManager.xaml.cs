@@ -102,6 +102,11 @@ public partial class DockManager : Control
     {
         JsonObject writer = [];
 
+        if (ActiveDocument is not null)
+        {
+            writer[nameof(ActiveDocument)] = ActiveDocument.Path();
+        }
+
         if (Panel is not null)
         {
             JsonObject panelWriter = [];
@@ -143,6 +148,8 @@ public partial class DockManager : Control
 
         JsonObject reader = JsonObject.Create(document.RootElement)!;
 
+        string? activeDocumentPath = reader[nameof(ActiveDocument)]?.GetValue<string>();
+
         if (reader.ContainsKey(nameof(Panel)))
         {
             Panel = new();
@@ -179,6 +186,11 @@ public partial class DockManager : Control
                 if (module is Document document)
                 {
                     CreateNewDocument?.Invoke(this, new CreateNewDocumentEventArgs(document.Title, document));
+
+                    if (document.Path() == activeDocumentPath)
+                    {
+                        ActiveDocument = document;
+                    }
                 }
                 else if (module is DockContainer container)
                 {

@@ -136,6 +136,18 @@ public abstract partial class DockModule : Control
         Root = null;
     }
 
+    public string Path()
+    {
+        string path = Owner?.Path() ?? string.Empty;
+
+        if (Owner is DockContainer container)
+        {
+            path += $"[{container.Children.IndexOf(this)}]";
+        }
+
+        return $"{path}.{GetType().Name}";
+    }
+
     protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
     }
