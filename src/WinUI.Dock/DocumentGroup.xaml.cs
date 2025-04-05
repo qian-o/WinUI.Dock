@@ -119,6 +119,21 @@ public partial class DocumentGroup : DockContainer
         return Children.All(static item => item is Document);
     }
 
+    protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
+    {
+        base.OnRootChanged(oldRoot, newRoot);
+
+        if (oldRoot is not null)
+        {
+            oldRoot.ActiveDocumentChanged -= OnActiveDocumentChanged;
+        }
+
+        if (newRoot is not null)
+        {
+            newRoot.ActiveDocumentChanged += OnActiveDocumentChanged;
+        }
+    }
+
     internal void ShowDockPreview(DockTarget dockTarget)
     {
         if (preview is null)
@@ -298,10 +313,30 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
+        if (Root?.ActiveDocument is not null && Children.Contains(Root.ActiveDocument))
+        {
+            ResourceDictionary activeResources = root.Resources.MergedDictionaries.First(static item => item.Source!.ToString().Contains("TabViewActiveResources"));
+
+            root.Resources.MergedDictionaries.Remove(activeResources);
+            root.Resources.MergedDictionaries.Add(activeResources);
+        }
+        else
+        {
+            ResourceDictionary defaultResources = root.Resources.MergedDictionaries.First(static item => item.Source!.ToString().Contains("TabViewDefaultResources"));
+
+            root.Resources.MergedDictionaries.Remove(defaultResources);
+            root.Resources.MergedDictionaries.Add(defaultResources);
+        }
+
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
             tabItem.UpdateTabPosition(TabPosition);
         }
+    }
+
+    private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
+    {
+        UpdateVisualState();
     }
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -15,6 +15,8 @@ public record CreateNewGroupEventArgs(string Title, DocumentGroup Group);
 
 public record CreateNewWindowEventArgs(Border TitleBar);
 
+public record ActiveDocumentChangedEventArgs(Document? OldDocument, Document? NewDocument);
+
 [ContentProperty(Name = nameof(Panel))]
 [TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
 [TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
@@ -28,7 +30,7 @@ public partial class DockManager : Control
     public static readonly DependencyProperty ActiveDocumentProperty = DependencyProperty.Register(nameof(ActiveDocument),
                                                                                                    typeof(Document),
                                                                                                    typeof(DockManager),
-                                                                                                   new PropertyMetadata(null));
+                                                                                                   new PropertyMetadata(null, OnActiveDocumentChanged));
 
     public static readonly DependencyProperty ParentWindowProperty = DependencyProperty.Register(nameof(ParentWindow),
                                                                                                  typeof(Window),
@@ -82,6 +84,8 @@ public partial class DockManager : Control
     public event EventHandler<CreateNewGroupEventArgs>? CreateNewGroup;
 
     public event EventHandler<CreateNewWindowEventArgs>? CreateNewWindow;
+
+    public event EventHandler<ActiveDocumentChangedEventArgs>? ActiveDocumentChanged;
 
     public void ClearLayout()
     {
@@ -375,6 +379,14 @@ public partial class DockManager : Control
             {
                 newPanel.Root = manager;
             }
+        }
+    }
+
+    private static void OnActiveDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DockManager manager)
+        {
+            manager.ActiveDocumentChanged?.Invoke(manager, new ActiveDocumentChangedEventArgs(e.OldValue as Document, e.NewValue as Document));
         }
     }
 }
