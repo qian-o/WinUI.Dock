@@ -17,7 +17,7 @@ internal static class LayoutHelpers
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
     };
 
-    public static string GetFullPath(this DockModule module)
+    public static string Path(this DockModule module)
     {
         string name = module is Document document ? document.Title : module.GetType().Name;
 
@@ -27,7 +27,7 @@ internal static class LayoutHelpers
         }
         else
         {
-            string path = module.Owner.GetFullPath();
+            string path = module.Owner.Path();
 
             if (module.Owner is DockContainer container)
             {

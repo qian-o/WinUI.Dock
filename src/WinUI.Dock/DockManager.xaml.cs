@@ -104,7 +104,7 @@ public partial class DockManager : Control
 
         if (ActiveDocument is not null)
         {
-            writer[nameof(ActiveDocument)] = ActiveDocument.GetFullPath();
+            writer[nameof(ActiveDocument)] = ActiveDocument.Path();
         }
 
         if (Panel is not null)
@@ -187,7 +187,7 @@ public partial class DockManager : Control
                 {
                     CreateNewDocument?.Invoke(this, new CreateNewDocumentEventArgs(document.Title, document));
 
-                    if (document.GetFullPath() == activeDocumentPath)
+                    if (document.Path() == activeDocumentPath)
                     {
                         ActiveDocument = document;
                     }
