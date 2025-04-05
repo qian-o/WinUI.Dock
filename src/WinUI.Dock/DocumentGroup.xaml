@@ -12,7 +12,7 @@
                         <Grid.Resources>
                             <ResourceDictionary>
                                 <ResourceDictionary.MergedDictionaries>
-                                    <ResourceDictionary Source="/WinUI.Dock/Themes/TabViewActiveResources.xaml" />
+                                    <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/TabViewActiveResources.xaml" />
                                 </ResourceDictionary.MergedDictionaries>
                             </ResourceDictionary>
                         </Grid.Resources>

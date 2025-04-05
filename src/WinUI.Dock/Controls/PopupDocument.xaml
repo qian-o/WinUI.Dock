@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///WinUI.Dock/Controls/CommonStyles.xaml" />
+                <ResourceDictionary Source="ms-appx:///WinUI.Dock/Resources/Templates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -18,7 +18,7 @@
     <Grid x:Name="Layout">
         <Border x:Name="Root"
                 Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
-                BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource ActiveBorderColorBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}">
             <Grid>

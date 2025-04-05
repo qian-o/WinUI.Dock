@@ -11,7 +11,7 @@
     <TabViewItem.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///WinUI.Dock/Controls/CommonStyles.xaml" />
+                <ResourceDictionary Source="ms-appx:///WinUI.Dock/Resources/Templates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -40,7 +40,7 @@
                         Width="4"
                         Height="16"
                         Margin="0,0,6,0"
-                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        Background="{ThemeResource ActiveBorderColorBrush}"
                         CornerRadius="2" />
 
                 <TextBlock VerticalAlignment="Center"

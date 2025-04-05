@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StaticResource x:Key="TabViewBorderBrush"
-                    ResourceKey="AccentFillColorDefaultBrush" />
+                    ResourceKey="ActiveBorderColorBrush" />
 
     <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
         <LinearGradientBrush.RelativeTransform>
@@ -11,7 +11,7 @@
 
         <LinearGradientBrush.GradientStops>
             <GradientStop Offset="1.0" Color="Transparent" />
-            <GradientStop Offset="1.0" Color="{ThemeResource CardStrokeColorDefault}" />
+            <GradientStop Offset="1.0" Color="{ThemeResource ActiveBorderColor}" />
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
 
