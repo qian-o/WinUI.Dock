@@ -11,7 +11,7 @@
     <TabViewItem.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="CommonStyles.xaml" />
+                <ResourceDictionary Source="ms-appx:///WinUI.Dock/Controls/CommonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
