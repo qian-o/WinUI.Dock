@@ -89,7 +89,6 @@ public sealed partial class DockWindow : Window
         ExtendsContentIntoTitleBar = true;
 
 #if WINDOWS
-        AppWindow.IsShownInSwitchers = false;
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
 #endif
 
