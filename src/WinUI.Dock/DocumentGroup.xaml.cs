@@ -313,12 +313,29 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        if (Root?.ActiveDocument is not null && Children.Contains(Root.ActiveDocument))
+        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        {
+            tabItem.UpdateTabPosition(TabPosition);
+        }
+
+        UpdateActiveDocument();
+    }
+
+    private void UpdateActiveDocument()
+    {
+        if (root is null || Root is null)
+        {
+            return;
+        }
+
+        if (Root.ActiveDocument is not null && Children.Contains(Root.ActiveDocument))
         {
             ResourceDictionary activeResources = root.Resources.MergedDictionaries.First(static item => item.Source!.ToString().Contains("TabViewActiveResources"));
 
             root.Resources.MergedDictionaries.Remove(activeResources);
             root.Resources.MergedDictionaries.Add(activeResources);
+
+            SelectedIndex = Children.IndexOf(Root.ActiveDocument);
         }
         else
         {
@@ -327,16 +344,11 @@ public partial class DocumentGroup : DockContainer
             root.Resources.MergedDictionaries.Remove(defaultResources);
             root.Resources.MergedDictionaries.Add(defaultResources);
         }
-
-        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
-        {
-            tabItem.UpdateTabPosition(TabPosition);
-        }
     }
 
     private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
     {
-        UpdateVisualState();
+        UpdateActiveDocument();
     }
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
