@@ -344,6 +344,9 @@ public partial class DocumentGroup : DockContainer
             root.Resources.MergedDictionaries.Remove(defaultResources);
             root.Resources.MergedDictionaries.Add(defaultResources);
         }
+
+        root.RequestedTheme = ElementTheme.Light;
+        root.RequestedTheme = ElementTheme.Default;
     }
 
     private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
