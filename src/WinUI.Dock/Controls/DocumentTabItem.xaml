@@ -19,8 +19,7 @@
     </TabViewItem.Resources>
 
     <TabViewItem.Header>
-        <Grid x:Name="LayoutRoot"
-              RenderTransformOrigin="0.5,0.5">
+        <Grid RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <ScaleTransform x:Name="HeaderScale" />
             </Grid.RenderTransform>
@@ -69,7 +68,7 @@
                 BorderBrush="{ThemeResource TabViewBorderBrush}"
                 BorderThickness="1,0,1,1"
                 CornerRadius="0,0,4,4"
-                PointerPressed="OnPointerPressed">
+                PointerPressed="Content_PointerPressed">
 
             <Border RenderTransformOrigin="0.5,0.5">
                 <Border.RenderTransform>

@@ -51,36 +51,24 @@ public sealed partial class DocumentTabItem : TabViewItem
         Bindings.Update();
     }
 
-    protected override void OnApplyTemplate()
+    protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
-        base.OnApplyTemplate();
+        base.OnPointerEntered(e);
 
-        if (GetTemplateChild("LayoutRoot") is Grid layoutRoot)
-        {
-            layoutRoot.PointerEntered += OnPointerEntered;
-            layoutRoot.PointerExited += OnPointerExited;
-            layoutRoot.PointerPressed += OnPointerPressed;
-        }
-        else
-        {
-            LayoutRoot.PointerEntered += OnPointerEntered;
-            LayoutRoot.PointerExited += OnPointerExited;
-            LayoutRoot.PointerPressed += OnPointerPressed;
-        }
-    }
-
-    private void OnPointerEntered(object _, PointerRoutedEventArgs __)
-    {
         HeaderOptions.Opacity = 1.0;
     }
 
-    private void OnPointerExited(object _, PointerRoutedEventArgs __)
+    protected override void OnPointerExited(PointerRoutedEventArgs e)
     {
+        base.OnPointerExited(e);
+
         HeaderOptions.Opacity = 0.0;
     }
 
-    private void OnPointerPressed(object _, PointerRoutedEventArgs __)
+    protected override void OnPointerPressed(PointerRoutedEventArgs e)
     {
+        base.OnPointerPressed(e);
+
         Document!.Root!.ActiveDocument = Document;
     }
 
@@ -156,5 +144,10 @@ public sealed partial class DocumentTabItem : TabViewItem
         }
 
         Document.Detach();
+    }
+
+    private void Content_PointerPressed(object _, PointerRoutedEventArgs __)
+    {
+        Document!.Root!.ActiveDocument = Document;
     }
 }
