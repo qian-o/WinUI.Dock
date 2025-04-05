@@ -345,7 +345,8 @@ public partial class DocumentGroup : DockContainer
             root.Resources.MergedDictionaries.Add(defaultResources);
         }
 
-        root.RequestedTheme = ElementTheme.Light;
+        // For now, this is a workaround.
+        root.RequestedTheme = Application.Current.RequestedTheme is ApplicationTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
         root.RequestedTheme = ElementTheme.Default;
     }
 
