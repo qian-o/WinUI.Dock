@@ -3,7 +3,7 @@ using Windows.Graphics;
 
 namespace WinUI.Dock.Helpers;
 
-public static unsafe partial class PointerHelpers
+internal static unsafe partial class PointerHelpers
 {
     #region Structures
     [StructLayout(LayoutKind.Sequential)]

@@ -9,6 +9,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DocumentGroup">
                     <Grid>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/WinUI.Dock/Themes/TabViewActiveResources.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="TabPosition">
                                 <VisualState x:Name="Top">

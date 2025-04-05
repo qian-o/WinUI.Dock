@@ -6,7 +6,7 @@ using WinUI.Dock.Abstracts;
 
 namespace WinUI.Dock.Helpers;
 
-public static class LayoutHelpers
+internal static class LayoutHelpers
 {
     public const string Document = "Document";
     public const string DocumentGroup = "DocumentGroup";
