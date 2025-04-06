@@ -342,13 +342,13 @@ public partial class DocumentGroup : DockContainer
         {
             SelectedIndex = index;
 
-            Application.Current.Resources["TabViewBorderBrush"] = Application.Current.Resources["ActiveTabViewBorderBrush"];
-            Application.Current.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["ActiveTabViewSelectedItemBorderBrush"];
+            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["ActiveTabViewBorderBrush"];
+            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["ActiveTabViewSelectedItemBorderBrush"];
         }
         else
         {
-            Application.Current.Resources["TabViewBorderBrush"] = Application.Current.Resources["DefaultTabViewBorderBrush"];
-            Application.Current.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["DefaultTabViewSelectedItemBorderBrush"];
+            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["DefaultTabViewBorderBrush"];
+            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["DefaultTabViewSelectedItemBorderBrush"];
         }
 
         // For now, this is a workaround.
