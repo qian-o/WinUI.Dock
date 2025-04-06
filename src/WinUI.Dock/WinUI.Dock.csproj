@@ -38,8 +38,23 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+        <PackageReference Include="XAMLTools.MSBuild">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
+	<ItemGroup>
+      <XAMLCombineItems Include="Themes\Styles\**\*.xaml">
+        <TargetFile>Themes\Generic.xaml</TargetFile>
+        <Visible>True</Visible>
+      </XAMLCombineItems>
+	  <XAMLCombineItems Include="Themes\Common\**\*.xaml">
+		<TargetFile>Themes\Generic.xaml</TargetFile>
+		<Visible>True</Visible>
+	  </XAMLCombineItems>	
+    </ItemGroup>
+	
     <Choose>
         <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
             <ItemGroup>
