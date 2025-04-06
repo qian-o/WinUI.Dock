@@ -342,17 +342,11 @@ public partial class DocumentGroup : DockContainer
         {
             SelectedIndex = index;
 
-            ResourceDictionary activeResources = root.Resources.MergedDictionaries.First(static item => item.Source!.ToString().Contains("TabViewActiveResources"));
-
-            root.Resources.MergedDictionaries.Remove(activeResources);
-            root.Resources.MergedDictionaries.Add(activeResources);
+            //Active
         }
         else
         {
-            ResourceDictionary defaultResources = root.Resources.MergedDictionaries.First(static item => item.Source!.ToString().Contains("TabViewDefaultResources"));
-
-            root.Resources.MergedDictionaries.Remove(defaultResources);
-            root.Resources.MergedDictionaries.Add(defaultResources);
+            //Default
         }
 
         // For now, this is a workaround.
