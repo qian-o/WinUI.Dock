@@ -1,6 +1,6 @@
 ﻿namespace WinUI.Dock.Controls;
 
-public sealed partial class DocumentTabView : TabView
+public sealed partial class TabViewEx : TabView
 {
     private bool isTabContainerVisible = true;
 
