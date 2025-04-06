@@ -50,27 +50,28 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <TabView x:Name="PART_Root"
-                                 Padding="0"
-                                 VerticalAlignment="Stretch"
-                                 CanDragTabs="True"
-                                 CanReorderTabs="True"
-                                 IsAddTabButtonVisible="False"
-                                 RenderTransformOrigin="0.5,0.5"
-                                 SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-                            <TabView.RenderTransform>
+                        <controls:DocumentTabView x:Name="PART_Root"
+                                                  Padding="0"
+                                                  VerticalAlignment="Stretch"
+                                                  BorderBrush="{ThemeResource TabViewBorderBrush}"
+                                                  CanDragTabs="True"
+                                                  CanReorderTabs="True"
+                                                  IsAddTabButtonVisible="False"
+                                                  RenderTransformOrigin="0.5,0.5"
+                                                  SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                            <controls:DocumentTabView.RenderTransform>
                                 <ScaleTransform x:Name="Scale" />
-                            </TabView.RenderTransform>
+                            </controls:DocumentTabView.RenderTransform>
 
-                            <TabView.Resources>
+                            <controls:DocumentTabView.Resources>
                                 <ResourceDictionary>
                                     <ResourceDictionary.MergedDictionaries>
                                         <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/TabViewActiveResources.xaml" />
                                         <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/TabViewDefaultResources.xaml" />
                                     </ResourceDictionary.MergedDictionaries>
                                 </ResourceDictionary>
-                            </TabView.Resources>
-                        </TabView>
+                            </controls:DocumentTabView.Resources>
+                        </controls:DocumentTabView>
 
                         <Grid x:Name="DockTargets"
                               Width="124"

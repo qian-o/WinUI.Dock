@@ -7,7 +7,7 @@ using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
-[TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
+[TemplatePart(Name = "PART_Root", Type = typeof(DocumentTabView))]
 [TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
 public partial class DocumentGroup : DockContainer
 {
@@ -26,7 +26,7 @@ public partial class DocumentGroup : DockContainer
                                                                                                   typeof(DocumentGroup),
                                                                                                   new PropertyMetadata(-1));
 
-    private TabView? root;
+    private DocumentTabView? root;
     private AnimationPreview? preview;
 
     public DocumentGroup()
@@ -71,7 +71,7 @@ public partial class DocumentGroup : DockContainer
 
     protected override void InitTemplate()
     {
-        root = GetTemplateChild("PART_Root") as TabView;
+        root = GetTemplateChild("PART_Root") as DocumentTabView;
         preview = GetTemplateChild("PART_Preview") as AnimationPreview;
 
         UpdateVisualState();
@@ -82,6 +82,15 @@ public partial class DocumentGroup : DockContainer
         if (root is null)
         {
             return;
+        }
+
+        if (TabPosition is TabPosition.Bottom && Children.Count is 1)
+        {
+            root.HideTabContainer();
+        }
+        else
+        {
+            root.ShowTabContainer();
         }
 
         foreach (Document document in Children.Cast<Document>())
