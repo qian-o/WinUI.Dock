@@ -6,24 +6,51 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <StaticResource x:Key="ActiveBorderColor"
-                            ResourceKey="SystemAccentColorLight1" />
             <SolidColorBrush x:Key="ActiveBorderColorBrush"
-                             Color="{ThemeResource ActiveBorderColor}" />
+                             Color="{ThemeResource SystemAccentColorLight1}" />
+
+            <LinearGradientBrush x:Key="ActiveTabViewItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
+                <LinearGradientBrush.RelativeTransform>
+                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
+                </LinearGradientBrush.RelativeTransform>
+
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="1.0" Color="Transparent" />
+                    <GradientStop Offset="1.0" Color="{ThemeResource SystemAccentColorLight1}" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
-            <StaticResource x:Key="ActiveBorderColor"
-                            ResourceKey="SystemAccentColorDark1" />
             <SolidColorBrush x:Key="ActiveBorderColorBrush"
-                             Color="{ThemeResource ActiveBorderColor}" />
+                             Color="{ThemeResource SystemAccentColorDark1}" />
+
+            <LinearGradientBrush x:Key="ActiveTabViewItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
+                <LinearGradientBrush.RelativeTransform>
+                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
+                </LinearGradientBrush.RelativeTransform>
+
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="1.0" Color="Transparent" />
+                    <GradientStop Offset="1.0" Color="{ThemeResource SystemAccentColorDark1}" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
-            <StaticResource x:Key="ActiveBorderColor"
-                            ResourceKey="SystemColorWindowColor" />
             <SolidColorBrush x:Key="ActiveBorderColorBrush"
-                             Color="{ThemeResource ActiveBorderColor}" />
+                             Color="{ThemeResource SystemColorWindowColor}" />
+
+            <LinearGradientBrush x:Key="ActiveTabViewItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
+                <LinearGradientBrush.RelativeTransform>
+                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
+                </LinearGradientBrush.RelativeTransform>
+
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="1.0" Color="Transparent" />
+                    <GradientStop Offset="1.0" Color="{ThemeResource SystemColorWindowColor}" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -148,6 +175,7 @@
 
     <StaticResource x:Key="DefaultTabViewBorderBrush"
                     ResourceKey="CardStrokeColorDefault" />
+
     <LinearGradientBrush x:Key="DefaultTabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
         <LinearGradientBrush.RelativeTransform>
             <ScaleTransform CenterY="0.5" ScaleY="-1" />
@@ -156,19 +184,6 @@
         <LinearGradientBrush.GradientStops>
             <GradientStop Offset="1.0" Color="Transparent" />
             <GradientStop Offset="1.0" Color="{ThemeResource CardStrokeColorDefault}" />
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <StaticResource x:Key="ActiveTabViewBorderBrush"
-                    ResourceKey="ActiveBorderColorBrush" />
-    <LinearGradientBrush x:Key="ActiveTabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-        <LinearGradientBrush.RelativeTransform>
-            <ScaleTransform CenterY="0.5" ScaleY="-1" />
-        </LinearGradientBrush.RelativeTransform>
-
-        <LinearGradientBrush.GradientStops>
-            <GradientStop Offset="1.0" Color="Transparent" />
-            <GradientStop Offset="1.0" Color="{ThemeResource ActiveBorderColor}" />
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
 
