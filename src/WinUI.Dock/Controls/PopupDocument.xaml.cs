@@ -152,6 +152,8 @@ public sealed partial class PopupDocument : UserControl
             DockSide.Bottom => DockTarget.DockBottom,
             _ => throw new NotSupportedException()
         });
+
+        Manager.ActiveDocument = document;
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
@@ -194,11 +196,11 @@ public sealed partial class PopupDocument : UserControl
             Document = null;
 
             Bindings.Update();
+
+            Manager.ActiveDocument = null;
+            Manager.PopupContainer!.Child = null;
         }
 
         popup.IsOpen = false;
-
-        Manager.ActiveDocument = null;
-        Manager.PopupContainer!.Child = null;
     }
 }
