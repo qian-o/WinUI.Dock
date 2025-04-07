@@ -1,23 +1,12 @@
 ﻿<TabViewItem x:Class="WinUI.Dock.Controls.DocumentTabItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="using:WinUI.Dock.Converters"
              HorizontalContentAlignment="Stretch"
              VerticalContentAlignment="Stretch"
              CanDrag="True"
              DragStarting="OnDragStarting"
              DropCompleted="OnDropCompleted"
              IsClosable="False">
-    <TabViewItem.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///WinUI.Dock/Resources/Templates.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        </ResourceDictionary>
-    </TabViewItem.Resources>
-
     <TabViewItem.Header>
         <Grid RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
@@ -74,14 +63,6 @@
                 <Border.RenderTransform>
                     <ScaleTransform x:Name="ContentScale" />
                 </Border.RenderTransform>
-
-                <Border.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="ms-appx:///WinUI.Dock/Themes/TabViewDefaultResources.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </Border.Resources>
 
                 <Grid>
                     <Grid.RowDefinitions>

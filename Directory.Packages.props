@@ -1,9 +1,7 @@
 ﻿<Project>
-    
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.2.250402" />
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
@@ -14,6 +12,6 @@
     <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />
     <PackageVersion Include="Uno.Fonts.Fluent" Version="2.6.1" />
     <PackageVersion Include="Uno.WinUI" Version="5.6.81" />
+    <PackageVersion Include="XAMLTools.MSBuild" Version="1.0.0-alpha0167" />
   </ItemGroup>
-
 </Project>

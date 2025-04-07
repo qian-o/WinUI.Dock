@@ -5,16 +5,6 @@
              xmlns:converters="using:WinUI.Dock.Converters"
              x:Name="Main"
              SizeChanged="OnSizeChanged">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///WinUI.Dock/Resources/Templates.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <Grid x:Name="Layout">
         <Border x:Name="Root"
                 Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
