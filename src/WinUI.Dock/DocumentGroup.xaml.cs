@@ -342,8 +342,8 @@ public partial class DocumentGroup : DockContainer
         {
             SelectedIndex = index;
 
-            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["ActiveBorderColorBrush"];
-            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["ActiveTabViewItemBorderBrush"];
+            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["ActiveBorderBrush"];
+            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["ActiveItemBorderBrush"];
         }
         else
         {
