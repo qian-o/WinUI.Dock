@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              IsHitTestVisible="False"
              Opacity="0.4">
+
     <Grid>
         <Border x:Name="P1"
                 Style="{StaticResource PreviewBorderStyle}" />
         <Border x:Name="P2"
                 Style="{StaticResource PreviewBorderStyle}" />
     </Grid>
+
 </UserControl>

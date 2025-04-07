@@ -5,6 +5,7 @@
              xmlns:converters="using:WinUI.Dock.Converters"
              x:Name="Main"
              SizeChanged="OnSizeChanged">
+
     <Grid x:Name="Layout">
         <Border x:Name="Root"
                 Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
@@ -66,4 +67,5 @@
         <controls:ContentSizer x:Name="Sizer"
                                TargetControl="{x:Bind Main}" />
     </Grid>
+
 </UserControl>
