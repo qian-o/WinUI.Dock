@@ -7,7 +7,7 @@ using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
-[TemplatePart(Name = "PART_Root", Type = typeof(TabViewEx))]
+[TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
 [TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
 public partial class DocumentGroup : DockContainer
 {
@@ -26,7 +26,7 @@ public partial class DocumentGroup : DockContainer
                                                                                                   typeof(DocumentGroup),
                                                                                                   new PropertyMetadata(-1));
 
-    private TabViewEx? root;
+    private TabView? root;
     private AnimationPreview? preview;
 
     public DocumentGroup()
@@ -71,7 +71,7 @@ public partial class DocumentGroup : DockContainer
 
     protected override void InitTemplate()
     {
-        root = GetTemplateChild("PART_Root") as TabViewEx;
+        root = GetTemplateChild("PART_Root") as TabView;
         preview = GetTemplateChild("PART_Preview") as AnimationPreview;
 
         UpdateVisualState();
@@ -318,11 +318,9 @@ public partial class DocumentGroup : DockContainer
 
         if (TabPosition is TabPosition.Bottom && Children.Count is 1)
         {
-            root.HideTabContainer();
         }
         else
         {
-            root.ShowTabContainer();
         }
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
@@ -342,18 +340,12 @@ public partial class DocumentGroup : DockContainer
         {
             SelectedIndex = index;
 
-            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["ActiveBorderBrush"];
-            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["ActiveItemBorderBrush"];
+            VisualStateManager.GoToState(root, "Active", false);
         }
         else
         {
-            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["DefaultTabViewBorderBrush"];
-            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["DefaultTabViewSelectedItemBorderBrush"];
+            VisualStateManager.GoToState(root, "Inactive", false);
         }
-
-        // For now, this is a workaround.
-        root.RequestedTheme = Application.Current.RequestedTheme is ApplicationTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
-        root.RequestedTheme = ElementTheme.Default;
     }
 
     private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)

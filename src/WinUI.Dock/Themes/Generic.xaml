@@ -85,6 +85,15 @@ LayoutPanel.xaml
       </Setter.Value>
     </Setter>
   </Style>
+  <Style TargetType="dock:LayoutPanel">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="dock:LayoutPanel">
+          <Grid x:Name="PART_Root" ColumnSpacing="12" RowSpacing="12" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
   <Style TargetType="dock:DocumentGroup">
     <Setter Property="AllowDrop" Value="True" />
     <Setter Property="Template">
@@ -129,11 +138,11 @@ LayoutPanel.xaml
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <controls:TabViewEx x:Name="PART_Root" Padding="0" VerticalAlignment="Stretch" BorderBrush="{ThemeResource TabViewBorderBrush}" CanDragTabs="True" CanReorderTabs="True" IsAddTabButtonVisible="False" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-              <controls:TabViewEx.RenderTransform>
+            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource ActiveTabViewStyle}">
+              <TabView.RenderTransform>
                 <ScaleTransform x:Name="Scale" />
-              </controls:TabViewEx.RenderTransform>
-            </controls:TabViewEx>
+              </TabView.RenderTransform>
+            </TabView>
             <Grid x:Name="DockTargets" Width="124" Height="124" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
               <Path Data="m44,0 l36,0 a4,4,0,0,1,4,4 l0,32 a4,4,0,0,0,4,4 l32,0 a4,4,0,0,1,4,4 l0,36 a4,4,0,0,1,-4,4 l-32,0 a4,4,0,0,0,-4,4 l0,32 a4,4,0,0,1,-4,4 l-36,0 a4,4,0,0,1,-4,-4 l0,-32 a4,4,0,0,0,-4,-4 l-32,0 a4,4,0,0,1,-4,-4 l0,-36 a4,4,0,0,1,4,-4 l32,0 a4,4,0,0,0,4,-4 l0,-32 a4,4,0,0,1,4,-4 z" Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}" Stretch="Uniform" Stroke="{ThemeResource CardStrokeColorDefaultBrush}" StrokeThickness="1" />
               <Grid Width="120" Height="120" Margin="2">
@@ -156,15 +165,6 @@ LayoutPanel.xaml
             </Grid>
             <controls:AnimationPreview x:Name="PART_Preview" Visibility="Collapsed" />
           </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
-  <Style TargetType="dock:LayoutPanel">
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="dock:LayoutPanel">
-          <Grid x:Name="PART_Root" ColumnSpacing="12" RowSpacing="12" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>

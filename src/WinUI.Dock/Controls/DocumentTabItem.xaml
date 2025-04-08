@@ -53,25 +53,13 @@
     </TabViewItem.Header>
 
     <TabViewItem.Content>
-        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource TabViewBorderBrush}"
-                BorderThickness="1,0,1,1"
-                CornerRadius="0,0,4,4"
+        <Border Background="Transparent"
                 PointerPressed="Content_PointerPressed">
 
             <Border RenderTransformOrigin="0.5,0.5">
                 <Border.RenderTransform>
                     <ScaleTransform x:Name="ContentScale" />
                 </Border.RenderTransform>
-
-                <Border.Resources>
-                    <ResourceDictionary>
-                        <StaticResource x:Key="TabViewBorderBrush"
-                                        ResourceKey="DefaultTabViewBorderBrush" />
-                        <StaticResource x:Key="TabViewSelectedItemBorderBrush"
-                                        ResourceKey="DefaultTabViewSelectedItemBorderBrush" />
-                    </ResourceDictionary>
-                </Border.Resources>
 
                 <Grid>
                     <Grid.RowDefinitions>

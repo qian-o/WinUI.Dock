@@ -55,6 +55,103 @@
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
+    <Style x:Key="ActiveTabViewStyle"
+           TargetType="TabView">
+        <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
+        <Setter Property="CanDragTabs" Value="True" />
+        <Setter Property="CanReorderTabs" Value="True" />
+        <Setter Property="IsAddTabButtonVisible" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="KeyboardAcceleratorPlacementMode" Value="Hidden" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabView">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState x:Name="NormalBottomBorderLine" />
+                                <VisualState x:Name="SingleBottomBorderLine">
+                                    <VisualState.Setters>
+                                        <Setter Target="LeftBottomBorderLine.(Grid.ColumnSpan)" Value="4" />
+                                        <Setter Target="RightBottomBorderLine.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="IsActive">
+                                <VisualState x:Name="Active">
+                                    <VisualState.Setters>
+                                        <Setter Target="LeftBottomBorderLine.Background" Value="{ThemeResource ActiveBorderBrush}" />
+                                        <Setter Target="RightBottomBorderLine.Background" Value="{ThemeResource ActiveBorderBrush}" />
+                                        <Setter Target="TabContentPresenter.BorderBrush" Value="{ThemeResource ActiveBorderBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Inactive">
+                                    <VisualState.Setters>
+                                        <Setter Target="LeftBottomBorderLine.Background" Value="{ThemeResource TabViewBorderBrush}" />
+                                        <Setter Target="RightBottomBorderLine.Background" Value="{ThemeResource TabViewBorderBrush}" />
+                                        <Setter Target="TabContentPresenter.BorderBrush" Value="{ThemeResource TabViewBorderBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid x:Name="TabContainerGrid"
+                              Background="{TemplateBinding Background}"
+                              XYFocusKeyboardNavigation="Enabled">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="LeftContentColumn"
+                                                  Width="Auto"
+                                                  MinWidth="2" />
+                                <ColumnDefinition x:Name="TabColumn"
+                                                  Width="Auto" />
+                                <ColumnDefinition x:Name="RightContentColumn"
+                                                  Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border x:Name="LeftBottomBorderLine"
+                                    Grid.Column="0"
+                                    Height="1"
+                                    VerticalAlignment="Bottom"
+                                    Background="{ThemeResource TabViewBorderBrush}" />
+
+                            <TabViewListView x:Name="TabListView"
+                                             Grid.Column="1"
+                                             Padding="{TemplateBinding Padding}"
+                                             HorizontalAlignment="Stretch"
+                                             AllowDrop="{TemplateBinding AllowDropTabs}"
+                                             CanDragItems="{TemplateBinding CanDragTabs}"
+                                             CanReorderItems="{TemplateBinding CanReorderTabs}"
+                                             ItemTemplate="{TemplateBinding TabItemTemplate}"
+                                             ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
+                                             ItemsSource="{TemplateBinding TabItemsSource}" />
+
+                            <Border x:Name="RightBottomBorderLine"
+                                    Grid.Column="2"
+                                    Height="1"
+                                    VerticalAlignment="Bottom"
+                                    Background="{ThemeResource TabViewBorderBrush}" />
+                        </Grid>
+
+                        <ContentPresenter x:Name="TabContentPresenter"
+                                          Grid.Row="1"
+                                          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                          BorderBrush="{ThemeResource TabViewBorderBrush}"
+                                          BorderThickness="1,0,1,1"
+                                          CornerRadius="0,0,4,4" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
     <Style x:Key="PreviewBorderStyle"
            TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource AccentAcrylicBackgroundFillColorBaseBrush}" />
@@ -171,19 +268,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <StaticResource x:Key="DefaultTabViewBorderBrush"
-                    ResourceKey="CardStrokeColorDefault" />
-
-    <LinearGradientBrush x:Key="DefaultTabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-        <LinearGradientBrush.RelativeTransform>
-            <ScaleTransform CenterY="0.5" ScaleY="-1" />
-        </LinearGradientBrush.RelativeTransform>
-
-        <LinearGradientBrush.GradientStops>
-            <GradientStop Offset="1.0" Color="Transparent" />
-            <GradientStop Offset="1.0" Color="{ThemeResource CardStrokeColorDefault}" />
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
 
 </ResourceDictionary>

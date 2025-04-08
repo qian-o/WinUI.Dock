@@ -50,19 +50,14 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <controls:TabViewEx x:Name="PART_Root"
-                                            Padding="0"
-                                            VerticalAlignment="Stretch"
-                                            BorderBrush="{ThemeResource TabViewBorderBrush}"
-                                            CanDragTabs="True"
-                                            CanReorderTabs="True"
-                                            IsAddTabButtonVisible="False"
-                                            RenderTransformOrigin="0.5,0.5"
-                                            SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-                            <controls:TabViewEx.RenderTransform>
+                        <TabView x:Name="PART_Root"
+                                 RenderTransformOrigin="0.5,0.5"
+                                 SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                 Style="{StaticResource ActiveTabViewStyle}">
+                            <TabView.RenderTransform>
                                 <ScaleTransform x:Name="Scale" />
-                            </controls:TabViewEx.RenderTransform>
-                        </controls:TabViewEx>
+                            </TabView.RenderTransform>
+                        </TabView>
 
                         <Grid x:Name="DockTargets"
                               Width="124"
