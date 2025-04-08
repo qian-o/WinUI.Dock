@@ -8,7 +8,7 @@
                 <dock:WinUIDockResources xmlns:dock="using:WinUI.Dock" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!--<SolidColorBrush x:Key="DockBrush"
+            <!--<SolidColorBrush x:Key="DockThemeBrush"
                              Color="Red" />-->
         </ResourceDictionary>
     </Application.Resources>

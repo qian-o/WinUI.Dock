@@ -724,7 +724,7 @@
 
     <Style x:Key="PreviewBorderStyle"
            TargetType="Border">
-        <Setter Property="Background" Value="{ThemeResource DockBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DockThemeBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="4" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
@@ -775,14 +775,14 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockThemeBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockThemeBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockThemeBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockThemeBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -813,14 +813,14 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockThemeBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockThemeBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockThemeBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockThemeBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

@@ -3,17 +3,17 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="DockBrush"
+            <SolidColorBrush x:Key="DockThemeBrush"
                              Color="{ThemeResource SystemAccentColorLight1}" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="DockBrush"
+            <SolidColorBrush x:Key="DockThemeBrush"
                              Color="{ThemeResource SystemAccentColorDark1}" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="DockBrush"
+            <SolidColorBrush x:Key="DockThemeBrush"
                              Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
