@@ -1,23 +1,6 @@
-<!--  PURPOSE: All resources required by controls under WinUI.Dock.  -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="using:WinUI.Dock.Converters">
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="ActiveBorderBrush"
-                             Color="{ThemeResource SystemAccentColorLight1}" />
-        </ResourceDictionary>
-
-        <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="ActiveBorderBrush"
-                             Color="{ThemeResource SystemAccentColorDark1}" />
-        </ResourceDictionary>
-
-        <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="ActiveBorderBrush"
-                             Color="{ThemeResource SystemColorWindowColor}" />
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
@@ -741,7 +724,7 @@
 
     <Style x:Key="PreviewBorderStyle"
            TargetType="Border">
-        <Setter Property="Background" Value="{ThemeResource AccentAcrylicBackgroundFillColorBaseBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DockBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="4" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
@@ -792,14 +775,14 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                        <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                        <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -830,14 +813,14 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="Mark.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

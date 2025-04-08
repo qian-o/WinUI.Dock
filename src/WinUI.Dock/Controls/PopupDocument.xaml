@@ -8,7 +8,7 @@
     <Grid x:Name="Layout">
         <Border x:Name="Root"
                 Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
-                BorderBrush="{ThemeResource ActiveBorderBrush}"
+                BorderBrush="{ThemeResource DockBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}">
             <Grid>

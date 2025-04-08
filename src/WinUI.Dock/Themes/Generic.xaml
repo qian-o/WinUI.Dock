@@ -104,7 +104,7 @@ LayoutPanel.xaml
               <VisualStateGroup x:Name="IsActive">
                 <VisualState x:Name="Active">
                   <VisualState.Setters>
-                    <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource ActiveBorderBrush}" />
+                    <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource DockBrush}" />
                   </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Inactive">
