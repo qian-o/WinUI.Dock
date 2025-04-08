@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
+using Microsoft.UI.Xaml.Data;
 using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
@@ -89,7 +90,15 @@ public partial class DocumentGroup : DockContainer
 
         foreach (Document document in Children.Cast<Document>())
         {
-            root.TabItems.Add(new DocumentTabItem(document));
+            DocumentTabItem tabItem = new(document);
+
+            tabItem.SetBinding(BorderBrushProperty, new Binding()
+            {
+                Source = root,
+                Path = new(nameof(BorderBrush))
+            });
+
+            root.TabItems.Add(tabItem);
         }
 
         if (SelectedIndex < 0)
@@ -310,6 +319,17 @@ public partial class DocumentGroup : DockContainer
 
     private void UpdateVisualState()
     {
+        if (Root?.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
+        {
+            SelectedIndex = index;
+
+            VisualStateManager.GoToState(this, "Active", false);
+        }
+        else
+        {
+            VisualStateManager.GoToState(this, "Inactive", false);
+        }
+
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);
         VisualStateManager.GoToState(this, IsTabWidthBasedOnContent ? "TabWidthSizeToContent" : "TabWidthEqual", false);
 
@@ -327,26 +347,9 @@ public partial class DocumentGroup : DockContainer
             VisualStateManager.GoToState(root, "NormalView", false);
         }
 
-        bool anyActive;
-
-        if (Root!.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
-        {
-            SelectedIndex = index;
-
-            VisualStateManager.GoToState(root, "Active", false);
-
-            anyActive = true;
-        }
-        else
-        {
-            VisualStateManager.GoToState(root, "Inactive", false);
-
-            anyActive = false;
-        }
-
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
-            tabItem.UpdateVisualState(TabPosition, anyActive);
+            tabItem.UpdateVisualState(TabPosition);
         }
     }
 

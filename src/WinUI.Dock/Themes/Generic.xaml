@@ -101,6 +101,18 @@ LayoutPanel.xaml
         <ControlTemplate TargetType="dock:DocumentGroup">
           <Grid>
             <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="IsActive">
+                <VisualState x:Name="Active">
+                  <VisualState.Setters>
+                    <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource ActiveBorderBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Inactive">
+                  <VisualState.Setters>
+                    <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource TabViewBorderBrush}" />
+                  </VisualState.Setters>
+                </VisualState>
+              </VisualStateGroup>
               <VisualStateGroup x:Name="TabPosition">
                 <VisualState x:Name="Top">
                   <VisualState.Setters>

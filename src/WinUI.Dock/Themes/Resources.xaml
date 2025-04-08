@@ -301,26 +301,6 @@
                                 </VisualState>
                                 <VisualState x:Name="NormalView" />
                             </VisualStateGroup>
-
-                            <VisualStateGroup x:Name="IsActive">
-                                <VisualState x:Name="Active">
-                                    <VisualState.Setters>
-                                        <Setter Target="LeftBottomBorderLine.Background" Value="{ThemeResource ActiveBorderBrush}" />
-                                        <Setter Target="TabListView.BorderBrush" Value="{ThemeResource ActiveBorderBrush}" />
-                                        <Setter Target="RightBottomBorderLine.Background" Value="{ThemeResource ActiveBorderBrush}" />
-                                        <Setter Target="TabContentPresenter.BorderBrush" Value="{ThemeResource ActiveBorderBrush}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-
-                                <VisualState x:Name="Inactive">
-                                    <VisualState.Setters>
-                                        <Setter Target="LeftBottomBorderLine.Background" Value="{ThemeResource TabViewBorderBrush}" />
-                                        <Setter Target="TabListView.BorderBrush" Value="{ThemeResource TabViewBorderBrush}" />
-                                        <Setter Target="RightBottomBorderLine.Background" Value="{ThemeResource TabViewBorderBrush}" />
-                                        <Setter Target="TabContentPresenter.BorderBrush" Value="{ThemeResource TabViewBorderBrush}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid x:Name="TabContainerGrid"
@@ -340,14 +320,14 @@
                                     Grid.Column="0"
                                     Height="1"
                                     VerticalAlignment="Bottom"
-                                    Background="{ThemeResource TabViewBorderBrush}" />
+                                    Background="{TemplateBinding BorderBrush}" />
 
                             <TabViewListView x:Name="TabListView"
                                              Grid.Column="1"
                                              Padding="{TemplateBinding Padding}"
                                              HorizontalAlignment="Stretch"
                                              AllowDrop="{TemplateBinding AllowDropTabs}"
-                                             BorderBrush="{ThemeResource TabViewBorderBrush}"
+                                             BorderBrush="{TemplateBinding BorderBrush}"
                                              CanDragItems="{TemplateBinding CanDragTabs}"
                                              CanReorderItems="{TemplateBinding CanReorderTabs}"
                                              ItemTemplate="{TemplateBinding TabItemTemplate}"
@@ -359,13 +339,13 @@
                                     Grid.Column="2"
                                     Height="1"
                                     VerticalAlignment="Bottom"
-                                    Background="{ThemeResource TabViewBorderBrush}" />
+                                    Background="{TemplateBinding BorderBrush}" />
                         </Grid>
 
                         <ContentPresenter x:Name="TabContentPresenter"
                                           Grid.Row="1"
                                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                          BorderBrush="{ThemeResource TabViewBorderBrush}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="1,0,1,1"
                                           CornerRadius="0,0,4,4" />
                     </Grid>
@@ -378,7 +358,6 @@
     <Style x:Key="ActiveTabViewItemStyle"
            TargetType="TabViewItem">
         <Setter Property="Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource TabViewItemBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource TabViewItemBorderThickness}" />
         <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -666,26 +645,10 @@
                             <VisualStateGroup x:Name="IsActive">
                                 <VisualState x:Name="Active">
                                     <VisualState.Setters>
-                                        <Setter Target="BottomBorderLine.Background" Value="{ThemeResource ActiveBorderBrush}" />
-                                        <Setter Target="LeftRadiusRenderArc.Fill" Value="{ThemeResource ActiveBorderBrush}" />
-                                        <Setter Target="RightRadiusRenderArc.Fill" Value="{ThemeResource ActiveBorderBrush}" />
                                         <Setter Target="Overlay.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
-
-                                <VisualState x:Name="AnyActive">
-                                    <VisualState.Setters>
-                                        <Setter Target="BottomBorderLine.Background" Value="{ThemeResource ActiveBorderBrush}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-
-                                <VisualState x:Name="Inactive">
-                                    <VisualState.Setters>
-                                        <Setter Target="BottomBorderLine.Background" Value="{ThemeResource TabViewBorderBrush}" />
-                                        <Setter Target="LeftRadiusRenderArc.Fill" Value="{ThemeResource TabViewBorderBrush}" />
-                                        <Setter Target="RightRadiusRenderArc.Fill" Value="{ThemeResource TabViewBorderBrush}" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="Inactive" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
@@ -693,7 +656,7 @@
                                 Grid.ColumnSpan="3"
                                 Height="1"
                                 VerticalAlignment="Bottom"
-                                Background="{ThemeResource TabViewBorderBrush}" />
+                                Background="{TemplateBinding BorderBrush}" />
 
                         <Path x:Name="LeftRadiusRenderArc"
                               Width="4"
@@ -702,7 +665,7 @@
                               VerticalAlignment="Bottom"
                               x:Load="False"
                               Data="M4 0C4 1.19469 3.47624 2.26706 2.64582 3H0C1.65685 3 3 1.65685 3 0H4Z"
-                              Fill="{ThemeResource TabViewBorderBrush}"
+                              Fill="{TemplateBinding BorderBrush}"
                               Visibility="Collapsed" />
 
                         <Path x:Name="RightRadiusRenderArc"
@@ -713,7 +676,7 @@
                               VerticalAlignment="Bottom"
                               x:Load="False"
                               Data="M0 0C0 1.19469 0.523755 2.26706 1.35418 3H4C2.34315 3 1 1.65685 1 0H0Z"
-                              Fill="{ThemeResource TabViewBorderBrush}"
+                              Fill="{TemplateBinding BorderBrush}"
                               Visibility="Collapsed" />
 
                         <Canvas>
@@ -746,7 +709,7 @@
                               Grid.Column="1"
                               Padding="{ThemeResource TabViewItemHeaderPadding}"
                               Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderBrush="{ThemeResource TabViewItemBorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
                               Control.IsTemplateFocusTarget="True"
                               CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"

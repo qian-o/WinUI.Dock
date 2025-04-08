@@ -30,7 +30,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     public Document? Document { get; private set; }
 
-    public void UpdateVisualState(TabPosition tabPosition, bool anyActive)
+    public void UpdateVisualState(TabPosition tabPosition)
     {
         bool isBottom = tabPosition is TabPosition.Bottom;
 
@@ -42,16 +42,9 @@ public sealed partial class DocumentTabItem : TabViewItem
         HeaderOptions.Visibility = isBottom ? Visibility.Collapsed : Visibility.Visible;
         ContentOptions.Visibility = isBottom ? Visibility.Visible : Visibility.Collapsed;
 
-        if (anyActive)
+        if (Document!.Root!.ActiveDocument == Document)
         {
-            if (Document!.Root!.ActiveDocument == Document)
-            {
-                VisualStateManager.GoToState(this, state = "Active", false);
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, state = "AnyActive", false);
-            }
+            VisualStateManager.GoToState(this, state = "Active", false);
         }
         else
         {
