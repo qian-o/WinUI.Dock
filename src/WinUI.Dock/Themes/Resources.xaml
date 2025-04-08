@@ -440,7 +440,6 @@
                                         <Setter Target="SelectedBackgroundPath.Fill" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
                                         <Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
-                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
                                         <Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
                                         <Setter Target="TabContainer.Padding" Value="{ThemeResource TabViewSelectedItemHeaderPadding}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
@@ -460,7 +459,7 @@
                                         <Setter Target="SelectedBackgroundPath.Fill" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
                                         <Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
-                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
+                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource ActiveItemBorderBrush}" />
                                         <Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
                                         <Setter Target="TabContainer.Padding" Value="{ThemeResource TabViewSelectedItemHeaderPadding}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
@@ -657,7 +656,7 @@
                                         <Setter Target="BottomBorderLine.Background" Value="{ThemeResource ActiveBorderBrush}" />
                                         <Setter Target="LeftRadiusRenderArc.Fill" Value="{ThemeResource ActiveBorderBrush}" />
                                         <Setter Target="RightRadiusRenderArc.Fill" Value="{ThemeResource ActiveBorderBrush}" />
-                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource ActiveItemBorderBrush}" />
+                                        <Setter Target="Overlay.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
 
@@ -773,6 +772,19 @@
                             <Button x:Name="CloseButton"
                                     Visibility="Collapsed" />
                         </Grid>
+
+                        <Grid x:Name="Overlay"
+                              Grid.Column="1"
+                              Margin="{ThemeResource TabViewSelectedItemHeaderMargin}"
+                              Padding="{ThemeResource TabViewSelectedItemHeaderPadding}"
+                              Background="{ThemeResource TabViewItemHeaderBackground}"
+                              BorderBrush="{ThemeResource ActiveItemBorderBrush}"
+                              BorderThickness="{ThemeResource TabViewSelectedItemBorderThickness}"
+                              Control.IsTemplateFocusTarget="True"
+                              CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"
+                              FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                              IsHitTestVisible="False"
+                              Visibility="Collapsed" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
