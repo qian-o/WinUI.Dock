@@ -155,6 +155,6 @@ public partial class LayoutPanel : DockContainer
         reader.ReadDockModuleProperties(this);
         reader.ReadDockContainerChildren(this);
 
-        Orientation = (Orientation)reader[nameof(Orientation)].Deserialize<int>(LayoutHelpers.SerializerOptions);
+        Orientation = (Orientation)reader[nameof(Orientation)].Deserialize<int>();
     }
 }

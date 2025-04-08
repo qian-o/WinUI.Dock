@@ -82,9 +82,9 @@ public partial class Document : DockModule
     {
         reader.ReadDockModuleProperties(this);
 
-        Title = reader[nameof(Title)].Deserialize<string>(LayoutHelpers.SerializerOptions)!;
-        CanPin = reader[nameof(CanPin)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
-        CanClose = reader[nameof(CanClose)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
+        Title = reader[nameof(Title)].Deserialize<string>()!;
+        CanPin = reader[nameof(CanPin)].Deserialize<bool>();
+        CanClose = reader[nameof(CanClose)].Deserialize<bool>();
     }
 
     private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

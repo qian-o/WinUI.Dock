@@ -43,14 +43,14 @@ public sealed partial class DockWindow : Window
     {
         AppWindow.Move(new()
         {
-            X = reader["Position"]!.AsObject()["X"].Deserialize<int>(LayoutHelpers.SerializerOptions),
-            Y = reader["Position"]!.AsObject()["Y"].Deserialize<int>(LayoutHelpers.SerializerOptions)
+            X = reader["Position"]!.AsObject()["X"].Deserialize<int>(),
+            Y = reader["Position"]!.AsObject()["Y"].Deserialize<int>()
         });
 
         AppWindow.Resize(new()
         {
-            Width = reader["Size"]!.AsObject()["Width"].Deserialize<int>(LayoutHelpers.SerializerOptions),
-            Height = reader["Size"]!.AsObject()["Height"].Deserialize<int>(LayoutHelpers.SerializerOptions)
+            Width = reader["Size"]!.AsObject()["Width"].Deserialize<int>(),
+            Height = reader["Size"]!.AsObject()["Height"].Deserialize<int>()
         });
 
         Panel.LoadLayout(reader[nameof(Panel)]!.AsObject());

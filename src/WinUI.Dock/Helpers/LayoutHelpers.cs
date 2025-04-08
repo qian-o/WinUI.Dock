@@ -6,6 +6,12 @@ using WinUI.Dock.Abstracts;
 
 namespace WinUI.Dock.Helpers;
 
+[JsonSerializable(typeof(int))]
+[JsonSerializable(typeof(bool))]
+[JsonSerializable(typeof(double))]
+[JsonSerializable(typeof(string))]
+internal partial class SourceGenerationContext : JsonSerializerContext;
+
 internal static class LayoutHelpers
 {
     public const string Document = "Document";
@@ -16,6 +22,18 @@ internal static class LayoutHelpers
     {
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
     };
+
+    public static readonly SourceGenerationContext Context = new(SerializerOptions);
+
+    public static T Deserialize<T>(this JsonNode? node)
+    {
+        if (node is null)
+        {
+            return default!;
+        }
+
+        return (T)node.Deserialize(typeof(T), Context)!;
+    }
 
     public static string Path(this DockModule module)
     {
@@ -53,7 +71,7 @@ internal static class LayoutHelpers
 
     public static DockModule CreateByModuleType(this JsonObject reader)
     {
-        return reader["Type"].Deserialize<string>(SerializerOptions) switch
+        return reader["Type"].Deserialize<string>() switch
         {
             Document => new Document(),
             DocumentGroup => new DocumentGroup(),
@@ -74,27 +92,23 @@ internal static class LayoutHelpers
 
     public static void ReadDockModuleProperties(this JsonObject reader, DockModule module)
     {
-        module.DockMinWidth = reader[nameof(DockModule.DockMinWidth)].Deserialize<double>(SerializerOptions);
-        module.DockMaxWidth = reader[nameof(DockModule.DockMaxWidth)].Deserialize<double>(SerializerOptions);
-        module.DockWidth = reader[nameof(DockModule.DockWidth)].Deserialize<double>(SerializerOptions);
-        module.DockMinHeight = reader[nameof(DockModule.DockMinHeight)].Deserialize<double>(SerializerOptions);
-        module.DockMaxHeight = reader[nameof(DockModule.DockMaxHeight)].Deserialize<double>(SerializerOptions);
-        module.DockHeight = reader[nameof(DockModule.DockHeight)].Deserialize<double>(SerializerOptions);
+        module.DockMinWidth = reader[nameof(DockModule.DockMinWidth)].Deserialize<double>();
+        module.DockMaxWidth = reader[nameof(DockModule.DockMaxWidth)].Deserialize<double>();
+        module.DockWidth = reader[nameof(DockModule.DockWidth)].Deserialize<double>();
+        module.DockMinHeight = reader[nameof(DockModule.DockMinHeight)].Deserialize<double>();
+        module.DockMaxHeight = reader[nameof(DockModule.DockMaxHeight)].Deserialize<double>();
+        module.DockHeight = reader[nameof(DockModule.DockHeight)].Deserialize<double>();
     }
 
     public static void WriteDockContainerChildren(this JsonObject writer, DockContainer container)
     {
-        JsonArray children = [];
-
-        foreach (DockModule child in container.Children)
+        writer[nameof(DockContainer.Children)] = new JsonArray([.. container.Children.Select(static item =>
         {
-            JsonObject childWriter = [];
-            child.SaveLayout(childWriter);
+            JsonObject itemWriter = [];
+            item.SaveLayout(itemWriter);
 
-            children.Add(childWriter);
-        }
-
-        writer[nameof(DockContainer.Children)] = children;
+            return itemWriter;
+        })]);
     }
 
     public static void ReadDockContainerChildren(this JsonObject reader, DockContainer container)
@@ -110,17 +124,13 @@ internal static class LayoutHelpers
 
     public static void WriteSideDocuments(this JsonObject writer, string sideName, ObservableCollection<Document> side)
     {
-        JsonArray documents = [];
-
-        foreach (Document document in side)
+        writer[sideName] = new JsonArray([.. side.Select(static item =>
         {
-            JsonObject documentWriter = [];
-            document.SaveLayout(documentWriter);
+            JsonObject itemWriter = [];
+            item.SaveLayout(itemWriter);
 
-            documents.Add(documentWriter);
-        }
-
-        writer[sideName] = documents;
+            return itemWriter;
+        })]);
     }
 
     public static void ReadSideDocuments(this JsonObject reader, string sideName, ObservableCollection<Document> side)

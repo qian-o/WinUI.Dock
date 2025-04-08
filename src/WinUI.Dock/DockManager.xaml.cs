@@ -120,17 +120,13 @@ public partial class DockManager : Control
         writer.WriteSideDocuments(nameof(RightSide), RightSide);
         writer.WriteSideDocuments(nameof(BottomSide), BottomSide);
 
-        JsonArray windows = [];
-
-        foreach (DockWindow window in DockWindowHelpers.GetWindows(this))
+        writer["Windows"] = new JsonArray([.. DockWindowHelpers.GetWindows(this).Select(static item =>
         {
-            JsonObject windowWriter = [];
-            window.SaveLayout(windowWriter);
+            JsonObject itemWriter = [];
+            item.SaveLayout(itemWriter);
 
-            windows.Add(windowWriter);
-        }
-
-        writer["Windows"] = windows;
+            return itemWriter;
+        })]);
 
         return writer.ToJsonString(LayoutHelpers.SerializerOptions);
     }

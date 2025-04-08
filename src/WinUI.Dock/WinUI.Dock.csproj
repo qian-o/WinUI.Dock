@@ -6,6 +6,7 @@
             net9.0-maccatalyst;
             net9.0
         </TargetFrameworks>
+        <IsTrimmable>true</IsTrimmable>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">

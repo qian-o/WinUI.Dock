@@ -301,9 +301,9 @@ public partial class DocumentGroup : DockContainer
         reader.ReadDockModuleProperties(this);
         reader.ReadDockContainerChildren(this);
 
-        TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>(LayoutHelpers.SerializerOptions);
-        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)].Deserialize<bool>(LayoutHelpers.SerializerOptions);
-        SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>(LayoutHelpers.SerializerOptions);
+        TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>();
+        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)].Deserialize<bool>();
+        SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>();
     }
 
     private void UpdateVisualState()
