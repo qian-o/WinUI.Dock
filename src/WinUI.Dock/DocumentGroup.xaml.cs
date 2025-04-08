@@ -346,6 +346,11 @@ public partial class DocumentGroup : DockContainer
         {
             VisualStateManager.GoToState(root, "Inactive", false);
         }
+
+        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        {
+            tabItem.UpdateActiveDocumentStyle();
+        }
     }
 
     private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
