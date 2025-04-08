@@ -6,49 +6,16 @@
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="ActiveBorderBrush"
                              Color="{ThemeResource SystemAccentColorLight1}" />
-
-            <LinearGradientBrush x:Key="ActiveItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-                <LinearGradientBrush.RelativeTransform>
-                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
-                </LinearGradientBrush.RelativeTransform>
-
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="1.0" Color="Transparent" />
-                    <GradientStop Offset="1.0" Color="{ThemeResource SystemAccentColorLight1}" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="ActiveBorderBrush"
                              Color="{ThemeResource SystemAccentColorDark1}" />
-
-            <LinearGradientBrush x:Key="ActiveItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-                <LinearGradientBrush.RelativeTransform>
-                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
-                </LinearGradientBrush.RelativeTransform>
-
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="1.0" Color="Transparent" />
-                    <GradientStop Offset="1.0" Color="{ThemeResource SystemAccentColorDark1}" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="ActiveBorderBrush"
                              Color="{ThemeResource SystemColorWindowColor}" />
-
-            <LinearGradientBrush x:Key="ActiveItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-                <LinearGradientBrush.RelativeTransform>
-                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
-                </LinearGradientBrush.RelativeTransform>
-
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="1.0" Color="Transparent" />
-                    <GradientStop Offset="1.0" Color="{ThemeResource SystemColorWindowColor}" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -432,6 +399,7 @@
                                         <Setter Target="SelectedBackgroundPath.Fill" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
                                         <Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
+                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
                                         <Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
                                         <Setter Target="TabContainer.Padding" Value="{ThemeResource TabViewSelectedItemHeaderPadding}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
@@ -451,7 +419,7 @@
                                         <Setter Target="SelectedBackgroundPath.Fill" Value="{ThemeResource TabViewItemHeaderBackgroundSelected}" />
                                         <Setter Target="TabContainer.Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
                                         <Setter Target="TabContainer.Margin" Value="{ThemeResource TabViewSelectedItemHeaderMargin}" />
-                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource ActiveItemBorderBrush}" />
+                                        <Setter Target="TabContainer.BorderBrush" Value="{ThemeResource TabViewSelectedItemBorderBrush}" />
                                         <Setter Target="TabContainer.BorderThickness" Value="{ThemeResource TabViewSelectedItemBorderThickness}" />
                                         <Setter Target="TabContainer.Padding" Value="{ThemeResource TabViewSelectedItemHeaderPadding}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}" />
@@ -750,18 +718,20 @@
                                     Visibility="Collapsed" />
                         </Grid>
 
-                        <Grid x:Name="Overlay"
-                              Grid.Column="1"
-                              Margin="{ThemeResource TabViewSelectedItemHeaderMargin}"
-                              Padding="{ThemeResource TabViewSelectedItemHeaderPadding}"
-                              Background="{ThemeResource TabViewItemHeaderBackground}"
-                              BorderBrush="{ThemeResource ActiveItemBorderBrush}"
-                              BorderThickness="{ThemeResource TabViewSelectedItemBorderThickness}"
-                              Control.IsTemplateFocusTarget="True"
-                              CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"
-                              FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
-                              IsHitTestVisible="False"
-                              Visibility="Collapsed" />
+                        <Border x:Name="Overlay"
+                                Grid.Column="1"
+                                Padding="0,0,0,4"
+                                IsHitTestVisible="False"
+                                Visibility="Collapsed">
+                            <Grid Margin="{ThemeResource TabViewSelectedItemHeaderMargin}"
+                                  Padding="{ThemeResource TabViewSelectedItemHeaderPadding}"
+                                  Background="{ThemeResource TabViewItemHeaderBackground}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{ThemeResource TabViewSelectedItemBorderThickness}"
+                                  Control.IsTemplateFocusTarget="True"
+                                  CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"
+                                  FocusVisualMargin="{TemplateBinding FocusVisualMargin}" />
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
