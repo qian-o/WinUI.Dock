@@ -3,17 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              IsHitTestVisible="False"
              Opacity="0.4">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style x:Key="PreviewBorderStyle"
-                   TargetType="Border">
-                <Setter Property="Background" Value="{ThemeResource AccentAcrylicBackgroundFillColorBaseBrush}" />
-                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
-                <Setter Property="BorderThickness" Value="4" />
-                <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <Grid>
         <Border x:Name="P1"
@@ -21,4 +10,5 @@
         <Border x:Name="P2"
                 Style="{StaticResource PreviewBorderStyle}" />
     </Grid>
+
 </UserControl>

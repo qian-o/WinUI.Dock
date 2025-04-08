@@ -7,7 +7,7 @@ using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
-[TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
+[TemplatePart(Name = "PART_Root", Type = typeof(TabViewEx))]
 [TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
 public partial class DocumentGroup : DockContainer
 {
@@ -26,7 +26,7 @@ public partial class DocumentGroup : DockContainer
                                                                                                   typeof(DocumentGroup),
                                                                                                   new PropertyMetadata(-1));
 
-    private TabView? root;
+    private TabViewEx? root;
     private AnimationPreview? preview;
 
     public DocumentGroup()
@@ -71,7 +71,7 @@ public partial class DocumentGroup : DockContainer
 
     protected override void InitTemplate()
     {
-        root = GetTemplateChild("PART_Root") as TabView;
+        root = GetTemplateChild("PART_Root") as TabViewEx;
         preview = GetTemplateChild("PART_Preview") as AnimationPreview;
 
         UpdateVisualState();
@@ -97,6 +97,9 @@ public partial class DocumentGroup : DockContainer
         {
             SelectedIndex = Children.Count - 1;
         }
+
+        UpdateVisualState();
+        UpdateActiveDocumentStyle();
     }
 
     protected override void UnloadChildren()
@@ -117,6 +120,21 @@ public partial class DocumentGroup : DockContainer
     protected override bool ValidateChildren()
     {
         return Children.All(static item => item is Document);
+    }
+
+    protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
+    {
+        base.OnRootChanged(oldRoot, newRoot);
+
+        if (oldRoot is not null)
+        {
+            oldRoot.ActiveDocumentChanged -= OnActiveDocumentChanged;
+        }
+
+        if (newRoot is not null)
+        {
+            newRoot.ActiveDocumentChanged += OnActiveDocumentChanged;
+        }
     }
 
     internal void ShowDockPreview(DockTarget dockTarget)
@@ -298,10 +316,49 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
+        if (TabPosition is TabPosition.Bottom && Children.Count is 1)
+        {
+            root.HideTabContainer();
+        }
+        else
+        {
+            root.ShowTabContainer();
+        }
+
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
             tabItem.UpdateTabPosition(TabPosition);
         }
+    }
+
+    private void UpdateActiveDocumentStyle()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        if (Root!.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
+        {
+            SelectedIndex = index;
+
+            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["ActiveBorderBrush"];
+            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["ActiveItemBorderBrush"];
+        }
+        else
+        {
+            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["DefaultTabViewBorderBrush"];
+            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["DefaultTabViewSelectedItemBorderBrush"];
+        }
+
+        // For now, this is a workaround.
+        root.RequestedTheme = Application.Current.RequestedTheme is ApplicationTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
+        root.RequestedTheme = ElementTheme.Default;
+    }
+
+    private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
+    {
+        UpdateActiveDocumentStyle();
     }
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

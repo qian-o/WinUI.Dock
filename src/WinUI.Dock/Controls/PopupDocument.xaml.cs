@@ -152,6 +152,8 @@ public sealed partial class PopupDocument : UserControl
             DockSide.Bottom => DockTarget.DockBottom,
             _ => throw new NotSupportedException()
         });
+
+        Manager.ActiveDocument = document;
     }
 
     private void Close_Click(object _, RoutedEventArgs __)
@@ -161,40 +163,42 @@ public sealed partial class PopupDocument : UserControl
 
     private void Detach(bool remove = false)
     {
-        if (Document is not null)
+        if (Document is null)
         {
-            if (remove)
-            {
-                switch (DockSide)
-                {
-                    case DockSide.Left:
-                        Manager.LeftSide.Remove(Document);
-                        break;
-                    case DockSide.Top:
-                        Manager.TopSide.Remove(Document);
-                        break;
-                    case DockSide.Right:
-                        Manager.RightSide.Remove(Document);
-                        break;
-                    case DockSide.Bottom:
-                        Manager.BottomSide.Remove(Document);
-                        break;
-                }
-            }
-
-            if (DockSide is DockSide.Left or DockSide.Right)
-            {
-                Document.DockWidth = ActualWidth;
-            }
-            else
-            {
-                Document.DockHeight = ActualHeight;
-            }
-
-            Document = null;
-
-            Bindings.Update();
+            return;
         }
+
+        if (remove)
+        {
+            switch (DockSide)
+            {
+                case DockSide.Left:
+                    Manager.LeftSide.Remove(Document);
+                    break;
+                case DockSide.Top:
+                    Manager.TopSide.Remove(Document);
+                    break;
+                case DockSide.Right:
+                    Manager.RightSide.Remove(Document);
+                    break;
+                case DockSide.Bottom:
+                    Manager.BottomSide.Remove(Document);
+                    break;
+            }
+        }
+
+        if (DockSide is DockSide.Left or DockSide.Right)
+        {
+            Document.DockWidth = ActualWidth;
+        }
+        else
+        {
+            Document.DockHeight = ActualHeight;
+        }
+
+        Document = null;
+
+        Bindings.Update();
 
         popup.IsOpen = false;
 

@@ -2,7 +2,7 @@
 
 namespace WinUI.Dock.Converters;
 
-public partial class ActiveDocumentToVisibilityConverter : IValueConverter
+internal partial class ActiveDocumentToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

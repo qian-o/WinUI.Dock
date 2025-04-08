@@ -6,7 +6,7 @@ using WinUI.Dock.Abstracts;
 
 namespace WinUI.Dock.Helpers;
 
-public static class LayoutHelpers
+internal static class LayoutHelpers
 {
     public const string Document = "Document";
     public const string DocumentGroup = "DocumentGroup";
@@ -16,6 +16,29 @@ public static class LayoutHelpers
     {
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
     };
+
+    public static string Path(this DockModule module)
+    {
+        string name = module is Document document ? document.Title : module.GetType().Name;
+
+        if (module.Owner is null)
+        {
+            return name;
+        }
+        else
+        {
+            string path = module.Owner.Path();
+
+            if (module.Owner is DockContainer container)
+            {
+                path += $"[{container.Children.IndexOf(module)}]";
+            }
+
+            path += $".{name}";
+
+            return path;
+        }
+    }
 
     public static void WriteByModuleType(this JsonObject writer, DockModule module)
     {

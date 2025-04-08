@@ -2,7 +2,7 @@
 
 namespace WinUI.Dock.Helpers;
 
-public static class DockWindowHelpers
+internal static class DockWindowHelpers
 {
     private static readonly Dictionary<DockManager, List<DockWindow>> windows = [];
 

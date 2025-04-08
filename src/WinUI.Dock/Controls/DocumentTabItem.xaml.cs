@@ -51,6 +51,27 @@ public sealed partial class DocumentTabItem : TabViewItem
         Bindings.Update();
     }
 
+    protected override void OnPointerEntered(PointerRoutedEventArgs e)
+    {
+        base.OnPointerEntered(e);
+
+        HeaderOptions.Opacity = 1.0;
+    }
+
+    protected override void OnPointerExited(PointerRoutedEventArgs e)
+    {
+        base.OnPointerExited(e);
+
+        HeaderOptions.Opacity = 0.0;
+    }
+
+    protected override void OnPointerPressed(PointerRoutedEventArgs e)
+    {
+        base.OnPointerPressed(e);
+
+        Document!.Root!.ActiveDocument = Document;
+    }
+
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
         args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
@@ -79,21 +100,6 @@ public sealed partial class DocumentTabItem : TabViewItem
         }
 
         DragDropHelpers.RemoveDragKey(dragKey);
-    }
-
-    private void Header_PointerEntered(object _, PointerRoutedEventArgs __)
-    {
-        HeaderOptions.Opacity = 1.0;
-    }
-
-    private void Header_PointerExited(object _, PointerRoutedEventArgs __)
-    {
-        HeaderOptions.Opacity = 0.0;
-    }
-
-    private void Document_PointerPressed(object _, PointerRoutedEventArgs __)
-    {
-        Document!.Root!.ActiveDocument = Document;
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)
@@ -138,5 +144,10 @@ public sealed partial class DocumentTabItem : TabViewItem
         }
 
         Document.Detach();
+    }
+
+    private void Content_PointerPressed(object _, PointerRoutedEventArgs __)
+    {
+        Document!.Root!.ActiveDocument = Document;
     }
 }
