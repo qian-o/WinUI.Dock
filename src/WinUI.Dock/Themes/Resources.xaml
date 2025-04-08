@@ -289,6 +289,19 @@
                                 </VisualState>
                             </VisualStateGroup>
 
+                            <VisualStateGroup x:Name="IsSingleView">
+                                <VisualState x:Name="SingleView">
+                                    <VisualState.Setters>
+                                        <Setter Target="TabContainerGrid.Opacity" Value="0.0" />
+                                        <Setter Target="TabContainerGrid.IsHitTestVisible" Value="False" />
+                                        <Setter Target="TabContentPresenter.(Grid.Row)" Value="0" />
+                                        <Setter Target="TabContentPresenter.(Grid.RowSpan)" Value="2" />
+                                        <Setter Target="TabContentPresenter.BorderThickness" Value="1,1,1,1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NormalView" />
+                            </VisualStateGroup>
+
                             <VisualStateGroup x:Name="IsActive">
                                 <VisualState x:Name="Active">
                                     <VisualState.Setters>

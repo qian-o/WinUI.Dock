@@ -74,6 +74,11 @@ public partial class DocumentGroup : DockContainer
         root = GetTemplateChild("PART_Root") as TabView;
         preview = GetTemplateChild("PART_Preview") as AnimationPreview;
 
+        if (root is not null)
+        {
+            root.Loaded += (_, _) => UpdateVisualState();
+        }
+
         UpdateVisualState();
     }
 
@@ -86,7 +91,7 @@ public partial class DocumentGroup : DockContainer
 
         foreach (Document document in Children.Cast<Document>())
         {
-            root.TabItems.Add(new DocumentTabItem(TabPosition, document));
+            root.TabItems.Add(new DocumentTabItem(document));
         }
 
         if (SelectedIndex < 0)
@@ -99,7 +104,6 @@ public partial class DocumentGroup : DockContainer
         }
 
         UpdateVisualState();
-        UpdateActiveDocumentStyle();
     }
 
     protected override void UnloadChildren()
@@ -318,22 +322,11 @@ public partial class DocumentGroup : DockContainer
 
         if (TabPosition is TabPosition.Bottom && Children.Count is 1)
         {
+            VisualStateManager.GoToState(root, "SingleView", false);
         }
         else
         {
-        }
-
-        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
-        {
-            tabItem.UpdateTabPosition(TabPosition);
-        }
-    }
-
-    private void UpdateActiveDocumentStyle()
-    {
-        if (root is null)
-        {
-            return;
+            VisualStateManager.GoToState(root, "NormalView", false);
         }
 
         bool anyActive;
@@ -355,13 +348,13 @@ public partial class DocumentGroup : DockContainer
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
-            tabItem.UpdateActiveDocumentStyle(anyActive);
+            tabItem.UpdateVisualState(TabPosition, anyActive);
         }
     }
 
     private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
     {
-        UpdateActiveDocumentStyle();
+        UpdateVisualState();
     }
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
