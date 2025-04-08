@@ -78,8 +78,6 @@ public partial class DocumentGroup : DockContainer
         {
             root.Loaded += (_, _) => UpdateVisualState();
         }
-
-        UpdateVisualState();
     }
 
     protected override void LoadChildren()
