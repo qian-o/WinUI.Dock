@@ -638,6 +638,7 @@
                                         <Setter Target="LeftRadiusRenderArc.Opacity" Value="0" />
                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
                                         <Setter Target="BottomBorderLine.Opacity" Value="0" />
+                                        <Setter Target="Overlay.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
