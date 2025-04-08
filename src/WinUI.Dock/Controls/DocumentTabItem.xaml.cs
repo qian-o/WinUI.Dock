@@ -44,11 +44,15 @@ public sealed partial class DocumentTabItem : TabViewItem
         ContentOptions.Visibility = isBottom ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    public void UpdateActiveDocumentStyle()
+    public void UpdateActiveDocumentStyle(bool anyActive)
     {
         if (Document?.Root is DockManager manager && manager.ActiveDocument == Document)
         {
             VisualStateManager.GoToState(this, "Active", false);
+        }
+        else if (anyActive)
+        {
+            VisualStateManager.GoToState(this, "AnyActive", false);
         }
         else
         {

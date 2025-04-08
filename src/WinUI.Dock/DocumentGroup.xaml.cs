@@ -336,20 +336,26 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
+        bool anyActive;
+
         if (Root!.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
         {
             SelectedIndex = index;
 
             VisualStateManager.GoToState(root, "Active", false);
+
+            anyActive = true;
         }
         else
         {
             VisualStateManager.GoToState(root, "Inactive", false);
+
+            anyActive = false;
         }
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
-            tabItem.UpdateActiveDocumentStyle();
+            tabItem.UpdateActiveDocumentStyle(anyActive);
         }
     }
 
