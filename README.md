@@ -17,6 +17,7 @@ WinUI.Dock is a docking control similar to Visual Studio, based on WinUI 3. Its 
     - **CreateNewDocument**: Event triggered when restoring the layout.
     - **CreateNewGroup**: Event triggered when dragging a Document to a specified target.
     - **CreateNewWindow**: Event triggered when dragging a Document outside the window.
+    - **ActiveDocumentChanged**: Event triggered when the active Document changes.
     - **ClearLayout, SaveLayout, LoadLayout**: Clear layout, save layout, load layout.
 
 - **Document**: Document.
@@ -48,7 +49,19 @@ WinUI.Dock is a docking control similar to Visual Studio, based on WinUI 3. Its 
 Install-Package WinUI.Dock
 ```
 
-2. Add the DockManager control in MainWindow.xaml
+2. Add the WinUIDockResources in App.xaml
+```xaml
+<Application.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            <dock:WinUIDockResources xmlns:dock="using:WinUI.Dock" />
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</Application.Resources>
+```
+
+3. Add the DockManager control in MainWindow.xaml
 ```xaml
 <Window xmlns:dock="using:WinUI.Dock"
         x:Name="Main">
