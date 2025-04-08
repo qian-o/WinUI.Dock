@@ -128,7 +128,7 @@ public partial class DockManager : Control
             return itemWriter;
         })]);
 
-        return writer.ToJsonString(LayoutHelpers.SerializerOptions);
+        return writer.ToJsonString(LayoutHelpers.SerializerContext.Options);
     }
 
     public void LoadLayout(string layout)

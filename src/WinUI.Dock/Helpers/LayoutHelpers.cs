@@ -18,12 +18,10 @@ internal static class LayoutHelpers
     public const string DocumentGroup = "DocumentGroup";
     public const string LayoutPanel = "LayoutPanel";
 
-    public static readonly JsonSerializerOptions SerializerOptions = new()
+    public static readonly SourceGenerationContext SerializerContext = new(new()
     {
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
-    };
-
-    public static readonly SourceGenerationContext Context = new(SerializerOptions);
+    });
 
     public static T Deserialize<T>(this JsonNode? node)
     {
@@ -32,7 +30,7 @@ internal static class LayoutHelpers
             return default!;
         }
 
-        return (T)node.Deserialize(typeof(T), Context)!;
+        return (T)node.Deserialize(typeof(T), SerializerContext)!;
     }
 
     public static string Path(this DockModule module)
