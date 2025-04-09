@@ -589,7 +589,9 @@
                                         <Setter Target="LeftRadiusRenderArc.Opacity" Value="0" />
                                         <Setter Target="TabContainer.BorderThickness" Value="0" />
                                         <Setter Target="BottomBorderLine.Opacity" Value="0" />
-                                        <Setter Target="Overlay.Visibility" Value="Collapsed" />
+                                        <Setter Target="Overlay.Margin" Value="0,0,0,0" />
+                                        <Setter Target="Overlay.BorderThickness" Value="1,1,1,1" />
+                                        <Setter Target="Overlay.CornerRadius" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -701,20 +703,17 @@
                                     Visibility="Collapsed" />
                         </Grid>
 
-                        <Border x:Name="Overlay"
-                                Grid.Column="1"
-                                Padding="0,0,0,4"
-                                IsHitTestVisible="False"
-                                Visibility="Collapsed">
-                            <Grid Margin="{ThemeResource TabViewSelectedItemHeaderMargin}"
-                                  Padding="{ThemeResource TabViewSelectedItemHeaderPadding}"
+                        <Grid Grid.Column="1"
+                              Margin="{ThemeResource TabViewSelectedItemHeaderMargin}"
+                              IsHitTestVisible="False">
+                            <Grid x:Name="Overlay"
+                                  Margin="0,0,0,4"
                                   Background="{ThemeResource TabViewItemHeaderBackground}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{ThemeResource TabViewSelectedItemBorderThickness}"
-                                  Control.IsTemplateFocusTarget="True"
                                   CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"
-                                  FocusVisualMargin="{TemplateBinding FocusVisualMargin}" />
-                        </Border>
+                                  Visibility="Collapsed" />
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
