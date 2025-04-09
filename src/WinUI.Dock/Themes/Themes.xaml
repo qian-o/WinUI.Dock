@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="DockThemeBrush"
+                             Color="{ThemeResource SystemAccentColorLight1}" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="DockThemeBrush"
+                             Color="{ThemeResource SystemAccentColorDark1}" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="DockThemeBrush"
+                             Color="{ThemeResource SystemColorWindowColor}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

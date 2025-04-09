@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
+using Microsoft.UI.Xaml.Data;
 using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
@@ -7,7 +8,7 @@ using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
-[TemplatePart(Name = "PART_Root", Type = typeof(TabViewEx))]
+[TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
 [TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
 public partial class DocumentGroup : DockContainer
 {
@@ -26,7 +27,7 @@ public partial class DocumentGroup : DockContainer
                                                                                                   typeof(DocumentGroup),
                                                                                                   new PropertyMetadata(-1));
 
-    private TabViewEx? root;
+    private TabView? root;
     private AnimationPreview? preview;
 
     public DocumentGroup()
@@ -71,10 +72,13 @@ public partial class DocumentGroup : DockContainer
 
     protected override void InitTemplate()
     {
-        root = GetTemplateChild("PART_Root") as TabViewEx;
+        root = GetTemplateChild("PART_Root") as TabView;
         preview = GetTemplateChild("PART_Preview") as AnimationPreview;
 
-        UpdateVisualState();
+        if (root is not null)
+        {
+            root.Loaded += (_, _) => UpdateVisualState();
+        }
     }
 
     protected override void LoadChildren()
@@ -86,7 +90,15 @@ public partial class DocumentGroup : DockContainer
 
         foreach (Document document in Children.Cast<Document>())
         {
-            root.TabItems.Add(new DocumentTabItem(TabPosition, document));
+            DocumentTabItem tabItem = new(document);
+
+            tabItem.SetBinding(BorderBrushProperty, new Binding()
+            {
+                Source = root,
+                Path = new(nameof(BorderBrush))
+            });
+
+            root.TabItems.Add(tabItem);
         }
 
         if (SelectedIndex < 0)
@@ -99,7 +111,6 @@ public partial class DocumentGroup : DockContainer
         }
 
         UpdateVisualState();
-        UpdateActiveDocumentStyle();
     }
 
     protected override void UnloadChildren()
@@ -308,6 +319,17 @@ public partial class DocumentGroup : DockContainer
 
     private void UpdateVisualState()
     {
+        if (Root?.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
+        {
+            SelectedIndex = index;
+
+            VisualStateManager.GoToState(this, "Active", false);
+        }
+        else
+        {
+            VisualStateManager.GoToState(this, "Inactive", false);
+        }
+
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);
         VisualStateManager.GoToState(this, IsTabWidthBasedOnContent ? "TabWidthSizeToContent" : "TabWidthEqual", false);
 
@@ -318,47 +340,22 @@ public partial class DocumentGroup : DockContainer
 
         if (TabPosition is TabPosition.Bottom && Children.Count is 1)
         {
-            root.HideTabContainer();
+            VisualStateManager.GoToState(root, "SingleView", false);
         }
         else
         {
-            root.ShowTabContainer();
+            VisualStateManager.GoToState(root, "NormalView", false);
         }
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
-            tabItem.UpdateTabPosition(TabPosition);
+            tabItem.UpdateVisualState(TabPosition);
         }
-    }
-
-    private void UpdateActiveDocumentStyle()
-    {
-        if (root is null)
-        {
-            return;
-        }
-
-        if (Root!.ActiveDocument is not null && Children.IndexOf(Root.ActiveDocument) is int index && index is not -1)
-        {
-            SelectedIndex = index;
-
-            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["ActiveBorderBrush"];
-            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["ActiveItemBorderBrush"];
-        }
-        else
-        {
-            root.Resources["TabViewBorderBrush"] = Application.Current.Resources["DefaultTabViewBorderBrush"];
-            root.Resources["TabViewSelectedItemBorderBrush"] = Application.Current.Resources["DefaultTabViewSelectedItemBorderBrush"];
-        }
-
-        // For now, this is a workaround.
-        root.RequestedTheme = Application.Current.RequestedTheme is ApplicationTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
-        root.RequestedTheme = ElementTheme.Default;
     }
 
     private void OnActiveDocumentChanged(object? sender, ActiveDocumentChangedEventArgs e)
     {
-        UpdateActiveDocumentStyle();
+        UpdateVisualState();
     }
 
     private static void OnTabPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

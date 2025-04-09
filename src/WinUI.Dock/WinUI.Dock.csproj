@@ -27,8 +27,12 @@
         <Description>Docked controls similar to Visual Studio, available with WinUI 3 and Uno Platform.</Description>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <NoWarn>Uno0001</NoWarn>
+    </PropertyGroup>
+
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
-        <NoWarn>IDE0028</NoWarn>
+        <NoWarn>Uno0001;IDE0028</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

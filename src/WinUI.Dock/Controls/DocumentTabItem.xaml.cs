@@ -10,15 +10,14 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class DocumentTabItem : TabViewItem
 {
+    private string state = string.Empty;
     private string dragKey = string.Empty;
 
-    public DocumentTabItem(TabPosition tabPosition, Document document)
+    public DocumentTabItem(Document document)
     {
         InitializeComponent();
 
         Document = document;
-
-        UpdateTabPosition(tabPosition);
 
         ActiveIndicator.SetBinding(VisibilityProperty, new Binding
         {
@@ -31,7 +30,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     public Document? Document { get; private set; }
 
-    public void UpdateTabPosition(TabPosition tabPosition)
+    public void UpdateVisualState(TabPosition tabPosition)
     {
         bool isBottom = tabPosition is TabPosition.Bottom;
 
@@ -42,6 +41,15 @@ public sealed partial class DocumentTabItem : TabViewItem
 
         HeaderOptions.Visibility = isBottom ? Visibility.Collapsed : Visibility.Visible;
         ContentOptions.Visibility = isBottom ? Visibility.Visible : Visibility.Collapsed;
+
+        if (Document!.Root!.ActiveDocument == Document)
+        {
+            VisualStateManager.GoToState(this, state = "Active", false);
+        }
+        else
+        {
+            VisualStateManager.GoToState(this, state = "Inactive", false);
+        }
     }
 
     public void Detach()
@@ -49,6 +57,16 @@ public sealed partial class DocumentTabItem : TabViewItem
         Document = null;
 
         Bindings.Update();
+    }
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (!string.IsNullOrEmpty(state))
+        {
+            VisualStateManager.GoToState(this, state, false);
+        }
     }
 
     protected override void OnPointerEntered(PointerRoutedEventArgs e)

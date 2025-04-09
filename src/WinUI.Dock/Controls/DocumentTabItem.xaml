@@ -6,7 +6,8 @@
              CanDrag="True"
              DragStarting="OnDragStarting"
              DropCompleted="OnDropCompleted"
-             IsClosable="False">
+             IsClosable="False"
+             Style="{StaticResource ActiveTabViewItemStyle}">
     <TabViewItem.Header>
         <Grid RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
@@ -25,7 +26,7 @@
                         Width="4"
                         Height="16"
                         Margin="0,0,6,0"
-                        Background="{ThemeResource ActiveBorderBrush}"
+                        Background="{ThemeResource DockThemeBrush}"
                         CornerRadius="2" />
 
                 <TextBlock VerticalAlignment="Center"
@@ -53,25 +54,13 @@
     </TabViewItem.Header>
 
     <TabViewItem.Content>
-        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource TabViewBorderBrush}"
-                BorderThickness="1,0,1,1"
-                CornerRadius="0,0,4,4"
+        <Border Background="Transparent"
                 PointerPressed="Content_PointerPressed">
 
             <Border RenderTransformOrigin="0.5,0.5">
                 <Border.RenderTransform>
                     <ScaleTransform x:Name="ContentScale" />
                 </Border.RenderTransform>
-
-                <Border.Resources>
-                    <ResourceDictionary>
-                        <StaticResource x:Key="TabViewBorderBrush"
-                                        ResourceKey="DefaultTabViewBorderBrush" />
-                        <StaticResource x:Key="TabViewSelectedItemBorderBrush"
-                                        ResourceKey="DefaultTabViewSelectedItemBorderBrush" />
-                    </ResourceDictionary>
-                </Border.Resources>
 
                 <Grid>
                     <Grid.RowDefinitions>

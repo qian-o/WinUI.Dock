@@ -19,7 +19,7 @@
                         <Setter Target="Root.Child">
                             <Setter.Value>
                                 <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource DockThemeBrush}"
                                         BorderThickness="1,3,1,1"
                                         CornerRadius="2" />
                             </Setter.Value>
@@ -33,12 +33,12 @@
                             <Setter.Value>
                                 <Grid>
                                     <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line HorizontalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource AccentFillColorDefaultBrush}"
+                                          Stroke="{ThemeResource DockThemeBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           Y2="1" />
@@ -54,12 +54,12 @@
                             <Setter.Value>
                                 <Grid>
                                     <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line VerticalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource AccentFillColorDefaultBrush}"
+                                          Stroke="{ThemeResource DockThemeBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           X2="1" />
@@ -75,12 +75,12 @@
                             <Setter.Value>
                                 <Grid>
                                     <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line HorizontalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource AccentFillColorDefaultBrush}"
+                                          Stroke="{ThemeResource DockThemeBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           Y2="1" />
@@ -96,12 +96,12 @@
                             <Setter.Value>
                                 <Grid>
                                     <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line VerticalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource AccentFillColorDefaultBrush}"
+                                          Stroke="{ThemeResource DockThemeBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           X2="1" />
@@ -123,7 +123,7 @@
 
                                     <Border Grid.Column="0"
                                             Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
 
@@ -150,7 +150,7 @@
 
                                     <Border Grid.Row="0"
                                             Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
 
@@ -183,7 +183,7 @@
 
                                     <Border Grid.Column="1"
                                             Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                 </Grid>
@@ -210,7 +210,7 @@
 
                                     <Border Grid.Row="1"
                                             Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockThemeBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                 </Grid>
