@@ -1,11 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>
-            net9.0-windows10.0.22621.0;
-            net9.0-maccatalyst;
-            net9.0
-        </TargetFrameworks>
+        <TargetFrameworks>net9.0-windows10.0.22621.0;net9.0</TargetFrameworks>
         <IsTrimmable>true</IsTrimmable>
     </PropertyGroup>
 
@@ -29,10 +25,6 @@
 
     <PropertyGroup>
         <NoWarn>Uno0001</NoWarn>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
-        <NoWarn>Uno0001;IDE0028</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
