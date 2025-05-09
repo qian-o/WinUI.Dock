@@ -17,4 +17,10 @@
         </Compile>
     </ItemGroup>
 
+    <PropertyGroup>
+        <UnoFeatures>
+            SkiaRenderer;
+        </UnoFeatures>
+    </PropertyGroup>
+
 </Project>
