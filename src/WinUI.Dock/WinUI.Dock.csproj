@@ -23,10 +23,6 @@
         <Description>Docked controls similar to Visual Studio, available with WinUI 3 and Uno Platform.</Description>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <NoWarn>Uno0001</NoWarn>
-    </PropertyGroup>
-
     <ItemGroup>
         <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
         <None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -55,6 +51,10 @@
             </ItemGroup>
         </When>
         <Otherwise>
+            <PropertyGroup>
+                <NoWarn>Uno0001</NoWarn>
+            </PropertyGroup>
+            
             <ItemGroup>
                 <PackageReference Include="Uno.Fonts.Fluent" />
                 <PackageReference Include="Uno.WinUI" />
