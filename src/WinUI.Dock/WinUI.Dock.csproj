@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net9.0-windows10.0.19041.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>
+            net9.0-windows10.0.19041.0;
+            net9.0-maccatalyst;
+            net9.0
+        </TargetFrameworks>
         <IsTrimmable>true</IsTrimmable>
     </PropertyGroup>
 
@@ -51,10 +55,19 @@
             </ItemGroup>
         </When>
         <Otherwise>
-            <PropertyGroup>
-                <NoWarn>Uno0001</NoWarn>
-            </PropertyGroup>
-            
+            <Choose>
+                <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+                    <PropertyGroup>
+                        <NoWarn>Uno0001;IDE0028</NoWarn>
+                    </PropertyGroup>
+                </When>
+                <Otherwise>
+                    <PropertyGroup>
+                        <NoWarn>Uno0001</NoWarn>
+                    </PropertyGroup>
+                </Otherwise>
+            </Choose>
+
             <ItemGroup>
                 <PackageReference Include="Uno.Fonts.Fluent" />
                 <PackageReference Include="Uno.WinUI" />
