@@ -9,8 +9,8 @@
         <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
         <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.1.240916" />
         <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3240.44" />
-        <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.3916" />
-        <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+        <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
+        <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
         <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />
         <PackageVersion Include="Uno.Fonts.Fluent" Version="2.7.1" />
         <PackageVersion Include="Uno.WinUI" Version="6.0.465" />
