@@ -13,7 +13,7 @@
         <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
         <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />
         <PackageVersion Include="Uno.Fonts.Fluent" Version="2.7.1" />
-        <PackageVersion Include="Uno.WinUI" Version="6.0.465" />
+        <PackageVersion Include="Uno.WinUI" Version="6.0.611" />
         <PackageVersion Include="XAMLTools.MSBuild" Version="1.0.0-alpha0167" />
     </ItemGroup>
 
