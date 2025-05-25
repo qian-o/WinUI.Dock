@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Examples/">
+    <Project Path="src/Examples/UnoApp/UnoApp.csproj" />
+    <Project Path="src/Examples/WinUIApp/WinUIApp.csproj">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="src/WinUI.Dock/WinUI.Dock.csproj" />
+</Solution>
