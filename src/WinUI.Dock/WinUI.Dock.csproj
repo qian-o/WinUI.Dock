@@ -47,7 +47,6 @@
         <When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
             <ItemGroup>
                 <PackageReference Include="Microsoft.WindowsAppSDK" />
-                <PackageReference Include="Microsoft.Web.WebView2" IncludeAssets="none" />
             </ItemGroup>
         </When>
         <Otherwise>
