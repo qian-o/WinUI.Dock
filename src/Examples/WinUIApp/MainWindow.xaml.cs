@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using WinUI.Dock;
 using WinUI.Dock.Enums;
 
@@ -54,11 +56,13 @@ public sealed partial class MainWindow : Window
     private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
     {
         e.Window.Title = "Custom Window Title";
-        e.TitleBar.Child = new TextBlock()
+
+        e.TitleBar.Background = new SolidColorBrush(Colors.LightGray);
+        e.TitleBar.Child = new TextBlock
         {
+            Text = "Custom Title Bar",
             HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center,
-            Text = "Custom Title"
+            VerticalAlignment = VerticalAlignment.Center
         };
     }
 }

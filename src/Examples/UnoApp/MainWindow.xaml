@@ -4,14 +4,6 @@
         xmlns:dock="using:WinUI.Dock"
         x:Name="Main">
     <Grid>
-        <Grid.Resources>
-            <Style x:Key="Space"
-                   TargetType="Border">
-                <Setter Property="BorderBrush" Value="Red" />
-                <Setter Property="BorderThickness" Value="0" />
-            </Style>
-        </Grid.Resources>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -36,70 +28,46 @@
                           ParentWindow="{Binding ElementName=Main}">
             <dock:DockManager.LeftSide>
                 <dock:Document Title="Side##Left 1">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Left 1" />
-                    </Border>
+                    Left 1
                 </dock:Document>
                 <dock:Document Title="Side##Left 2">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Left 2" />
-                    </Border>
+                    Left 2
                 </dock:Document>
                 <dock:Document Title="Side##Left 3">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Left 3" />
-                    </Border>
+                    Left 3
                 </dock:Document>
             </dock:DockManager.LeftSide>
             <dock:DockManager.TopSide>
                 <dock:Document Title="Side##Top 1">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Top 1" />
-                    </Border>
+                    Top 1
                 </dock:Document>
                 <dock:Document Title="Side##Top 2">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Top 2" />
-                    </Border>
+                    Top 2
                 </dock:Document>
                 <dock:Document Title="Side##Top 3">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Top 3" />
-                    </Border>
+                    Top 3
                 </dock:Document>
             </dock:DockManager.TopSide>
             <dock:DockManager.RightSide>
                 <dock:Document Title="Side##Right 1">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Right 1" />
-                    </Border>
+                    Right 1
                 </dock:Document>
                 <dock:Document Title="Side##Right 2">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Right 2" />
-                    </Border>
+                    Right 2
                 </dock:Document>
                 <dock:Document Title="Side##Right 3">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Right 3" />
-                    </Border>
+                    Right 3
                 </dock:Document>
             </dock:DockManager.RightSide>
             <dock:DockManager.BottomSide>
                 <dock:Document Title="Side##Bottom 1">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Bottom 1" />
-                    </Border>
+                    Bottom 1
                 </dock:Document>
                 <dock:Document Title="Side##Bottom 2">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Bottom 2" />
-                    </Border>
+                    Bottom 2
                 </dock:Document>
                 <dock:Document Title="Side##Bottom 3">
-                    <Border Style="{StaticResource Space}">
-                        <TextBlock Text="Bottom 3" />
-                    </Border>
+                    Bottom 3
                 </dock:Document>
             </dock:DockManager.BottomSide>
 
@@ -110,24 +78,18 @@
                         <dock:Document Title="Document 1"
                                        CanClose="False"
                                        CanPin="False">
-                            <Border Style="{StaticResource Space}">
-                                <TextBlock Text="Document 1" />
-                            </Border>
+                            Document 1
                         </dock:Document>
                         <dock:Document Title="Document 2"
                                        CanClose="False"
                                        CanPin="False">
-                            <Border Style="{StaticResource Space}">
-                                <TextBlock Text="Document 2" />
-                            </Border>
+                            Document 2
                         </dock:Document>
                     </dock:DocumentGroup>
 
                     <dock:DocumentGroup DockWidth="1">
                         <dock:Document Title="Solution Explorer">
-                            <Border Style="{StaticResource Space}">
-                                <TextBlock Text="Solution Explorer" />
-                            </Border>
+                            Solution Explorer
                         </dock:Document>
                     </dock:DocumentGroup>
                 </dock:LayoutPanel>
@@ -137,17 +99,13 @@
                     <dock:DocumentGroup IsTabWidthBasedOnContent="True"
                                         TabPosition="Bottom">
                         <dock:Document Title="Side##Error List">
-                            <Border Style="{StaticResource Space}">
-                                <TextBlock Text="Error List" />
-                            </Border>
+                            Error List
                         </dock:Document>
                     </dock:DocumentGroup>
                     <dock:DocumentGroup IsTabWidthBasedOnContent="True"
                                         TabPosition="Bottom">
                         <dock:Document Title="Side##Output">
-                            <Border Style="{StaticResource Space}">
-                                <TextBlock Text="Output" />
-                            </Border>
+                            Output
                         </dock:Document>
                     </dock:DocumentGroup>
                 </dock:LayoutPanel>

@@ -1,4 +1,5 @@
-﻿using WinUI.Dock;
+﻿using Microsoft.UI;
+using WinUI.Dock;
 using WinUI.Dock.Enums;
 
 namespace UnoApp;
@@ -51,11 +52,14 @@ public sealed partial class MainWindow : Window
 
     private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
     {
-        e.TitleBar.Child = new TextBlock()
+        e.Window.Title = "Custom Window Title";
+
+        e.TitleBar.Background = new SolidColorBrush(Colors.LightGray);
+        e.TitleBar.Child = new TextBlock
         {
+            Text = "Custom Title Bar",
             HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center,
-            Text = "Custom Title"
+            VerticalAlignment = VerticalAlignment.Center
         };
     }
 }
