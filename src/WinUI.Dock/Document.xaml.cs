@@ -82,7 +82,7 @@ public partial class Document : DockModule
     {
         reader.ReadDockModuleProperties(this);
 
-        Title = reader[nameof(Title)].Deserialize<string>()!;
+        Title = reader[nameof(Title)].Deserialize<string>();
         CanPin = reader[nameof(CanPin)].Deserialize<bool>();
         CanClose = reader[nameof(CanClose)].Deserialize<bool>();
     }
