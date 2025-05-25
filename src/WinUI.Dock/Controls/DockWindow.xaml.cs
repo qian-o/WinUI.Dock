@@ -21,8 +21,6 @@ public sealed partial class DockWindow : Window
 
     internal void SaveLayout(JsonObject writer)
     {
-        writer["Title"] = AppWindow.Title;
-
         writer["Position"] = new JsonObject
         {
             ["X"] = AppWindow.Position.X,
@@ -43,8 +41,6 @@ public sealed partial class DockWindow : Window
 
     internal void LoadLayout(JsonObject reader)
     {
-        AppWindow.Title = reader["Title"]!.Deserialize<string>();
-
         AppWindow.Move(new()
         {
             X = reader["Position"]!.AsObject()["X"].Deserialize<int>(),
@@ -100,8 +96,6 @@ public sealed partial class DockWindow : Window
 
         if (document is not null)
         {
-            AppWindow.Title = document.ActualTitle;
-
             AppWindow.Resize(new()
             {
                 Width = (int)(double.IsNaN(document.DockWidth) ? 400 : document.DockWidth),
@@ -109,7 +103,7 @@ public sealed partial class DockWindow : Window
             });
         }
 
-        manager.InvokeCreateNewWindow(TitleBar);
+        manager.InvokeCreateNewWindow(AppWindow, TitleBar);
 
         DockWindowHelpers.AddWindow(manager, this);
     }

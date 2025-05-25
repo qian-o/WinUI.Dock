@@ -23,7 +23,8 @@
 
             <Border x:Name="TitleBar"
                     Grid.Row="0"
-                    Height="32" />
+                    Height="32"
+                    IsHitTestVisible="False" />
         </Grid>
 
         <dock:LayoutPanel x:Name="Panel"

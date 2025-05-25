@@ -53,6 +53,7 @@ public sealed partial class MainWindow : Window
 
     private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
     {
+        e.Window.Title = "Custom Window Title";
         e.TitleBar.Child = new TextBlock()
         {
             HorizontalAlignment = HorizontalAlignment.Center,

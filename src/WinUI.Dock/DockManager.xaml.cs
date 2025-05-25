@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Microsoft.UI.Windowing;
 using WinUI.Dock.Abstracts;
 using WinUI.Dock.Controls;
 using WinUI.Dock.Enums;
@@ -13,7 +14,7 @@ public record CreateNewDocumentEventArgs(string Title, Document Document);
 
 public record CreateNewGroupEventArgs(string Title, DocumentGroup Group);
 
-public record CreateNewWindowEventArgs(Border TitleBar);
+public record CreateNewWindowEventArgs(AppWindow Window, Border TitleBar);
 
 public record ActiveDocumentChangedEventArgs(Document? OldDocument, Document? NewDocument);
 
@@ -350,9 +351,9 @@ public partial class DockManager : Control
         CreateNewGroup?.Invoke(this, new CreateNewGroupEventArgs(title, group));
     }
 
-    internal void InvokeCreateNewWindow(Border titleBar)
+    internal void InvokeCreateNewWindow(AppWindow window, Border titleBar)
     {
-        CreateNewWindow?.Invoke(this, new CreateNewWindowEventArgs(titleBar));
+        CreateNewWindow?.Invoke(this, new CreateNewWindowEventArgs(window, titleBar));
     }
 
     private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
