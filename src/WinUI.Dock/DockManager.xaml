@@ -51,29 +51,29 @@
                         -->
                         <communityToolkit:GridSplitter Visibility="Collapsed" />
 
-                        <controls:Sidebar Grid.Row="1"
+                        <controls:Sidebar x:Name="PART_LeftSidebar"
+                                          Grid.Row="1"
                                           Grid.Column="0"
                                           DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                          DockSide="Left"
-                                          Documents="{Binding LeftSide, RelativeSource={RelativeSource TemplatedParent}}" />
+                                          DockSide="Left" />
 
-                        <controls:Sidebar Grid.Row="0"
+                        <controls:Sidebar x:Name="PART_TopSidebar"
+                                          Grid.Row="0"
                                           Grid.Column="1"
                                           DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                          DockSide="Top"
-                                          Documents="{Binding TopSide, RelativeSource={RelativeSource TemplatedParent}}" />
+                                          DockSide="Top" />
 
-                        <controls:Sidebar Grid.Row="1"
+                        <controls:Sidebar x:Name="PART_RightSidebar"
+                                          Grid.Row="1"
                                           Grid.Column="2"
                                           DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                          DockSide="Right"
-                                          Documents="{Binding RightSide, RelativeSource={RelativeSource TemplatedParent}}" />
+                                          DockSide="Right" />
 
-                        <controls:Sidebar Grid.Row="2"
+                        <controls:Sidebar x:Name="PART_BottomSidebar"
+                                          Grid.Row="2"
                                           Grid.Column="1"
                                           DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                          DockSide="Bottom"
-                                          Documents="{Binding BottomSide, RelativeSource={RelativeSource TemplatedParent}}" />
+                                          DockSide="Bottom" />
 
                         <ContentPresenter Grid.Row="1"
                                           Grid.Column="1"

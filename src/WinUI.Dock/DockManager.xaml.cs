@@ -19,6 +19,10 @@ public record CreateNewWindowEventArgs(AppWindow Window, Border TitleBar);
 public record ActiveDocumentChangedEventArgs(Document? OldDocument, Document? NewDocument);
 
 [ContentProperty(Name = nameof(Panel))]
+[TemplatePart(Name = "PART_LeftSidebar", Type = typeof(Sidebar))]
+[TemplatePart(Name = "PART_TopSidebar", Type = typeof(Sidebar))]
+[TemplatePart(Name = "PART_RightSidebar", Type = typeof(Sidebar))]
+[TemplatePart(Name = "PART_BottomSidebar", Type = typeof(Sidebar))]
 [TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
 [TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
 public partial class DockManager : Control
@@ -200,6 +204,26 @@ public partial class DockManager : Control
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        if (GetTemplateChild("PART_LeftSidebar") is Sidebar left)
+        {
+            left.Documents = LeftSide;
+        }
+
+        if (GetTemplateChild("PART_TopSidebar") is Sidebar top)
+        {
+            top.Documents = TopSide;
+        }
+
+        if (GetTemplateChild("PART_RightSidebar") is Sidebar right)
+        {
+            right.Documents = RightSide;
+        }
+
+        if (GetTemplateChild("PART_BottomSidebar") is Sidebar bottom)
+        {
+            bottom.Documents = BottomSide;
+        }
 
         PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
 

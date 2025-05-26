@@ -7,6 +7,19 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
 
+    <Choose>
+        <When Condition="'$(Configuration)' == 'Debug'">
+            <PropertyGroup>
+                <PublishAot>false</PublishAot>
+            </PropertyGroup>
+        </When>
+        <Otherwise>
+            <PropertyGroup>
+                <PublishAot>true</PublishAot>
+            </PropertyGroup>
+        </Otherwise>
+    </Choose>
+
     <ItemGroup>
         <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
     </ItemGroup>

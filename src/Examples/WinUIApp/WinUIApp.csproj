@@ -17,14 +17,12 @@
     <Choose>
         <When Condition="'$(Configuration)' == 'Debug'">
             <PropertyGroup>
-                <PublishTrimmed>false</PublishTrimmed>
-                <PublishReadyToRun>false</PublishReadyToRun>
+                <PublishAot>false</PublishAot>
             </PropertyGroup>
         </When>
         <Otherwise>
             <PropertyGroup>
-                <PublishTrimmed>true</PublishTrimmed>
-                <PublishReadyToRun>true</PublishReadyToRun>
+                <PublishAot>true</PublishAot>
             </PropertyGroup>
         </Otherwise>
     </Choose>

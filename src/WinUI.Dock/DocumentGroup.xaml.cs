@@ -77,6 +77,13 @@ public partial class DocumentGroup : DockContainer
 
         if (root is not null)
         {
+            root.SetBinding(TabView.SelectedIndexProperty, new Binding()
+            {
+                Source = this,
+                Path = new(nameof(SelectedIndex)),
+                Mode = BindingMode.TwoWay
+            });
+
             root.Loaded += (_, _) => UpdateVisualState();
         }
     }

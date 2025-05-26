@@ -54,10 +54,10 @@ LayoutPanel.xaml
                             to ensure the style of GridSplitter is displayed correctly.
                         -->
             <communityToolkit:GridSplitter Visibility="Collapsed" />
-            <controls:Sidebar Grid.Row="1" Grid.Column="0" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Left" Documents="{Binding LeftSide, RelativeSource={RelativeSource TemplatedParent}}" />
-            <controls:Sidebar Grid.Row="0" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Top" Documents="{Binding TopSide, RelativeSource={RelativeSource TemplatedParent}}" />
-            <controls:Sidebar Grid.Row="1" Grid.Column="2" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Right" Documents="{Binding RightSide, RelativeSource={RelativeSource TemplatedParent}}" />
-            <controls:Sidebar Grid.Row="2" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Bottom" Documents="{Binding BottomSide, RelativeSource={RelativeSource TemplatedParent}}" />
+            <controls:Sidebar x:Name="PART_LeftSidebar" Grid.Row="1" Grid.Column="0" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Left" />
+            <controls:Sidebar x:Name="PART_TopSidebar" Grid.Row="0" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Top" />
+            <controls:Sidebar x:Name="PART_RightSidebar" Grid.Row="1" Grid.Column="2" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Right" />
+            <controls:Sidebar x:Name="PART_BottomSidebar" Grid.Row="2" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Bottom" />
             <ContentPresenter Grid.Row="1" Grid.Column="1" Content="{TemplateBinding Panel}" />
             <Border x:Name="PART_PopupContainer" Grid.Row="1" Grid.Column="1" />
             <Grid x:Name="DockTargets" Grid.Row="1" Grid.Column="1" Visibility="Collapsed">
@@ -150,7 +150,7 @@ LayoutPanel.xaml
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource ActiveTabViewStyle}">
+            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" Style="{StaticResource ActiveTabViewStyle}">
               <TabView.RenderTransform>
                 <ScaleTransform x:Name="Scale" />
               </TabView.RenderTransform>
