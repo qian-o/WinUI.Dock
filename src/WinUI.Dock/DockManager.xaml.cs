@@ -20,7 +20,7 @@ public record ActiveDocumentChangedEventArgs(Document? OldDocument, Document? Ne
 
 [ContentProperty(Name = nameof(Panel))]
 [TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
-[TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
+[TemplatePart(Name = "PART_Preview", Type = typeof(Preview))]
 public partial class DockManager : Control
 {
     public static readonly DependencyProperty PanelProperty = DependencyProperty.Register(nameof(Panel),
@@ -38,7 +38,7 @@ public partial class DockManager : Control
                                                                                                  typeof(DockManager),
                                                                                                  new PropertyMetadata(null));
 
-    private AnimationPreview? preview;
+    private Preview? preview;
 
     public DockManager()
     {
@@ -203,7 +203,7 @@ public partial class DockManager : Control
 
         PopupContainer = GetTemplateChild("PART_PopupContainer") as Border;
 
-        preview = GetTemplateChild("PART_Preview") as AnimationPreview;
+        preview = GetTemplateChild("PART_Preview") as Preview;
     }
 
     protected override void OnDragEnter(DragEventArgs e)
@@ -227,56 +227,44 @@ public partial class DockManager : Control
 
     internal void ShowDockPreview(Document document, DockTarget dockTarget)
     {
-        if (preview is null)
-        {
-            return;
-        }
-
-        preview.Visibility = Visibility.Visible;
-
         switch (dockTarget)
         {
             case DockTarget.Center:
-                preview.Show(double.NaN,
-                             double.NaN,
-                             HorizontalAlignment.Stretch,
-                             VerticalAlignment.Stretch);
+                preview?.Show(double.NaN,
+                              double.NaN,
+                              HorizontalAlignment.Stretch,
+                              VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockLeft:
-                preview.Show(Panel!.CalculateWidth(document, false),
-                             double.NaN,
-                             HorizontalAlignment.Left,
-                             VerticalAlignment.Stretch);
+                preview?.Show(Panel!.CalculateWidth(document, false),
+                              double.NaN,
+                              HorizontalAlignment.Left,
+                              VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockTop:
-                preview.Show(double.NaN,
-                             Panel!.CalculateHeight(document, false),
-                             HorizontalAlignment.Stretch,
-                             VerticalAlignment.Top);
+                preview?.Show(double.NaN,
+                              Panel!.CalculateHeight(document, false),
+                              HorizontalAlignment.Stretch,
+                              VerticalAlignment.Top);
                 break;
             case DockTarget.DockRight:
-                preview.Show(Panel!.CalculateWidth(document, false),
-                             double.NaN,
-                             HorizontalAlignment.Right,
-                             VerticalAlignment.Stretch);
+                preview?.Show(Panel!.CalculateWidth(document, false),
+                              double.NaN,
+                              HorizontalAlignment.Right,
+                              VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockBottom:
-                preview.Show(double.NaN,
-                             Panel!.CalculateHeight(document, false),
-                             HorizontalAlignment.Stretch,
-                             VerticalAlignment.Bottom);
+                preview?.Show(double.NaN,
+                              Panel!.CalculateHeight(document, false),
+                              HorizontalAlignment.Stretch,
+                              VerticalAlignment.Bottom);
                 break;
         }
     }
 
     internal void HideDockPreview()
     {
-        if (preview is null)
-        {
-            return;
-        }
-
-        preview.Visibility = Visibility.Collapsed;
+        preview?.Hide();
     }
 
     internal void Dock(Document document, DockTarget target)

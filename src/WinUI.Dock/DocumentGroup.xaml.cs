@@ -9,7 +9,7 @@ using WinUI.Dock.Helpers;
 namespace WinUI.Dock;
 
 [TemplatePart(Name = "PART_Root", Type = typeof(TabView))]
-[TemplatePart(Name = "PART_Preview", Type = typeof(AnimationPreview))]
+[TemplatePart(Name = "PART_Preview", Type = typeof(Preview))]
 public partial class DocumentGroup : DockContainer
 {
     public static readonly DependencyProperty TabPositionProperty = DependencyProperty.Register(nameof(TabPosition),
@@ -28,7 +28,7 @@ public partial class DocumentGroup : DockContainer
                                                                                                   new PropertyMetadata(-1));
 
     private TabView? root;
-    private AnimationPreview? preview;
+    private Preview? preview;
 
     public DocumentGroup()
     {
@@ -73,7 +73,7 @@ public partial class DocumentGroup : DockContainer
     protected override void InitTemplate()
     {
         root = GetTemplateChild("PART_Root") as TabView;
-        preview = GetTemplateChild("PART_Preview") as AnimationPreview;
+        preview = GetTemplateChild("PART_Preview") as Preview;
 
         if (root is not null)
         {
@@ -150,56 +150,44 @@ public partial class DocumentGroup : DockContainer
 
     internal void ShowDockPreview(DockTarget dockTarget)
     {
-        if (preview is null)
-        {
-            return;
-        }
-
-        preview.Visibility = Visibility.Visible;
-
         switch (dockTarget)
         {
             case DockTarget.Center:
-                preview.Show(double.NaN,
-                             double.NaN,
-                             HorizontalAlignment.Stretch,
-                             VerticalAlignment.Stretch);
+                preview?.Show(double.NaN,
+                              double.NaN,
+                              HorizontalAlignment.Stretch,
+                              VerticalAlignment.Stretch);
                 break;
             case DockTarget.SplitLeft:
-                preview.Show(ActualWidth / 2,
-                             double.NaN,
-                             HorizontalAlignment.Left,
-                             VerticalAlignment.Stretch);
+                preview?.Show(ActualWidth / 2,
+                              double.NaN,
+                              HorizontalAlignment.Left,
+                              VerticalAlignment.Stretch);
                 break;
             case DockTarget.SplitTop:
-                preview.Show(double.NaN,
-                             ActualHeight / 2,
-                             HorizontalAlignment.Stretch,
-                             VerticalAlignment.Top);
+                preview?.Show(double.NaN,
+                              ActualHeight / 2,
+                              HorizontalAlignment.Stretch,
+                              VerticalAlignment.Top);
                 break;
             case DockTarget.SplitRight:
-                preview.Show(ActualWidth / 2,
-                             double.NaN,
-                             HorizontalAlignment.Right,
-                             VerticalAlignment.Stretch);
+                preview?.Show(ActualWidth / 2,
+                              double.NaN,
+                              HorizontalAlignment.Right,
+                              VerticalAlignment.Stretch);
                 break;
             case DockTarget.SplitBottom:
-                preview.Show(double.NaN,
-                             ActualHeight / 2,
-                             HorizontalAlignment.Stretch,
-                             VerticalAlignment.Bottom);
+                preview?.Show(double.NaN,
+                              ActualHeight / 2,
+                              HorizontalAlignment.Stretch,
+                              VerticalAlignment.Bottom);
                 break;
         }
     }
 
     internal void HideDockPreview()
     {
-        if (preview is null)
-        {
-            return;
-        }
-
-        preview.Visibility = Visibility.Collapsed;
+        preview?.Hide();
     }
 
     internal void Dock(Document document, DockTarget dockTarget)

@@ -131,8 +131,8 @@
                             </Grid>
                         </Grid>
 
-                        <controls:AnimationPreview x:Name="PART_Preview"
-                                                   Visibility="Collapsed" />
+                        <controls:Preview x:Name="PART_Preview"
+                                          Visibility="Collapsed" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
