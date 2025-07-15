@@ -365,17 +365,14 @@ public partial class DockManager : Control
 
     private static void OnPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is DockManager manager)
+        if (e.OldValue is LayoutPanel oldPanel)
         {
-            if (e.OldValue is LayoutPanel oldPanel)
-            {
-                oldPanel.Root = null;
-            }
+            oldPanel.Root = null;
+        }
 
-            if (e.NewValue is LayoutPanel newPanel)
-            {
-                newPanel.Root = manager;
-            }
+        if (e.NewValue is LayoutPanel newPanel)
+        {
+            newPanel.Root = (DockManager)d;
         }
     }
 
