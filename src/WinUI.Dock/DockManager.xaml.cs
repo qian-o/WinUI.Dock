@@ -381,9 +381,8 @@ public partial class DockManager : Control
 
     private static void OnActiveDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is DockManager manager)
-        {
-            manager.ActiveDocumentChanged?.Invoke(manager, new ActiveDocumentChangedEventArgs(e.OldValue as Document, e.NewValue as Document));
-        }
+        DockManager manager = (DockManager)d;
+
+        manager.ActiveDocumentChanged?.Invoke(manager, new ActiveDocumentChangedEventArgs(e.OldValue as Document, e.NewValue as Document));
     }
 }
