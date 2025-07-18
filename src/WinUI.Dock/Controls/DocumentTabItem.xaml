@@ -6,8 +6,7 @@
              CanDrag="True"
              DragStarting="OnDragStarting"
              DropCompleted="OnDropCompleted"
-             IsClosable="False"
-             Style="{StaticResource ActiveTabViewItemStyle}">
+             IsClosable="False">
     <TabViewItem.Header>
         <Grid RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>

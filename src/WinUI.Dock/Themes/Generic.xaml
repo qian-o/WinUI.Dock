@@ -85,6 +85,15 @@ LayoutPanel.xaml
       </Setter.Value>
     </Setter>
   </Style>
+  <Style TargetType="dock:LayoutPanel">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="dock:LayoutPanel">
+          <Grid x:Name="PART_Root" ColumnSpacing="12" RowSpacing="12" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
   <Style TargetType="dock:DocumentGroup">
     <Setter Property="AllowDrop" Value="True" />
     <Setter Property="Template">
@@ -141,7 +150,7 @@ LayoutPanel.xaml
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource DocumentGroup_TabViewStyle}">
               <TabView.RenderTransform>
                 <ScaleTransform x:Name="Scale" />
               </TabView.RenderTransform>
@@ -168,15 +177,6 @@ LayoutPanel.xaml
             </Grid>
             <controls:Preview x:Name="PART_Preview" Visibility="Collapsed" />
           </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
-  <Style TargetType="dock:LayoutPanel">
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="dock:LayoutPanel">
-          <Grid x:Name="PART_Root" ColumnSpacing="12" RowSpacing="12" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>

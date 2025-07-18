@@ -4,6 +4,18 @@
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
+    <Style x:Key="DocumentGroup_TabViewStyle"
+           TargetType="TabView">
+        <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
+        <Setter Property="CanDragTabs" Value="True" />
+        <Setter Property="CanReorderTabs" Value="False" />
+        <Setter Property="IsAddTabButtonVisible" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="KeyboardAcceleratorPlacementMode" Value="Hidden" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
     <Style x:Key="PreviewStyle"
            TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource DockThemeBrush}" />
