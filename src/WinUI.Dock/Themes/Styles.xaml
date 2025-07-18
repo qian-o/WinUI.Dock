@@ -13,6 +13,41 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="KeyboardAcceleratorPlacementMode" Value="Hidden" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabView">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid x:Name="TabContainerGrid"
+                              Grid.Row="0"
+                              XYFocusKeyboardNavigation="Enabled">
+
+                            <TabViewListView x:Name="TabListView"
+                                             Padding="{TemplateBinding Padding}"
+                                             HorizontalAlignment="Stretch"
+                                             AllowDrop="{TemplateBinding AllowDropTabs}"
+                                             BorderBrush="{TemplateBinding BorderBrush}"
+                                             CanDragItems="{TemplateBinding CanDragTabs}"
+                                             CanReorderItems="{TemplateBinding CanReorderTabs}"
+                                             ItemTemplate="{TemplateBinding TabItemTemplate}"
+                                             ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
+                                             ItemsSource="{TemplateBinding TabItemsSource}" />
+                        </Grid>
+
+                        <ContentPresenter x:Name="TabContentPresenter"
+                                          Grid.Row="1"
+                                          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="1,0,1,1"
+                                          CornerRadius="0,0,4,4" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
 

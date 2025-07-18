@@ -84,17 +84,9 @@ public sealed partial class DockWindow : Window
 
     private void InitializeWindow(DockManager manager, Document? document)
     {
+        ExtendsContentIntoTitleBar = true;
+
         Closed += (_, _) => DockWindowHelpers.RemoveWindow(manager, this);
-
-        OverlappedPresenter overlappedPresenter = OverlappedPresenter.Create();
-        overlappedPresenter.IsAlwaysOnTop = false;
-        overlappedPresenter.IsMaximizable = false;
-        overlappedPresenter.IsMinimizable =false;
-        overlappedPresenter.IsModal = false;
-        overlappedPresenter.IsResizable = false;
-        overlappedPresenter.SetBorderAndTitleBar(false, false);
-
-        AppWindow.SetPresenter(overlappedPresenter);
 
         AppWindow.Move(PointerHelpers.GetPointerPosition());
 

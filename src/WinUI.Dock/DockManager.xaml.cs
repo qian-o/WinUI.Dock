@@ -212,7 +212,7 @@ public partial class DockManager : Control
 
         ParentWindow?.Activate();
 
-        if (e.DataView.Contains(DragDropHelpers.FormatId))
+        if (e.DataView.Contains(DragDropHelpers.DocumentId))
         {
             VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
         }

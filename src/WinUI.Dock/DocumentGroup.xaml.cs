@@ -57,7 +57,7 @@ public partial class DocumentGroup : DockContainer
     {
         base.OnDragEnter(e);
 
-        if (e.DataView.Contains(DragDropHelpers.FormatId))
+        if (e.DataView.Contains(DragDropHelpers.DocumentId))
         {
             VisualStateManager.GoToState(this, "ShowDockTargets", false);
         }
@@ -259,28 +259,6 @@ public partial class DocumentGroup : DockContainer
             }
 
             owner.Children.Insert(index, panel);
-        }
-    }
-
-    internal void TryReorder(DocumentTabItem tabItem, Document document)
-    {
-        VisualStateManager.GoToState(this, "HideDockTargets", false);
-
-        if (Children.Count is 1)
-        {
-            return;
-        }
-
-        int index1 = root!.TabItems.IndexOf(tabItem);
-        int index2 = Children.IndexOf(document);
-
-        if (index1 != index2)
-        {
-            IsListening = false;
-
-            Children.Move(index2, index1);
-
-            IsListening = true;
         }
     }
 

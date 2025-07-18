@@ -11,7 +11,7 @@ namespace WinUI.Dock.Controls;
 public sealed partial class DocumentTabItem : TabViewItem
 {
     private string state = string.Empty;
-    private string dragKey = string.Empty;
+    private string documentKey = string.Empty;
 
     public DocumentTabItem(Document document)
     {
@@ -92,34 +92,19 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
-
-        Document!.Detach();
+        args.Data.SetData(DragDropHelpers.DocumentId, documentKey = DragDropHelpers.GetDocumentKey(Document!));
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is DataPackageOperation.Move)
-        {
-            // If a move operation was performed but no action was taken,
-            // the current document may have been sorted or an invalid operation was performed.
-            if (Document is not null)
-            {
-                DocumentGroup group = (DocumentGroup)Document.Owner!;
-
-                group.TryReorder(this, Document);
-
-                Document.Root!.HideDockTargets();
-            }
-        }
-        else if (DragDropHelpers.GetDocument(dragKey) is Document document)
+        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(documentKey) is Document document)
         {
             DockWindow dockWindow = new(document.Root!, document);
 
             dockWindow.Activate();
         }
 
-        DragDropHelpers.RemoveDragKey(dragKey);
+        DragDropHelpers.RemoveDocumentKey(documentKey);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)
