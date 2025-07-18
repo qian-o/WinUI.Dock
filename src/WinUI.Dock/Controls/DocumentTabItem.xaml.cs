@@ -11,6 +11,7 @@ namespace WinUI.Dock.Controls;
 public sealed partial class DocumentTabItem : TabViewItem
 {
     private string state = string.Empty;
+    private string dockManagerKey = string.Empty;
     private string documentKey = string.Empty;
 
     public DocumentTabItem(Document document)
@@ -87,19 +88,27 @@ public sealed partial class DocumentTabItem : TabViewItem
     {
         base.OnPointerPressed(e);
 
-        Document!.Root!.ActiveDocument = Document;
+        if (Document is not null)
+        {
+            Document.Root!.ActiveDocument = Document;
+        }
     }
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
+        args.Data.SetData(DragDropHelpers.DockManagerId, dockManagerKey = DragDropHelpers.GetDockManagerKey(Document!.Root!));
         args.Data.SetData(DragDropHelpers.DocumentId, documentKey = DragDropHelpers.GetDocumentKey(Document!));
+
+        Document.Detach();
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(documentKey) is Document document)
+        if (args.DropResult is not DataPackageOperation.Move
+            && DragDropHelpers.GetDockManager(dockManagerKey) is DockManager dockManager
+            && DragDropHelpers.GetDocument(documentKey) is Document document)
         {
-            DockWindow dockWindow = new(document.Root!, document);
+            DockWindow dockWindow = new(dockManager, document);
 
             dockWindow.Activate();
         }
