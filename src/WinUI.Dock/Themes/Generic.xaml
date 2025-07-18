@@ -150,7 +150,7 @@ LayoutPanel.xaml
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource DocumentGroup_TabViewStyle}">
+            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource TabViewStyle}">
               <TabView.RenderTransform>
                 <ScaleTransform x:Name="Scale" />
               </TabView.RenderTransform>

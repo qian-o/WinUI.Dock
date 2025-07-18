@@ -4,7 +4,7 @@
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-    <Style x:Key="DocumentGroup_TabViewStyle"
+    <Style x:Key="TabViewStyle"
            TargetType="TabView">
         <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
         <Setter Property="CanDragTabs" Value="True" />
