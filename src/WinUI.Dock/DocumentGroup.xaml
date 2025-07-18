@@ -66,8 +66,7 @@
 
                         <TabView x:Name="PART_Root"
                                  RenderTransformOrigin="0.5,0.5"
-                                 SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                 Style="{StaticResource ActiveTabViewStyle}">
+                                 SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <TabView.RenderTransform>
                                 <ScaleTransform x:Name="Scale" />
                             </TabView.RenderTransform>
