@@ -20,7 +20,7 @@
                                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="1"
-                                          CornerRadius="4" />
+                                          CornerRadius="0,0,4,4" />
 
                         <Grid x:Name="TabContainerGrid"
                               Grid.Row="0"
@@ -28,13 +28,12 @@
                             <TabViewListView x:Name="TabListView"
                                              HorizontalAlignment="Stretch"
                                              AllowDrop="False"
-                                             BorderBrush="{TemplateBinding BorderBrush}"
+                                             BorderThickness="0"
                                              CanDragItems="True"
                                              CanReorderItems="False"
                                              ItemTemplate="{TemplateBinding TabItemTemplate}"
                                              ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
-                                             ItemsSource="{TemplateBinding TabItemsSource}"
-                                             Style="{StaticResource TabViewListView}" />
+                                             ItemsSource="{TemplateBinding TabItemsSource}" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>
@@ -42,8 +41,137 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TabViewListView"
-           TargetType="TabViewListView" />
+    <Style x:Key="TabViewItemStyle"
+           TargetType="TabViewItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabViewItem">
+                    <Grid x:Name="LayoutRoot"
+                          Padding="{TemplateBinding Padding}"
+                          UseLayoutRounding="False">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="LayoutRootScale" />
+                        </Grid.RenderTransform>
+
+                        <Border x:Name="BottomBorderLine"
+                                Grid.ColumnSpan="3"
+                                Height="1"
+                                VerticalAlignment="Bottom"
+                                Background="{TemplateBinding BorderBrush}" />
+
+                        <Path x:Name="LeftRadiusRenderArc"
+                              Width="4"
+                              Height="4"
+                              Margin="-4,0,0,0"
+                              VerticalAlignment="Bottom"
+                              x:Load="False"
+                              Data="M4 0C4 1.19469 3.47624 2.26706 2.64582 3H0C1.65685 3 3 1.65685 3 0H4Z"
+                              Fill="{TemplateBinding BorderBrush}"
+                              Visibility="Collapsed" />
+
+                        <Path x:Name="RightRadiusRenderArc"
+                              Grid.Column="2"
+                              Width="4"
+                              Height="4"
+                              Margin="0,0,-4,0"
+                              VerticalAlignment="Bottom"
+                              x:Load="False"
+                              Data="M0 0C0 1.19469 0.523755 2.26706 1.35418 3H4C2.34315 3 1 1.65685 1 0H0Z"
+                              Fill="{TemplateBinding BorderBrush}"
+                              Visibility="Collapsed" />
+
+                        <Canvas>
+                            <Path x:Name="SelectedBackgroundPath"
+                                  Grid.ColumnSpan="3"
+                                  Margin="-4,0"
+                                  VerticalAlignment="Bottom"
+                                  x:Load="False"
+                                  Data="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.TabGeometry}"
+                                  Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                                  Visibility="Collapsed" />
+                        </Canvas>
+
+                        <Border x:Name="TabSeparator"
+                                Grid.Column="1"
+                                Width="1"
+                                Margin="{ThemeResource TabViewItemSeparatorMargin}"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource TabViewItemSeparator}" />
+
+                        <Grid x:Name="TabDragVisualContainer"
+                              Grid.Column="1"
+                              Background="{ThemeResource TabViewItemHeaderDragBackground}"
+                              BorderBrush="{ThemeResource TabViewBorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              Visibility="Collapsed" />
+
+                        <Grid x:Name="TabContainer"
+                              Grid.Column="1"
+                              Padding="{ThemeResource TabViewItemHeaderPadding}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{ThemeResource TabViewItemBorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              Control.IsTemplateFocusTarget="True"
+                              CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"
+                              FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="IconColumn"
+                                                  Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Viewbox x:Name="IconBox"
+                                     MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
+                                     MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
+                                     Margin="{ThemeResource TabViewItemHeaderIconMargin}">
+                                <ContentControl x:Name="IconControl"
+                                                Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.IconElement}"
+                                                Foreground="{ThemeResource TabViewItemIconForeground}"
+                                                HighContrastAdjustment="None"
+                                                IsTabStop="False" />
+                            </Viewbox>
+
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Grid.Column="1"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content=""
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              FontSize="{ThemeResource TabViewItemHeaderFontSize}"
+                                              FontWeight="{TemplateBinding FontWeight}"
+                                              Foreground="{ThemeResource TabViewItemHeaderForeground}"
+                                              HighContrastAdjustment="None"
+                                              OpticalMarginAlignment="TrimSideBearings" />
+
+                            <Button x:Name="CloseButton"
+                                    Visibility="Collapsed" />
+                        </Grid>
+
+                        <Grid Grid.Column="1"
+                              Margin="{ThemeResource TabViewSelectedItemHeaderMargin}"
+                              IsHitTestVisible="False">
+                            <Grid x:Name="Overlay"
+                                  Margin="0,0,0,4"
+                                  Background="Transparent"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{ThemeResource TabViewSelectedItemBorderThickness}"
+                                  CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}"
+                                  Visibility="Collapsed" />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="PreviewStyle"
            TargetType="Border">
