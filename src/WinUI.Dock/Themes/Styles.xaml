@@ -89,6 +89,7 @@
 
     <Style x:Key="TabViewItemStyle"
            TargetType="TabViewItem">
+        <Setter Property="MinHeight" Value="{ThemeResource TabViewItemMinHeight}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabViewItem">
