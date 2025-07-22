@@ -41,8 +41,6 @@ internal static class DockWindowHelpers
             foreach (DockWindow window in value.Where(static item => item.IsEmpty).ToArray())
             {
                 window.Close();
-
-                value.Remove(window);
             }
         }
     }
@@ -51,12 +49,10 @@ internal static class DockWindowHelpers
     {
         if (windows.TryGetValue(manager, out List<DockWindow>? value))
         {
-            foreach (DockWindow window in value)
+            foreach (DockWindow window in value.ToArray())
             {
                 window.Close();
             }
-
-            windows.Remove(manager);
         }
     }
 }
