@@ -13,15 +13,11 @@
                             <VisualStateGroup x:Name="IsActive">
                                 <VisualState x:Name="Active">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource DockThemeBrush}" />
+                                        <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource ActiveDockBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
-                                <VisualState x:Name="Inactive">
-                                    <VisualState.Setters>
-                                        <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource TabViewBorderBrush}" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="Inactive" />
                             </VisualStateGroup>
 
                             <VisualStateGroup x:Name="TabPosition">

@@ -26,7 +26,7 @@
                         Width="4"
                         Height="16"
                         Margin="0,0,6,0"
-                        Background="{ThemeResource DockThemeBrush}"
+                        Background="{ThemeResource ActiveDockBrush}"
                         CornerRadius="2" />
 
                 <TextBlock VerticalAlignment="Center"
