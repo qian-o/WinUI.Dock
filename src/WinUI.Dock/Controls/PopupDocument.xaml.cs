@@ -128,14 +128,17 @@ public sealed partial class PopupDocument : UserControl
 
     private void Header_DropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(documentKey) is Document document)
+        if (DragDropHelpers.GetDocument(documentKey) is Document document)
         {
-            DockWindow dockWindow = new(Manager, document);
+            if (args.DropResult is not DataPackageOperation.Move)
+            {
+                DockWindow dockWindow = new(Manager, document);
 
-            dockWindow.Activate();
+                dockWindow.Activate();
+            }
+
+            DragDropHelpers.RemoveDocumentKey(documentKey);
         }
-
-        DragDropHelpers.RemoveDocumentKey(documentKey);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)

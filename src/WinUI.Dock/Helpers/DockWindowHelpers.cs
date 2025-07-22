@@ -34,11 +34,24 @@ internal static class DockWindowHelpers
         return windows.TryGetValue(manager, out List<DockWindow>? value) ? [.. value] : [];
     }
 
-    public static void CloseWindows(DockManager manager)
+    public static void CloseEmptyWindows(DockManager manager)
     {
         if (windows.TryGetValue(manager, out List<DockWindow>? value))
         {
-            foreach (DockWindow window in value.ToArray())
+            foreach (DockWindow window in value.Where(static item => item.IsEmpty).ToArray())
+            {
+                window.Close();
+
+                value.Remove(window);
+            }
+        }
+    }
+
+    public static void CloseAllWindows(DockManager manager)
+    {
+        if (windows.TryGetValue(manager, out List<DockWindow>? value))
+        {
+            foreach (DockWindow window in value)
             {
                 window.Close();
             }

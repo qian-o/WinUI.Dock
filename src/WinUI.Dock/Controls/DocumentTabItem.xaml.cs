@@ -84,16 +84,22 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move
-            && DragDropHelpers.GetDockManager(dockManagerKey) is DockManager dockManager
-            && DragDropHelpers.GetDocument(documentKey) is Document document)
+        if (DragDropHelpers.GetDockManager(dockManagerKey) is DockManager dockManager && DragDropHelpers.GetDocument(documentKey) is Document document)
         {
-            DockWindow dockWindow = new(dockManager, document);
+            // In multi-window drag-and-drop operations, if the original window closes prematurely,
+            // it may lead to incorrect handling of the drop result.
+            DockWindowHelpers.CloseEmptyWindows(dockManager);
 
-            dockWindow.Activate();
+            if (args.DropResult is not DataPackageOperation.Move)
+            {
+                DockWindow dockWindow = new(dockManager, document);
+
+                dockWindow.Activate();
+            }
+
+            DragDropHelpers.RemoveDockManagerKey(dockManagerKey);
+            DragDropHelpers.RemoveDocumentKey(documentKey);
         }
-
-        DragDropHelpers.RemoveDocumentKey(documentKey);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)

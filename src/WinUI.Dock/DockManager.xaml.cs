@@ -44,7 +44,7 @@ public partial class DockManager : Control
     {
         DefaultStyleKey = typeof(DockManager);
 
-        Unloaded += (_, _) => DockWindowHelpers.CloseWindows(this);
+        Unloaded += (_, _) => DockWindowHelpers.CloseAllWindows(this);
 
         LeftSide.CollectionChanged += OnSideCollectionChanged;
         TopSide.CollectionChanged += OnSideCollectionChanged;
@@ -96,7 +96,7 @@ public partial class DockManager : Control
         RightSide.Clear();
         BottomSide.Clear();
 
-        DockWindowHelpers.CloseWindows(this);
+        DockWindowHelpers.CloseAllWindows(this);
     }
 
     public string SaveLayout()
