@@ -8,41 +8,6 @@ WinUI.Dock is a docking control similar to Visual Studio, based on WinUI 3. Its 
 - [x] WinUI 3.0
 - [x] Uno Platform (partially available)
 
-## Control Introduction
-- **DockManager**: DockManager is the manager of the entire layout, responsible for managing all intermediate layouts, windows, and sidebars.
-    - **Panel**: Intermediate layout, its type is LayoutPanel.
-    - **ActiveDocument**: The currently active Document.
-    - **ParentWindow**: Parent window, used to activate when dragging a Document to the current window.
-    - **LeftSide, TopSide, RightSide, BottomSide**: Sidebars, their child items are of type Document.
-    - **CreateNewDocument**: Event triggered when restoring the layout.
-    - **CreateNewGroup**: Event triggered when dragging a Document to a specified target.
-    - **CreateNewWindow**: Event triggered when dragging a Document outside the window.
-    - **ActiveDocumentChanged**: Event triggered when the active Document changes.
-    - **ClearLayout, SaveLayout, LoadLayout**: Clear layout, save layout, load layout.
-
-- **Document**: Document.
-    - **Title**: Document title.
-    - **Content**: Document content.
-    - **CanPin**: Whether it can be pinned.
-    - **CanClose**: Whether it can be closed.
-
-- **DocumentGroup**: Document group.
-    - **Children**: Document group child items, their type is Document.
-    - **TabPosition**: Tab position.
-    - **IsTabWidthBasedOnContent**: Whether the tab width is based on content.
-    - **SelectedIndex**: Selected index.
-
-- **LayoutPanel**: Layout panel.
-    - **Children**: Layout panel child items, their type is LayoutPanel or DocumentGroup.
-    - **Orientation**: Layout orientation.
-
-- **Document, DocumentGroup, LayoutPanel**: Common properties.
-    - **Owner**: Owner, representing the parent.
-    - **Root**: Root node, representing the top-level DockManager.
-    - **DockMinWidth, DockMinHeight**: Minimum width, minimum height.
-    - **DockMaxWidth, DockMaxHeight**: Maximum width, maximum height.
-    - **DockWidth, DockHeight**: Width, height. (When in the intermediate layout, it will be allocated as a proportion, similar to Grid's RowDefinition and ColumnDefinition)
-
 ## Quick Start
 1. Install the NuGet package
 ```nuget
