@@ -1,5 +1,4 @@
-﻿using Microsoft.UI;
-using WinUI.Dock;
+﻿using WinUI.Dock;
 using WinUI.Dock.Enums;
 
 namespace UnoApp;
@@ -54,7 +53,6 @@ public sealed partial class MainWindow : Window
     {
         e.Window.Title = "Custom Window Title";
 
-        e.TitleBar.Background = new SolidColorBrush(Colors.LightGray);
         e.TitleBar.Child = new TextBlock
         {
             Text = "Custom Title Bar",

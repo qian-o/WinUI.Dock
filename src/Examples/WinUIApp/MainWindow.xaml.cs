@@ -1,7 +1,5 @@
-﻿using Microsoft.UI;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using WinUI.Dock;
 using WinUI.Dock.Enums;
 
@@ -57,7 +55,6 @@ public sealed partial class MainWindow : Window
     {
         e.Window.Title = "Custom Window Title";
 
-        e.TitleBar.Background = new SolidColorBrush(Colors.LightGray);
         e.TitleBar.Child = new TextBlock
         {
             Text = "Custom Title Bar",
