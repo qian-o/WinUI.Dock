@@ -89,9 +89,8 @@ public partial class Document : DockModule
 
     private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is Document document)
-        {
-            document.ActualTitle = document.Title.Split("##").LastOrDefault() ?? document.Title;
-        }
+        Document document = (Document)d;
+
+        document.ActualTitle = document.Title.Split("##").LastOrDefault() ?? document.Title;
     }
 }

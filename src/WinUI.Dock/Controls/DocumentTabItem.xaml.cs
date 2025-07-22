@@ -10,8 +10,8 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class DocumentTabItem : TabViewItem
 {
-    private string state = string.Empty;
-    private string dragKey = string.Empty;
+    private string dockManagerKey = string.Empty;
+    private string documentKey = string.Empty;
 
     public DocumentTabItem(Document document)
     {
@@ -41,15 +41,6 @@ public sealed partial class DocumentTabItem : TabViewItem
 
         HeaderOptions.Visibility = isBottom ? Visibility.Collapsed : Visibility.Visible;
         ContentOptions.Visibility = isBottom ? Visibility.Visible : Visibility.Collapsed;
-
-        if (Document!.Root!.ActiveDocument == Document)
-        {
-            VisualStateManager.GoToState(this, state = "Active", false);
-        }
-        else
-        {
-            VisualStateManager.GoToState(this, state = "Inactive", false);
-        }
     }
 
     public void Detach()
@@ -57,16 +48,6 @@ public sealed partial class DocumentTabItem : TabViewItem
         Document = null;
 
         Bindings.Update();
-    }
-
-    protected override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (!string.IsNullOrEmpty(state))
-        {
-            VisualStateManager.GoToState(this, state, false);
-        }
     }
 
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
@@ -87,37 +68,38 @@ public sealed partial class DocumentTabItem : TabViewItem
     {
         base.OnPointerPressed(e);
 
-        Document!.Root!.ActiveDocument = Document;
+        if (Document is not null)
+        {
+            Document.Root!.ActiveDocument = Document;
+        }
     }
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
+        args.Data.SetData(DragDropHelpers.DockManagerId, dockManagerKey = DragDropHelpers.GetDockManagerKey(Document!.Root!));
+        args.Data.SetData(DragDropHelpers.DocumentId, documentKey = DragDropHelpers.GetDocumentKey(Document!));
+
+        Document.Detach();
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is DataPackageOperation.Move)
+        if (DragDropHelpers.GetDockManager(dockManagerKey) is DockManager dockManager && DragDropHelpers.GetDocument(documentKey) is Document document)
         {
-            // If a move operation was performed but no action was taken,
-            // the current document may have been sorted or an invalid operation was performed.
-            if (Document is not null)
+            // In multi-window drag-and-drop operations, if the original window closes prematurely,
+            // it may lead to incorrect handling of the drop result.
+            DockWindowHelpers.CloseEmptyWindows(dockManager);
+
+            if (args.DropResult is not DataPackageOperation.Move)
             {
-                DocumentGroup group = (DocumentGroup)Document.Owner!;
+                DockWindow dockWindow = new(dockManager, document);
 
-                group.TryReorder(this, Document);
-
-                Document.Root!.HideDockTargets();
+                dockWindow.Activate();
             }
-        }
-        else if (DragDropHelpers.GetDocument(dragKey) is Document document)
-        {
-            DockWindow dockWindow = new(document.Root!, document);
 
-            dockWindow.Activate();
+            DragDropHelpers.RemoveDockManagerKey(dockManagerKey);
+            DragDropHelpers.RemoveDocumentKey(documentKey);
         }
-
-        DragDropHelpers.RemoveDragKey(dragKey);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)

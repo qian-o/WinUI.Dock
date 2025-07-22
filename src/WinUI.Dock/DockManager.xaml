@@ -114,10 +114,10 @@
                                                        Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
 
-                        <controls:AnimationPreview x:Name="PART_Preview"
-                                                   Grid.Row="1"
-                                                   Grid.Column="1"
-                                                   Visibility="Collapsed" />
+                        <controls:Preview x:Name="PART_Preview"
+                                          Grid.Row="1"
+                                          Grid.Column="1"
+                                          Visibility="Collapsed" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

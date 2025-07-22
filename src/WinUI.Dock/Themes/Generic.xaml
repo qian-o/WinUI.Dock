@@ -67,7 +67,7 @@ LayoutPanel.xaml
               <controls:DockTargetButton HorizontalAlignment="Right" VerticalAlignment="Center" DockTarget="DockRight" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
               <controls:DockTargetButton HorizontalAlignment="Center" VerticalAlignment="Bottom" DockTarget="DockBottom" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
             </Grid>
-            <controls:AnimationPreview x:Name="PART_Preview" Grid.Row="1" Grid.Column="1" Visibility="Collapsed" />
+            <controls:Preview x:Name="PART_Preview" Grid.Row="1" Grid.Column="1" Visibility="Collapsed" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
@@ -104,14 +104,10 @@ LayoutPanel.xaml
               <VisualStateGroup x:Name="IsActive">
                 <VisualState x:Name="Active">
                   <VisualState.Setters>
-                    <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource DockThemeBrush}" />
+                    <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource ActiveDockBrush}" />
                   </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="Inactive">
-                  <VisualState.Setters>
-                    <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource TabViewBorderBrush}" />
-                  </VisualState.Setters>
-                </VisualState>
+                <VisualState x:Name="Inactive" />
               </VisualStateGroup>
               <VisualStateGroup x:Name="TabPosition">
                 <VisualState x:Name="Top">
@@ -150,7 +146,7 @@ LayoutPanel.xaml
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <TabView x:Name="PART_Root" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource ActiveTabViewStyle}">
+            <TabView x:Name="PART_Root" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource TabViewStyle}">
               <TabView.RenderTransform>
                 <ScaleTransform x:Name="Scale" />
               </TabView.RenderTransform>
@@ -175,7 +171,7 @@ LayoutPanel.xaml
                 <controls:DockTargetButton Grid.Row="2" Grid.Column="1" Margin="2" DockTarget="SplitBottom" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
               </Grid>
             </Grid>
-            <controls:AnimationPreview x:Name="PART_Preview" Visibility="Collapsed" />
+            <controls:Preview x:Name="PART_Preview" Visibility="Collapsed" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>

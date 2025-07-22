@@ -9,7 +9,7 @@ public sealed partial class PopupDocument : UserControl
 {
     private readonly Popup popup;
 
-    private string dragKey = string.Empty;
+    private string documentKey = string.Empty;
 
     public PopupDocument(DockManager manager, DockSide dockSide, Document document)
     {
@@ -121,21 +121,24 @@ public sealed partial class PopupDocument : UserControl
 
     private void Header_DragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetData(DragDropHelpers.FormatId, dragKey = DragDropHelpers.GetDragKey(Document!));
+        args.Data.SetData(DragDropHelpers.DocumentId, documentKey = DragDropHelpers.GetDocumentKey(Document!));
 
         Detach(true);
     }
 
     private void Header_DropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (args.DropResult is not DataPackageOperation.Move && DragDropHelpers.GetDocument(dragKey) is Document document)
+        if (DragDropHelpers.GetDocument(documentKey) is Document document)
         {
-            DockWindow dockWindow = new(Manager, document);
+            if (args.DropResult is not DataPackageOperation.Move)
+            {
+                DockWindow dockWindow = new(Manager, document);
 
-            dockWindow.Activate();
+                dockWindow.Activate();
+            }
+
+            DragDropHelpers.RemoveDocumentKey(documentKey);
         }
-
-        DragDropHelpers.RemoveDragKey(dragKey);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)

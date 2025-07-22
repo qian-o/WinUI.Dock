@@ -19,6 +19,8 @@ public sealed partial class DockWindow : Window
         InitializeWindow(manager, document);
     }
 
+    public bool IsEmpty => Panel.Children.Count is 0;
+
     internal void SaveLayout(JsonObject writer)
     {
         writer["Position"] = new JsonObject
@@ -60,14 +62,6 @@ public sealed partial class DockWindow : Window
     {
         Panel.Root = manager;
 
-        Panel.Children.CollectionChanged += (sender, e) =>
-        {
-            if (Panel.Children.Count is 0)
-            {
-                Close();
-            }
-        };
-
         if (document is not null)
         {
             document.Detach();
@@ -84,13 +78,9 @@ public sealed partial class DockWindow : Window
 
     private void InitializeWindow(DockManager manager, Document? document)
     {
+        ExtendsContentIntoTitleBar = true;
+
         Closed += (_, _) => DockWindowHelpers.RemoveWindow(manager, this);
-
-        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-#if WINDOWS
-        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
-#endif
 
         AppWindow.Move(PointerHelpers.GetPointerPosition());
 

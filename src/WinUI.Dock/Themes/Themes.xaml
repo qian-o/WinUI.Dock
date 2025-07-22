@@ -1,19 +1,25 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="DockThemeBrush"
-                             Color="{ThemeResource SystemAccentColorLight1}" />
+            <SolidColorBrush x:Key="DefaultDockBrush"
+                             Color="{ThemeResource ControlStrokeColorDefault}" />
+            <SolidColorBrush x:Key="ActiveDockBrush"
+                             Color="{ThemeResource SystemAccentColorLight2}" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="DockThemeBrush"
+            <SolidColorBrush x:Key="DefaultDockBrush"
+                             Color="{ThemeResource ControlStrokeColorDefault}" />
+            <SolidColorBrush x:Key="ActiveDockBrush"
                              Color="{ThemeResource SystemAccentColorDark1}" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="DockThemeBrush"
+            <SolidColorBrush x:Key="DefaultDockBrush"
+                             Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="ActiveDockBrush"
                              Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>

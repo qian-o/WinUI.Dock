@@ -15,10 +15,6 @@ public partial class App : Application
     {
         MainWindow mainWindow = new();
 
-#if DEBUG
-        mainWindow.UseStudio();
-#endif
-
         mainWindow.Activate();
     }
 
