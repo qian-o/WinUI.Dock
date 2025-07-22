@@ -25,12 +25,7 @@ internal static class LayoutHelpers
 
     public static T Deserialize<T>(this JsonNode? node)
     {
-        if (node is null)
-        {
-            return default!;
-        }
-
-        return (T)node.Deserialize(typeof(T), SerializerContext)!;
+        return node is null ? default! : (T)node.Deserialize(typeof(T), SerializerContext)!;
     }
 
     public static string Path(this DockModule module)
