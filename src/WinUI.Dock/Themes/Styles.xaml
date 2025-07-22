@@ -4,6 +4,27 @@
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
+    <Style x:Key="TabViewListViewStyle"
+           TargetType="TabViewListView">
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabViewListView">
+                    <ScrollViewer>
+                        <ItemsPresenter x:Name="TabsItemsPresenter" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
     <Style x:Key="TabViewStyle"
            TargetType="TabView">
         <Setter Property="BorderBrush" Value="{ThemeResource DefaultDockBrush}" />
@@ -32,10 +53,12 @@
                                              Grid.Column="1"
                                              HorizontalAlignment="Left"
                                              AllowDrop="False"
+                                             BorderBrush="{TemplateBinding BorderBrush}"
                                              BorderThickness="0"
                                              ItemTemplate="{TemplateBinding TabItemTemplate}"
                                              ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
-                                             ItemsSource="{TemplateBinding TabItemsSource}" />
+                                             ItemsSource="{TemplateBinding TabItemsSource}"
+                                             Style="{StaticResource TabViewListViewStyle}" />
 
                             <Border Grid.Column="2"
                                     BorderBrush="{TemplateBinding BorderBrush}"
@@ -72,9 +95,21 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver" />
                                 <VisualState x:Name="Pressed" />
-                                <VisualState x:Name="Selected" />
-                                <VisualState x:Name="PointerOverSelected" />
-                                <VisualState x:Name="PressedSelected" />
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Target="BottomLine.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOverSelected">
+                                    <VisualState.Setters>
+                                        <Setter Target="BottomLine.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PressedSelected">
+                                    <VisualState.Setters>
+                                        <Setter Target="BottomLine.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
                             </VisualStateGroup>
 
                             <VisualStateGroup x:Name="IsActive">
@@ -85,10 +120,8 @@
 
                         <Border x:Name="BottomLine"
                                 Grid.ColumnSpan="3"
-                                Height="0"
-                                VerticalAlignment="Bottom"
-                                Background="{TemplateBinding BorderBrush}"
-                                Visibility="Collapsed" />
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0,0,0,1" />
 
                         <Path x:Name="LeftRadius"
                               Width="4"
