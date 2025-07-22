@@ -127,20 +127,6 @@
                                 VerticalAlignment="Bottom"
                                 Background="{TemplateBinding BorderBrush}" />
 
-                        <Border x:Name="Separator"
-                                Grid.Column="1"
-                                Width="1"
-                                Margin="{ThemeResource TabViewItemSeparatorMargin}"
-                                HorizontalAlignment="Right"
-                                Background="{ThemeResource TabViewItemSeparator}" />
-
-                        <Border x:Name="Indicator"
-                                Grid.Column="1"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="1,1,1,0"
-                                CornerRadius="4,4,0,0"
-                                Opacity="0" />
-
                         <ContentPresenter x:Name="ContentPresenter"
                                           Grid.Column="1"
                                           Padding="8,2,8,2"
@@ -153,6 +139,21 @@
                                           FontSize="{ThemeResource TabViewItemHeaderFontSize}"
                                           FontWeight="{TemplateBinding FontWeight}"
                                           Foreground="{ThemeResource TabViewItemHeaderForeground}" />
+
+                        <Grid Grid.Column="1"
+                              IsHitTestVisible="False">
+                            <Border x:Name="Separator"
+                                    Width="1"
+                                    Margin="{ThemeResource TabViewItemSeparatorMargin}"
+                                    HorizontalAlignment="Right"
+                                    Background="{ThemeResource TabViewItemSeparator}" />
+
+                            <Border x:Name="Indicator"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1,1,1,0"
+                                    CornerRadius="4,4,0,0"
+                                    Opacity="0" />
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
