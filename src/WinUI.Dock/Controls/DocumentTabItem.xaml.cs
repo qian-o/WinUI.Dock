@@ -10,7 +10,6 @@ namespace WinUI.Dock.Controls;
 
 public sealed partial class DocumentTabItem : TabViewItem
 {
-    private string state = string.Empty;
     private string dockManagerKey = string.Empty;
     private string documentKey = string.Empty;
 
@@ -42,15 +41,6 @@ public sealed partial class DocumentTabItem : TabViewItem
 
         HeaderOptions.Visibility = isBottom ? Visibility.Collapsed : Visibility.Visible;
         ContentOptions.Visibility = isBottom ? Visibility.Visible : Visibility.Collapsed;
-
-        if (Document!.Root!.ActiveDocument == Document)
-        {
-            VisualStateManager.GoToState(this, state = "Active", false);
-        }
-        else
-        {
-            VisualStateManager.GoToState(this, state = "Inactive", false);
-        }
     }
 
     public void Detach()
@@ -58,16 +48,6 @@ public sealed partial class DocumentTabItem : TabViewItem
         Document = null;
 
         Bindings.Update();
-    }
-
-    protected override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        if (!string.IsNullOrEmpty(state))
-        {
-            VisualStateManager.GoToState(this, state, false);
-        }
     }
 
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
