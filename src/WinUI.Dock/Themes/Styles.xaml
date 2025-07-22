@@ -50,10 +50,6 @@
 
                             <TabViewListView x:Name="TabListView"
                                              Grid.Column="1"
-                                             HorizontalAlignment="Stretch"
-                                             AllowDrop="False"
-                                             BorderBrush="Red"
-                                             BorderThickness="0"
                                              ItemTemplate="{TemplateBinding TabItemTemplate}"
                                              ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
                                              ItemsSource="{TemplateBinding TabItemsSource}">
@@ -103,7 +99,11 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="Container.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="Pressed" />
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
@@ -139,24 +139,28 @@
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource TabViewItemSeparator}" />
 
-                        <Grid Grid.Column="1"
-                              Background="Transparent">
-                            <Border x:Name="Indicator"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="1,1,1,0"
-                                    CornerRadius="4,4,0,0"
-                                    Opacity="0" />
+                        <Border x:Name="Container"
+                                Grid.Column="1"
+                                Background="Transparent"
+                                CornerRadius="4,4,0,0">
+                            <Grid>
+                                <Border x:Name="Indicator"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="1,1,1,0"
+                                        CornerRadius="4,4,0,0"
+                                        Opacity="0" />
 
-                            <ContentPresenter x:Name="ContentPresenter"
-                                              Padding="8,2,8,2"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                              ContentTransitions="{TemplateBinding ContentTransitions}"
-                                              FontSize="{ThemeResource TabViewItemHeaderFontSize}"
-                                              FontWeight="{TemplateBinding FontWeight}"
-                                              Foreground="{ThemeResource TabViewItemHeaderForeground}" />
-                        </Grid>
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  Padding="8,2,8,2"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                  FontSize="{ThemeResource TabViewItemHeaderFontSize}"
+                                                  FontWeight="{TemplateBinding FontWeight}"
+                                                  Foreground="{ThemeResource TabViewItemHeaderForeground}" />
+                            </Grid>
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
