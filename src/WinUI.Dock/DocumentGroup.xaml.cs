@@ -214,51 +214,71 @@ public partial class DocumentGroup : DockContainer
 
             int index = owner.Children.IndexOf(this);
 
-            Detach(false);
-
             DocumentGroup group = new();
             group.CopySizeFrom(this);
             group.Children.Add(document);
 
             root.InvokeCreateNewGroup(document.Title, group);
 
-            LayoutPanel panel = new();
-            panel.CopySizeFrom(this);
-            panel.Children.Add(group);
-
-            switch (dockTarget)
+            if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && owner.Orientation is Orientation.Horizontal)
+                || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && owner.Orientation is Orientation.Vertical))
             {
-                case DockTarget.SplitLeft:
-                    {
-                        panel.Orientation = Orientation.Horizontal;
-
-                        panel.Children.Add(this);
-                    }
-                    break;
-                case DockTarget.SplitTop:
-                    {
-                        panel.Orientation = Orientation.Vertical;
-
-                        panel.Children.Add(this);
-                    }
-                    break;
-                case DockTarget.SplitRight:
-                    {
-                        panel.Orientation = Orientation.Horizontal;
-
-                        panel.Children.Insert(0, this);
-                    }
-                    break;
-                case DockTarget.SplitBottom:
-                    {
-                        panel.Orientation = Orientation.Vertical;
-
-                        panel.Children.Insert(0, this);
-                    }
-                    break;
+                switch (dockTarget)
+                {
+                    case DockTarget.SplitLeft or DockTarget.SplitTop:
+                        {
+                            owner.Children.Insert(index, group);
+                        }
+                        break;
+                    case DockTarget.SplitRight or DockTarget.SplitBottom:
+                        {
+                            owner.Children.Insert(index + 1, group);
+                        }
+                        break;
+                }
             }
+            else
+            {
+                Detach(false);
 
-            owner.Children.Insert(index, panel);
+                LayoutPanel panel = new();
+                panel.CopySizeFrom(this);
+                panel.Children.Add(group);
+
+                switch (dockTarget)
+                {
+                    case DockTarget.SplitLeft:
+                        {
+                            panel.Orientation = Orientation.Horizontal;
+
+                            panel.Children.Add(this);
+                        }
+                        break;
+                    case DockTarget.SplitTop:
+                        {
+                            panel.Orientation = Orientation.Vertical;
+
+                            panel.Children.Add(this);
+                        }
+                        break;
+                    case DockTarget.SplitRight:
+                        {
+                            panel.Orientation = Orientation.Horizontal;
+
+                            panel.Children.Insert(0, this);
+                        }
+                        break;
+                    case DockTarget.SplitBottom:
+                        {
+                            panel.Orientation = Orientation.Vertical;
+
+                            panel.Children.Insert(0, this);
+                        }
+                        break;
+                }
+
+                owner.Children.Insert(index, panel);
+            }
         }
     }
 
