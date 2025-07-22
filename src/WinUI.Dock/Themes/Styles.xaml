@@ -65,6 +65,7 @@
 
                         <ContentPresenter x:Name="TabContentPresenter"
                                           Grid.Row="1"
+                                          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="1,0,1,1"
                                           CornerRadius="0,0,4,4" />
@@ -100,18 +101,21 @@
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
                                         <Setter Target="Indicator.Opacity" Value="1" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PointerOverSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
                                         <Setter Target="Indicator.Opacity" Value="1" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PressedSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
                                         <Setter Target="Indicator.Opacity" Value="1" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
