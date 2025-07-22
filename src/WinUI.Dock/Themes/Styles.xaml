@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabView">
-                    <Grid Background="{ThemeResource TabViewBackground}">
+                    <Grid Background="Transparent">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1*" />
@@ -65,7 +65,6 @@
 
                         <ContentPresenter x:Name="TabContentPresenter"
                                           Grid.Row="1"
-                                          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="1,0,1,1"
                                           CornerRadius="0,0,4,4" />
