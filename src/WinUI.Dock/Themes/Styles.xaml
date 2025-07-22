@@ -98,16 +98,19 @@
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Visibility" Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.BorderThickness" Value="1,1,1,0" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PointerOverSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Visibility" Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.BorderThickness" Value="1,1,1,0" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PressedSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Visibility" Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.BorderThickness" Value="1,1,1,0" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -123,25 +126,6 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="0,0,0,1" />
 
-                        <Path x:Name="LeftRadius"
-                              Width="4"
-                              Height="4"
-                              Margin="-4,0,0,0"
-                              VerticalAlignment="Bottom"
-                              Data="M4,0 C4,1.19,3.48,2.27,2.65,3 H0 C1.66,3,3,1.66,3,0 H4 Z"
-                              Fill="{TemplateBinding BorderBrush}"
-                              Visibility="Collapsed" />
-
-                        <Path x:Name="RightRadius"
-                              Grid.Column="2"
-                              Width="4"
-                              Height="4"
-                              Margin="0,0,-4,0"
-                              VerticalAlignment="Bottom"
-                              Data="M0,0 C0,1.19469,0.523755,2.26706,1.35418,3 H4 C2.34315,3,1,1.65685,1,0 H0 Z"
-                              Fill="{TemplateBinding BorderBrush}"
-                              Visibility="Collapsed" />
-
                         <Border x:Name="TabSeparator"
                                 Grid.Column="1"
                                 Width="1"
@@ -151,10 +135,14 @@
 
                         <ContentPresenter x:Name="ContentPresenter"
                                           Grid.Column="1"
+                                          Padding="6,2,6,2"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Background="Transparent"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           ContentTransitions="{TemplateBinding ContentTransitions}"
+                                          CornerRadius="4,4,0,0"
                                           FontSize="{ThemeResource TabViewItemHeaderFontSize}"
                                           FontWeight="{TemplateBinding FontWeight}"
                                           Foreground="{ThemeResource TabViewItemHeaderForeground}" />
