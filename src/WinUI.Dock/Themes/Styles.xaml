@@ -35,12 +35,16 @@
                         <Grid x:Name="TabContainerGrid"
                               Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition x:Name="LeftContentColumn"
+                                                  Width="Auto" />
+                                <ColumnDefinition x:Name="TabColumn"
+                                                  Width="Auto" />
+                                <ColumnDefinition x:Name="RightContentColumn"
+                                                  Width="1*" />
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0"
+                                    Width="4"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="0,0,0,1" />
 
@@ -143,7 +147,7 @@
                                     Opacity="0" />
 
                             <ContentPresenter x:Name="ContentPresenter"
-                                              Padding="6,2,6,2"
+                                              Padding="8,2,8,2"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}"
