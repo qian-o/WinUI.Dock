@@ -22,9 +22,9 @@
 
         <dock:DockManager x:Name="dockManager"
                           Grid.Row="1"
-                          CreateNewDocument="DockManager_CreateNewDocument"
-                          CreateNewGroup="DockManager_CreateNewGroup"
-                          CreateNewWindow="DockManager_CreateNewWindow"
+                          FillDocument="DockManager_FillDocument"
+                          NewGroup="DockManager_NewGroup"
+                          NewWindow="DockManager_NewWindow"
                           ParentWindow="{Binding ElementName=Main}">
             <dock:DockManager.LeftSide>
                 <dock:Document Title="Side##Left 1">

@@ -30,7 +30,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void DockManager_CreateNewDocument(object _, CreateNewDocumentEventArgs e)
+    private void DockManager_FillDocument(object _, FillDocumentEventArgs e)
     {
         e.Document.Content = new TextBlock()
         {
@@ -40,7 +40,7 @@ public sealed partial class MainWindow : Window
         };
     }
 
-    private void DockManager_CreateNewGroup(object _, CreateNewGroupEventArgs e)
+    private void DockManager_NewGroup(object _, NewGroupEventArgs e)
     {
         if (e.Title.Contains("Side"))
         {
@@ -49,7 +49,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void DockManager_CreateNewWindow(object _, CreateNewWindowEventArgs e)
+    private void DockManager_NewWindow(object _, NewWindowEventArgs e)
     {
         e.Window.Title = "Custom Window Title";
 

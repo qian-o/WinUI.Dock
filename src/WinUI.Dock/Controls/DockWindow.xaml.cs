@@ -93,7 +93,7 @@ public sealed partial class DockWindow : Window
             });
         }
 
-        manager.InvokeCreateNewWindow(AppWindow, TitleBar);
+        manager.InvokeNewWindow(AppWindow, TitleBar);
 
         DockWindowHelpers.AddWindow(manager, this);
     }

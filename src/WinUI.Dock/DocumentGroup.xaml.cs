@@ -218,7 +218,7 @@ public partial class DocumentGroup : DockContainer
             group.CopySizeFrom(this);
             group.Children.Add(document);
 
-            root.InvokeCreateNewGroup(document.Title, group);
+            root.InvokeNewGroup(document.Title, group);
 
             if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && owner.Orientation is Orientation.Horizontal)
                 || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && owner.Orientation is Orientation.Vertical))
