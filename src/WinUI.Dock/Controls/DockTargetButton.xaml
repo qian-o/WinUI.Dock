@@ -8,8 +8,8 @@
 
     <Border x:Name="Root"
             Padding="4"
-            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            Background="{ThemeResource DockFillDefaultBrush}"
+            BorderBrush="{ThemeResource DockStrokeDefaultBrush}"
             BorderThickness="1"
             CornerRadius="{StaticResource ControlCornerRadius}">
         <VisualStateManager.VisualStateGroups>
@@ -18,8 +18,8 @@
                     <VisualState.Setters>
                         <Setter Target="Root.Child">
                             <Setter.Value>
-                                <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource DockActiveBrush}"
+                                <Border Background="{ThemeResource DockFillDefaultBrush}"
+                                        BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                         BorderThickness="1,3,1,1"
                                         CornerRadius="2" />
                             </Setter.Value>
@@ -32,13 +32,13 @@
                         <Setter Target="Root.Child">
                             <Setter.Value>
                                 <Grid>
-                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                    <Border Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line HorizontalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource DockActiveBrush}"
+                                          Stroke="{ThemeResource DockStrokeActiveBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           Y2="1" />
@@ -53,13 +53,13 @@
                         <Setter Target="Root.Child">
                             <Setter.Value>
                                 <Grid>
-                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                    <Border Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line VerticalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource DockActiveBrush}"
+                                          Stroke="{ThemeResource DockStrokeActiveBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           X2="1" />
@@ -74,13 +74,13 @@
                         <Setter Target="Root.Child">
                             <Setter.Value>
                                 <Grid>
-                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                    <Border Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line HorizontalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource DockActiveBrush}"
+                                          Stroke="{ThemeResource DockStrokeActiveBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           Y2="1" />
@@ -95,13 +95,13 @@
                         <Setter Target="Root.Child">
                             <Setter.Value>
                                 <Grid>
-                                    <Border Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                    <Border Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                     <Line VerticalAlignment="Center"
                                           Stretch="Fill"
-                                          Stroke="{ThemeResource DockActiveBrush}"
+                                          Stroke="{ThemeResource DockStrokeActiveBrush}"
                                           StrokeDashArray="3,1"
                                           StrokeThickness="1"
                                           X2="1" />
@@ -122,8 +122,8 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Border Grid.Column="0"
-                                            Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                            Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
 
@@ -149,8 +149,8 @@
                                     </Grid.RowDefinitions>
 
                                     <Border Grid.Row="0"
-                                            Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                            Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
 
@@ -182,8 +182,8 @@
                                               Glyph="&#xF08F;" />
 
                                     <Border Grid.Column="1"
-                                            Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                            Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                 </Grid>
@@ -209,8 +209,8 @@
                                               Glyph="&#xF08E;" />
 
                                     <Border Grid.Row="1"
-                                            Background="{ThemeResource ControlFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource DockActiveBrush}"
+                                            Background="{ThemeResource DockFillDefaultBrush}"
+                                            BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                                             BorderThickness="1,3,1,1"
                                             CornerRadius="2" />
                                 </Grid>

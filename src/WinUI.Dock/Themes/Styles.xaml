@@ -6,7 +6,7 @@
 
     <Style x:Key="TabViewStyle"
            TargetType="TabView">
-        <Setter Property="BorderBrush" Value="{ThemeResource DockDefaultBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DockStrokeDefaultBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabView">
@@ -65,7 +65,7 @@
 
                         <ContentPresenter x:Name="TabContentPresenter"
                                           Grid.Row="1"
-                                          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                          Background="{ThemeResource DockFillDefaultBrush}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="1,0,1,1"
                                           CornerRadius="0,0,4,4" />
@@ -102,21 +102,21 @@
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
                                         <Setter Target="Indicator.Opacity" Value="1" />
-                                        <Setter Target="Indicator.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                                        <Setter Target="Indicator.Background" Value="{ThemeResource DockFillDefaultBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PointerOverSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
                                         <Setter Target="Indicator.Opacity" Value="1" />
-                                        <Setter Target="Indicator.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                                        <Setter Target="Indicator.Background" Value="{ThemeResource DockFillDefaultBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PressedSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
                                         <Setter Target="Indicator.Opacity" Value="1" />
-                                        <Setter Target="Indicator.Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                                        <Setter Target="Indicator.Background" Value="{ThemeResource DockFillDefaultBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -144,7 +144,7 @@
 
                         <ContentPresenter x:Name="ContentPresenter"
                                           Grid.Column="1"
-                                          Padding="8,2,8,2"
+                                          Padding="12,2,8,2"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Background="Transparent"
@@ -162,8 +162,8 @@
 
     <Style x:Key="PreviewStyle"
            TargetType="Border">
-        <Setter Property="Background" Value="{ThemeResource DockActiveBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+        <Setter Property="Background" Value="{ThemeResource DockStrokeActiveBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DockStrokeDefaultBrush}" />
         <Setter Property="BorderThickness" Value="4" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="IsHitTestVisible" Value="False" />
@@ -215,14 +215,14 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockActiveBrush}" />
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockActiveBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockStrokeActiveBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockStrokeActiveBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockActiveBrush}" />
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockActiveBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockStrokeActiveBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockStrokeActiveBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -232,7 +232,7 @@
                             <Border x:Name="Mark"
                                     Height="4"
                                     Margin="0,2,0,0"
-                                    Background="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                    Background="{ThemeResource DockStrokeDefaultBrush}"
                                     CornerRadius="2" />
                         </StackPanel>
                     </Border>
@@ -253,14 +253,14 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockActiveBrush}" />
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockActiveBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockStrokeActiveBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockStrokeActiveBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="Mark.Background" Value="{ThemeResource DockActiveBrush}" />
-                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockActiveBrush}" />
+                                        <Setter Target="Mark.Background" Value="{ThemeResource DockStrokeActiveBrush}" />
+                                        <Setter Target="Content.Foreground" Value="{ThemeResource DockStrokeActiveBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -269,7 +269,7 @@
                             <Border x:Name="Mark"
                                     Height="4"
                                     Margin="0,0,0,2"
-                                    Background="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                    Background="{ThemeResource DockStrokeDefaultBrush}"
                                     CornerRadius="2" />
                             <ContentPresenter x:Name="Content" />
                         </StackPanel>

@@ -7,11 +7,12 @@
 
     <Grid x:Name="Layout">
         <Border x:Name="Root"
-                Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
-                BorderBrush="{ThemeResource DockActiveBrush}"
+                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                BorderBrush="{ThemeResource DockStrokeActiveBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}">
-            <Grid>
+
+            <Grid Background="{ThemeResource DockFillDefaultBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -20,8 +21,8 @@
                 <Border Grid.Row="0"
                         Height="40"
                         Padding="4"
-                        Background="Transparent"
-                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        Background="{ThemeResource DockFillDefaultBrush}"
+                        BorderBrush="{ThemeResource DockStrokeDefaultBrush}"
                         BorderThickness="0,0,0,1"
                         CanDrag="True"
                         DragStarting="Header_DragStarting"
@@ -61,6 +62,7 @@
                                 VerticalContentAlignment="Stretch"
                                 Content="{x:Bind Document}" />
             </Grid>
+
         </Border>
 
         <controls:ContentSizer x:Name="Sizer"

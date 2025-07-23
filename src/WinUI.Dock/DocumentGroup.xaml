@@ -13,7 +13,7 @@
                             <VisualStateGroup x:Name="IsActive">
                                 <VisualState x:Name="Active">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource DockActiveBrush}" />
+                                        <Setter Target="PART_Root.BorderBrush" Value="{ThemeResource DockStrokeActiveBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
 
