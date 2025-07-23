@@ -3,24 +3,30 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="DefaultDockBrush"
-                             Color="{ThemeResource ControlStrokeColorDefault}" />
-            <SolidColorBrush x:Key="ActiveDockBrush"
-                             Color="{ThemeResource SystemAccentColorLight2}" />
+            <StaticResource x:Key="DockStrokeDefaultBrush"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="DockFillDefaultBrush"
+                            ResourceKey="ControlFillColorDefaultBrush" />
+            <StaticResource x:Key="DockStrokeActiveBrush"
+                            ResourceKey="SystemFillColorAttentionBrush" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="DefaultDockBrush"
-                             Color="{ThemeResource ControlStrokeColorDefault}" />
-            <SolidColorBrush x:Key="ActiveDockBrush"
-                             Color="{ThemeResource SystemAccentColorDark1}" />
+            <StaticResource x:Key="DockStrokeDefaultBrush"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="DockFillDefaultBrush"
+                            ResourceKey="ControlFillColorDefaultBrush" />
+            <StaticResource x:Key="DockStrokeActiveBrush"
+                            ResourceKey="SystemFillColorAttentionBrush" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="DefaultDockBrush"
-                             Color="{ThemeResource SystemColorButtonTextColor}" />
-            <SolidColorBrush x:Key="ActiveDockBrush"
-                             Color="{ThemeResource SystemColorWindowColor}" />
+            <StaticResource x:Key="DockStrokeDefaultBrush"
+                            ResourceKey="ControlStrokeColorDefaultBrush" />
+            <StaticResource x:Key="DockFillDefaultBrush"
+                            ResourceKey="ControlFillColorDefaultBrush" />
+            <StaticResource x:Key="DockStrokeActiveBrush"
+                            ResourceKey="SystemFillColorAttentionBrush" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
