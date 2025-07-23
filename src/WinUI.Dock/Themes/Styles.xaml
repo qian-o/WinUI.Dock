@@ -92,8 +92,7 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="Indicator.Opacity" Value="1" />
-                                        <Setter Target="Indicator.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed" />
