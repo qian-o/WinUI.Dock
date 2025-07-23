@@ -9,10 +9,13 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--<SolidColorBrush x:Key="DockStrokeDefaultBrush"
-                             Color="Blue" />
+                             Color="Red" />
+
+            <SolidColorBrush x:Key="ControlFillColorDefaultBrush"
+                             Color="Green" />
 
             <SolidColorBrush x:Key="DockStrokeActiveBrush"
-                             Color="Red" />-->
+                             Color="Blue" />-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
