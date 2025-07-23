@@ -18,17 +18,15 @@
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="IsSingleView">
+                                <VisualState x:Name="NormalView" />
                                 <VisualState x:Name="SingleView">
                                     <VisualState.Setters>
-                                        <Setter Target="TabContainerGrid.Opacity" Value="0.0" />
+                                        <Setter Target="TabContainerGrid.Height" Value="0" />
                                         <Setter Target="TabContainerGrid.IsHitTestVisible" Value="False" />
-                                        <Setter Target="TabContentPresenter.(Grid.Row)" Value="0" />
-                                        <Setter Target="TabContentPresenter.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="TabContentPresenter.BorderThickness" Value="1" />
                                         <Setter Target="TabContentPresenter.CornerRadius" Value="4" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="NormalView" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
