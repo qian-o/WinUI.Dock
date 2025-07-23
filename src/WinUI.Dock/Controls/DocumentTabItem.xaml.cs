@@ -92,9 +92,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
             if (args.DropResult is not DataPackageOperation.Move)
             {
-                DockWindow dockWindow = new(dockManager, document);
-
-                dockWindow.Activate();
+                new DockWindow(dockManager, document).Activate();
             }
 
             DragDropHelpers.RemoveDockManagerKey(dockManagerKey);
