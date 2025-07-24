@@ -141,7 +141,6 @@
 
                         <ContentPresenter x:Name="ContentPresenter"
                                           Grid.Column="1"
-                                          Padding="12,2,8,2"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Background="Transparent"

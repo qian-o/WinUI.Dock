@@ -10,6 +10,7 @@
              Style="{StaticResource TabViewItemStyle}">
     <TabViewItem.Header>
         <Grid x:Name="Tab"
+              Padding="12,2,8,2"
               RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <ScaleTransform x:Name="HeaderScale" />
