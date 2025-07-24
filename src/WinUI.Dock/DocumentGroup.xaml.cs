@@ -78,6 +78,7 @@ public partial class DocumentGroup : DockContainer
         if (root is not null)
         {
             root.Loaded += (_, _) => UpdateVisualState();
+            root.SizeChanged += (_, _) => UpdateTabWidths();
         }
     }
 
@@ -327,7 +328,35 @@ public partial class DocumentGroup : DockContainer
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
-            tabItem.UpdateVisualState(TabPosition, UseCompactTabs);
+            tabItem.UpdateVisualState(TabPosition);
+        }
+    }
+
+    private void UpdateTabWidths()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        if (UseCompactTabs)
+        {
+            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+            {
+                tabItem.TabWidth = double.NaN;
+            }
+        }
+        else
+        {
+            const double minTabWidth = 48.0;
+            const double maxTabWidth = 200.0;
+
+            double tabWidth = Math.Clamp(root.ActualWidth / Children.Count, minTabWidth, maxTabWidth);
+
+            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+            {
+                tabItem.TabWidth = tabWidth;
+            }
         }
     }
 
@@ -343,6 +372,6 @@ public partial class DocumentGroup : DockContainer
 
     private static void OnUseCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((DocumentGroup)d).UpdateVisualState();
+        ((DocumentGroup)d).UpdateTabWidths();
     }
 }
