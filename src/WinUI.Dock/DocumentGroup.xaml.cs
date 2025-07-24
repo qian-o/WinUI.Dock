@@ -112,6 +112,7 @@ public partial class DocumentGroup : DockContainer
         }
 
         UpdateVisualState();
+        UpdateTabWidths();
     }
 
     protected override void UnloadChildren()
