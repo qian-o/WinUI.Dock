@@ -317,7 +317,6 @@ public partial class DocumentGroup : DockContainer
         }
 
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);
-        VisualStateManager.GoToState(this, UseCompactTabs ? "TabWidthCompact" : "TabWidthEqual", false);
 
         if (root is null)
         {
@@ -335,7 +334,7 @@ public partial class DocumentGroup : DockContainer
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
-            tabItem.UpdateVisualState(TabPosition);
+            tabItem.UpdateVisualState(TabPosition, UseCompactTabs);
         }
     }
 

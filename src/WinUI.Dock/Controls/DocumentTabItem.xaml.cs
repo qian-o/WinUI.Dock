@@ -30,7 +30,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     public Document? Document { get; private set; }
 
-    public void UpdateVisualState(TabPosition tabPosition)
+    public void UpdateVisualState(TabPosition tabPosition, bool useCompactTabs)
     {
         bool isBottom = tabPosition is TabPosition.Bottom;
 
@@ -41,6 +41,8 @@ public sealed partial class DocumentTabItem : TabViewItem
 
         HeaderOptions.Visibility = isBottom ? Visibility.Collapsed : Visibility.Visible;
         ContentOptions.Visibility = isBottom ? Visibility.Visible : Visibility.Collapsed;
+
+        Tab.Width = useCompactTabs ? double.NaN : 200.0;
     }
 
     public void Detach()

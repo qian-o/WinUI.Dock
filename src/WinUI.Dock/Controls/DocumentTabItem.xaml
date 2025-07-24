@@ -9,7 +9,9 @@
              IsClosable="False"
              Style="{StaticResource TabViewItemStyle}">
     <TabViewItem.Header>
-        <Grid RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="Tab"
+              MinWidth="48"
+              RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <ScaleTransform x:Name="HeaderScale" />
             </Grid.RenderTransform>

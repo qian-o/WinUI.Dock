@@ -33,19 +33,6 @@
                                 </VisualState>
                             </VisualStateGroup>
 
-                            <VisualStateGroup x:Name="IsTabWidthBasedOnContent">
-                                <VisualState x:Name="TabWidthEqual">
-                                    <VisualState.Setters>
-                                        <Setter Target="PART_Root.TabWidthMode" Value="Equal" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="TabWidthCompact">
-                                    <VisualState.Setters>
-                                        <Setter Target="PART_Root.TabWidthMode" Value="Compact" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-
                             <VisualStateGroup x:Name="OperationDockTargets">
                                 <VisualState x:Name="ShowDockTargets">
                                     <VisualState.Setters>
