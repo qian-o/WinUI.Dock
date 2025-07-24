@@ -18,7 +18,6 @@
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="IsSingleView">
-                                <VisualState x:Name="NormalView" />
                                 <VisualState x:Name="SingleView">
                                     <VisualState.Setters>
                                         <Setter Target="TabContainerGrid.Height" Value="0" />
@@ -27,6 +26,7 @@
                                         <Setter Target="TabContentPresenter.CornerRadius" Value="4" />
                                     </VisualState.Setters>
                                 </VisualState>
+                                <VisualState x:Name="MultiView" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 

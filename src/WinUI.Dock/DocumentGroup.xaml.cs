@@ -323,14 +323,7 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        if (TabPosition is TabPosition.Bottom && Children.Count is 1)
-        {
-            VisualStateManager.GoToState(root, "SingleView", false);
-        }
-        else
-        {
-            VisualStateManager.GoToState(root, "NormalView", false);
-        }
+        VisualStateManager.GoToState(root, TabPosition is TabPosition.Bottom && Children.Count is 1 ? "SingleView" : "MultiView", false);
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
