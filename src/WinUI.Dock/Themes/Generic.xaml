@@ -121,18 +121,6 @@ LayoutPanel.xaml
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>
-              <VisualStateGroup x:Name="IsTabWidthBasedOnContent">
-                <VisualState x:Name="TabWidthEqual">
-                  <VisualState.Setters>
-                    <Setter Target="PART_Root.TabWidthMode" Value="Equal" />
-                  </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="TabWidthSizeToContent">
-                  <VisualState.Setters>
-                    <Setter Target="PART_Root.TabWidthMode" Value="SizeToContent" />
-                  </VisualState.Setters>
-                </VisualState>
-              </VisualStateGroup>
               <VisualStateGroup x:Name="OperationDockTargets">
                 <VisualState x:Name="ShowDockTargets">
                   <VisualState.Setters>

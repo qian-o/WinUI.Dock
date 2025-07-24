@@ -17,10 +17,10 @@ public partial class DocumentGroup : DockContainer
                                                                                                 typeof(DocumentGroup),
                                                                                                 new PropertyMetadata(TabPosition.Top, OnTabPositionChanged));
 
-    public static readonly DependencyProperty IsTabWidthBasedOnContentProperty = DependencyProperty.Register(nameof(IsTabWidthBasedOnContent),
-                                                                                                             typeof(bool),
-                                                                                                             typeof(DocumentGroup),
-                                                                                                             new PropertyMetadata(false, OnIsTabWidthBasedOnContentChanged));
+    public static readonly DependencyProperty UseCompactTabsProperty = DependencyProperty.Register(nameof(UseCompactTabs),
+                                                                                                   typeof(bool),
+                                                                                                   typeof(DocumentGroup),
+                                                                                                   new PropertyMetadata(false, OnUseCompactTabsChanged));
 
     public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex),
                                                                                                   typeof(int),
@@ -41,10 +41,10 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(TabPositionProperty, value);
     }
 
-    public bool IsTabWidthBasedOnContent
+    public bool UseCompactTabs
     {
-        get => (bool)GetValue(IsTabWidthBasedOnContentProperty);
-        set => SetValue(IsTabWidthBasedOnContentProperty, value);
+        get => (bool)GetValue(UseCompactTabsProperty);
+        set => SetValue(UseCompactTabsProperty, value);
     }
 
     public int SelectedIndex
@@ -78,6 +78,7 @@ public partial class DocumentGroup : DockContainer
         if (root is not null)
         {
             root.Loaded += (_, _) => UpdateVisualState();
+            root.SizeChanged += (_, _) => UpdateTabWidths();
         }
     }
 
@@ -111,6 +112,7 @@ public partial class DocumentGroup : DockContainer
         }
 
         UpdateVisualState();
+        UpdateTabWidths();
     }
 
     protected override void UnloadChildren()
@@ -218,7 +220,7 @@ public partial class DocumentGroup : DockContainer
             group.CopySizeFrom(this);
             group.Children.Add(document);
 
-            root.InvokeCreateNewGroup(document.Title, group);
+            root.InvokeNewGroup(document.Title, group);
 
             if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && owner.Orientation is Orientation.Horizontal)
                 || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && owner.Orientation is Orientation.Vertical))
@@ -289,7 +291,7 @@ public partial class DocumentGroup : DockContainer
         writer.WriteDockContainerChildren(this);
 
         writer[nameof(TabPosition)] = (int)TabPosition;
-        writer[nameof(IsTabWidthBasedOnContent)] = IsTabWidthBasedOnContent;
+        writer[nameof(UseCompactTabs)] = UseCompactTabs;
         writer[nameof(SelectedIndex)] = SelectedIndex;
     }
 
@@ -299,7 +301,7 @@ public partial class DocumentGroup : DockContainer
         reader.ReadDockContainerChildren(this);
 
         TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>();
-        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)].Deserialize<bool>();
+        UseCompactTabs = reader[nameof(UseCompactTabs)].Deserialize<bool>();
         SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>();
     }
 
@@ -317,25 +319,45 @@ public partial class DocumentGroup : DockContainer
         }
 
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);
-        VisualStateManager.GoToState(this, IsTabWidthBasedOnContent ? "TabWidthSizeToContent" : "TabWidthEqual", false);
 
         if (root is null)
         {
             return;
         }
 
-        if (TabPosition is TabPosition.Bottom && Children.Count is 1)
-        {
-            VisualStateManager.GoToState(root, "SingleView", false);
-        }
-        else
-        {
-            VisualStateManager.GoToState(root, "NormalView", false);
-        }
+        VisualStateManager.GoToState(root, TabPosition is TabPosition.Bottom && Children.Count is 1 ? "SingleView" : "MultiView", false);
 
         foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
         {
             tabItem.UpdateVisualState(TabPosition);
+        }
+    }
+
+    private void UpdateTabWidths()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        if (UseCompactTabs)
+        {
+            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+            {
+                tabItem.TabWidth = double.NaN;
+            }
+        }
+        else
+        {
+            const double minTabWidth = 48.0;
+            const double maxTabWidth = 200.0;
+
+            double tabWidth = Math.Clamp(root.ActualWidth / Children.Count, minTabWidth, maxTabWidth);
+
+            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+            {
+                tabItem.TabWidth = tabWidth;
+            }
         }
     }
 
@@ -349,8 +371,8 @@ public partial class DocumentGroup : DockContainer
         ((DocumentGroup)d).UpdateVisualState();
     }
 
-    private static void OnIsTabWidthBasedOnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnUseCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((DocumentGroup)d).UpdateVisualState();
+        ((DocumentGroup)d).UpdateTabWidths();
     }
 }

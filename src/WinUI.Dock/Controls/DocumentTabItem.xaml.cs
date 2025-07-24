@@ -30,6 +30,8 @@ public sealed partial class DocumentTabItem : TabViewItem
 
     public Document? Document { get; private set; }
 
+    public double TabWidth { get => Tab.Width; set => Tab.Width = value; }
+
     public void UpdateVisualState(TabPosition tabPosition)
     {
         bool isBottom = tabPosition is TabPosition.Bottom;
@@ -92,9 +94,7 @@ public sealed partial class DocumentTabItem : TabViewItem
 
             if (args.DropResult is not DataPackageOperation.Move)
             {
-                DockWindow dockWindow = new(dockManager, document);
-
-                dockWindow.Activate();
+                new DockWindow(dockManager, document).Activate();
             }
 
             DragDropHelpers.RemoveDockManagerKey(dockManagerKey);
