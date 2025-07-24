@@ -21,8 +21,10 @@
                                 <VisualState x:Name="NormalView" />
                                 <VisualState x:Name="SingleView">
                                     <VisualState.Setters>
-                                        <Setter Target="TabContainerGrid.Height" Value="0" />
+                                        <Setter Target="TabContainerGrid.Opacity" Value="0" />
                                         <Setter Target="TabContainerGrid.IsHitTestVisible" Value="False" />
+                                        <Setter Target="TabContentPresenter.(Grid.Row)" Value="0" />
+                                        <Setter Target="TabContentPresenter.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="TabContentPresenter.BorderThickness" Value="1" />
                                         <Setter Target="TabContentPresenter.CornerRadius" Value="4" />
                                     </VisualState.Setters>
@@ -51,7 +53,60 @@
 
                                 <TabViewListView.Template>
                                     <ControlTemplate TargetType="TabViewListView">
-                                        <ItemsPresenter x:Name="TabsItemsPresenter" />
+                                        <ScrollViewer x:Name="ScrollViewer"
+                                                      HorizontalScrollBarVisibility="Auto"
+                                                      HorizontalScrollMode="Enabled"
+                                                      IsHorizontalRailEnabled="False"
+                                                      IsVerticalRailEnabled="False"
+                                                      VerticalScrollBarVisibility="Disabled"
+                                                      VerticalScrollMode="Disabled">
+                                            <ScrollViewer.Template>
+                                                <ControlTemplate TargetType="ScrollViewer">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Border x:Name="ScrollDecreaseButtonContainer"
+                                                                Grid.Column="0"
+                                                                Padding="{ThemeResource TabViewItemLeftScrollButtonContainerPadding}"
+                                                                VerticalAlignment="Bottom"
+                                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
+                                                            <RepeatButton x:Name="ScrollDecreaseButton"
+                                                                          Delay="50"
+                                                                          Interval="100">
+                                                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                                          FontSize="{ThemeResource TabViewItemScrollButonFontSize}"
+                                                                          Glyph="&#xEDD9;"
+                                                                          MirroredWhenRightToLeft="True" />
+                                                            </RepeatButton>
+                                                        </Border>
+
+                                                        <ScrollContentPresenter x:Name="ScrollContentPresenter"
+                                                                                Grid.Column="1" />
+
+                                                        <Border x:Name="ScrollIncreaseButtonContainer"
+                                                                Grid.Column="2"
+                                                                Padding="{ThemeResource TabViewItemRightScrollButtonContainerPadding}"
+                                                                VerticalAlignment="Bottom"
+                                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
+                                                            <RepeatButton x:Name="ScrollIncreaseButton"
+                                                                          Delay="50"
+                                                                          Interval="100">
+                                                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                                          FontSize="{ThemeResource TabViewItemScrollButonFontSize}"
+                                                                          Glyph="&#xEDDA;"
+                                                                          MirroredWhenRightToLeft="True" />
+                                                            </RepeatButton>
+                                                        </Border>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </ScrollViewer.Template>
+
+                                            <ItemsPresenter x:Name="TabsItemsPresenter" />
+                                        </ScrollViewer>
                                     </ControlTemplate>
                                 </TabViewListView.Template>
                             </TabViewListView>
