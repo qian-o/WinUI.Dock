@@ -127,9 +127,9 @@ LayoutPanel.xaml
                     <Setter Target="PART_Root.TabWidthMode" Value="Equal" />
                   </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="TabWidthSizeToContent">
+                <VisualState x:Name="TabWidthCompact">
                   <VisualState.Setters>
-                    <Setter Target="PART_Root.TabWidthMode" Value="SizeToContent" />
+                    <Setter Target="PART_Root.TabWidthMode" Value="Compact" />
                   </VisualState.Setters>
                 </VisualState>
               </VisualStateGroup>

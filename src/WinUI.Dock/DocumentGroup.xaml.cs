@@ -17,10 +17,10 @@ public partial class DocumentGroup : DockContainer
                                                                                                 typeof(DocumentGroup),
                                                                                                 new PropertyMetadata(TabPosition.Top, OnTabPositionChanged));
 
-    public static readonly DependencyProperty IsTabWidthBasedOnContentProperty = DependencyProperty.Register(nameof(IsTabWidthBasedOnContent),
-                                                                                                             typeof(bool),
-                                                                                                             typeof(DocumentGroup),
-                                                                                                             new PropertyMetadata(false, OnIsTabWidthBasedOnContentChanged));
+    public static readonly DependencyProperty UseCompactTabsProperty = DependencyProperty.Register(nameof(UseCompactTabs),
+                                                                                                   typeof(bool),
+                                                                                                   typeof(DocumentGroup),
+                                                                                                   new PropertyMetadata(false, OnUseCompactTabsChanged));
 
     public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex),
                                                                                                   typeof(int),
@@ -41,10 +41,10 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(TabPositionProperty, value);
     }
 
-    public bool IsTabWidthBasedOnContent
+    public bool UseCompactTabs
     {
-        get => (bool)GetValue(IsTabWidthBasedOnContentProperty);
-        set => SetValue(IsTabWidthBasedOnContentProperty, value);
+        get => (bool)GetValue(UseCompactTabsProperty);
+        set => SetValue(UseCompactTabsProperty, value);
     }
 
     public int SelectedIndex
@@ -289,7 +289,7 @@ public partial class DocumentGroup : DockContainer
         writer.WriteDockContainerChildren(this);
 
         writer[nameof(TabPosition)] = (int)TabPosition;
-        writer[nameof(IsTabWidthBasedOnContent)] = IsTabWidthBasedOnContent;
+        writer[nameof(UseCompactTabs)] = UseCompactTabs;
         writer[nameof(SelectedIndex)] = SelectedIndex;
     }
 
@@ -299,7 +299,7 @@ public partial class DocumentGroup : DockContainer
         reader.ReadDockContainerChildren(this);
 
         TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>();
-        IsTabWidthBasedOnContent = reader[nameof(IsTabWidthBasedOnContent)].Deserialize<bool>();
+        UseCompactTabs = reader[nameof(UseCompactTabs)].Deserialize<bool>();
         SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>();
     }
 
@@ -317,7 +317,7 @@ public partial class DocumentGroup : DockContainer
         }
 
         VisualStateManager.GoToState(this, TabPosition.ToString(), false);
-        VisualStateManager.GoToState(this, IsTabWidthBasedOnContent ? "TabWidthSizeToContent" : "TabWidthEqual", false);
+        VisualStateManager.GoToState(this, UseCompactTabs ? "TabWidthCompact" : "TabWidthEqual", false);
 
         if (root is null)
         {
@@ -349,7 +349,7 @@ public partial class DocumentGroup : DockContainer
         ((DocumentGroup)d).UpdateVisualState();
     }
 
-    private static void OnIsTabWidthBasedOnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnUseCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((DocumentGroup)d).UpdateVisualState();
     }

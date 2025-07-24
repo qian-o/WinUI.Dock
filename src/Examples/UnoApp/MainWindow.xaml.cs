@@ -45,7 +45,7 @@ public sealed partial class MainWindow : Window
         if (e.Title.Contains("Side"))
         {
             e.Group.TabPosition = TabPosition.Bottom;
-            e.Group.IsTabWidthBasedOnContent = true;
+            e.Group.UseCompactTabs = true;
         }
     }
 

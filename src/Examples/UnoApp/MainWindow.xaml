@@ -96,14 +96,14 @@
 
                 <dock:LayoutPanel DockHeight="1"
                                   Orientation="Horizontal">
-                    <dock:DocumentGroup IsTabWidthBasedOnContent="True"
-                                        TabPosition="Bottom">
+                    <dock:DocumentGroup TabPosition="Bottom"
+                                        UseCompactTabs="True">
                         <dock:Document Title="Side##Error List">
                             Error List
                         </dock:Document>
                     </dock:DocumentGroup>
-                    <dock:DocumentGroup IsTabWidthBasedOnContent="True"
-                                        TabPosition="Bottom">
+                    <dock:DocumentGroup TabPosition="Bottom"
+                                        UseCompactTabs="True">
                         <dock:Document Title="Side##Output">
                             Output
                         </dock:Document>
