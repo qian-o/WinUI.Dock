@@ -85,32 +85,32 @@
                                 <dock:DockTargetButton Grid.Row="1"
                                                        Grid.Column="1"
                                                        Margin="2"
-                                                       DockTarget="Center"
-                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                                       Destination="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Target="Center" />
 
                                 <dock:DockTargetButton Grid.Row="1"
                                                        Grid.Column="0"
                                                        Margin="2"
-                                                       DockTarget="SplitLeft"
-                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                                       Destination="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Target="SplitLeft" />
 
                                 <dock:DockTargetButton Grid.Row="0"
                                                        Grid.Column="1"
                                                        Margin="2"
-                                                       DockTarget="SplitTop"
-                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                                       Destination="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Target="SplitTop" />
 
                                 <dock:DockTargetButton Grid.Row="1"
                                                        Grid.Column="2"
                                                        Margin="2"
-                                                       DockTarget="SplitRight"
-                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                                       Destination="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Target="SplitRight" />
 
                                 <dock:DockTargetButton Grid.Row="2"
                                                        Grid.Column="1"
                                                        Margin="2"
-                                                       DockTarget="SplitBottom"
-                                                       Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                                       Destination="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                                                       Target="SplitBottom" />
                             </Grid>
                         </Grid>
 

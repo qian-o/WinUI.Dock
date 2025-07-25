@@ -9,15 +9,15 @@ public sealed partial class SideDocument : UserControl
 
     private string documentKey = string.Empty;
 
-    public SideDocument(DockManager manager, DockSide dockSide, Document document)
+    public SideDocument(Document document, DockManager manager, DockSide side)
     {
         InitializeComponent();
 
-        Manager = manager;
-        DockSide = dockSide;
         Document = document;
+        Manager = manager;
+        Side = side;
 
-        switch (DockSide)
+        switch (Side)
         {
             case DockSide.Left:
                 {
@@ -91,11 +91,11 @@ public sealed partial class SideDocument : UserControl
         popup.Closed += (_, _) => Detach();
     }
 
+    public Document? Document { get; private set; }
+
     public DockManager Manager { get; }
 
-    public DockSide DockSide { get; }
-
-    public Document? Document { get; private set; }
+    public DockSide Side { get; }
 
     public void Show()
     {
@@ -107,11 +107,11 @@ public sealed partial class SideDocument : UserControl
 
     private void OnSizeChanged(object _, SizeChangedEventArgs __)
     {
-        if (DockSide is DockSide.Right)
+        if (Side is DockSide.Right)
         {
             popup.HorizontalOffset = Manager.PopupContainer!.ActualWidth - ActualWidth;
         }
-        else if (DockSide is DockSide.Bottom)
+        else if (Side is DockSide.Bottom)
         {
             popup.VerticalOffset = Manager.PopupContainer!.ActualHeight - ActualHeight;
         }
@@ -143,7 +143,7 @@ public sealed partial class SideDocument : UserControl
 
         Detach(true);
 
-        Manager.Dock(document, DockSide switch
+        Manager.Dock(document, Side switch
         {
             DockSide.Left => DockTarget.DockLeft,
             DockSide.Top => DockTarget.DockTop,
@@ -169,7 +169,7 @@ public sealed partial class SideDocument : UserControl
 
         if (remove)
         {
-            switch (DockSide)
+            switch (Side)
             {
                 case DockSide.Left:
                     Manager.LeftSide.Remove(Document);
@@ -186,7 +186,7 @@ public sealed partial class SideDocument : UserControl
             }
         }
 
-        if (DockSide is DockSide.Left or DockSide.Right)
+        if (Side is DockSide.Left or DockSide.Right)
         {
             Document.DockWidth = ActualWidth;
         }
