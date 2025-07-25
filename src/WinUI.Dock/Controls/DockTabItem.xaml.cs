@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Data;
+﻿using System.Collections.ObjectModel;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -103,34 +104,65 @@ public sealed partial class DockTabItem : TabViewItem
     {
         DockManager manager = Document!.Root!;
 
-        Point point = TransformToVisual(manager).TransformPoint(new Point(0, 0));
+        switch (Document.PreviousSide)
+        {
+            case DockSide.Left:
+                TryInsert(manager.LeftSide, Document);
+                break;
+            case DockSide.Top:
+                TryInsert(manager.TopSide, Document);
+                break;
+            case DockSide.Right:
+                TryInsert(manager.RightSide, Document);
+                break;
+            case DockSide.Bottom:
+                TryInsert(manager.BottomSide, Document);
+                break;
+            default:
+                {
+                    Point point = TransformToVisual(manager).TransformPoint(new Point(0, 0));
 
-        double left = point.X;
-        double top = point.Y;
-        double right = manager.ActualWidth - point.X;
-        double bottom = manager.ActualHeight - point.Y;
+                    double left = point.X;
+                    double top = point.Y;
+                    double right = manager.ActualWidth - point.X;
+                    double bottom = manager.ActualHeight - point.Y;
 
-        if (Document.ActualWidth < Document.ActualHeight)
-        {
-            if (left < right)
-            {
-                manager.LeftSide.Add(Document);
-            }
-            else
-            {
-                manager.RightSide.Add(Document);
-            }
-        }
-        else if (top < bottom)
-        {
-            manager.TopSide.Add(Document);
-        }
-        else
-        {
-            manager.BottomSide.Add(Document);
+                    if (Document.ActualWidth < Document.ActualHeight)
+                    {
+                        if (left < right)
+                        {
+                            manager.LeftSide.Add(Document);
+                        }
+                        else
+                        {
+                            manager.RightSide.Add(Document);
+                        }
+                    }
+                    else if (top < bottom)
+                    {
+                        manager.TopSide.Add(Document);
+                    }
+                    else
+                    {
+                        manager.BottomSide.Add(Document);
+                    }
+                }
+                break;
         }
 
         Document.Detach();
+
+        static void TryInsert(ObservableCollection<Document> documents, Document document)
+        {
+            if (document.PreviousSideIndex >= 0 && document.PreviousSideIndex <= documents.Count)
+            {
+                documents.Insert(document.PreviousSideIndex, document);
+            }
+            else
+            {
+                documents.Add(document);
+            }
+        }
     }
 
     private void Close_Click(object _, RoutedEventArgs __)

@@ -65,6 +65,10 @@ public partial class Document : DockModule
         private set => SetValue(ActualTitleProperty, value);
     }
 
+    public DockSide PreviousSide { get; set; } = (DockSide)(-1);
+
+    public int PreviousSideIndex { get; set; } = -1;
+
     public void DockTo(Document dest, DockTarget target)
     {
         if (dest.Owner is not DocumentGroup group)
