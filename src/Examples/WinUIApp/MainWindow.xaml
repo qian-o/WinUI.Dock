@@ -94,7 +94,10 @@
 
                     <dock:DocumentGroup DockWidth="1">
                         <dock:Document Title="Solution Explorer">
-                            Solution Explorer
+                            <StackPanel Orientation="Vertical">
+                                <Button Click="ShowProperties_Click"
+                                        Content="Show Properties" />
+                            </StackPanel>
                         </dock:Document>
                     </dock:DocumentGroup>
                 </dock:LayoutPanel>

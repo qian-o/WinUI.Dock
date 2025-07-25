@@ -48,13 +48,13 @@ public partial class DockManager : Control
 
     public IDockAdapter? Adapter
     {
-        get => (IDockAdapter?)GetValue(AdapterProperty);
+        get => (IDockAdapter)GetValue(AdapterProperty);
         set => SetValue(AdapterProperty, value);
     }
 
     public IDockBehavior? Behavior
     {
-        get => (IDockBehavior?)GetValue(BehaviorProperty);
+        get => (IDockBehavior)GetValue(BehaviorProperty);
         set => SetValue(BehaviorProperty, value);
     }
 
@@ -264,8 +264,6 @@ public partial class DockManager : Control
     internal void Dock(Document document, DockTarget target)
     {
         VisualStateManager.GoToState(this, "HideDockTargets", false);
-
-        document.Detach();
 
         DocumentGroup group = new();
         group.CopySizeFrom(document);

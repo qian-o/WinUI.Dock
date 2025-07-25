@@ -65,6 +65,40 @@ public partial class Document : DockModule
         private set => SetValue(ActualTitleProperty, value);
     }
 
+    public void DockTo(Document dest, DockTarget target)
+    {
+        if (dest.Owner is not DocumentGroup group)
+        {
+            throw new InvalidOperationException("Destination document must be part of a DocumentGroup.");
+        }
+
+        if (dest.Root is not DockManager manager)
+        {
+            throw new InvalidOperationException("Destination document must be part of a DockManager.");
+        }
+
+        Detach();
+
+        switch (target)
+        {
+            case DockTarget.Center:
+            case DockTarget.SplitLeft:
+            case DockTarget.SplitTop:
+            case DockTarget.SplitRight:
+            case DockTarget.SplitBottom:
+                group.Dock(this, target);
+                break;
+            case DockTarget.DockLeft:
+            case DockTarget.DockTop:
+            case DockTarget.DockRight:
+            case DockTarget.DockBottom:
+                manager.Dock(this, target);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(target), target, "Invalid DockTarget specified.");
+        }
+    }
+
     internal override void SaveLayout(JsonObject writer)
     {
         writer.WriteByModuleType(this);

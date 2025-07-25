@@ -86,4 +86,26 @@ public sealed partial class MainWindow : Window
             dockManager.LoadLayout(File.ReadAllText(LayoutFile));
         }
     }
+
+    private void ShowProperties_Click(object sender, RoutedEventArgs e)
+    {
+        if (DocumentHelpers.GetDocument(sender) is Document document)
+        {
+            Document properties = new()
+            {
+                Title = "Properties",
+                Content = new StackPanel
+                {
+                    Children =
+                    {
+                        new TextBlock { Text = $"Title: {document.Title}" },
+                        new TextBlock { Text = $"CanPin: {document.CanPin}" },
+                        new TextBlock { Text = $"CanClose: {document.CanClose}" }
+                    }
+                }
+            };
+
+            properties.DockTo(document, DockTarget.SplitBottom);
+        }
+    }
 }

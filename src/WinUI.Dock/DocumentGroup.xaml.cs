@@ -196,8 +196,6 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        document.Detach();
-
         if (dockTarget is DockTarget.Center)
         {
             Children.Add(document);
