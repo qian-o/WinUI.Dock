@@ -1,9 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Media;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 

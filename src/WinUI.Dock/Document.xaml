@@ -6,9 +6,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:Document">
-                    <Border Padding="{TemplateBinding Padding}">
-                        <ContentPresenter Content="{TemplateBinding Content}" />
-                    </Border>
+                    <ContentPresenter Margin="{TemplateBinding Padding}"
+                                      Content="{TemplateBinding Content}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

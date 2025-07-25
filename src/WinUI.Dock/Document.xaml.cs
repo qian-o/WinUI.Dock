@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Helpers;
+﻿using System.Text.Json.Nodes;
 
 namespace WinUI.Dock;
 

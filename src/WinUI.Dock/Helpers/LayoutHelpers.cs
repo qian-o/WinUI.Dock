@@ -2,9 +2,8 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using WinUI.Dock.Abstracts;
 
-namespace WinUI.Dock.Helpers;
+namespace WinUI.Dock;
 
 [JsonSerializable(typeof(int))]
 [JsonSerializable(typeof(bool))]

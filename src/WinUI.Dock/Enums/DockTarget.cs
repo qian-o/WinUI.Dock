@@ -1,4 +1,4 @@
-﻿namespace WinUI.Dock.Enums;
+﻿namespace WinUI.Dock;
 
 public enum DockTarget
 {

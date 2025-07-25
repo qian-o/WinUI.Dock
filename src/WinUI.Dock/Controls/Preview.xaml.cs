@@ -1,4 +1,4 @@
-﻿namespace WinUI.Dock.Controls;
+﻿namespace WinUI.Dock;
 
 public sealed partial class Preview : UserControl
 {

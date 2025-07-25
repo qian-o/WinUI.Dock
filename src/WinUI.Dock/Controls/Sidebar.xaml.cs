@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using WinUI.Dock.Enums;
 
-namespace WinUI.Dock.Controls;
+namespace WinUI.Dock;
 
 public sealed partial class Sidebar : UserControl
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 
-namespace WinUI.Dock.Abstracts;
+namespace WinUI.Dock;
 
 public abstract partial class DockModule : Control
 {

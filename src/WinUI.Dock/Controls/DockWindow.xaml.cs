@@ -1,11 +1,9 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Graphics;
-using WinUI.Dock.Helpers;
 
-namespace WinUI.Dock.Controls;
+namespace WinUI.Dock;
 
 public sealed partial class DockWindow : Window
 {

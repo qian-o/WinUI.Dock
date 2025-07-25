@@ -9,13 +9,13 @@ Document.xaml
 DocumentGroup.xaml
 LayoutPanel.xaml
 -->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:communityToolkit="using:CommunityToolkit.WinUI.Controls" xmlns:controls="using:WinUI.Dock.Controls" xmlns:dock="using:WinUI.Dock">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:dock="using:WinUI.Dock" xmlns:toolkit="using:CommunityToolkit.WinUI.Controls">
   <Style TargetType="dock:DockManager">
     <Setter Property="AllowDrop" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:DockManager">
-          <Grid Background="Transparent">
+          <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
               <RowDefinition Height="*" />
@@ -53,21 +53,21 @@ LayoutPanel.xaml
                             So, create a hidden GridSplitter in the xaml file first,
                             to ensure the style of GridSplitter is displayed correctly.
                         -->
-            <communityToolkit:GridSplitter Visibility="Collapsed" />
-            <controls:Sidebar Grid.Row="1" Grid.Column="0" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Left" Documents="{Binding LeftSide, RelativeSource={RelativeSource TemplatedParent}}" />
-            <controls:Sidebar Grid.Row="0" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Top" Documents="{Binding TopSide, RelativeSource={RelativeSource TemplatedParent}}" />
-            <controls:Sidebar Grid.Row="1" Grid.Column="2" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Right" Documents="{Binding RightSide, RelativeSource={RelativeSource TemplatedParent}}" />
-            <controls:Sidebar Grid.Row="2" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Bottom" Documents="{Binding BottomSide, RelativeSource={RelativeSource TemplatedParent}}" />
+            <toolkit:GridSplitter Visibility="Collapsed" />
+            <dock:Sidebar Grid.Row="1" Grid.Column="0" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Left" Documents="{Binding LeftSide, RelativeSource={RelativeSource TemplatedParent}}" />
+            <dock:Sidebar Grid.Row="0" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Top" Documents="{Binding TopSide, RelativeSource={RelativeSource TemplatedParent}}" />
+            <dock:Sidebar Grid.Row="1" Grid.Column="2" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Right" Documents="{Binding RightSide, RelativeSource={RelativeSource TemplatedParent}}" />
+            <dock:Sidebar Grid.Row="2" Grid.Column="1" DockManager="{Binding RelativeSource={RelativeSource TemplatedParent}}" DockSide="Bottom" Documents="{Binding BottomSide, RelativeSource={RelativeSource TemplatedParent}}" />
             <ContentPresenter Grid.Row="1" Grid.Column="1" Content="{TemplateBinding Panel}" />
             <Border x:Name="PART_PopupContainer" Grid.Row="1" Grid.Column="1" />
             <Grid x:Name="DockTargets" Grid.Row="1" Grid.Column="1" Visibility="Collapsed">
-              <controls:DockTargetButton x:Name="DockTargetCenter" HorizontalAlignment="Center" VerticalAlignment="Center" DockTarget="Center" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-              <controls:DockTargetButton HorizontalAlignment="Left" VerticalAlignment="Center" DockTarget="DockLeft" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-              <controls:DockTargetButton HorizontalAlignment="Center" VerticalAlignment="Top" DockTarget="DockTop" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-              <controls:DockTargetButton HorizontalAlignment="Right" VerticalAlignment="Center" DockTarget="DockRight" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-              <controls:DockTargetButton HorizontalAlignment="Center" VerticalAlignment="Bottom" DockTarget="DockBottom" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+              <dock:DockTargetButton x:Name="DockTargetCenter" HorizontalAlignment="Center" VerticalAlignment="Center" DockTarget="Center" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+              <dock:DockTargetButton HorizontalAlignment="Left" VerticalAlignment="Center" DockTarget="DockLeft" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+              <dock:DockTargetButton HorizontalAlignment="Center" VerticalAlignment="Top" DockTarget="DockTop" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+              <dock:DockTargetButton HorizontalAlignment="Right" VerticalAlignment="Center" DockTarget="DockRight" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+              <dock:DockTargetButton HorizontalAlignment="Center" VerticalAlignment="Bottom" DockTarget="DockBottom" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
             </Grid>
-            <controls:Preview x:Name="PART_Preview" Grid.Row="1" Grid.Column="1" Visibility="Collapsed" />
+            <dock:Preview x:Name="PART_Preview" Grid.Row="1" Grid.Column="1" Visibility="Collapsed" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
@@ -78,9 +78,7 @@ LayoutPanel.xaml
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:Document">
-          <Border Padding="{TemplateBinding Padding}">
-            <ContentPresenter Content="{TemplateBinding Content}" />
-          </Border>
+          <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -152,14 +150,14 @@ LayoutPanel.xaml
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <controls:DockTargetButton Grid.Row="1" Grid.Column="1" Margin="2" DockTarget="Center" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-                <controls:DockTargetButton Grid.Row="1" Grid.Column="0" Margin="2" DockTarget="SplitLeft" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-                <controls:DockTargetButton Grid.Row="0" Grid.Column="1" Margin="2" DockTarget="SplitTop" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-                <controls:DockTargetButton Grid.Row="1" Grid.Column="2" Margin="2" DockTarget="SplitRight" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-                <controls:DockTargetButton Grid.Row="2" Grid.Column="1" Margin="2" DockTarget="SplitBottom" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                <dock:DockTargetButton Grid.Row="1" Grid.Column="1" Margin="2" DockTarget="Center" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                <dock:DockTargetButton Grid.Row="1" Grid.Column="0" Margin="2" DockTarget="SplitLeft" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                <dock:DockTargetButton Grid.Row="0" Grid.Column="1" Margin="2" DockTarget="SplitTop" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                <dock:DockTargetButton Grid.Row="1" Grid.Column="2" Margin="2" DockTarget="SplitRight" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                <dock:DockTargetButton Grid.Row="2" Grid.Column="1" Margin="2" DockTarget="SplitBottom" Target="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
               </Grid>
             </Grid>
-            <controls:Preview x:Name="PART_Preview" Visibility="Collapsed" />
+            <dock:Preview x:Name="PART_Preview" Visibility="Collapsed" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>

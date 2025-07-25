@@ -2,11 +2,8 @@
 using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using WinUI.Dock.Converters;
-using WinUI.Dock.Enums;
-using WinUI.Dock.Helpers;
 
-namespace WinUI.Dock.Controls;
+namespace WinUI.Dock;
 
 public sealed partial class DocumentTabItem : TabViewItem
 {

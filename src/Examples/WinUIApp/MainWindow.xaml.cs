@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using WinUI.Dock;
-using WinUI.Dock.Enums;
 
 namespace WinUIApp;
 

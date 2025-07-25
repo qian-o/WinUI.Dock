@@ -1,8 +1,6 @@
 ﻿using Windows.ApplicationModel.DataTransfer;
-using WinUI.Dock.Enums;
-using WinUI.Dock.Helpers;
 
-namespace WinUI.Dock.Controls;
+namespace WinUI.Dock;
 
 public sealed partial class DockTargetButton : UserControl
 {

@@ -1,6 +1,4 @@
-﻿using WinUI.Dock.Controls;
-
-namespace WinUI.Dock.Helpers;
+﻿namespace WinUI.Dock;
 
 internal static class DockWindowHelpers
 {

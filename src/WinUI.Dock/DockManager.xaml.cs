@@ -3,10 +3,6 @@ using System.Collections.Specialized;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.UI.Windowing;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Controls;
-using WinUI.Dock.Enums;
-using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 

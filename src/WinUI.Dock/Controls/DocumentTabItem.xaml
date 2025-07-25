@@ -1,4 +1,4 @@
-﻿<TabViewItem x:Class="WinUI.Dock.Controls.DocumentTabItem"
+﻿<TabViewItem x:Class="WinUI.Dock.DocumentTabItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              HorizontalContentAlignment="Stretch"

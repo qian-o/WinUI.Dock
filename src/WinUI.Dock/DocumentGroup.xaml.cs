@@ -1,10 +1,5 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using Microsoft.UI.Xaml.Data;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Controls;
-using WinUI.Dock.Enums;
-using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace WinUI.Dock.Abstracts;
+namespace WinUI.Dock;
 
 [ContentProperty(Name = nameof(Children))]
 public abstract partial class DockContainer : DockModule

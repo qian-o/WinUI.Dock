@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Data;
 
-namespace WinUI.Dock.Converters;
+namespace WinUI.Dock;
 
 internal partial class ActiveDocumentToVisibilityConverter : IValueConverter
 {
