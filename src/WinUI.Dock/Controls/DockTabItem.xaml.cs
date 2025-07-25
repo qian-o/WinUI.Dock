@@ -5,12 +5,12 @@ using Windows.Foundation;
 
 namespace WinUI.Dock;
 
-public sealed partial class DocumentTabItem : TabViewItem
+public sealed partial class DockTabItem : TabViewItem
 {
     private string dockManagerKey = string.Empty;
     private string documentKey = string.Empty;
 
-    public DocumentTabItem(Document document)
+    public DockTabItem(Document document)
     {
         InitializeComponent();
 

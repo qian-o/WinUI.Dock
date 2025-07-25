@@ -86,7 +86,7 @@ public partial class DocumentGroup : DockContainer
 
         foreach (Document document in Children.Cast<Document>())
         {
-            DocumentTabItem tabItem = new(document);
+            DockTabItem tabItem = new(document);
 
             tabItem.SetBinding(BorderBrushProperty, new Binding()
             {
@@ -117,7 +117,7 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
             tabItem.Detach();
         }
@@ -321,7 +321,7 @@ public partial class DocumentGroup : DockContainer
 
         VisualStateManager.GoToState(root, TabPosition is TabPosition.Bottom && Children.Count is 1 ? "SingleView" : "MultiView", false);
 
-        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
             tabItem.UpdateVisualState(TabPosition);
         }
@@ -336,7 +336,7 @@ public partial class DocumentGroup : DockContainer
 
         if (UseCompactTabs)
         {
-            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+            foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
             {
                 tabItem.TabWidth = double.NaN;
             }
@@ -348,7 +348,7 @@ public partial class DocumentGroup : DockContainer
 
             double tabWidth = Math.Clamp(root.ActualWidth / Children.Count, minTabWidth, maxTabWidth);
 
-            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+            foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
             {
                 tabItem.TabWidth = tabWidth;
             }
