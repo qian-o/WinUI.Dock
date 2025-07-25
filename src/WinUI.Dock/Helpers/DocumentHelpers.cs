@@ -1,19 +1,16 @@
-﻿namespace WinUI.Dock;
+﻿using Microsoft.UI.Xaml.Media;
+
+namespace WinUI.Dock;
 
 public static class DocumentHelpers
 {
     public static Document? GetDocument(object content)
     {
-        if (content is FrameworkElement element)
+        if (content is DependencyObject reference)
         {
-            if (element.Parent is Document document)
-            {
-                return document;
-            }
-            else
-            {
-                return GetDocument(element.Parent);
-            }
+            DependencyObject dependencyObject = VisualTreeHelper.GetParent(reference);
+
+            return dependencyObject is Document document ? document : GetDocument(dependencyObject);
         }
 
         return null;
