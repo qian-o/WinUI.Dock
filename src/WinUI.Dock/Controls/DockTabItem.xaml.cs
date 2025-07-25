@@ -154,9 +154,9 @@ public sealed partial class DockTabItem : TabViewItem
 
         static void TryInsert(ObservableCollection<Document> documents, Document document)
         {
-            if (document.PreviousSideIndex >= 0 && document.PreviousSideIndex <= documents.Count)
+            if (document.PreviousIndex >= 0 && document.PreviousIndex <= documents.Count)
             {
-                documents.Insert(document.PreviousSideIndex, document);
+                documents.Insert(document.PreviousIndex, document);
             }
             else
             {

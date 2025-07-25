@@ -67,7 +67,11 @@ public partial class Document : DockModule
 
     internal DockSide PreviousSide { get; set; } = (DockSide)(-1);
 
-    internal int PreviousSideIndex { get; set; } = -1;
+    internal int PreviousIndex { get; set; }
+
+    internal DockTarget PreviousTarget { get; set; } = (DockTarget)(-1);
+
+    internal Document? PreviousNeighbor { get; set; }
 
     public void DockTo(Document dest, DockTarget target)
     {
