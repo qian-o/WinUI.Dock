@@ -3,13 +3,13 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace WinUI.Dock;
 
-public sealed partial class SideDocument : UserControl
+public sealed partial class SidePopup : UserControl
 {
     private readonly Popup popup;
 
     private string documentKey = string.Empty;
 
-    public SideDocument(Document document, DockManager manager, DockSide side)
+    public SidePopup(Document document, DockManager manager, DockSide side)
     {
         InitializeComponent();
 

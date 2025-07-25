@@ -49,6 +49,6 @@ public sealed partial class Sidebar : UserControl
 
     private void Document_Click(object sender, RoutedEventArgs _)
     {
-        new SideDocument((Document)((Button)sender).DataContext, Manager!, Side).Show();
+        new SidePopup((Document)((Button)sender).DataContext, Manager!, Side).Show();
     }
 }
