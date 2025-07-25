@@ -207,7 +207,6 @@ public partial class DocumentGroup : DockContainer
         else
         {
             LayoutPanel owner = (LayoutPanel)Owner!;
-            DockManager root = owner.Root!;
 
             int index = owner.Children.IndexOf(this);
 
@@ -215,7 +214,7 @@ public partial class DocumentGroup : DockContainer
             group.CopySizeFrom(this);
             group.Children.Add(document);
 
-            root.InvokeNewGroup(document.Title, group);
+            Root!.Adapter?.OnCreated(group, document);
 
             if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && owner.Orientation is Orientation.Horizontal)
                 || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && owner.Orientation is Orientation.Vertical))
@@ -277,6 +276,8 @@ public partial class DocumentGroup : DockContainer
                 owner.Children.Insert(index, panel);
             }
         }
+
+        Root!.Behavior?.OnDocked(document, this, dockTarget);
     }
 
     internal override void SaveLayout(JsonObject writer)

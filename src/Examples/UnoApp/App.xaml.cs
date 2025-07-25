@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Uno.Extensions;
-using Uno.UI.Adapter.Microsoft.Extensions.Logging;
-
-namespace UnoApp;
+﻿namespace UnoApp;
 
 public partial class App : Application
 {
@@ -11,22 +7,10 @@ public partial class App : Application
         InitializeComponent();
     }
 
+    public static MainWindow MainWindow { get; } = new();
+
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        MainWindow mainWindow = new();
-
-        mainWindow.Activate();
-    }
-
-    public static void InitializeLogging()
-    {
-        LogExtensionPoint.AmbientLoggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-
-            builder.SetMinimumLevel(LogLevel.Information);
-        });
-
-        LoggingAdapter.Initialize();
+        MainWindow.Activate();
     }
 }

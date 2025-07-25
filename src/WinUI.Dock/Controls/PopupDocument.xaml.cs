@@ -130,7 +130,7 @@ public sealed partial class PopupDocument : UserControl
         {
             if (args.DropResult is not DataPackageOperation.Move)
             {
-                new DockWindow(Manager, document).Activate();
+                new FloatingWindow(Manager, document).Activate();
             }
 
             DragDropHelpers.RemoveDocumentKey(documentKey);

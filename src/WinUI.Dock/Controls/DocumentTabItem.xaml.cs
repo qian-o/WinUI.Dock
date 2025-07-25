@@ -87,11 +87,11 @@ public sealed partial class DocumentTabItem : TabViewItem
         {
             // In multi-window drag-and-drop operations, if the original window closes prematurely,
             // it may lead to incorrect handling of the drop result.
-            DockWindowHelpers.CloseEmptyWindows(dockManager);
+            FloatingWindowHelpers.CloseEmptyWindows(dockManager);
 
             if (args.DropResult is not DataPackageOperation.Move)
             {
-                new DockWindow(dockManager, document).Activate();
+                new FloatingWindow(dockManager, document).Activate();
             }
 
             DragDropHelpers.RemoveDockManagerKey(dockManagerKey);

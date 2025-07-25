@@ -9,8 +9,10 @@ public partial class App : Application
         InitializeComponent();
     }
 
+    public static MainWindow MainWindow { get; } = new();
+
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        new MainWindow().Activate();
+        MainWindow.Activate();
     }
 }

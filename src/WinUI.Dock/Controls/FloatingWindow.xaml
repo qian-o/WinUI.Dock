@@ -1,4 +1,4 @@
-﻿<Window x:Class="WinUI.Dock.DockWindow"
+﻿<Window x:Class="WinUI.Dock.FloatingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dock="using:WinUI.Dock">
@@ -21,9 +21,11 @@
                 </Thumb.Template>
             </Thumb>
 
-            <Border x:Name="TitleBar"
-                    Grid.Row="0"
-                    Height="32" />
+            <ContentControl x:Name="TitleBar"
+                            Grid.Row="0"
+                            Height="32"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
         </Grid>
 
         <dock:LayoutPanel x:Name="Panel"

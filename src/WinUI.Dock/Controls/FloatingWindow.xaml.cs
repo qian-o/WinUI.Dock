@@ -5,11 +5,11 @@ using Windows.Graphics;
 
 namespace WinUI.Dock;
 
-public sealed partial class DockWindow : Window
+public sealed partial class FloatingWindow : Window
 {
     private PointInt32 dragOffset;
 
-    public DockWindow(DockManager manager, Document? document)
+    public FloatingWindow(DockManager manager, Document? document)
     {
         InitializeComponent();
 
@@ -71,6 +71,8 @@ public sealed partial class DockWindow : Window
             panel.Children.Add(group);
 
             Panel.Children.Add(panel);
+
+            manager.Behavior?.OnFloating(document);
         }
     }
 
@@ -78,7 +80,7 @@ public sealed partial class DockWindow : Window
     {
         ExtendsContentIntoTitleBar = true;
 
-        Closed += (_, _) => DockWindowHelpers.RemoveWindow(manager, this);
+        Closed += (_, _) => FloatingWindowHelpers.RemoveWindow(manager, this);
 
         AppWindow.Move(PointerHelpers.GetPointerPosition());
 
@@ -91,9 +93,9 @@ public sealed partial class DockWindow : Window
             });
         }
 
-        manager.InvokeNewWindow(AppWindow, TitleBar);
+        TitleBar.Content = manager.Adapter?.GetFloatingWindowTitleBar(document);
 
-        DockWindowHelpers.AddWindow(manager, this);
+        FloatingWindowHelpers.AddWindow(manager, this);
     }
 
     private void OnDragEnter(object _, DragEventArgs __)

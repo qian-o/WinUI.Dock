@@ -1,6 +1,62 @@
-﻿using WinUI.Dock;
+﻿using System.Diagnostics;
+using WinUI.Dock;
 
 namespace UnoApp;
+
+public class DockAdapter : IDockAdapter
+{
+    public void OnCreated(Document document)
+    {
+        document.Content = new TextBlock()
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Text = $"New Document {document.Title}"
+        };
+    }
+
+    public void OnCreated(DocumentGroup group, Document? draggedDocument)
+    {
+        if (draggedDocument is null)
+        {
+            return;
+        }
+
+        if (draggedDocument.Title.Contains("Side"))
+        {
+            group.TabPosition = TabPosition.Bottom;
+            group.UseCompactTabs = true;
+        }
+    }
+
+    public object? GetFloatingWindowTitleBar(Document? draggedDocument)
+    {
+        return new TextBlock()
+        {
+            Text = "Custom Title Bar",
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+    }
+}
+
+public class DockBehavior : IDockBehavior
+{
+    public void ActivateMainWindow()
+    {
+        App.MainWindow.Activate();
+    }
+
+    public void OnDocked(Document src, object dest, DockTarget target)
+    {
+        Debug.WriteLine($"Document {src.Title} docked to {target} of {dest.GetType().Name}.");
+    }
+
+    public void OnFloating(Document document)
+    {
+        Debug.WriteLine($"Document {document.Title} is now floating.");
+    }
+}
 
 public sealed partial class MainWindow : Window
 {
@@ -27,36 +83,5 @@ public sealed partial class MainWindow : Window
         {
             dockManager.LoadLayout(File.ReadAllText(LayoutFile));
         }
-    }
-
-    private void DockManager_FillDocument(object _, FillDocumentEventArgs e)
-    {
-        e.Document.Content = new TextBlock()
-        {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center,
-            Text = $"New Document {e.Title}"
-        };
-    }
-
-    private void DockManager_NewGroup(object _, NewGroupEventArgs e)
-    {
-        if (e.Title.Contains("Side"))
-        {
-            e.Group.TabPosition = TabPosition.Bottom;
-            e.Group.UseCompactTabs = true;
-        }
-    }
-
-    private void DockManager_NewWindow(object _, NewWindowEventArgs e)
-    {
-        e.Window.Title = "Custom Window Title";
-
-        e.TitleBar.Child = new TextBlock
-        {
-            Text = "Custom Title Bar",
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
     }
 }

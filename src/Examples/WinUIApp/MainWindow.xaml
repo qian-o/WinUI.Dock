@@ -1,6 +1,7 @@
 ﻿<Window x:Class="WinUIApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="using:WinUIApp"
         xmlns:dock="using:WinUI.Dock"
         x:Name="Main">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -21,11 +22,15 @@
         </MenuBar>
 
         <dock:DockManager x:Name="dockManager"
-                          Grid.Row="1"
-                          FillDocument="DockManager_FillDocument"
-                          NewGroup="DockManager_NewGroup"
-                          NewWindow="DockManager_NewWindow"
-                          ParentWindow="{Binding ElementName=Main}">
+                          Grid.Row="1">
+            <dock:DockManager.Adapter>
+                <app:DockAdapter />
+            </dock:DockManager.Adapter>
+
+            <dock:DockManager.Behavior>
+                <app:DockBehavior />
+            </dock:DockManager.Behavior>
+
             <dock:DockManager.LeftSide>
                 <dock:Document Title="Side##Left 1">
                     Left 1
