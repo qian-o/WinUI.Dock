@@ -154,9 +154,9 @@ public sealed partial class DockTabItem : TabViewItem
 
         static void TryInsert(ObservableCollection<Document> documents, Document document)
         {
-            if (document.PreviousIndex >= 0 && document.PreviousIndex <= documents.Count)
+            if (documents.FirstOrDefault(item => item.PreviousIndex > document.PreviousIndex) is Document existingDocument)
             {
-                documents.Insert(document.PreviousIndex, document);
+                documents.Insert(documents.IndexOf(existingDocument), document);
             }
             else
             {
