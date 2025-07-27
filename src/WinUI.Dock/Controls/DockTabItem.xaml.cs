@@ -154,23 +154,14 @@ public sealed partial class DockTabItem : TabViewItem
 
         static void TryInsert(ObservableCollection<Document> documents, Document document)
         {
-            if (document.PreferredSideIndex is not -1)
+            if (documents.FirstOrDefault(item => item.PreferredSideIndex > document.PreferredSideIndex) is Document existingDocument)
             {
-                if (document.PreferredSideIndex < documents.Count)
-                {
-                    documents.Insert(document.PreferredSideIndex, document);
-
-                    return;
-                }
-                else if (documents.FirstOrDefault(item => item.PreferredSideIndex > document.PreferredSideIndex) is Document existingDocument)
-                {
-                    documents.Insert(documents.IndexOf(existingDocument), document);
-
-                    return;
-                }
+                documents.Insert(documents.IndexOf(existingDocument), document);
             }
-
-            documents.Add(document);
+            else
+            {
+                documents.Add(document);
+            }
         }
     }
 

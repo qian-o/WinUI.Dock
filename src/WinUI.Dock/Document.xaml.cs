@@ -122,6 +122,30 @@ public partial class Document : DockModule
         CanClose = reader[nameof(CanClose)].Deserialize<bool>();
     }
 
+    internal void ResetPreferredSide(DockTarget? target)
+    {
+        PreferredSide = (DockSide)(PreferredSideIndex = -1);
+
+        if (target.HasValue)
+        {
+            switch (target)
+            {
+                case DockTarget.DockLeft:
+                    PreferredSide = DockSide.Left;
+                    break;
+                case DockTarget.DockTop:
+                    PreferredSide = DockSide.Top;
+                    break;
+                case DockTarget.DockRight:
+                    PreferredSide = DockSide.Right;
+                    break;
+                case DockTarget.DockBottom:
+                    PreferredSide = DockSide.Bottom;
+                    break;
+            }
+        }
+    }
+
     private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         Document document = (Document)d;

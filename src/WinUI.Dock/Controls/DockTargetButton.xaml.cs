@@ -81,6 +81,8 @@ public sealed partial class DockTargetButton : UserControl
         {
             if (Destination is DockManager manager)
             {
+                document.ResetPreferredSide(Target);
+
                 manager.HideDockPreview();
                 manager.Dock(document, Target);
             }
