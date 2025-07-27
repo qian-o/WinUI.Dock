@@ -141,8 +141,8 @@ public sealed partial class SidePopup : UserControl
     {
         Document document = Document!;
 
-        document.PreviousSide = Side;
-        document.PreviousSideIndex = Side switch
+        document.PreferredSide = Side;
+        document.PreferredSideIndex = Side switch
         {
             DockSide.Left => Manager.LeftSide.IndexOf(document),
             DockSide.Top => Manager.TopSide.IndexOf(document),

@@ -65,9 +65,9 @@ public partial class Document : DockModule
         private set => SetValue(ActualTitleProperty, value);
     }
 
-    internal DockSide PreviousSide { get; set; } = (DockSide)(-1);
+    internal DockSide PreferredSide { get; set; } = (DockSide)(-1);
 
-    internal int PreviousSideIndex { get; set; }
+    internal int PreferredSideIndex { get; set; }
 
     public void DockTo(Document dest, DockTarget target)
     {
