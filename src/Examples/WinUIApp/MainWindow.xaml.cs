@@ -49,9 +49,14 @@ public class DockBehavior : IDockBehavior
         App.MainWindow.Activate();
     }
 
-    public void OnDocked(Document src, object dest, DockTarget target)
+    public void OnDocked(Document src, DockManager dest, DockTarget target)
     {
-        Debug.WriteLine($"Document {src.Title} docked to {target} of {dest.GetType().Name}.");
+        Debug.WriteLine($"Document {src.Title} docked to {dest.Name} at {target}.");
+    }
+
+    public void OnDocked(Document src, DocumentGroup dest, DockTarget target)
+    {
+        Debug.WriteLine($"Document {src.Title} docked to group {dest.Name} at {target}.");
     }
 
     public void OnFloating(Document document)
