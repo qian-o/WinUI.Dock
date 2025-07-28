@@ -41,14 +41,19 @@ public partial class LayoutPanel : DockContainer
         {
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
+                bool isNaN = double.IsNaN(container.Height);
+
                 RowDefinition row = new()
                 {
                     MinHeight = container.MinHeight,
                     MaxHeight = container.MaxHeight,
-                    Height = double.IsNaN(container.Height) ? new(1, GridUnitType.Star) : new(container.Height, GridUnitType.Pixel)
+                    Height = isNaN ? new(1, GridUnitType.Star) : new(container.Height, GridUnitType.Pixel)
                 };
 
-                row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => container.Height = row.ActualHeight);
+                if (!isNaN)
+                {
+                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => container.Height = row.ActualHeight);
+                }
 
                 root.RowDefinitions.Add(row);
 
@@ -76,14 +81,19 @@ public partial class LayoutPanel : DockContainer
         {
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
+                bool isNaN = double.IsNaN(container.Width);
+
                 ColumnDefinition column = new()
                 {
                     MinWidth = container.MinWidth,
                     MaxWidth = container.MaxWidth,
-                    Width = double.IsNaN(container.Width) ? new(1, GridUnitType.Star) : new(container.Width, GridUnitType.Pixel)
+                    Width = isNaN ? new(1, GridUnitType.Star) : new(container.Width, GridUnitType.Pixel)
                 };
 
-                column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => container.Width = column.ActualWidth);
+                if (!isNaN)
+                {
+                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => container.Width = column.ActualWidth);
+                }
 
                 root.ColumnDefinitions.Add(column);
 
