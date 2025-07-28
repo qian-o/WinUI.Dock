@@ -15,7 +15,7 @@ public abstract partial class DockContainer : DockModule
 
     internal bool IsListening { get; set; } = true;
 
-    public void DetachEmptyContainer()
+    public virtual void DetachEmptyContainer()
     {
         for (int i = Children.Count - 1; i >= 0; i--)
         {

@@ -36,7 +36,8 @@
             <dock:LayoutPanel Orientation="Vertical">
                 <dock:LayoutPanel DockHeight="5"
                                   Orientation="Horizontal">
-                    <dock:DocumentGroup DockWidth="4">
+                    <dock:DocumentGroup DockWidth="4"
+                                        ShowWhenEmpty="True">
                         <dock:Document Title="MainView.xaml"
                                        CanClose="True" />
                         <dock:Document Title="MainViewModel.cs"

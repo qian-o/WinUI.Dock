@@ -75,6 +75,8 @@ public partial class Document : DockModule
 
     internal int PreferredSideIndex { get; set; }
 
+    internal DocumentGroup? PreferredGroup { get; set; }
+
     public void DockTo(Document dest, DockTarget target)
     {
         switch (target)

@@ -97,8 +97,6 @@ public abstract partial class DockModule : Control
         set => SetValue(DockHeightProperty, value);
     }
 
-    public bool IsDetached => Owner is null && Root is null;
-
     public void CopySizeFrom(DockModule module)
     {
         DockMinWidth = module.DockMinWidth;

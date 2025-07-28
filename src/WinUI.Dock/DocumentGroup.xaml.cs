@@ -17,6 +17,11 @@ public partial class DocumentGroup : DockContainer
                                                                                                    typeof(DocumentGroup),
                                                                                                    new PropertyMetadata(false, OnUseCompactTabsChanged));
 
+    public static readonly DependencyProperty ShowWhenEmptyProperty = DependencyProperty.Register(nameof(ShowWhenEmpty),
+                                                                                                  typeof(bool),
+                                                                                                  typeof(DocumentGroup),
+                                                                                                  new PropertyMetadata(false));
+
     public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex),
                                                                                                   typeof(int),
                                                                                                   typeof(DocumentGroup),
@@ -46,6 +51,12 @@ public partial class DocumentGroup : DockContainer
     {
         get => (bool)GetValue(UseCompactTabsProperty);
         set => SetValue(UseCompactTabsProperty, value);
+    }
+
+    public bool ShowWhenEmpty
+    {
+        get => (bool)GetValue(ShowWhenEmptyProperty);
+        set => SetValue(ShowWhenEmptyProperty, value);
     }
 
     public int SelectedIndex

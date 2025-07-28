@@ -43,8 +43,8 @@ public partial class LayoutPanel : DockContainer
             {
                 root.RowDefinitions.Add(new()
                 {
-                    MinHeight = container.MinHeight,
-                    MaxHeight = container.MaxHeight,
+                    MinHeight = container.DockMinHeight,
+                    MaxHeight = container.DockMaxHeight,
                     Height = new(CalculateHeight(container, true), GridUnitType.Star)
                 });
 
@@ -74,8 +74,8 @@ public partial class LayoutPanel : DockContainer
             {
                 root.ColumnDefinitions.Add(new()
                 {
-                    MinWidth = container.MinWidth,
-                    MaxWidth = container.MaxWidth,
+                    MinWidth = container.DockMinWidth,
+                    MaxWidth = container.DockMaxWidth,
                     Width = new(CalculateWidth(container, true), GridUnitType.Star)
                 });
 
