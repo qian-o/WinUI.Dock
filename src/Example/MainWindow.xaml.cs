@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using WinUI.Dock;
 
-namespace UnoApp;
+namespace Example;
 
 public class DockAdapter : IDockAdapter
 {

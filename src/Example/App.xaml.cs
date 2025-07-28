@@ -1,4 +1,4 @@
-﻿namespace UnoApp;
+﻿namespace Example;
 
 public partial class App : Application
 {

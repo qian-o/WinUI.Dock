@@ -1,7 +1,7 @@
-﻿<Window x:Class="WinUIApp.MainWindow"
+﻿<Window x:Class="Example.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:app="using:WinUIApp"
+        xmlns:app="using:Example"
         xmlns:dock="using:WinUI.Dock"
         x:Name="Main">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

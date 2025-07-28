@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Example;
+using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 using Uno.UI.Adapter.Microsoft.Extensions.Logging;
 using Uno.UI.Hosting;
-using UnoApp;
 
 LogExtensionPoint.AmbientLoggerFactory = LoggerFactory.Create(builder =>
 {
