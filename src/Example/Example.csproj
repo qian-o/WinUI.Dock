@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\WinUI.Dock\WinUI.Dock.csproj" />
     </ItemGroup>
 

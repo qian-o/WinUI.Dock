@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
         <PackageVersion Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.2.250402" />
         <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
         <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.1.240916" />
