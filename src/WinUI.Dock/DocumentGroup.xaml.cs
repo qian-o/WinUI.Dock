@@ -12,10 +12,10 @@ public partial class DocumentGroup : DockContainer
                                                                                                 typeof(DocumentGroup),
                                                                                                 new PropertyMetadata(TabPosition.Top, OnTabPositionChanged));
 
-    public static readonly DependencyProperty UseCompactTabsProperty = DependencyProperty.Register(nameof(UseCompactTabs),
-                                                                                                   typeof(bool),
-                                                                                                   typeof(DocumentGroup),
-                                                                                                   new PropertyMetadata(false, OnUseCompactTabsChanged));
+    public static readonly DependencyProperty CompactTabsProperty = DependencyProperty.Register(nameof(CompactTabs),
+                                                                                                typeof(bool),
+                                                                                                typeof(DocumentGroup),
+                                                                                                new PropertyMetadata(false, OnCompactTabsChanged));
 
     public static readonly DependencyProperty ShowWhenEmptyProperty = DependencyProperty.Register(nameof(ShowWhenEmpty),
                                                                                                   typeof(bool),
@@ -47,10 +47,10 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(TabPositionProperty, value);
     }
 
-    public bool UseCompactTabs
+    public bool CompactTabs
     {
-        get => (bool)GetValue(UseCompactTabsProperty);
-        set => SetValue(UseCompactTabsProperty, value);
+        get => (bool)GetValue(CompactTabsProperty);
+        set => SetValue(CompactTabsProperty, value);
     }
 
     public bool ShowWhenEmpty
@@ -307,7 +307,7 @@ public partial class DocumentGroup : DockContainer
         writer.WriteDockContainerChildren(this);
 
         writer[nameof(TabPosition)] = (int)TabPosition;
-        writer[nameof(UseCompactTabs)] = UseCompactTabs;
+        writer[nameof(CompactTabs)] = CompactTabs;
         writer[nameof(ShowWhenEmpty)] = ShowWhenEmpty;
         writer[nameof(SelectedIndex)] = SelectedIndex;
     }
@@ -318,7 +318,7 @@ public partial class DocumentGroup : DockContainer
         reader.ReadDockContainerChildren(this);
 
         TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>();
-        UseCompactTabs = reader[nameof(UseCompactTabs)].Deserialize<bool>();
+        CompactTabs = reader[nameof(CompactTabs)].Deserialize<bool>();
         ShowWhenEmpty = reader[nameof(ShowWhenEmpty)].Deserialize<bool>();
         SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>();
     }
@@ -362,7 +362,7 @@ public partial class DocumentGroup : DockContainer
 
         foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
-            tabItem.TabWidth = UseCompactTabs ? double.NaN : tabWidth;
+            tabItem.TabWidth = CompactTabs ? double.NaN : tabWidth;
             tabItem.TabMaxWidth = tabWidth;
         }
     }
@@ -377,7 +377,7 @@ public partial class DocumentGroup : DockContainer
         ((DocumentGroup)d).UpdateVisualState();
     }
 
-    private static void OnUseCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((DocumentGroup)d).UpdateTabWidths();
     }

@@ -50,7 +50,8 @@
                                  VerticalAlignment="Stretch"
                                  RenderTransformOrigin="0.5,0.5"
                                  SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                 Style="{StaticResource TabViewStyle}">
+                                 Style="{StaticResource TabViewStyle}"
+                                 TabWidthMode="Compact">
                             <TabView.RenderTransform>
                                 <ScaleTransform x:Name="Scale" />
                             </TabView.RenderTransform>

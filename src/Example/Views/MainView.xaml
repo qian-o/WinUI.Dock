@@ -44,7 +44,8 @@
                                        CanClose="True" />
                     </dock:DocumentGroup>
 
-                    <dock:DocumentGroup DockWidth="1"
+                    <dock:DocumentGroup CompactTabs="True"
+                                        DockWidth="1"
                                         TabPosition="Bottom">
                         <dock:Document Title="Solution Explorer"
                                        CanClose="True"
@@ -64,9 +65,9 @@
                                        CanPin="True" />
                     </dock:DocumentGroup>
 
-                    <dock:DocumentGroup DockWidth="1"
-                                        TabPosition="Bottom"
-                                        UseCompactTabs="True">
+                    <dock:DocumentGroup CompactTabs="True"
+                                        DockWidth="1"
+                                        TabPosition="Bottom">
                         <dock:Document Title="Output"
                                        CanClose="True"
                                        CanPin="True" />
