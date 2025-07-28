@@ -230,26 +230,26 @@ public partial class DockManager : Control
                               VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockLeft:
-                preview?.Show(Panel!.CalculateWidth(document, false),
+                preview?.Show(Panel!.CalculateWidth(document),
                               double.NaN,
                               HorizontalAlignment.Left,
                               VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockTop:
                 preview?.Show(double.NaN,
-                              Panel!.CalculateHeight(document, false),
+                              Panel!.CalculateHeight(document),
                               HorizontalAlignment.Stretch,
                               VerticalAlignment.Top);
                 break;
             case DockTarget.DockRight:
-                preview?.Show(Panel!.CalculateWidth(document, false),
+                preview?.Show(Panel!.CalculateWidth(document),
                               double.NaN,
                               HorizontalAlignment.Right,
                               VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockBottom:
                 preview?.Show(double.NaN,
-                              Panel!.CalculateHeight(document, false),
+                              Panel!.CalculateHeight(document),
                               HorizontalAlignment.Stretch,
                               VerticalAlignment.Bottom);
                 break;
@@ -266,7 +266,7 @@ public partial class DockManager : Control
         VisualStateManager.GoToState(this, "HideDockTargets", false);
 
         DocumentGroup group = new();
-        group.CopySizeFrom(document);
+        group.ReferenceSize(document);
         group.Children.Add(document);
 
         Adapter?.OnCreated(group, document);

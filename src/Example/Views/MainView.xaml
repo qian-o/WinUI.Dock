@@ -34,18 +34,16 @@
                           Adapter="{Binding}"
                           Behavior="{Binding}">
             <dock:LayoutPanel Orientation="Vertical">
-                <dock:LayoutPanel DockHeight="5"
-                                  Orientation="Horizontal">
-                    <dock:DocumentGroup DockWidth="4"
-                                        ShowWhenEmpty="True">
+                <dock:LayoutPanel Orientation="Horizontal">
+                    <dock:DocumentGroup ShowWhenEmpty="True">
                         <dock:Document Title="MainView.xaml"
                                        CanClose="True" />
                         <dock:Document Title="MainViewModel.cs"
                                        CanClose="True" />
                     </dock:DocumentGroup>
 
-                    <dock:DocumentGroup CompactTabs="True"
-                                        DockWidth="1"
+                    <dock:DocumentGroup Width="200"
+                                        CompactTabs="True"
                                         TabPosition="Bottom">
                         <dock:Document Title="Solution Explorer"
                                        CanClose="True"
@@ -56,17 +54,15 @@
                     </dock:DocumentGroup>
                 </dock:LayoutPanel>
 
-                <dock:LayoutPanel DockWidth="1"
+                <dock:LayoutPanel Height="200"
                                   Orientation="Horizontal">
-                    <dock:DocumentGroup DockWidth="1"
-                                        TabPosition="Bottom">
+                    <dock:DocumentGroup TabPosition="Bottom">
                         <dock:Document Title="Error List"
                                        CanClose="True"
                                        CanPin="True" />
                     </dock:DocumentGroup>
 
                     <dock:DocumentGroup CompactTabs="True"
-                                        DockWidth="1"
                                         TabPosition="Bottom">
                         <dock:Document Title="Output"
                                        CanClose="True"

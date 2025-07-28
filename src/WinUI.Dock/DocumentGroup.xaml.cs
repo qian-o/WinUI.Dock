@@ -229,7 +229,7 @@ public partial class DocumentGroup : DockContainer
             int index = Owner!.Children.IndexOf(this);
 
             DocumentGroup group = new();
-            group.CopySizeFrom(this);
+            group.ReferenceSize(this);
             group.Children.Add(document);
 
             Root!.Adapter?.OnCreated(group, document);
@@ -258,7 +258,6 @@ public partial class DocumentGroup : DockContainer
                 Detach(false);
 
                 LayoutPanel panel = new();
-                panel.CopySizeFrom(this);
                 panel.Children.Add(group);
 
                 switch (dockTarget)

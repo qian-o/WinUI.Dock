@@ -88,8 +88,8 @@ public sealed partial class FloatingWindow : Window
         {
             AppWindow.Resize(new()
             {
-                Width = (int)(double.IsNaN(document.DockWidth) ? 400 : document.DockWidth),
-                Height = (int)(double.IsNaN(document.DockHeight) ? 400 : document.DockHeight)
+                Width = (int)(double.IsNaN(document.Width) ? 400 : document.Width),
+                Height = (int)(double.IsNaN(document.Height) ? 400 : document.Height)
             });
         }
 

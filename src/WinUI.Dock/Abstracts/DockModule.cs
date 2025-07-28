@@ -14,45 +14,6 @@ public abstract partial class DockModule : Control
                                                                                          typeof(DockModule),
                                                                                          new PropertyMetadata(null, (d, e) => ((DockModule)d).OnRootChanged((DockManager?)e.OldValue, (DockManager?)e.NewValue)));
 
-    public static readonly DependencyProperty DockMinWidthProperty = DependencyProperty.Register(nameof(DockMinWidth),
-                                                                                                 typeof(double),
-                                                                                                 typeof(DockModule),
-                                                                                                 new PropertyMetadata(0.0));
-
-    public static readonly DependencyProperty DockMaxWidthProperty = DependencyProperty.Register(nameof(DockMaxWidth),
-                                                                                                 typeof(double),
-                                                                                                 typeof(DockModule),
-                                                                                                 new PropertyMetadata(double.PositiveInfinity));
-
-    public static readonly DependencyProperty DockWidthProperty = DependencyProperty.Register(nameof(DockWidth),
-                                                                                              typeof(double),
-                                                                                              typeof(DockModule),
-                                                                                              new PropertyMetadata(double.NaN));
-
-    public static readonly DependencyProperty DockMinHeightProperty = DependencyProperty.Register(nameof(DockMinHeight),
-                                                                                                  typeof(double),
-                                                                                                  typeof(DockModule),
-                                                                                                  new PropertyMetadata(0.0));
-
-    public static readonly DependencyProperty DockMaxHeightProperty = DependencyProperty.Register(nameof(DockMaxHeight),
-                                                                                                  typeof(double),
-                                                                                                  typeof(DockModule),
-                                                                                                  new PropertyMetadata(double.PositiveInfinity));
-
-    public static readonly DependencyProperty DockHeightProperty = DependencyProperty.Register(nameof(DockHeight),
-                                                                                               typeof(double),
-                                                                                               typeof(DockModule),
-                                                                                               new PropertyMetadata(double.NaN));
-
-    protected DockModule()
-    {
-        SizeChanged += (_, _) =>
-        {
-            DockWidth = ActualWidth;
-            DockHeight = ActualHeight;
-        };
-    }
-
     public DockModule? Owner
     {
         get => (DockModule)GetValue(OwnerProperty);
@@ -65,50 +26,14 @@ public abstract partial class DockModule : Control
         internal set => SetValue(RootProperty, value);
     }
 
-    public double DockMinWidth
+    internal void ReferenceSize(DockModule module)
     {
-        get => (double)GetValue(DockMinWidthProperty);
-        set => SetValue(DockMinWidthProperty, value);
-    }
-
-    public double DockMaxWidth
-    {
-        get => (double)GetValue(DockMaxWidthProperty);
-        set => SetValue(DockMaxWidthProperty, value);
-    }
-
-    public double DockWidth
-    {
-        get => (double)GetValue(DockWidthProperty);
-        set => SetValue(DockWidthProperty, value);
-    }
-
-    public double DockMinHeight
-    {
-        get => (double)GetValue(DockMinHeightProperty);
-        set => SetValue(DockMinHeightProperty, value);
-    }
-
-    public double DockMaxHeight
-    {
-        get => (double)GetValue(DockMaxHeightProperty);
-        set => SetValue(DockMaxHeightProperty, value);
-    }
-
-    public double DockHeight
-    {
-        get => (double)GetValue(DockHeightProperty);
-        set => SetValue(DockHeightProperty, value);
-    }
-
-    internal void CopySizeFrom(DockModule module)
-    {
-        DockMinWidth = module.DockMinWidth;
-        DockMaxWidth = module.DockMaxWidth;
-        DockWidth = module.DockWidth;
-        DockMinHeight = module.DockMinHeight;
-        DockMaxHeight = module.DockMaxHeight;
-        DockHeight = module.DockHeight;
+        MinWidth = module.MinWidth;
+        MaxWidth = module.MaxWidth;
+        Width = module.Width;
+        MinHeight = module.MinHeight;
+        MaxHeight = module.MaxHeight;
+        Height = module.Height;
     }
 
     internal void Attach(DockModule owner)
