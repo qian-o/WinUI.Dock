@@ -52,7 +52,7 @@ public partial class LayoutPanel : DockContainer
 
                 if (!isNaN)
                 {
-                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => container.Height = row.ActualHeight);
+                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => container.Height = row.Height.Value);
                 }
 
                 root.RowDefinitions.Add(row);
@@ -92,7 +92,7 @@ public partial class LayoutPanel : DockContainer
 
                 if (!isNaN)
                 {
-                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => container.Width = column.ActualWidth);
+                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => container.Width = column.Width.Value);
                 }
 
                 root.ColumnDefinitions.Add(column);
