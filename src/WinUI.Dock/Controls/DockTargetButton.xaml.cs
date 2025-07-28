@@ -37,7 +37,7 @@ public sealed partial class DockTargetButton : UserControl
 
         if (Destination is DockManager manager)
         {
-            string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentId);
+            string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentKey);
 
             if (DragDropHelpers.GetDocument(documentKey) is Document document)
             {
@@ -75,7 +75,7 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDrop(e);
 
-        string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentId);
+        string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentKey);
 
         if (DragDropHelpers.GetDocument(documentKey) is Document document)
         {

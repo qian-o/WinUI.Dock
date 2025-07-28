@@ -206,7 +206,7 @@ public partial class DockManager : Control
 
         Behavior?.ActivateMainWindow();
 
-        if (e.DataView.Contains(DragDropHelpers.DocumentId))
+        if (e.DataView.Contains(DragDropHelpers.DocumentKey))
         {
             VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
         }

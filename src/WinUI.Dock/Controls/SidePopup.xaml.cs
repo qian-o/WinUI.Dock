@@ -119,7 +119,7 @@ public sealed partial class SidePopup : UserControl
 
     private void Header_DragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetData(DragDropHelpers.DocumentId, documentKey = DragDropHelpers.GetDocumentKey(Document!));
+        args.Data.SetData(DragDropHelpers.DocumentKey, documentKey = DragDropHelpers.GetDocumentKey(Document!));
 
         Detach(true);
     }

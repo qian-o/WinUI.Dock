@@ -8,7 +8,7 @@ namespace WinUI.Dock;
 
 public sealed partial class DockTabItem : TabViewItem
 {
-    private string dockManagerKey = string.Empty;
+    private string managerKey = string.Empty;
     private string documentKey = string.Empty;
 
     public DockTabItem(Document document)
@@ -78,26 +78,26 @@ public sealed partial class DockTabItem : TabViewItem
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
     {
-        args.Data.SetData(DragDropHelpers.DockManagerId, dockManagerKey = DragDropHelpers.GetDockManagerKey(Document!.Root!));
-        args.Data.SetData(DragDropHelpers.DocumentId, documentKey = DragDropHelpers.GetDocumentKey(Document!));
+        args.Data.SetData(DragDropHelpers.ManagerKey, managerKey = DragDropHelpers.GetManagerKey(Document!.Root!));
+        args.Data.SetData(DragDropHelpers.DocumentKey, documentKey = DragDropHelpers.GetDocumentKey(Document!));
 
         Document.Detach();
     }
 
     private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
     {
-        if (DragDropHelpers.GetDockManager(dockManagerKey) is DockManager dockManager && DragDropHelpers.GetDocument(documentKey) is Document document)
+        if (DragDropHelpers.GetManager(managerKey) is DockManager manager && DragDropHelpers.GetDocument(documentKey) is Document document)
         {
             // In multi-window drag-and-drop operations, if the original window closes prematurely,
             // it may lead to incorrect handling of the drop result.
-            FloatingWindowHelpers.CloseEmptyWindows(dockManager);
+            FloatingWindowHelpers.CloseEmptyWindows(manager);
 
             if (args.DropResult is not DataPackageOperation.Move)
             {
-                new FloatingWindow(dockManager, document).Activate();
+                new FloatingWindow(manager, document).Activate();
             }
 
-            DragDropHelpers.RemoveDockManagerKey(dockManagerKey);
+            DragDropHelpers.RemoveManagerKey(managerKey);
             DragDropHelpers.RemoveDocumentKey(documentKey);
         }
     }

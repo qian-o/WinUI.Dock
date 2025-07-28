@@ -69,7 +69,7 @@ public partial class DocumentGroup : DockContainer
     {
         base.OnDragEnter(e);
 
-        if (e.DataView.Contains(DragDropHelpers.DocumentId))
+        if (e.DataView.Contains(DragDropHelpers.DocumentKey))
         {
             VisualStateManager.GoToState(this, "ShowDockTargets", false);
         }
