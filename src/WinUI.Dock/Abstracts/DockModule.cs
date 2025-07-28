@@ -46,7 +46,11 @@ public abstract partial class DockModule : Control
 
     protected DockModule()
     {
-        SizeChanged += OnSizeChanged;
+        SizeChanged += (_, _) =>
+        {
+            DockWidth = ActualWidth;
+            DockHeight = ActualHeight;
+        };
     }
 
     public DockModule? Owner
@@ -97,7 +101,7 @@ public abstract partial class DockModule : Control
         set => SetValue(DockHeightProperty, value);
     }
 
-    public void CopySizeFrom(DockModule module)
+    internal void CopySizeFrom(DockModule module)
     {
         DockMinWidth = module.DockMinWidth;
         DockMaxWidth = module.DockMaxWidth;
@@ -107,7 +111,7 @@ public abstract partial class DockModule : Control
         DockHeight = module.DockHeight;
     }
 
-    public void Attach(DockModule owner)
+    internal void Attach(DockModule owner)
     {
         if (Owner == owner)
         {
@@ -120,7 +124,7 @@ public abstract partial class DockModule : Control
         Root = owner.Root;
     }
 
-    public void Detach(bool detachEmptyContainer = true)
+    internal void Detach(bool detachEmptyContainer = true)
     {
         if (Owner is DockContainer container)
         {
@@ -136,17 +140,11 @@ public abstract partial class DockModule : Control
         Root = null;
     }
 
-    protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
-    {
-    }
-
     internal abstract void SaveLayout(JsonObject writer);
 
     internal abstract void LoadLayout(JsonObject reader);
 
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
-        DockWidth = ActualWidth;
-        DockHeight = ActualHeight;
     }
 }

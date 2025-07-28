@@ -147,22 +147,9 @@ public partial class DocumentGroup : DockContainer
         return Children.All(static item => item is Document);
     }
 
-    public override void DetachEmptyContainer()
+    protected override bool ConfirmEmptyContainer()
     {
-        if (ShowWhenEmpty)
-        {
-            for (int i = Children.Count - 1; i >= 0; i--)
-            {
-                if (Children[i] is DockContainer container)
-                {
-                    container.DetachEmptyContainer();
-                }
-            }
-        }
-        else
-        {
-            base.DetachEmptyContainer();
-        }
+        return !ShowWhenEmpty;
     }
 
     protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)

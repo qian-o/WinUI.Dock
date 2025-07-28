@@ -118,6 +118,11 @@ public partial class LayoutPanel : DockContainer
         return Children.All(static item => item is DockContainer);
     }
 
+    protected override bool ConfirmEmptyContainer()
+    {
+        return true;
+    }
+
     internal double CalculateHeight(DockModule module, bool isStar)
     {
         DockModule[] children = Children.Contains(module) ? [.. Children] : [.. Children, module];

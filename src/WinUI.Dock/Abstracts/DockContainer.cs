@@ -15,7 +15,7 @@ public abstract partial class DockContainer : DockModule
 
     internal bool IsListening { get; set; } = true;
 
-    public virtual void DetachEmptyContainer()
+    internal void DetachEmptyContainer()
     {
         for (int i = Children.Count - 1; i >= 0; i--)
         {
@@ -25,7 +25,7 @@ public abstract partial class DockContainer : DockModule
             }
         }
 
-        if (Children.Count is 0)
+        if (Children.Count is 0 && ConfirmEmptyContainer())
         {
             Detach();
         }
@@ -47,6 +47,8 @@ public abstract partial class DockContainer : DockModule
     protected abstract void UnloadChildren();
 
     protected abstract bool ValidateChildren();
+
+    protected abstract bool ConfirmEmptyContainer();
 
     protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
