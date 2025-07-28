@@ -18,7 +18,10 @@ public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavi
     {
         return new TextBlock()
         {
+            IsHitTestVisible = false,
             Text = "Example Floating Window",
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
             FontSize = 16,
             FontWeight = FontWeights.Bold
         };
@@ -26,6 +29,7 @@ public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavi
 
     public void ActivateMainWindow()
     {
+        App.MainWindow.Activate();
     }
 
     public void OnDocked(Document src, DockManager dest, DockTarget target)

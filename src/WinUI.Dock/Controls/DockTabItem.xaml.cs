@@ -154,6 +154,9 @@ public sealed partial class DockTabItem : TabViewItem
 
         Document.Detach();
 
+        // Reference: Comments on lines 91-92.
+        FloatingWindowHelpers.CloseEmptyWindows(manager);
+
         static void TryInsert(ObservableCollection<Document> documents, Document document)
         {
             if (document.PreferredSideIndex is not -1 && documents.FirstOrDefault(item => item.PreferredSideIndex > document.PreferredSideIndex) is Document existingDocument)
@@ -169,12 +172,17 @@ public sealed partial class DockTabItem : TabViewItem
 
     private void Close_Click(object _, RoutedEventArgs __)
     {
-        if (Document!.Root!.ActiveDocument == Document)
+        DockManager manager = Document!.Root!;
+
+        if (manager.ActiveDocument == Document)
         {
-            Document.Root.ActiveDocument = null;
+            manager.ActiveDocument = null;
         }
 
         Document.Detach();
+
+        // Reference: Comments on lines 91-92.
+        FloatingWindowHelpers.CloseEmptyWindows(manager);
     }
 
     private void Content_PointerPressed(object _, PointerRoutedEventArgs __)
