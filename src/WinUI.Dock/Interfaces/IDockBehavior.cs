@@ -8,5 +8,5 @@ public interface IDockBehavior
 
     void OnDocked(Document src, DocumentGroup dest, DockTarget target);
 
-    void OnFloating(Document document); 
+    void OnFloating(Document document);
 }
