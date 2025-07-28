@@ -147,6 +147,24 @@ public partial class DocumentGroup : DockContainer
         return Children.All(static item => item is Document);
     }
 
+    public override void DetachEmptyContainer()
+    {
+        if (ShowWhenEmpty)
+        {
+            for (int i = Children.Count - 1; i >= 0; i--)
+            {
+                if (Children[i] is DockContainer container)
+                {
+                    container.DetachEmptyContainer();
+                }
+            }
+        }
+        else
+        {
+            base.DetachEmptyContainer();
+        }
+    }
+
     protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
         base.OnRootChanged(oldRoot, newRoot);
@@ -303,6 +321,7 @@ public partial class DocumentGroup : DockContainer
 
         writer[nameof(TabPosition)] = (int)TabPosition;
         writer[nameof(UseCompactTabs)] = UseCompactTabs;
+        writer[nameof(ShowWhenEmpty)] = ShowWhenEmpty;
         writer[nameof(SelectedIndex)] = SelectedIndex;
     }
 
@@ -313,6 +332,7 @@ public partial class DocumentGroup : DockContainer
 
         TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>();
         UseCompactTabs = reader[nameof(UseCompactTabs)].Deserialize<bool>();
+        ShowWhenEmpty = reader[nameof(ShowWhenEmpty)].Deserialize<bool>();
         SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>();
     }
 
