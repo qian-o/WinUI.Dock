@@ -371,24 +371,12 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        if (UseCompactTabs)
-        {
-            foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
-            {
-                tabItem.TabWidth = double.NaN;
-            }
-        }
-        else
-        {
-            const double minTabWidth = 48.0;
-            const double maxTabWidth = 200.0;
+        double tabWidth = Math.Clamp(root.ActualWidth / Children.Count, 0, 200.0);
 
-            double tabWidth = Math.Clamp(root.ActualWidth / Children.Count, minTabWidth, maxTabWidth);
-
-            foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
-            {
-                tabItem.TabWidth = tabWidth;
-            }
+        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
+        {
+            tabItem.TabWidth = UseCompactTabs ? double.NaN : tabWidth;
+            tabItem.TabMaxWidth = tabWidth;
         }
     }
 

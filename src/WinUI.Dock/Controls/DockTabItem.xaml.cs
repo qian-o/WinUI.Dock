@@ -30,6 +30,8 @@ public sealed partial class DockTabItem : TabViewItem
 
     public double TabWidth { get => Tab.Width; set => Tab.Width = value; }
 
+    public double TabMaxWidth { get => Tab.MaxWidth; set => Tab.MaxWidth = value; }
+
     public void UpdateVisualState(TabPosition tabPosition)
     {
         bool isBottom = tabPosition is TabPosition.Bottom;
