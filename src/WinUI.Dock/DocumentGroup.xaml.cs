@@ -30,6 +30,12 @@ public partial class DocumentGroup : DockContainer
         DefaultStyleKey = typeof(DocumentGroup);
     }
 
+    public new LayoutPanel? Owner
+    {
+        get => (LayoutPanel)GetValue(OwnerProperty);
+        internal set => SetValue(OwnerProperty, value);
+    }
+
     public TabPosition TabPosition
     {
         get => (TabPosition)GetValue(TabPositionProperty);
@@ -204,9 +210,7 @@ public partial class DocumentGroup : DockContainer
         }
         else
         {
-            LayoutPanel owner = (LayoutPanel)Owner!;
-
-            int index = owner.Children.IndexOf(this);
+            int index = Owner!.Children.IndexOf(this);
 
             DocumentGroup group = new();
             group.CopySizeFrom(this);
@@ -214,25 +218,27 @@ public partial class DocumentGroup : DockContainer
 
             Root!.Adapter?.OnCreated(group, document);
 
-            if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && owner.Orientation is Orientation.Horizontal)
-                || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && owner.Orientation is Orientation.Vertical))
+            if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && Owner.Orientation is Orientation.Horizontal)
+                || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && Owner.Orientation is Orientation.Vertical))
             {
                 switch (dockTarget)
                 {
                     case DockTarget.SplitLeft or DockTarget.SplitTop:
                         {
-                            owner.Children.Insert(index, group);
+                            Owner.Children.Insert(index, group);
                         }
                         break;
                     case DockTarget.SplitRight or DockTarget.SplitBottom:
                         {
-                            owner.Children.Insert(index + 1, group);
+                            Owner.Children.Insert(index + 1, group);
                         }
                         break;
                 }
             }
             else
             {
+                LayoutPanel actualOwner = Owner;
+
                 Detach(false);
 
                 LayoutPanel panel = new();
@@ -271,7 +277,7 @@ public partial class DocumentGroup : DockContainer
                         break;
                 }
 
-                owner.Children.Insert(index, panel);
+                actualOwner.Children.Insert(index, panel);
             }
         }
 
