@@ -101,9 +101,22 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
+        if (SelectedIndex < 0)
+        {
+            SelectedIndex = 0;
+        }
+        else if (SelectedIndex >= Children.Count)
+        {
+            SelectedIndex = Children.Count - 1;
+        }
+
+        int index = 0;
         foreach (Document document in Children.Cast<Document>())
         {
-            DockTabItem tabItem = new(document);
+            DockTabItem tabItem = new(document)
+            {
+                IsSelected = index++ == SelectedIndex
+            };
 
             tabItem.SetBinding(BorderBrushProperty, new Binding()
             {
@@ -112,15 +125,6 @@ public partial class DocumentGroup : DockContainer
             });
 
             root.TabItems.Add(tabItem);
-        }
-
-        if (SelectedIndex < 0)
-        {
-            SelectedIndex = 0;
-        }
-        else if (SelectedIndex >= Children.Count)
-        {
-            SelectedIndex = Children.Count - 1;
         }
 
         UpdateVisualState();
