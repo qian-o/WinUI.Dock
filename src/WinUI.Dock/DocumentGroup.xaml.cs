@@ -361,9 +361,9 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        double tabViewContainerLeftMargin = Application.Current.Resources.TryGetValue("TabViewContainerLeftMargin", out object? value) ? (double)value : 0.0;
+        const double tabViewContainerLeftMargin = 6.0;
 
-        double width = Math.Clamp((root.ActualWidth - tabViewContainerLeftMargin) / Children.Count, 0, 200.0);
+        double width = Math.Clamp((root.ActualWidth - tabViewContainerLeftMargin) / Children.Count, 0.0, 200.0);
 
         foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
