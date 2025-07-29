@@ -361,12 +361,12 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        double tabWidth = Math.Clamp(root.ActualWidth / Children.Count, 0, 200.0);
+        double width = Math.Clamp((root.ActualWidth - 6) / Children.Count, 0, 200.0);
 
         foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
-            tabItem.TabWidth = CompactTabs ? double.NaN : tabWidth;
-            tabItem.TabMaxWidth = tabWidth;
+            tabItem.Width = CompactTabs ? double.NaN : width;
+            tabItem.MaxWidth = width;
         }
     }
 
