@@ -99,10 +99,16 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
+                                        <Setter Target="Separator.Visibility" Value="Collapsed" />
                                         <Setter Target="ContentPresenter.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="Pressed" />
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="Separator.Visibility" Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
@@ -170,6 +176,7 @@
                                 Grid.Column="0"
                                 Width="4"
                                 Height="4"
+                                Margin="0,0,-1,0"
                                 VerticalAlignment="Bottom"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="0,0,1,1"
@@ -180,6 +187,7 @@
                                 Grid.Column="2"
                                 Width="4"
                                 Height="4"
+                                Margin="-1,0,0,0"
                                 VerticalAlignment="Bottom"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="1,0,0,1"

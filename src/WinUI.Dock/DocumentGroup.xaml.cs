@@ -361,14 +361,19 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        const double tabViewContainerLeftMargin = 6.0;
+        // The two constants are hardcoded in WinUI.Dock/Themes/Styles.xaml.
+        // They need to be kept consistent.
+        const double tabViewContainerLeftColumnWidth = 6.0;
+        const double tabItemRadiusWidth = 3.0;
 
-        double width = Math.Clamp((root.ActualWidth - tabViewContainerLeftMargin) / Children.Count, 0.0, 200.0);
+        double availableWidth = root.ActualWidth - tabViewContainerLeftColumnWidth - (tabItemRadiusWidth * 2.0 * Children.Count);
+
+        double tabWidth = Math.Clamp(availableWidth / Children.Count, 0.0, 200.0);
 
         foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
-            tabItem.Width = CompactTabs ? double.NaN : width;
-            tabItem.MaxWidth = width;
+            tabItem.TabWidth = CompactTabs ? double.NaN : tabWidth;
+            tabItem.TabMaxWidth = tabWidth;
         }
     }
 
