@@ -5,7 +5,6 @@
         <TargetFrameworks>net9.0-desktop;net9.0-windows10.0.19041.0</TargetFrameworks>
         <UnoSingleProject>true</UnoSingleProject>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <UnoFeatures>Material</UnoFeatures>
     </PropertyGroup>
 
     <ItemGroup>

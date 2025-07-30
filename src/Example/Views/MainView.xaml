@@ -13,6 +13,19 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <MenuBar Grid.Row="0">
+            <MenuBarItem Title="File">
+                <MenuFlyoutItem Text="New" />
+                <MenuFlyoutItem Text="Open" />
+                <MenuFlyoutItem Text="Save" />
+                <MenuFlyoutItem Text="Exit" />
+            </MenuBarItem>
+
+            <MenuBarItem Title="Help">
+                <MenuFlyoutItem Text="About" />
+            </MenuBarItem>
+        </MenuBar>
+
         <dock:DockManager Grid.Row="1"
                           Adapter="{Binding}"
                           Behavior="{Binding}">
