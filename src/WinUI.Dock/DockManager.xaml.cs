@@ -266,7 +266,6 @@ public partial class DockManager : Control
         VisualStateManager.GoToState(this, "HideDockTargets", false);
 
         DocumentGroup group = new();
-        group.ReferenceSize(document);
         group.Children.Add(document);
 
         Adapter?.OnCreated(group, document);

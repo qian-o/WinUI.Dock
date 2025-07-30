@@ -26,16 +26,6 @@ public abstract partial class DockModule : Control
         internal set => SetValue(RootProperty, value);
     }
 
-    internal void ReferenceSize(DockModule module)
-    {
-        MinWidth = module.MinWidth;
-        MaxWidth = module.MaxWidth;
-        Width = module.Width;
-        MinHeight = module.MinHeight;
-        MaxHeight = module.MaxHeight;
-        Height = module.Height;
-    }
-
     internal void Attach(DockModule owner)
     {
         if (Owner == owner)

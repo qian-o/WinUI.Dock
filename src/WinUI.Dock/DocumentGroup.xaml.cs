@@ -233,7 +233,6 @@ public partial class DocumentGroup : DockContainer
             int index = Owner!.Children.IndexOf(this);
 
             DocumentGroup group = new();
-            group.ReferenceSize(this);
             group.Children.Add(document);
 
             Root!.Adapter?.OnCreated(group, document);

@@ -45,10 +45,10 @@
                     <dock:DocumentGroup Width="200"
                                         CompactTabs="True"
                                         TabPosition="Bottom">
-                        <dock:Document Title="Solution Explorer"
+                        <dock:Document Title="Bottom##Solution Explorer"
                                        CanClose="True"
                                        CanPin="True" />
-                        <dock:Document Title="Git Changes"
+                        <dock:Document Title="Bottom##Git Changes"
                                        CanClose="True"
                                        CanPin="True" />
                     </dock:DocumentGroup>
@@ -57,17 +57,17 @@
                 <dock:LayoutPanel Height="200"
                                   Orientation="Horizontal">
                     <dock:DocumentGroup TabPosition="Bottom">
-                        <dock:Document Title="Error List"
+                        <dock:Document Title="Bottom##Error List"
                                        CanClose="True"
                                        CanPin="True" />
                     </dock:DocumentGroup>
 
                     <dock:DocumentGroup CompactTabs="True"
                                         TabPosition="Bottom">
-                        <dock:Document Title="Output"
+                        <dock:Document Title="Bottom##Output"
                                        CanClose="True"
                                        CanPin="True" />
-                        <dock:Document Title="Terminal"
+                        <dock:Document Title="Bottom##Terminal"
                                        CanClose="True"
                                        CanPin="True" />
                     </dock:DocumentGroup>
