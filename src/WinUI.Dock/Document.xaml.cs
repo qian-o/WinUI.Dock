@@ -33,6 +33,8 @@ public partial class Document : DockModule
     public Document()
     {
         DefaultStyleKey = typeof(Document);
+
+        ResetPreferredSide(null);
     }
 
     public new DocumentGroup? Owner
@@ -71,11 +73,9 @@ public partial class Document : DockModule
         private set => SetValue(ActualTitleProperty, value);
     }
 
-    internal DockSide PreferredSide { get; set; } = (DockSide)(-1);
+    internal DockSide PreferredSide { get; set; }
 
     internal int PreferredSideIndex { get; set; }
-
-    internal DocumentGroup? PreferredGroup { get; set; }
 
     public void DockTo(Document dest, DockTarget target)
     {
