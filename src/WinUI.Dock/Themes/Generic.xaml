@@ -74,7 +74,6 @@ LayoutPanel.xaml
     </Setter>
   </Style>
   <Style TargetType="dock:Document">
-    <Setter Property="Padding" Value="16" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:Document">
