@@ -15,7 +15,7 @@ LayoutPanel.xaml
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:DockManager">
-          <Grid Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+          <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
               <RowDefinition Height="*" />
@@ -77,7 +77,7 @@ LayoutPanel.xaml
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:Document">
-          <ContentPresenter Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Content="{TemplateBinding Content}" />
+          <ContentPresenter Content="{TemplateBinding Content}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -86,7 +86,7 @@ LayoutPanel.xaml
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:LayoutPanel">
-          <Grid x:Name="PART_Root" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ColumnSpacing="12" RowSpacing="12" />
+          <Grid x:Name="PART_Root" ColumnSpacing="12" RowSpacing="12" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -96,7 +96,7 @@ LayoutPanel.xaml
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:DocumentGroup">
-          <Grid Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+          <Grid>
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="IsActive">
                 <VisualState x:Name="Active">

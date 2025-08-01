@@ -7,10 +7,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="dock:LayoutPanel">
                     <Grid x:Name="PART_Root"
-                          Padding="{TemplateBinding Padding}"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
                           ColumnSpacing="12"
                           RowSpacing="12" />
                 </ControlTemplate>
