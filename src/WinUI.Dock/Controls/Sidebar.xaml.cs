@@ -1,7 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace WinUI.Dock;
 
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class Sidebar : UserControl
 {
     public static readonly DependencyProperty DocumentsProperty = DependencyProperty.Register(nameof(Documents),

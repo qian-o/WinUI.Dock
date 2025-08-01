@@ -1,7 +1,10 @@
-﻿using Windows.ApplicationModel.DataTransfer;
+﻿using System.ComponentModel;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace WinUI.Dock;
 
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class DockTargetButton : UserControl
 {
     public static readonly DependencyProperty DestinationProperty = DependencyProperty.Register(nameof(Destination),

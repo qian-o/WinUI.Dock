@@ -1,8 +1,11 @@
-﻿using Microsoft.UI.Xaml.Controls.Primitives;
+﻿using System.ComponentModel;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace WinUI.Dock;
 
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class SidePopup : UserControl
 {
     private readonly Popup popup;

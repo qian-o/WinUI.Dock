@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -6,6 +7,8 @@ using Windows.Foundation;
 
 namespace WinUI.Dock;
 
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class DockTabItem : TabViewItem
 {
     private string managerKey = string.Empty;

@@ -1,10 +1,13 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.ComponentModel;
+using System.Text.Json.Nodes;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Graphics;
 
 namespace WinUI.Dock;
 
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class FloatingWindow : Window
 {
     private PointInt32 dragOffset;

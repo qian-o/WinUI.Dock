@@ -1,5 +1,9 @@
-﻿namespace WinUI.Dock;
+﻿using System.ComponentModel;
 
+namespace WinUI.Dock;
+
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class Preview : UserControl
 {
     public Preview()
