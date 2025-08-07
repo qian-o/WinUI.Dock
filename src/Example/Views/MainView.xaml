@@ -15,10 +15,14 @@
 
         <MenuBar Grid.Row="0">
             <MenuBarItem Title="File">
-                <MenuFlyoutItem Text="New" />
-                <MenuFlyoutItem Text="Open" />
-                <MenuFlyoutItem Text="Save" />
-                <MenuFlyoutItem Text="Exit" />
+                <MenuFlyoutItem Command="{Binding OpenCommand}"
+                                CommandParameter="{x:Bind Manager}"
+                                Text="Open" />
+                <MenuFlyoutItem Command="{Binding SaveCommand}"
+                                CommandParameter="{x:Bind Manager}"
+                                Text="Save" />
+                <MenuFlyoutItem Command="{Binding ExitCommand}"
+                                Text="Exit" />
             </MenuBarItem>
 
             <MenuBarItem Title="Help">
@@ -26,7 +30,8 @@
             </MenuBarItem>
         </MenuBar>
 
-        <dock:DockManager Grid.Row="1"
+        <dock:DockManager x:Name="Manager"
+                          Grid.Row="1"
                           Adapter="{Binding}"
                           Behavior="{Binding}">
             <dock:LayoutPanel Orientation="Vertical">

@@ -1,13 +1,57 @@
 ﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Text;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 using WinUI.Dock;
 
 namespace Example.ViewModels;
 
 public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavior
 {
-    public void OnCreated(Document document)
+    [RelayCommand]
+    private static async Task Open(DockManager manager)
+    {
+        FileOpenPicker openPicker = new()
+        {
+            ViewMode = PickerViewMode.List,
+            SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+            FileTypeFilter = { ".json" }
+        };
+
+        InitializeWithWindow.Initialize(openPicker, WindowNative.GetWindowHandle(App.MainWindow));
+
+        if (await openPicker.PickSingleFileAsync() is StorageFile file)
+        {
+            manager.LoadLayout(File.ReadAllText(file.Path));
+        }
+    }
+
+    [RelayCommand]
+    private static async Task Save(DockManager manager)
+    {
+        FileSavePicker savePicker = new()
+        {
+            SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+            FileTypeChoices = { { "JSON", new List<string> { ".json" } } }
+        };
+
+        InitializeWithWindow.Initialize(savePicker, WindowNative.GetWindowHandle(App.MainWindow));
+
+        if (await savePicker.PickSaveFileAsync() is StorageFile file)
+        {
+            File.WriteAllText(file.Path, manager.SaveLayout());
+        }
+    }
+
+    [RelayCommand]
+    private static void Exit()
+    {
+        App.MainWindow.Close();
+    }
+
+    void IDockAdapter.OnCreated(Document document)
     {
         document.Content = new TextBlock()
         {
@@ -18,7 +62,7 @@ public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavi
         };
     }
 
-    public void OnCreated(DocumentGroup group, Document? draggedDocument)
+    void IDockAdapter.OnCreated(DocumentGroup group, Document? draggedDocument)
     {
         if (draggedDocument?.Title.Contains("Bottom##") is true)
         {
@@ -26,7 +70,7 @@ public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavi
         }
     }
 
-    public object? GetFloatingWindowTitleBar(Document? draggedDocument)
+    object? IDockAdapter.GetFloatingWindowTitleBar(Document? draggedDocument)
     {
         return new TextBlock()
         {
@@ -39,22 +83,22 @@ public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavi
         };
     }
 
-    public void ActivateMainWindow()
+    void IDockBehavior.ActivateMainWindow()
     {
         App.MainWindow.Activate();
     }
 
-    public void OnDocked(Document src, DockManager dest, DockTarget target)
+    void IDockBehavior.OnDocked(Document src, DockManager dest, DockTarget target)
     {
         Debug.WriteLine($"Document '{src.ActualTitle}' docked to DockManager at target '{target}'.");
     }
 
-    public void OnDocked(Document src, DocumentGroup dest, DockTarget target)
+    void IDockBehavior.OnDocked(Document src, DocumentGroup dest, DockTarget target)
     {
         Debug.WriteLine($"Document '{src.ActualTitle}' docked to DocumentGroup at target '{target}'.");
     }
 
-    public void OnFloating(Document document)
+    void IDockBehavior.OnFloating(Document document)
     {
         Debug.WriteLine($"Document '{document.ActualTitle}' is now floating.");
     }
