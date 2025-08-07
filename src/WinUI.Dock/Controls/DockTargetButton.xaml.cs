@@ -1,35 +1,36 @@
-﻿using Windows.ApplicationModel.DataTransfer;
-using WinUI.Dock.Enums;
-using WinUI.Dock.Helpers;
+﻿using System.ComponentModel;
+using Windows.ApplicationModel.DataTransfer;
 
-namespace WinUI.Dock.Controls;
+namespace WinUI.Dock;
 
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class DockTargetButton : UserControl
 {
-    public static readonly DependencyProperty DockTargetProperty = DependencyProperty.Register(nameof(DockTarget),
-                                                                                               typeof(DockTarget),
-                                                                                               typeof(DockTargetButton),
-                                                                                               new PropertyMetadata(DockTarget.Center));
+    public static readonly DependencyProperty DestinationProperty = DependencyProperty.Register(nameof(Destination),
+                                                                                                typeof(Control),
+                                                                                                typeof(DockTargetButton),
+                                                                                                new PropertyMetadata(null));
 
     public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(nameof(Target),
-                                                                                           typeof(Control),
+                                                                                           typeof(DockTarget),
                                                                                            typeof(DockTargetButton),
-                                                                                           new PropertyMetadata(null));
+                                                                                           new PropertyMetadata(DockTarget.Center));
 
     public DockTargetButton()
     {
         InitializeComponent();
     }
 
-    public DockTarget DockTarget
+    public Control? Destination
     {
-        get => (DockTarget)GetValue(DockTargetProperty);
-        set => SetValue(DockTargetProperty, value);
+        get => (Control)GetValue(DestinationProperty);
+        set => SetValue(DestinationProperty, value);
     }
 
-    public Control? Target
+    public DockTarget Target
     {
-        get => (Control)GetValue(TargetProperty);
+        get => (DockTarget)GetValue(TargetProperty);
         set => SetValue(TargetProperty, value);
     }
 
@@ -37,18 +38,18 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDragEnter(e);
 
-        if (Target is DockManager manager)
+        if (Destination is DockManager manager)
         {
-            string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentId);
+            string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentKey);
 
             if (DragDropHelpers.GetDocument(documentKey) is Document document)
             {
-                manager.ShowDockPreview(document, DockTarget);
+                manager.ShowDockPreview(document, Target);
             }
         }
-        else if (Target is DocumentGroup group)
+        else if (Destination is DocumentGroup group)
         {
-            group.ShowDockPreview(DockTarget);
+            group.ShowDockPreview(Target);
         }
     }
 
@@ -56,11 +57,11 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDragLeave(e);
 
-        if (Target is DockManager manager)
+        if (Destination is DockManager manager)
         {
             manager.HideDockPreview();
         }
-        else if (Target is DocumentGroup group)
+        else if (Destination is DocumentGroup group)
         {
             group.HideDockPreview();
         }
@@ -77,19 +78,21 @@ public sealed partial class DockTargetButton : UserControl
     {
         base.OnDrop(e);
 
-        string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentId);
+        string documentKey = (string)await e.DataView.GetDataAsync(DragDropHelpers.DocumentKey);
 
         if (DragDropHelpers.GetDocument(documentKey) is Document document)
         {
-            if (Target is DockManager manager)
+            if (Destination is DockManager manager)
             {
+                document.ResetPreferredSide(Target);
+
                 manager.HideDockPreview();
-                manager.Dock(document, DockTarget);
+                manager.Dock(document, Target);
             }
-            else if (Target is DocumentGroup group)
+            else if (Destination is DocumentGroup group)
             {
                 group.HideDockPreview();
-                group.Dock(document, DockTarget);
+                group.Dock(document, Target);
             }
 
             document.Root!.HideDockTargets();
@@ -98,6 +101,6 @@ public sealed partial class DockTargetButton : UserControl
 
     private void OnLoaded(object _, RoutedEventArgs __)
     {
-        VisualStateManager.GoToState(this, DockTarget.ToString(), false);
+        VisualStateManager.GoToState(this, Target.ToString(), false);
     }
 }

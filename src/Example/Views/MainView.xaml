@@ -1,0 +1,79 @@
+﻿<Page x:Class="Example.Views.MainView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:dock="using:WinUI.Dock"
+      xmlns:vm="using:Example.ViewModels">
+    <Page.DataContext>
+        <vm:MainViewModel />
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <MenuBar Grid.Row="0">
+            <MenuBarItem Title="File">
+                <MenuFlyoutItem Command="{Binding OpenCommand}"
+                                CommandParameter="{x:Bind Manager}"
+                                Text="Open" />
+                <MenuFlyoutItem Command="{Binding SaveCommand}"
+                                CommandParameter="{x:Bind Manager}"
+                                Text="Save" />
+                <MenuFlyoutItem Command="{Binding ExitCommand}"
+                                Text="Exit" />
+            </MenuBarItem>
+
+            <MenuBarItem Title="Help">
+                <MenuFlyoutItem Text="About" />
+            </MenuBarItem>
+        </MenuBar>
+
+        <dock:DockManager x:Name="Manager"
+                          Grid.Row="1"
+                          Adapter="{Binding}"
+                          Behavior="{Binding}">
+            <dock:LayoutPanel Orientation="Vertical">
+                <dock:LayoutPanel Orientation="Horizontal">
+                    <dock:DocumentGroup ShowWhenEmpty="True">
+                        <dock:Document Title="MainView.xaml"
+                                       CanClose="True" />
+                        <dock:Document Title="MainViewModel.cs"
+                                       CanClose="True" />
+                    </dock:DocumentGroup>
+
+                    <dock:DocumentGroup Width="200"
+                                        CompactTabs="True"
+                                        TabPosition="Bottom">
+                        <dock:Document Title="Bottom##Solution Explorer"
+                                       CanClose="True"
+                                       CanPin="True" />
+                        <dock:Document Title="Bottom##Git Changes"
+                                       CanClose="True"
+                                       CanPin="True" />
+                    </dock:DocumentGroup>
+                </dock:LayoutPanel>
+
+                <dock:LayoutPanel Height="200"
+                                  Orientation="Horizontal">
+                    <dock:DocumentGroup TabPosition="Bottom">
+                        <dock:Document Title="Bottom##Error List"
+                                       CanClose="True"
+                                       CanPin="True" />
+                    </dock:DocumentGroup>
+
+                    <dock:DocumentGroup CompactTabs="True"
+                                        TabPosition="Bottom">
+                        <dock:Document Title="Bottom##Output"
+                                       CanClose="True"
+                                       CanPin="True" />
+                        <dock:Document Title="Bottom##Terminal"
+                                       CanClose="True"
+                                       CanPin="True" />
+                    </dock:DocumentGroup>
+                </dock:LayoutPanel>
+            </dock:LayoutPanel>
+        </dock:DockManager>
+    </Grid>
+</Page>

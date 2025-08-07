@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using Windows.Graphics;
 
-namespace WinUI.Dock.Helpers;
+namespace WinUI.Dock;
 
 internal static unsafe partial class PointerHelpers
 {

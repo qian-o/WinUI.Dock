@@ -2,9 +2,8 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using WinUI.Dock.Abstracts;
 
-namespace WinUI.Dock.Helpers;
+namespace WinUI.Dock;
 
 [JsonSerializable(typeof(int))]
 [JsonSerializable(typeof(bool))]
@@ -75,22 +74,22 @@ internal static class LayoutHelpers
 
     public static void WriteDockModuleProperties(this JsonObject writer, DockModule module)
     {
-        writer[nameof(DockModule.DockMinWidth)] = module.DockMinWidth;
-        writer[nameof(DockModule.DockMaxWidth)] = module.DockMaxWidth;
-        writer[nameof(DockModule.DockWidth)] = module.DockWidth;
-        writer[nameof(DockModule.DockMinHeight)] = module.DockMinHeight;
-        writer[nameof(DockModule.DockMaxHeight)] = module.DockMaxHeight;
-        writer[nameof(DockModule.DockHeight)] = module.DockHeight;
+        writer[nameof(DockModule.MinWidth)] = module.MinWidth;
+        writer[nameof(DockModule.MaxWidth)] = module.MaxWidth;
+        writer[nameof(DockModule.Width)] = module.Width;
+        writer[nameof(DockModule.MinHeight)] = module.MinHeight;
+        writer[nameof(DockModule.MaxHeight)] = module.MaxHeight;
+        writer[nameof(DockModule.Height)] = module.Height;
     }
 
     public static void ReadDockModuleProperties(this JsonObject reader, DockModule module)
     {
-        module.DockMinWidth = reader[nameof(DockModule.DockMinWidth)].Deserialize<double>();
-        module.DockMaxWidth = reader[nameof(DockModule.DockMaxWidth)].Deserialize<double>();
-        module.DockWidth = reader[nameof(DockModule.DockWidth)].Deserialize<double>();
-        module.DockMinHeight = reader[nameof(DockModule.DockMinHeight)].Deserialize<double>();
-        module.DockMaxHeight = reader[nameof(DockModule.DockMaxHeight)].Deserialize<double>();
-        module.DockHeight = reader[nameof(DockModule.DockHeight)].Deserialize<double>();
+        module.MinWidth = reader[nameof(DockModule.MinWidth)].Deserialize<double>();
+        module.MaxWidth = reader[nameof(DockModule.MaxWidth)].Deserialize<double>();
+        module.Width = reader[nameof(DockModule.Width)].Deserialize<double>();
+        module.MinHeight = reader[nameof(DockModule.MinHeight)].Deserialize<double>();
+        module.MaxHeight = reader[nameof(DockModule.MaxHeight)].Deserialize<double>();
+        module.Height = reader[nameof(DockModule.Height)].Deserialize<double>();
     }
 
     public static void WriteDockContainerChildren(this JsonObject writer, DockContainer container)

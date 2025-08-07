@@ -1,10 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel;
 using System.Text.Json.Nodes;
 using Microsoft.UI.Xaml.Data;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Controls;
-using WinUI.Dock.Enums;
-using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
@@ -17,10 +13,15 @@ public partial class DocumentGroup : DockContainer
                                                                                                 typeof(DocumentGroup),
                                                                                                 new PropertyMetadata(TabPosition.Top, OnTabPositionChanged));
 
-    public static readonly DependencyProperty UseCompactTabsProperty = DependencyProperty.Register(nameof(UseCompactTabs),
-                                                                                                   typeof(bool),
-                                                                                                   typeof(DocumentGroup),
-                                                                                                   new PropertyMetadata(false, OnUseCompactTabsChanged));
+    public static readonly DependencyProperty CompactTabsProperty = DependencyProperty.Register(nameof(CompactTabs),
+                                                                                                typeof(bool),
+                                                                                                typeof(DocumentGroup),
+                                                                                                new PropertyMetadata(false, OnCompactTabsChanged));
+
+    public static readonly DependencyProperty ShowWhenEmptyProperty = DependencyProperty.Register(nameof(ShowWhenEmpty),
+                                                                                                  typeof(bool),
+                                                                                                  typeof(DocumentGroup),
+                                                                                                  new PropertyMetadata(false));
 
     public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex),
                                                                                                   typeof(int),
@@ -35,16 +36,28 @@ public partial class DocumentGroup : DockContainer
         DefaultStyleKey = typeof(DocumentGroup);
     }
 
+    public new LayoutPanel? Owner
+    {
+        get => (LayoutPanel)GetValue(OwnerProperty);
+        internal set => SetValue(OwnerProperty, value);
+    }
+
     public TabPosition TabPosition
     {
         get => (TabPosition)GetValue(TabPositionProperty);
         set => SetValue(TabPositionProperty, value);
     }
 
-    public bool UseCompactTabs
+    public bool CompactTabs
     {
-        get => (bool)GetValue(UseCompactTabsProperty);
-        set => SetValue(UseCompactTabsProperty, value);
+        get => (bool)GetValue(CompactTabsProperty);
+        set => SetValue(CompactTabsProperty, value);
+    }
+
+    public bool ShowWhenEmpty
+    {
+        get => (bool)GetValue(ShowWhenEmptyProperty);
+        set => SetValue(ShowWhenEmptyProperty, value);
     }
 
     public int SelectedIndex
@@ -53,11 +66,65 @@ public partial class DocumentGroup : DockContainer
         set => SetValue(SelectedIndexProperty, value);
     }
 
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MinWidth
+    {
+        get => base.MinWidth;
+        set => base.MinWidth = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double Width
+    {
+        get => base.Width;
+        set => base.Width = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MaxWidth
+    {
+        get => base.MaxWidth;
+        set => base.MaxWidth = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MinHeight
+    {
+        get => base.MinHeight;
+        set => base.MinHeight = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double Height
+    {
+        get => base.Height;
+        set => base.Height = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MaxHeight
+    {
+        get => base.MaxHeight;
+        set => base.MaxHeight = value;
+    }
+
     protected override void OnDragEnter(DragEventArgs e)
     {
         base.OnDragEnter(e);
 
-        if (e.DataView.Contains(DragDropHelpers.DocumentId))
+        if (e.DataView.Contains(DragDropHelpers.DocumentKey))
         {
             VisualStateManager.GoToState(this, "ShowDockTargets", false);
         }
@@ -89,9 +156,22 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
+        if (SelectedIndex < 0)
+        {
+            SelectedIndex = 0;
+        }
+        else if (SelectedIndex >= Children.Count)
+        {
+            SelectedIndex = Children.Count - 1;
+        }
+
+        int index = 0;
         foreach (Document document in Children.Cast<Document>())
         {
-            DocumentTabItem tabItem = new(document);
+            DockTabItem tabItem = new(document)
+            {
+                IsSelected = index++ == SelectedIndex
+            };
 
             tabItem.SetBinding(BorderBrushProperty, new Binding()
             {
@@ -100,15 +180,6 @@ public partial class DocumentGroup : DockContainer
             });
 
             root.TabItems.Add(tabItem);
-        }
-
-        if (SelectedIndex < 0)
-        {
-            SelectedIndex = 0;
-        }
-        else if (SelectedIndex >= Children.Count)
-        {
-            SelectedIndex = Children.Count - 1;
         }
 
         UpdateVisualState();
@@ -122,7 +193,7 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
             tabItem.Detach();
         }
@@ -133,6 +204,11 @@ public partial class DocumentGroup : DockContainer
     protected override bool ValidateChildren()
     {
         return Children.All(static item => item is Document);
+    }
+
+    protected override bool ConfirmEmptyContainer()
+    {
+        return !ShowWhenEmpty;
     }
 
     protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
@@ -201,8 +277,6 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        document.Detach();
-
         if (dockTarget is DockTarget.Center)
         {
             Children.Add(document);
@@ -211,40 +285,37 @@ public partial class DocumentGroup : DockContainer
         }
         else
         {
-            LayoutPanel owner = (LayoutPanel)Owner!;
-            DockManager root = owner.Root!;
-
-            int index = owner.Children.IndexOf(this);
+            int index = Owner!.Children.IndexOf(this);
 
             DocumentGroup group = new();
-            group.CopySizeFrom(this);
             group.Children.Add(document);
 
-            root.InvokeNewGroup(document.Title, group);
+            Root!.Adapter?.OnCreated(group, document);
 
-            if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && owner.Orientation is Orientation.Horizontal)
-                || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && owner.Orientation is Orientation.Vertical))
+            if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && Owner.Orientation is Orientation.Horizontal)
+                || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && Owner.Orientation is Orientation.Vertical))
             {
                 switch (dockTarget)
                 {
                     case DockTarget.SplitLeft or DockTarget.SplitTop:
                         {
-                            owner.Children.Insert(index, group);
+                            Owner.Children.Insert(index, group);
                         }
                         break;
                     case DockTarget.SplitRight or DockTarget.SplitBottom:
                         {
-                            owner.Children.Insert(index + 1, group);
+                            Owner.Children.Insert(index + 1, group);
                         }
                         break;
                 }
             }
             else
             {
+                LayoutPanel actualOwner = Owner;
+
                 Detach(false);
 
                 LayoutPanel panel = new();
-                panel.CopySizeFrom(this);
                 panel.Children.Add(group);
 
                 switch (dockTarget)
@@ -279,9 +350,11 @@ public partial class DocumentGroup : DockContainer
                         break;
                 }
 
-                owner.Children.Insert(index, panel);
+                actualOwner.Children.Insert(index, panel);
             }
         }
+
+        Root!.Behavior?.OnDocked(document, this, dockTarget);
     }
 
     internal override void SaveLayout(JsonObject writer)
@@ -291,7 +364,8 @@ public partial class DocumentGroup : DockContainer
         writer.WriteDockContainerChildren(this);
 
         writer[nameof(TabPosition)] = (int)TabPosition;
-        writer[nameof(UseCompactTabs)] = UseCompactTabs;
+        writer[nameof(CompactTabs)] = CompactTabs;
+        writer[nameof(ShowWhenEmpty)] = ShowWhenEmpty;
         writer[nameof(SelectedIndex)] = SelectedIndex;
     }
 
@@ -301,7 +375,8 @@ public partial class DocumentGroup : DockContainer
         reader.ReadDockContainerChildren(this);
 
         TabPosition = (TabPosition)reader[nameof(TabPosition)].Deserialize<int>();
-        UseCompactTabs = reader[nameof(UseCompactTabs)].Deserialize<bool>();
+        CompactTabs = reader[nameof(CompactTabs)].Deserialize<bool>();
+        ShowWhenEmpty = reader[nameof(ShowWhenEmpty)].Deserialize<bool>();
         SelectedIndex = reader[nameof(SelectedIndex)].Deserialize<int>();
     }
 
@@ -327,7 +402,7 @@ public partial class DocumentGroup : DockContainer
 
         VisualStateManager.GoToState(root, TabPosition is TabPosition.Bottom && Children.Count is 1 ? "SingleView" : "MultiView", false);
 
-        foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
+        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
         {
             tabItem.UpdateVisualState(TabPosition);
         }
@@ -340,24 +415,19 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        if (UseCompactTabs)
-        {
-            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
-            {
-                tabItem.TabWidth = double.NaN;
-            }
-        }
-        else
-        {
-            const double minTabWidth = 48.0;
-            const double maxTabWidth = 200.0;
+        // The two constants are hardcoded in WinUI.Dock/Themes/Styles.xaml.
+        // They need to be kept consistent.
+        const double tabViewContainerLeftColumnWidth = 6.0;
+        const double tabItemRadiusWidth = 3.0;
 
-            double tabWidth = Math.Clamp(root.ActualWidth / Children.Count, minTabWidth, maxTabWidth);
+        double availableWidth = root.ActualWidth - tabViewContainerLeftColumnWidth - (tabItemRadiusWidth * 2.0 * Children.Count);
 
-            foreach (DocumentTabItem tabItem in root.TabItems.Cast<DocumentTabItem>())
-            {
-                tabItem.TabWidth = tabWidth;
-            }
+        double tabWidth = Math.Clamp(availableWidth / Children.Count, 0.0, 200.0);
+
+        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
+        {
+            tabItem.TabWidth = CompactTabs ? double.NaN : tabWidth;
+            tabItem.TabMaxWidth = tabWidth;
         }
     }
 
@@ -371,7 +441,7 @@ public partial class DocumentGroup : DockContainer
         ((DocumentGroup)d).UpdateVisualState();
     }
 
-    private static void OnUseCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((DocumentGroup)d).UpdateTabWidths();
     }

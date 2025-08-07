@@ -1,9 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml.Media;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
@@ -44,12 +41,21 @@ public partial class LayoutPanel : DockContainer
         {
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
-                root.RowDefinitions.Add(new()
+                bool isNaN = double.IsNaN(container.Height);
+
+                RowDefinition row = new()
                 {
                     MinHeight = container.MinHeight,
                     MaxHeight = container.MaxHeight,
-                    Height = new(CalculateHeight(container, true), GridUnitType.Star)
-                });
+                    Height = isNaN ? new(1, GridUnitType.Star) : new(container.Height, GridUnitType.Pixel)
+                };
+
+                if (!isNaN)
+                {
+                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => container.Height = row.Height.Value);
+                }
+
+                root.RowDefinitions.Add(row);
 
                 Grid.SetRow(container, root.RowDefinitions.Count - 1);
 
@@ -75,12 +81,21 @@ public partial class LayoutPanel : DockContainer
         {
             foreach (DockContainer container in Children.Cast<DockContainer>())
             {
-                root.ColumnDefinitions.Add(new()
+                bool isNaN = double.IsNaN(container.Width);
+
+                ColumnDefinition column = new()
                 {
                     MinWidth = container.MinWidth,
                     MaxWidth = container.MaxWidth,
-                    Width = new(CalculateWidth(container, true), GridUnitType.Star)
-                });
+                    Width = isNaN ? new(1, GridUnitType.Star) : new(container.Width, GridUnitType.Pixel)
+                };
+
+                if (!isNaN)
+                {
+                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => container.Width = column.Width.Value);
+                }
+
+                root.ColumnDefinitions.Add(column);
 
                 Grid.SetColumn(container, root.ColumnDefinitions.Count - 1);
 
@@ -121,24 +136,29 @@ public partial class LayoutPanel : DockContainer
         return Children.All(static item => item is DockContainer);
     }
 
-    internal double CalculateHeight(DockModule module, bool isStar)
+    protected override bool ConfirmEmptyContainer()
     {
-        DockModule[] children = Children.Contains(module) ? [.. Children] : [.. Children, module];
-
-        double totalHeight = children.Sum(static item => double.IsNaN(item.DockHeight) ? 1.0 : item.DockHeight);
-        double moduleHeight = double.IsNaN(module.DockHeight) ? totalHeight / children.Length : module.DockHeight;
-
-        return isStar ? moduleHeight : ActualHeight / totalHeight * moduleHeight;
+        return true;
     }
 
-    internal double CalculateWidth(DockModule module, bool isStar)
+    internal double CalculateHeight(DockModule module)
     {
-        DockModule[] children = Children.Contains(module) ? [.. Children] : [.. Children, module];
+        if (double.IsNaN(module.Height))
+        {
+            return Math.Clamp(ActualHeight / (Children.Count + 1), module.MinHeight, module.MaxHeight);
+        }
 
-        double totalWidth = children.Sum(static item => double.IsNaN(item.DockWidth) ? 1.0 : item.DockWidth);
-        double moduleWidth = double.IsNaN(module.DockWidth) ? totalWidth / children.Length : module.DockWidth;
+        return Math.Clamp(module.Height, module.MinHeight, module.MaxHeight);
+    }
 
-        return isStar ? moduleWidth : ActualWidth / totalWidth * moduleWidth;
+    internal double CalculateWidth(DockModule module)
+    {
+        if (double.IsNaN(module.Width))
+        {
+            return Math.Clamp(ActualWidth / (Children.Count + 1), module.MinWidth, module.MaxWidth);
+        }
+
+        return Math.Clamp(module.Width, module.MinWidth, module.MaxWidth);
     }
 
     internal override void SaveLayout(JsonObject writer)

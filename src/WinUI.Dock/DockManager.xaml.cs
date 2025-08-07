@@ -2,27 +2,26 @@
 using System.Collections.Specialized;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Microsoft.UI.Windowing;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Controls;
-using WinUI.Dock.Enums;
-using WinUI.Dock.Helpers;
 
 namespace WinUI.Dock;
 
 public record ActiveDocumentChangedEventArgs(Document? OldDocument, Document? NewDocument);
-
-public record FillDocumentEventArgs(string Title, Document Document);
-
-public record NewGroupEventArgs(string Title, DocumentGroup Group);
-
-public record NewWindowEventArgs(AppWindow Window, Border TitleBar);
 
 [ContentProperty(Name = nameof(Panel))]
 [TemplatePart(Name = "PART_PopupContainer", Type = typeof(Border))]
 [TemplatePart(Name = "PART_Preview", Type = typeof(Preview))]
 public partial class DockManager : Control
 {
+    public static readonly DependencyProperty AdapterProperty = DependencyProperty.Register(nameof(Adapter),
+                                                                                            typeof(IDockAdapter),
+                                                                                            typeof(DockManager),
+                                                                                            new PropertyMetadata(null));
+
+    public static readonly DependencyProperty BehaviorProperty = DependencyProperty.Register(nameof(Behavior),
+                                                                                             typeof(IDockBehavior),
+                                                                                             typeof(DockManager),
+                                                                                             new PropertyMetadata(null));
+
     public static readonly DependencyProperty PanelProperty = DependencyProperty.Register(nameof(Panel),
                                                                                           typeof(LayoutPanel),
                                                                                           typeof(DockManager),
@@ -33,23 +32,30 @@ public partial class DockManager : Control
                                                                                                    typeof(DockManager),
                                                                                                    new PropertyMetadata(null, OnActiveDocumentChanged));
 
-    public static readonly DependencyProperty ParentWindowProperty = DependencyProperty.Register(nameof(ParentWindow),
-                                                                                                 typeof(Window),
-                                                                                                 typeof(DockManager),
-                                                                                                 new PropertyMetadata(null));
-
     private Preview? preview;
 
     public DockManager()
     {
         DefaultStyleKey = typeof(DockManager);
 
-        Unloaded += (_, _) => DockWindowHelpers.CloseAllWindows(this);
+        Unloaded += (_, _) => FloatingWindowHelpers.CloseAllWindows(this);
 
         LeftSide.CollectionChanged += OnSideCollectionChanged;
         TopSide.CollectionChanged += OnSideCollectionChanged;
         RightSide.CollectionChanged += OnSideCollectionChanged;
         BottomSide.CollectionChanged += OnSideCollectionChanged;
+    }
+
+    public IDockAdapter? Adapter
+    {
+        get => (IDockAdapter)GetValue(AdapterProperty);
+        set => SetValue(AdapterProperty, value);
+    }
+
+    public IDockBehavior? Behavior
+    {
+        get => (IDockBehavior)GetValue(BehaviorProperty);
+        set => SetValue(BehaviorProperty, value);
     }
 
     public LayoutPanel? Panel
@@ -64,12 +70,6 @@ public partial class DockManager : Control
         set => SetValue(ActiveDocumentProperty, value);
     }
 
-    public Window? ParentWindow
-    {
-        get => (Window)GetValue(ParentWindowProperty);
-        set => SetValue(ParentWindowProperty, value);
-    }
-
     public ObservableCollection<Document> LeftSide { get; } = [];
 
     public ObservableCollection<Document> TopSide { get; } = [];
@@ -78,15 +78,9 @@ public partial class DockManager : Control
 
     public ObservableCollection<Document> BottomSide { get; } = [];
 
-    public Border? PopupContainer { get; private set; }
+    internal Border? PopupContainer { get; private set; }
 
     public event EventHandler<ActiveDocumentChangedEventArgs>? ActiveDocumentChanged;
-
-    public event EventHandler<FillDocumentEventArgs>? FillDocument;
-
-    public event EventHandler<NewGroupEventArgs>? NewGroup;
-
-    public event EventHandler<NewWindowEventArgs>? NewWindow;
 
     public void ClearLayout()
     {
@@ -96,7 +90,7 @@ public partial class DockManager : Control
         RightSide.Clear();
         BottomSide.Clear();
 
-        DockWindowHelpers.CloseAllWindows(this);
+        FloatingWindowHelpers.CloseAllWindows(this);
     }
 
     public string SaveLayout()
@@ -121,7 +115,7 @@ public partial class DockManager : Control
         writer.WriteSideDocuments(nameof(RightSide), RightSide);
         writer.WriteSideDocuments(nameof(BottomSide), BottomSide);
 
-        writer["Windows"] = new JsonArray([.. DockWindowHelpers.GetWindows(this).Select(static item =>
+        writer["Windows"] = new JsonArray([.. FloatingWindowHelpers.GetWindows(this).Select(static item =>
         {
             JsonObject itemWriter = [];
             item.SaveLayout(itemWriter);
@@ -169,7 +163,7 @@ public partial class DockManager : Control
 
         foreach (JsonObject windowReader in reader["Windows"]!.AsArray().Cast<JsonObject>())
         {
-            DockWindow window = new(this, null);
+            FloatingWindow window = new(this, null);
             window.LoadLayout(windowReader);
             window.Activate();
 
@@ -182,7 +176,7 @@ public partial class DockManager : Control
             {
                 if (module is Document document)
                 {
-                    FillDocument?.Invoke(this, new FillDocumentEventArgs(document.Title, document));
+                    Adapter?.OnCreated(document);
 
                     if (document.Path() == activeDocumentPath)
                     {
@@ -210,9 +204,9 @@ public partial class DockManager : Control
     {
         base.OnDragEnter(e);
 
-        ParentWindow?.Activate();
+        Behavior?.ActivateMainWindow();
 
-        if (e.DataView.Contains(DragDropHelpers.DocumentId))
+        if (e.DataView.Contains(DragDropHelpers.DocumentKey))
         {
             VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
         }
@@ -236,26 +230,26 @@ public partial class DockManager : Control
                               VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockLeft:
-                preview?.Show(Panel!.CalculateWidth(document, false),
+                preview?.Show(Panel!.CalculateWidth(document),
                               double.NaN,
                               HorizontalAlignment.Left,
                               VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockTop:
                 preview?.Show(double.NaN,
-                              Panel!.CalculateHeight(document, false),
+                              Panel!.CalculateHeight(document),
                               HorizontalAlignment.Stretch,
                               VerticalAlignment.Top);
                 break;
             case DockTarget.DockRight:
-                preview?.Show(Panel!.CalculateWidth(document, false),
+                preview?.Show(Panel!.CalculateWidth(document),
                               double.NaN,
                               HorizontalAlignment.Right,
                               VerticalAlignment.Stretch);
                 break;
             case DockTarget.DockBottom:
                 preview?.Show(double.NaN,
-                              Panel!.CalculateHeight(document, false),
+                              Panel!.CalculateHeight(document),
                               HorizontalAlignment.Stretch,
                               VerticalAlignment.Bottom);
                 break;
@@ -271,13 +265,10 @@ public partial class DockManager : Control
     {
         VisualStateManager.GoToState(this, "HideDockTargets", false);
 
-        document.Detach();
-
         DocumentGroup group = new();
-        group.CopySizeFrom(document);
         group.Children.Add(document);
 
-        NewGroup?.Invoke(this, new NewGroupEventArgs(document.Title, group));
+        Adapter?.OnCreated(group, document);
 
         LayoutPanel panel = new();
         panel.Children.Add(group);
@@ -327,21 +318,13 @@ public partial class DockManager : Control
         }
 
         Panel = panel;
+
+        Behavior?.OnDocked(document, this, target);
     }
 
     internal void HideDockTargets()
     {
         VisualStateManager.GoToState(this, "HideDockTargets", false);
-    }
-
-    internal void InvokeNewGroup(string title, DocumentGroup group)
-    {
-        NewGroup?.Invoke(this, new NewGroupEventArgs(title, group));
-    }
-
-    internal void InvokeNewWindow(AppWindow window, Border titleBar)
-    {
-        NewWindow?.Invoke(this, new NewWindowEventArgs(window, titleBar));
     }
 
     private void OnSideCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

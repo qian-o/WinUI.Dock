@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
-using WinUI.Dock.Abstracts;
-using WinUI.Dock.Helpers;
+﻿using System.Text.Json.Nodes;
 
 namespace WinUI.Dock;
 
@@ -21,12 +18,12 @@ public partial class Document : DockModule
     public static readonly DependencyProperty CanPinProperty = DependencyProperty.Register(nameof(CanPin),
                                                                                            typeof(bool),
                                                                                            typeof(Document),
-                                                                                           new PropertyMetadata(true));
+                                                                                           new PropertyMetadata(false));
 
     public static readonly DependencyProperty CanCloseProperty = DependencyProperty.Register(nameof(CanClose),
                                                                                              typeof(bool),
                                                                                              typeof(Document),
-                                                                                             new PropertyMetadata(true));
+                                                                                             new PropertyMetadata(false));
 
     private static readonly DependencyProperty ActualTitleProperty = DependencyProperty.Register(nameof(ActualTitle),
                                                                                                  typeof(string),
@@ -36,6 +33,14 @@ public partial class Document : DockModule
     public Document()
     {
         DefaultStyleKey = typeof(Document);
+
+        ResetPreferredSide(null);
+    }
+
+    public new DocumentGroup? Owner
+    {
+        get => (DocumentGroup)GetValue(OwnerProperty);
+        internal set => SetValue(OwnerProperty, value);
     }
 
     public string Title
@@ -68,6 +73,40 @@ public partial class Document : DockModule
         private set => SetValue(ActualTitleProperty, value);
     }
 
+    internal DockSide PreferredSide { get; set; }
+
+    internal int PreferredSideIndex { get; set; }
+
+    public void DockTo(Document dest, DockTarget target)
+    {
+        switch (target)
+        {
+            case DockTarget.Center:
+            case DockTarget.SplitLeft:
+            case DockTarget.SplitTop:
+            case DockTarget.SplitRight:
+            case DockTarget.SplitBottom:
+                if (dest.Owner is not null)
+                {
+                    Detach();
+
+                    dest.Owner.Dock(this, target);
+                }
+                break;
+            case DockTarget.DockLeft:
+            case DockTarget.DockTop:
+            case DockTarget.DockRight:
+            case DockTarget.DockBottom:
+                if (dest.Root is not null)
+                {
+                    Detach();
+
+                    dest.Root.Dock(this, target);
+                }
+                break;
+        }
+    }
+
     internal override void SaveLayout(JsonObject writer)
     {
         writer.WriteByModuleType(this);
@@ -85,6 +124,30 @@ public partial class Document : DockModule
         Title = reader[nameof(Title)].Deserialize<string>();
         CanPin = reader[nameof(CanPin)].Deserialize<bool>();
         CanClose = reader[nameof(CanClose)].Deserialize<bool>();
+    }
+
+    internal void ResetPreferredSide(DockTarget? target)
+    {
+        PreferredSide = (DockSide)(PreferredSideIndex = -1);
+
+        if (target.HasValue)
+        {
+            switch (target)
+            {
+                case DockTarget.DockLeft:
+                    PreferredSide = DockSide.Left;
+                    break;
+                case DockTarget.DockTop:
+                    PreferredSide = DockSide.Top;
+                    break;
+                case DockTarget.DockRight:
+                    PreferredSide = DockSide.Right;
+                    break;
+                case DockTarget.DockBottom:
+                    PreferredSide = DockSide.Bottom;
+                    break;
+            }
+        }
     }
 
     private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

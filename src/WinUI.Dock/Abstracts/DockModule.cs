@@ -1,6 +1,9 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.ComponentModel;
+using System.Text.Json.Nodes;
+using Microsoft.UI.Xaml.Media;
+using Windows.UI.Text;
 
-namespace WinUI.Dock.Abstracts;
+namespace WinUI.Dock;
 
 public abstract partial class DockModule : Control
 {
@@ -14,41 +17,6 @@ public abstract partial class DockModule : Control
                                                                                          typeof(DockModule),
                                                                                          new PropertyMetadata(null, (d, e) => ((DockModule)d).OnRootChanged((DockManager?)e.OldValue, (DockManager?)e.NewValue)));
 
-    public static readonly DependencyProperty DockMinWidthProperty = DependencyProperty.Register(nameof(DockMinWidth),
-                                                                                                 typeof(double),
-                                                                                                 typeof(DockModule),
-                                                                                                 new PropertyMetadata(0.0));
-
-    public static readonly DependencyProperty DockMaxWidthProperty = DependencyProperty.Register(nameof(DockMaxWidth),
-                                                                                                 typeof(double),
-                                                                                                 typeof(DockModule),
-                                                                                                 new PropertyMetadata(double.PositiveInfinity));
-
-    public static readonly DependencyProperty DockWidthProperty = DependencyProperty.Register(nameof(DockWidth),
-                                                                                              typeof(double),
-                                                                                              typeof(DockModule),
-                                                                                              new PropertyMetadata(double.NaN));
-
-    public static readonly DependencyProperty DockMinHeightProperty = DependencyProperty.Register(nameof(DockMinHeight),
-                                                                                                  typeof(double),
-                                                                                                  typeof(DockModule),
-                                                                                                  new PropertyMetadata(0.0));
-
-    public static readonly DependencyProperty DockMaxHeightProperty = DependencyProperty.Register(nameof(DockMaxHeight),
-                                                                                                  typeof(double),
-                                                                                                  typeof(DockModule),
-                                                                                                  new PropertyMetadata(double.PositiveInfinity));
-
-    public static readonly DependencyProperty DockHeightProperty = DependencyProperty.Register(nameof(DockHeight),
-                                                                                               typeof(double),
-                                                                                               typeof(DockModule),
-                                                                                               new PropertyMetadata(double.NaN));
-
-    protected DockModule()
-    {
-        SizeChanged += OnSizeChanged;
-    }
-
     public DockModule? Owner
     {
         get => (DockModule)GetValue(OwnerProperty);
@@ -61,53 +29,250 @@ public abstract partial class DockModule : Control
         internal set => SetValue(RootProperty, value);
     }
 
-    public double DockMinWidth
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Style Style
     {
-        get => (double)GetValue(DockMinWidthProperty);
-        set => SetValue(DockMinWidthProperty, value);
+        get => base.Style;
+        set => base.Style = value;
     }
 
-    public double DockMaxWidth
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new ControlTemplate Template
     {
-        get => (double)GetValue(DockMaxWidthProperty);
-        set => SetValue(DockMaxWidthProperty, value);
+        get => base.Template;
+        set => base.Template = value;
     }
 
-    public double DockWidth
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new double MinWidth
     {
-        get => (double)GetValue(DockWidthProperty);
-        set => SetValue(DockWidthProperty, value);
+        get => base.MinWidth;
+        set => base.MinWidth = value;
     }
 
-    public double DockMinHeight
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new double Width
     {
-        get => (double)GetValue(DockMinHeightProperty);
-        set => SetValue(DockMinHeightProperty, value);
+        get => base.Width;
+        set => base.Width = value;
     }
 
-    public double DockMaxHeight
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new double MaxWidth
     {
-        get => (double)GetValue(DockMaxHeightProperty);
-        set => SetValue(DockMaxHeightProperty, value);
+        get => base.MaxWidth;
+        set => base.MaxWidth = value;
     }
 
-    public double DockHeight
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new double MinHeight
     {
-        get => (double)GetValue(DockHeightProperty);
-        set => SetValue(DockHeightProperty, value);
+        get => base.MinHeight;
+        set => base.MinHeight = value;
     }
 
-    public void CopySizeFrom(DockModule module)
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new double Height
     {
-        DockMinWidth = module.DockMinWidth;
-        DockMaxWidth = module.DockMaxWidth;
-        DockWidth = module.DockWidth;
-        DockMinHeight = module.DockMinHeight;
-        DockMaxHeight = module.DockMaxHeight;
-        DockHeight = module.DockHeight;
+        get => base.Height;
+        set => base.Height = value;
     }
 
-    public void Attach(DockModule owner)
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new double MaxHeight
+    {
+        get => base.MaxHeight;
+        set => base.MaxHeight = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Thickness Margin
+    {
+        get => base.Margin;
+        set => base.Margin = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Thickness Padding
+    {
+        get => base.Padding;
+        set => base.Padding = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Thickness BorderThickness
+    {
+        get => base.BorderThickness;
+        set => base.BorderThickness = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new CornerRadius CornerRadius
+    {
+        get => base.CornerRadius;
+        set => base.CornerRadius = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new BackgroundSizing BackgroundSizing
+    {
+        get => base.BackgroundSizing;
+        set => base.BackgroundSizing = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new FontFamily FontFamily
+    {
+        get => base.FontFamily;
+        set => base.FontFamily = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new double FontSize
+    {
+        get => base.FontSize;
+        set => base.FontSize = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new FontWeight FontWeight
+    {
+        get => base.FontWeight;
+        set => base.FontWeight = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new FontStyle FontStyle
+    {
+        get => base.FontStyle;
+        set => base.FontStyle = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new FontStretch FontStretch
+    {
+        get => base.FontStretch;
+        set => base.FontStretch = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Brush Foreground
+    {
+        get => base.Foreground;
+        set => base.Foreground = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Brush Background
+    {
+        get => base.Background;
+        set => base.Background = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Brush BorderBrush
+    {
+        get => base.BorderBrush;
+        set => base.BorderBrush = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new HorizontalAlignment HorizontalAlignment
+    {
+        get => base.HorizontalAlignment;
+        set => base.HorizontalAlignment = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new VerticalAlignment VerticalAlignment
+    {
+        get => base.VerticalAlignment;
+        set => base.VerticalAlignment = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new HorizontalAlignment HorizontalContentAlignment
+    {
+        get => base.HorizontalContentAlignment;
+        set => base.HorizontalContentAlignment = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new VerticalAlignment VerticalContentAlignment
+    {
+        get => base.VerticalContentAlignment;
+        set => base.VerticalContentAlignment = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new FlowDirection FlowDirection
+    {
+        get => base.FlowDirection;
+        set => base.FlowDirection = value;
+    }
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new Visibility Visibility
+    {
+        get => base.Visibility;
+        set => base.Visibility = value;
+    }
+
+    internal void Attach(DockModule owner)
     {
         if (Owner == owner)
         {
@@ -120,7 +285,7 @@ public abstract partial class DockModule : Control
         Root = owner.Root;
     }
 
-    public void Detach(bool detachEmptyContainer = true)
+    internal void Detach(bool detachEmptyContainer = true)
     {
         if (Owner is DockContainer container)
         {
@@ -136,17 +301,11 @@ public abstract partial class DockModule : Control
         Root = null;
     }
 
-    protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
-    {
-    }
-
     internal abstract void SaveLayout(JsonObject writer);
 
     internal abstract void LoadLayout(JsonObject reader);
 
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    protected virtual void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
-        DockWidth = ActualWidth;
-        DockHeight = ActualHeight;
     }
 }

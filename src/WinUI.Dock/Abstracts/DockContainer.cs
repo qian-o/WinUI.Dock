@@ -1,21 +1,33 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
-namespace WinUI.Dock.Abstracts;
+namespace WinUI.Dock;
 
 [ContentProperty(Name = nameof(Children))]
 public abstract partial class DockContainer : DockModule
 {
     protected DockContainer()
     {
-        Children.CollectionChanged += OnCollectionChanged;
+        Children.CollectionChanged += (_, _) =>
+        {
+            if (IsListening && ValidateChildren())
+            {
+                UnloadChildren();
+
+                foreach (DockModule module in Children)
+                {
+                    module.Attach(this);
+                }
+
+                LoadChildren();
+            }
+        };
     }
 
     public ObservableCollection<DockModule> Children { get; } = [];
 
     internal bool IsListening { get; set; } = true;
 
-    public void DetachEmptyContainer()
+    internal void DetachEmptyContainer()
     {
         for (int i = Children.Count - 1; i >= 0; i--)
         {
@@ -25,7 +37,7 @@ public abstract partial class DockContainer : DockModule
             }
         }
 
-        if (Children.Count is 0)
+        if (Children.Count is 0 && ConfirmEmptyContainer())
         {
             Detach();
         }
@@ -48,26 +60,13 @@ public abstract partial class DockContainer : DockModule
 
     protected abstract bool ValidateChildren();
 
+    protected abstract bool ConfirmEmptyContainer();
+
     protected override void OnRootChanged(DockManager? oldRoot, DockManager? newRoot)
     {
         foreach (DockModule module in Children)
         {
             module.Root = newRoot;
-        }
-    }
-
-    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (IsListening && ValidateChildren())
-        {
-            UnloadChildren();
-
-            foreach (DockModule module in Children)
-            {
-                module.Attach(this);
-            }
-
-            LoadChildren();
         }
     }
 }

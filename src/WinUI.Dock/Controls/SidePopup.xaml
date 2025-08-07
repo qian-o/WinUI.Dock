@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="WinUI.Dock.Controls.PopupDocument"
+﻿<UserControl x:Class="WinUI.Dock.SidePopup"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+             xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
              x:Name="Main"
              SizeChanged="OnSizeChanged">
 
@@ -65,8 +65,8 @@
 
         </Border>
 
-        <controls:ContentSizer x:Name="Sizer"
-                               TargetControl="{x:Bind Main}" />
+        <toolkit:ContentSizer x:Name="Sizer"
+                              TargetControl="{x:Bind Main}" />
     </Grid>
 
 </UserControl>

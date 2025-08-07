@@ -1,65 +1,65 @@
-﻿namespace WinUI.Dock.Helpers;
+﻿namespace WinUI.Dock;
 
 internal static class DragDropHelpers
 {
-    private static readonly Dictionary<string, DockManager> dockManagers = [];
+    private static readonly Dictionary<string, DockManager> managers = [];
     private static readonly Dictionary<string, Document> documents = [];
     private static readonly Lock @lock = new();
 
-    public const string DockManagerId = "Dock.DockManager";
-    public const string DocumentId = "Dock.Document";
+    public const string ManagerKey = "Dock.Manager";
+    public const string DocumentKey = "Dock.Document";
 
-    public static string GetDockManagerKey(DockManager dockManager)
+    public static string GetManagerKey(DockManager dockManager)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        string dockManagerKey = Guid.NewGuid().ToString();
+        string key = Guid.NewGuid().ToString();
 
-        dockManagers[dockManagerKey] = dockManager;
+        managers[key] = dockManager;
 
-        return dockManagerKey;
+        return key;
     }
 
-    public static DockManager? GetDockManager(string dockManagerKey)
+    public static DockManager? GetManager(string key)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        dockManagers.TryGetValue(dockManagerKey, out DockManager? dockManager);
+        managers.TryGetValue(key, out DockManager? dockManager);
 
         return dockManager;
     }
 
-    public static void RemoveDockManagerKey(string dockManagerKey)
+    public static void RemoveManagerKey(string key)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        dockManagers.Remove(dockManagerKey);
+        managers.Remove(key);
     }
 
     public static string GetDocumentKey(Document document)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        string documentKey = Guid.NewGuid().ToString();
+        string key = Guid.NewGuid().ToString();
 
-        documents[documentKey] = document;
+        documents[key] = document;
 
-        return documentKey;
+        return key;
     }
 
-    public static Document? GetDocument(string documentKey)
+    public static Document? GetDocument(string key)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        documents.TryGetValue(documentKey, out Document? document);
+        documents.TryGetValue(key, out Document? document);
 
         return document;
     }
 
-    public static void RemoveDocumentKey(string documentKey)
+    public static void RemoveDocumentKey(string key)
     {
         using Lock.Scope scope = @lock.EnterScope();
 
-        documents.Remove(documentKey);
+        documents.Remove(key);
     }
 }

@@ -1,17 +1,18 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel;
 using System.Text.Json.Nodes;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Graphics;
-using WinUI.Dock.Helpers;
 
-namespace WinUI.Dock.Controls;
+namespace WinUI.Dock;
 
-public sealed partial class DockWindow : Window
+[Browsable(false)]
+[EditorBrowsable(EditorBrowsableState.Never)]
+public sealed partial class FloatingWindow : Window
 {
     private PointInt32 dragOffset;
 
-    public DockWindow(DockManager manager, Document? document)
+    public FloatingWindow(DockManager manager, Document? document)
     {
         InitializeComponent();
 
@@ -73,6 +74,8 @@ public sealed partial class DockWindow : Window
             panel.Children.Add(group);
 
             Panel.Children.Add(panel);
+
+            manager.Behavior?.OnFloating(document);
         }
     }
 
@@ -80,7 +83,7 @@ public sealed partial class DockWindow : Window
     {
         ExtendsContentIntoTitleBar = true;
 
-        Closed += (_, _) => DockWindowHelpers.RemoveWindow(manager, this);
+        Closed += (_, _) => FloatingWindowHelpers.RemoveWindow(manager, this);
 
         AppWindow.Move(PointerHelpers.GetPointerPosition());
 
@@ -88,14 +91,14 @@ public sealed partial class DockWindow : Window
         {
             AppWindow.Resize(new()
             {
-                Width = (int)(double.IsNaN(document.DockWidth) ? 400 : document.DockWidth),
-                Height = (int)(double.IsNaN(document.DockHeight) ? 400 : document.DockHeight)
+                Width = (int)(double.IsNaN(document.Width) ? 400 : document.Width),
+                Height = (int)(double.IsNaN(document.Height) ? 400 : document.Height)
             });
         }
 
-        manager.InvokeNewWindow(AppWindow, TitleBar);
+        TitleBar.Content = manager.Adapter?.GetFloatingWindowTitleBar(document);
 
-        DockWindowHelpers.AddWindow(manager, this);
+        FloatingWindowHelpers.AddWindow(manager, this);
     }
 
     private void OnDragEnter(object _, DragEventArgs __)

@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>net9.0-windows10.0.19041.0;net9.0</TargetFrameworks>
         <IsTrimmable>true</IsTrimmable>
+        <NoWarn>IDE0130</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">

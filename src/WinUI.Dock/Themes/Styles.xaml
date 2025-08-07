@@ -1,8 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="using:WinUI.Dock.Converters">
+                    xmlns:dock="using:WinUI.Dock">
 
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <dock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+    <x:Double x:Key="TabViewShadowDepth">0</x:Double>
 
     <Style x:Key="TabViewStyle"
            TargetType="TabView">
@@ -10,7 +12,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabView">
-                    <Grid Background="Transparent">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1*" />
@@ -33,12 +35,18 @@
                         <Grid x:Name="TabContainerGrid"
                               Grid.Row="0">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
 
+                            <Border Grid.Column="0"
+                                    Height="1"
+                                    VerticalAlignment="Bottom"
+                                    Background="{TemplateBinding BorderBrush}" />
+
                             <TabViewListView x:Name="TabListView"
-                                             Grid.Column="0"
+                                             Grid.Column="1"
                                              ItemTemplate="{TemplateBinding TabItemTemplate}"
                                              ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
                                              ItemsSource="{TemplateBinding TabItemsSource}">
@@ -55,7 +63,7 @@
                                 </TabViewListView.Template>
                             </TabViewListView>
 
-                            <Border Grid.Column="1"
+                            <Border Grid.Column="2"
                                     Height="1"
                                     VerticalAlignment="Bottom"
                                     Background="{TemplateBinding BorderBrush}" />
@@ -82,7 +90,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
@@ -91,29 +99,41 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
+                                        <Setter Target="Separator.Visibility" Value="Collapsed" />
                                         <Setter Target="ContentPresenter.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="Pressed" />
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="Separator.Visibility" Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
-                                        <Setter Target="Indicator.Opacity" Value="1" />
-                                        <Setter Target="Indicator.Background" Value="{ThemeResource DockFillDefaultBrush}" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource DockFillDefaultBrush}" />
+                                        <Setter Target="Indicator.Visibility" Value="Visible" />
+                                        <Setter Target="LeftRadius.Visibility" Value="Visible" />
+                                        <Setter Target="RightRadius.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PointerOverSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
-                                        <Setter Target="Indicator.Opacity" Value="1" />
-                                        <Setter Target="Indicator.Background" Value="{ThemeResource DockFillDefaultBrush}" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource DockFillDefaultBrush}" />
+                                        <Setter Target="Indicator.Visibility" Value="Visible" />
+                                        <Setter Target="LeftRadius.Visibility" Value="Visible" />
+                                        <Setter Target="RightRadius.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PressedSelected">
                                     <VisualState.Setters>
                                         <Setter Target="BottomLine.Opacity" Value="0" />
-                                        <Setter Target="Indicator.Opacity" Value="1" />
-                                        <Setter Target="Indicator.Background" Value="{ThemeResource DockFillDefaultBrush}" />
+                                        <Setter Target="ContentPresenter.Background" Value="{ThemeResource DockFillDefaultBrush}" />
+                                        <Setter Target="Indicator.Visibility" Value="Visible" />
+                                        <Setter Target="LeftRadius.Visibility" Value="Visible" />
+                                        <Setter Target="RightRadius.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -132,13 +152,6 @@
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource TabViewItemSeparator}" />
 
-                        <Border x:Name="Indicator"
-                                Grid.Column="1"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="1,1,1,0"
-                                CornerRadius="4,4,0,0"
-                                Opacity="0" />
-
                         <ContentPresenter x:Name="ContentPresenter"
                                           Grid.Column="1"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -150,6 +163,36 @@
                                           FontSize="{ThemeResource TabViewItemHeaderFontSize}"
                                           FontWeight="{TemplateBinding FontWeight}"
                                           Foreground="{ThemeResource TabViewItemHeaderForeground}" />
+
+                        <Border x:Name="Indicator"
+                                Grid.Column="1"
+                                Margin="0,0,0,4"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,1,1,0"
+                                CornerRadius="4,4,0,0"
+                                Visibility="Collapsed" />
+
+                        <Border x:Name="LeftRadius"
+                                Grid.Column="0"
+                                Width="4"
+                                Height="4"
+                                Margin="0,0,-1,0"
+                                VerticalAlignment="Bottom"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0,0,1,1"
+                                CornerRadius="0,0,4,0"
+                                Visibility="Collapsed" />
+
+                        <Border x:Name="RightRadius"
+                                Grid.Column="2"
+                                Width="4"
+                                Height="4"
+                                Margin="-1,0,0,0"
+                                VerticalAlignment="Bottom"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,0,0,1"
+                                CornerRadius="0,0,0,4"
+                                Visibility="Collapsed" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
