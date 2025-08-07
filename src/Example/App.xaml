@@ -7,6 +7,13 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <dock:WinUIDockResources xmlns:dock="using:WinUI.Dock" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!--<SolidColorBrush x:Key="DockStrokeDefaultBrush"
+                             Color="Red" />
+            <SolidColorBrush x:Key="DockFillDefaultBrush"
+                             Color="Green" />
+            <SolidColorBrush x:Key="DockStrokeActiveBrush"
+                             Color="Blue" />-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
