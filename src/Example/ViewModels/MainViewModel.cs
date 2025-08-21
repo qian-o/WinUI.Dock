@@ -10,6 +10,13 @@ namespace Example.ViewModels;
 
 public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavior
 {
+    private readonly Document propertiesDocument = new()
+    {
+        Title = "Bottom##Properties",
+        Content = "This is a properties document.",
+        CanClose = true
+    };
+
     [RelayCommand]
     private static async Task Open(DockManager manager)
     {
@@ -49,6 +56,13 @@ public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavi
     private static void Exit()
     {
         App.MainWindow.Close();
+    }
+
+    [RelayCommand]
+    private void OpenProperties(object content)
+    {
+        propertiesDocument.Width = 200;
+        propertiesDocument.DockTo(DocumentHelpers.GetDocument(content)!, DockTarget.SplitRight);
     }
 
     void IDockAdapter.OnCreated(Document document)

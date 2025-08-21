@@ -38,7 +38,12 @@
                 <dock:LayoutPanel Orientation="Horizontal">
                     <dock:DocumentGroup ShowWhenEmpty="True">
                         <dock:Document Title="MainView.xaml"
-                                       CanClose="True" />
+                                       CanClose="True">
+                            <Button VerticalAlignment="Top"
+                                    Command="{Binding OpenPropertiesCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+                                    Content="Open Properties" />
+                        </dock:Document>
                         <dock:Document Title="MainViewModel.cs"
                                        CanClose="True" />
                     </dock:DocumentGroup>

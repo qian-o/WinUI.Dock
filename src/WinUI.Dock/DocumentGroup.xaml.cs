@@ -290,6 +290,8 @@ public partial class DocumentGroup : DockContainer
             DocumentGroup group = new();
             group.Children.Add(document);
 
+            group.CopyDimensions(document);
+
             Root!.Adapter?.OnCreated(group, document);
 
             if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && Owner.Orientation is Orientation.Horizontal)
@@ -349,6 +351,8 @@ public partial class DocumentGroup : DockContainer
                         }
                         break;
                 }
+
+                panel.CopyDimensions(this);
 
                 actualOwner.Children.Insert(index, panel);
             }

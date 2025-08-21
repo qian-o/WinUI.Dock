@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.ComponentModel;
+using System.Text.Json.Nodes;
 
 namespace WinUI.Dock;
 
@@ -73,12 +74,77 @@ public partial class Document : DockModule
         private set => SetValue(ActualTitleProperty, value);
     }
 
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MinWidth
+    {
+        get => base.MinWidth;
+        set => base.MinWidth = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double Width
+    {
+        get => base.Width;
+        set => base.Width = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MaxWidth
+    {
+        get => base.MaxWidth;
+        set => base.MaxWidth = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MinHeight
+    {
+        get => base.MinHeight;
+        set => base.MinHeight = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double Height
+    {
+        get => base.Height;
+        set => base.Height = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new double MaxHeight
+    {
+        get => base.MaxHeight;
+        set => base.MaxHeight = value;
+    }
+
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public new Thickness Padding
+    {
+        get => base.Padding;
+        set => base.Padding = value;
+    }
+
     internal DockSide PreferredSide { get; set; }
 
     internal int PreferredSideIndex { get; set; }
 
     public void DockTo(Document dest, DockTarget target)
     {
+        DockManager? manager = Root;
+
         switch (target)
         {
             case DockTarget.Center:
@@ -104,6 +170,11 @@ public partial class Document : DockModule
                     dest.Root.Dock(this, target);
                 }
                 break;
+        }
+
+        if (manager is not null)
+        {
+            FloatingWindowHelpers.CloseEmptyWindows(manager);
         }
     }
 
