@@ -301,6 +301,44 @@ public abstract partial class DockModule : Control
         Root = null;
     }
 
+    internal void CopyDimensions(DockModule source)
+    {
+        MinWidth = source.MinWidth;
+        Width = source.Width;
+        MaxWidth = source.MaxWidth;
+
+        MinHeight = source.MinHeight;
+        Height = source.Height;
+        MaxHeight = source.MaxHeight;
+
+        if (this is DockContainer container)
+        {
+            foreach (DockModule children in container.Children)
+            {
+                children.ClearDimensions();
+            }
+        }
+    }
+
+    internal void ClearDimensions()
+    {
+        MinWidth = 0;
+        Width = double.NaN;
+        MaxWidth = double.PositiveInfinity;
+
+        MinHeight = 0;
+        Height = double.NaN;
+        MaxHeight = double.PositiveInfinity;
+
+        if (this is DockContainer container)
+        {
+            foreach (DockModule children in container.Children)
+            {
+                children.ClearDimensions();
+            }
+        }
+    }
+
     internal abstract void SaveLayout(JsonObject writer);
 
     internal abstract void LoadLayout(JsonObject reader);

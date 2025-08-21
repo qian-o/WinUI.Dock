@@ -81,9 +81,12 @@ public sealed partial class FloatingWindow : Window
 
     private void InitializeWindow(DockManager manager, Document? document)
     {
-        ExtendsContentIntoTitleBar = true;
-
         Closed += (_, _) => FloatingWindowHelpers.RemoveWindow(manager, this);
+
+        OverlappedPresenter presenter = OverlappedPresenter.Create();
+        presenter.SetBorderAndTitleBar(true, false);
+
+        AppWindow.SetPresenter(presenter);
 
         AppWindow.Move(PointerHelpers.GetPointerPosition());
 
