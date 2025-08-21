@@ -25,7 +25,6 @@ Install-Package WinUI.Dock
 xmlns:dock="using:WinUI.Dock"
 
 <dock:DockManager x:Name="Manager"
-                  Grid.Row="1"
                   Adapter="{Binding}"
                   Behavior="{Binding}">
     <dock:LayoutPanel Orientation="Vertical">
