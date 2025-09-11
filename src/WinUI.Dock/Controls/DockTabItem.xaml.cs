@@ -177,12 +177,13 @@ public sealed partial class DockTabItem : TabViewItem
     {
         DockManager manager = Document!.Root!;
 
-        if (manager.ActiveDocument == Document)
+        bool wasActive = manager.ActiveDocument == Document;
+        if (wasActive)
         {
             manager.ActiveDocument = null;
         }
 
-        Document.Detach();
+        Document.Detach(true, wasActive);
 
         // Reference: Comments on lines 91-92.
         FloatingWindowHelpers.CloseEmptyWindows(manager);
