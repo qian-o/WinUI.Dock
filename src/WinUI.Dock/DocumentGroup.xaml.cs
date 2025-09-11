@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Text.Json.Nodes;
 using Microsoft.UI.Xaml.Data;
 
@@ -26,7 +27,7 @@ public partial class DocumentGroup : DockContainer
     public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex),
                                                                                                   typeof(int),
                                                                                                   typeof(DocumentGroup),
-                                                                                                  new PropertyMetadata(-1));
+                                                                                                  new PropertyMetadata(-1, OnSelectedIndexPropertyChanged));
 
     private TabView? root;
     private Preview? preview;
@@ -34,6 +35,9 @@ public partial class DocumentGroup : DockContainer
     public DocumentGroup()
     {
         DefaultStyleKey = typeof(DocumentGroup);
+
+        // Secondary subscription only for selection maintenance after base rebuild.
+        Children.CollectionChanged += OnChildrenCollectionChanged;
     }
 
     public new LayoutPanel? Owner
@@ -156,15 +160,6 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        if (SelectedIndex < 0)
-        {
-            SelectedIndex = 0;
-        }
-        else if (SelectedIndex >= Children.Count)
-        {
-            SelectedIndex = Children.Count - 1;
-        }
-
         int index = 0;
         foreach (Document document in Children.Cast<Document>())
         {
@@ -180,6 +175,11 @@ public partial class DocumentGroup : DockContainer
             });
 
             root.TabItems.Add(tabItem);
+        }
+
+        if (SelectedIndex == -1 && Children.Count > 0)
+        {
+            SelectedIndex = 0;
         }
 
         UpdateVisualState();
@@ -448,5 +448,60 @@ public partial class DocumentGroup : DockContainer
     private static void OnCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((DocumentGroup)d).UpdateTabWidths();
+    }
+
+    private static void OnSelectedIndexPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ((DocumentGroup)d).OnSelectedIndexChanged((int)e.OldValue, (int)e.NewValue);
+    }
+
+    private void OnSelectedIndexChanged(int oldIndex, int newIndex)
+    {
+        if (root is null)
+            return;
+
+        if (Children.Count == 0)
+        {
+            if (Root?.ActiveDocument is not null)
+            {
+                Root.ActiveDocument = null;
+            }
+            return;
+        }
+
+        int clamped = Math.Clamp(newIndex, 0, Children.Count - 1);
+        if (clamped != newIndex)
+        {
+            SetValue(SelectedIndexProperty, clamped);
+            return;
+        }
+
+        int i = 0;
+        foreach (DockTabItem tab in root.TabItems.Cast<DockTabItem>())
+        {
+            tab.IsSelected = i == clamped;
+            i++;
+        }
+
+        Document target = (Document)Children[clamped];
+        if (Root is not null && Root.ActiveDocument != target)
+        {
+            Root.ActiveDocument = target;
+        }
+
+        UpdateVisualState();
+        UpdateTabWidths();
+    }
+
+    private void OnChildrenCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action is NotifyCollectionChangedAction.Remove)
+        {
+            int desiredIndex = e.OldStartingIndex - 1;
+            if (desiredIndex != SelectedIndex)
+            {
+                SetValue(SelectedIndexProperty, desiredIndex);
+            }
+        }
     }
 }
