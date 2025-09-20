@@ -285,10 +285,19 @@ public abstract partial class DockModule : Control
         Root = owner.Root;
     }
 
-    internal void Detach(bool detachEmptyContainer = true)
+    internal void Detach(bool detachEmptyContainer = true, bool wasActive = false)
     {
         if (Owner is DockContainer container)
         {
+            // Activate the previous document if the current document being detached was or is active
+            if (Root != null
+                && (wasActive || Root.ActiveDocument == this)
+                && container.Children.Count > 0)
+            {
+                var index = container.Children.IndexOf(this);
+                Root.ActiveDocument = container.Children[Math.Max(index - 1, 0)] as Document;
+            }
+
             container.Children.Remove(this);
 
             if (detachEmptyContainer)
