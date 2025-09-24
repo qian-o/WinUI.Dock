@@ -12,26 +12,21 @@ public abstract partial class DockContainer : DockModule
         {
             if (ValidateChildren())
             {
+                foreach (DockModule module in Children)
+                {
+                    module.Attach(this);
+                }
+
                 if (e.Action is NotifyCollectionChangedAction.Reset)
                 {
                     InitChildren();
                 }
                 else
                 {
-                    DockModule[] oldChildren = e.OldItems?.Cast<DockModule>().ToArray() ?? [];
-                    DockModule[] newChildren = e.NewItems?.Cast<DockModule>().ToArray() ?? [];
-
-                    foreach (DockModule module in oldChildren)
-                    {
-                        module.Detach();
-                    }
-
-                    foreach (DockModule module in newChildren)
-                    {
-                        module.Attach(this);
-                    }
-
-                    SynchronizeChildren(oldChildren, e.OldStartingIndex, newChildren, e.NewStartingIndex);
+                    SynchronizeChildren(e.OldItems?.Cast<DockModule>().ToArray() ?? [],
+                                        e.OldStartingIndex,
+                                        e.NewItems?.Cast<DockModule>().ToArray() ?? [],
+                                        e.NewStartingIndex);
                 }
             }
         };
