@@ -31,7 +31,7 @@ public abstract partial class DockContainer : DockModule
                         module.Attach(this);
                     }
 
-                    UpdateChildren(oldChildren, e.OldStartingIndex, newChildren, e.NewStartingIndex);
+                    SynchronizeChildren(oldChildren, e.OldStartingIndex, newChildren, e.NewStartingIndex);
                 }
             }
         };
@@ -67,10 +67,10 @@ public abstract partial class DockContainer : DockModule
 
     protected abstract void InitChildren();
 
-    protected abstract void UpdateChildren(DockModule[] oldChildren,
-                                           int oldStartingIndex,
-                                           DockModule[] newChildren,
-                                           int newStartingIndex);
+    protected abstract void SynchronizeChildren(DockModule[] oldChildren,
+                                                int oldStartingIndex,
+                                                DockModule[] newChildren,
+                                                int newStartingIndex);
 
     protected abstract bool ValidateChildren();
 

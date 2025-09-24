@@ -171,10 +171,10 @@ public partial class DocumentGroup : DockContainer
         UpdateTabWidths();
     }
 
-    protected override void UpdateChildren(DockModule[] oldChildren,
-                                           int oldStartingIndex,
-                                           DockModule[] newChildren,
-                                           int newStartingIndex)
+    protected override void SynchronizeChildren(DockModule[] oldChildren,
+                                                int oldStartingIndex,
+                                                DockModule[] newChildren,
+                                                int newStartingIndex)
     {
         if (root is null)
         {
