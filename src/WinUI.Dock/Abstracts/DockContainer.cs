@@ -32,10 +32,6 @@ public abstract partial class DockContainer : DockModule
                     OldChildren(oldChildren, e.OldStartingIndex);
                 }
             }
-            else
-            {
-                throw new InvalidOperationException();
-            }
         };
     }
 
