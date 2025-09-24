@@ -14,9 +14,11 @@ public sealed partial class DockTabItem : TabViewItem
     private string managerKey = string.Empty;
     private string documentKey = string.Empty;
 
-    public DockTabItem(Document document)
+    public DockTabItem(TabView tabView, Document document)
     {
         InitializeComponent();
+
+        SetBinding(BorderBrushProperty, new Binding() { Source = tabView, Path = new(nameof(BorderBrush)) });
 
         Document = document;
 

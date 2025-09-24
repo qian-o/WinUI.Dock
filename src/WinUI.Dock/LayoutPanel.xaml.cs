@@ -37,6 +37,8 @@ public partial class LayoutPanel : DockContainer
             return;
         }
 
+        root.Children.Clear();
+
         foreach (DockContainer container in Children.Cast<DockContainer>())
         {
             root.Children.Add(container);
@@ -45,31 +47,24 @@ public partial class LayoutPanel : DockContainer
         UpdateLayoutStructure();
     }
 
-    protected override void NewChildren(DockModule[] children, int startingIndex)
+    protected override void UpdateChildren(DockModule[] oldChildren,
+                                           int oldStartingIndex,
+                                           DockModule[] newChildren,
+                                           int newStartingIndex)
     {
         if (root is null)
         {
             return;
         }
 
-        foreach (DockContainer container in children.Cast<DockContainer>())
-        {
-            root.Children.Add(container);
-        }
-
-        UpdateLayoutStructure();
-    }
-
-    protected override void OldChildren(DockModule[] children, int startingIndex)
-    {
-        if (root is null)
-        {
-            return;
-        }
-
-        foreach (DockContainer container in children.Cast<DockContainer>())
+        foreach (DockContainer container in oldChildren.Cast<DockContainer>())
         {
             root.Children.Remove(container);
+        }
+
+        foreach (DockContainer container in newChildren.Cast<DockContainer>())
+        {
+            root.Children.Add(container);
         }
 
         UpdateLayoutStructure();

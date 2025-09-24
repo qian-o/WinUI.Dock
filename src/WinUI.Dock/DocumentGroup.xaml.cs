@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Nodes;
-using Microsoft.UI.Xaml.Data;
 
 namespace WinUI.Dock;
 
@@ -156,75 +155,44 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
-        if (SelectedIndex < 0)
+        root.TabItems.Clear();
+
+        foreach (Document document in Children.Cast<Document>())
+        {
+            root.TabItems.Add(new DockTabItem(root, document));
+        }
+
+        if (Children.Count is not 0)
         {
             SelectedIndex = 0;
         }
 
-        int index = 0;
-        foreach (Document document in Children.Cast<Document>())
-        {
-            DockTabItem tabItem = new(document)
-            {
-                IsSelected = index++ == SelectedIndex
-            };
-
-            tabItem.SetBinding(BorderBrushProperty, new Binding()
-            {
-                Source = root,
-                Path = new(nameof(BorderBrush))
-            });
-
-            root.TabItems.Add(tabItem);
-        }
-
         UpdateVisualState();
         UpdateTabWidths();
     }
 
-    protected override void NewChildren(DockModule[] children, int startingIndex)
+    protected override void UpdateChildren(DockModule[] oldChildren,
+                                           int oldStartingIndex,
+                                           DockModule[] newChildren,
+                                           int newStartingIndex)
     {
         if (root is null)
         {
             return;
         }
 
-        int index = startingIndex;
-        foreach (Document document in children.Cast<Document>())
+        for (int i = 0; i < oldChildren.Length; i++)
         {
-            DockTabItem tabItem = new(document)
-            {
-                IsSelected = index++ == SelectedIndex
-            };
+            DockTabItem tabItem = (DockTabItem)root.TabItems[oldStartingIndex++];
 
-            tabItem.SetBinding(BorderBrushProperty, new Binding()
-            {
-                Source = root,
-                Path = new(nameof(BorderBrush))
-            });
+            tabItem.Detach();
 
-            root.TabItems.Insert(index - 1, tabItem);
+            root.TabItems.Remove(tabItem);
         }
 
-        UpdateVisualState();
-        UpdateTabWidths();
-    }
-
-    protected override void OldChildren(DockModule[] children, int startingIndex)
-    {
-        if (root is null)
+        foreach (Document document in newChildren.Cast<Document>())
         {
-            return;
-        }
-
-        foreach (Document document in children.Cast<Document>())
-        {
-            if (root.TabItems.Cast<DockTabItem>().FirstOrDefault(item => item.Document == document) is DockTabItem tabItem)
-            {
-                tabItem.Detach();
-
-                root.TabItems.Remove(tabItem);
-            }
+            root.TabItems.Insert(newStartingIndex++, new DockTabItem(root, document));
         }
 
         UpdateVisualState();

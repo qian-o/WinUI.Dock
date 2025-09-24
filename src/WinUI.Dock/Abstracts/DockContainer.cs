@@ -1,35 +1,37 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace WinUI.Dock;
 
 [ContentProperty(Name = nameof(Children))]
 public abstract partial class DockContainer : DockModule
 {
-    private bool isInitChildren;
-
     protected DockContainer()
     {
         Children.CollectionChanged += (_, e) =>
         {
             if (ValidateChildren())
             {
-                DockModule[] newChildren = e.NewItems?.Cast<DockModule>().ToArray() ?? [];
-                DockModule[] oldChildren = e.OldItems?.Cast<DockModule>().ToArray() ?? [];
-
-                foreach (DockModule module in newChildren)
+                if (e.Action is NotifyCollectionChangedAction.Reset)
                 {
-                    module.Attach(this);
+                    InitChildren();
                 }
-
-                foreach (DockModule module in oldChildren)
+                else
                 {
-                    module.Detach();
-                }
+                    DockModule[] oldChildren = e.OldItems?.Cast<DockModule>().ToArray() ?? [];
+                    DockModule[] newChildren = e.NewItems?.Cast<DockModule>().ToArray() ?? [];
 
-                if (isInitChildren)
-                {
-                    NewChildren(newChildren, e.NewStartingIndex);
-                    OldChildren(oldChildren, e.OldStartingIndex);
+                    foreach (DockModule module in oldChildren)
+                    {
+                        module.Detach();
+                    }
+
+                    foreach (DockModule module in newChildren)
+                    {
+                        module.Attach(this);
+                    }
+
+                    UpdateChildren(oldChildren, e.OldStartingIndex, newChildren, e.NewStartingIndex);
                 }
             }
         };
@@ -59,17 +61,16 @@ public abstract partial class DockContainer : DockModule
 
         InitTemplate();
         InitChildren();
-
-        isInitChildren = true;
     }
 
     protected abstract void InitTemplate();
 
     protected abstract void InitChildren();
 
-    protected abstract void NewChildren(DockModule[] children, int startingIndex);
-
-    protected abstract void OldChildren(DockModule[] children, int startingIndex);
+    protected abstract void UpdateChildren(DockModule[] oldChildren,
+                                           int oldStartingIndex,
+                                           DockModule[] newChildren,
+                                           int newStartingIndex);
 
     protected abstract bool ValidateChildren();
 
