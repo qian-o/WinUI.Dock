@@ -42,7 +42,7 @@ public partial class LayoutPanel : DockContainer
             root.Children.Add(container);
         }
 
-        Layout();
+        UpdateLayoutStructure();
     }
 
     protected override void NewChildren(DockModule[] children, int startingIndex)
@@ -57,7 +57,7 @@ public partial class LayoutPanel : DockContainer
             root.Children.Add(container);
         }
 
-        Layout();
+        UpdateLayoutStructure();
     }
 
     protected override void OldChildren(DockModule[] children, int startingIndex)
@@ -72,7 +72,7 @@ public partial class LayoutPanel : DockContainer
             root.Children.Remove(container);
         }
 
-        Layout();
+        UpdateLayoutStructure();
     }
 
     protected override bool ValidateChildren()
@@ -122,7 +122,7 @@ public partial class LayoutPanel : DockContainer
         Orientation = (Orientation)reader[nameof(Orientation)].Deserialize<int>();
     }
 
-    private void Layout()
+    private void UpdateLayoutStructure()
     {
         if (root is null)
         {
@@ -131,35 +131,32 @@ public partial class LayoutPanel : DockContainer
 
         root.RowDefinitions.Clear();
         root.ColumnDefinitions.Clear();
-        foreach (UIElement element in root.Children.ToArray())
+        foreach (UIElement element in root.Children.Where(static item => item is GridSplitter))
         {
-            if (element is GridSplitter)
-            {
-                root.Children.Remove(element);
-            }
+            root.Children.Remove(element);
         }
 
         if (Orientation is Orientation.Vertical)
         {
-            foreach (DockContainer container in Children.Cast<DockContainer>())
+            foreach (DockModule module in Children)
             {
-                bool isNaN = double.IsNaN(container.Height);
+                bool isNaN = double.IsNaN(module.Height);
 
                 RowDefinition row = new()
                 {
-                    MinHeight = container.MinHeight,
-                    MaxHeight = container.MaxHeight,
-                    Height = isNaN ? new(1, GridUnitType.Star) : new(container.Height, GridUnitType.Pixel)
+                    MinHeight = module.MinHeight,
+                    MaxHeight = module.MaxHeight,
+                    Height = isNaN ? new(1, GridUnitType.Star) : new(module.Height, GridUnitType.Pixel)
                 };
 
                 if (!isNaN)
                 {
-                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => container.Height = row.Height.Value);
+                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => module.Height = row.Height.Value);
                 }
 
                 root.RowDefinitions.Add(row);
 
-                Grid.SetRow(container, root.RowDefinitions.Count - 1);
+                Grid.SetRow(module, root.RowDefinitions.Count - 1);
             }
 
             for (int i = 1; i < Children.Count; i++)
@@ -179,25 +176,25 @@ public partial class LayoutPanel : DockContainer
         }
         else
         {
-            foreach (DockContainer container in Children.Cast<DockContainer>())
+            foreach (DockModule module in Children)
             {
-                bool isNaN = double.IsNaN(container.Width);
+                bool isNaN = double.IsNaN(module.Width);
 
                 ColumnDefinition column = new()
                 {
-                    MinWidth = container.MinWidth,
-                    MaxWidth = container.MaxWidth,
-                    Width = isNaN ? new(1, GridUnitType.Star) : new(container.Width, GridUnitType.Pixel)
+                    MinWidth = module.MinWidth,
+                    MaxWidth = module.MaxWidth,
+                    Width = isNaN ? new(1, GridUnitType.Star) : new(module.Width, GridUnitType.Pixel)
                 };
 
                 if (!isNaN)
                 {
-                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => container.Width = column.Width.Value);
+                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => module.Width = column.Width.Value);
                 }
 
                 root.ColumnDefinitions.Add(column);
 
-                Grid.SetColumn(container, root.ColumnDefinitions.Count - 1);
+                Grid.SetColumn(module, root.ColumnDefinitions.Count - 1);
             }
 
             for (int i = 1; i < Children.Count; i++)
