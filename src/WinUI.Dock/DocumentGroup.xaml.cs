@@ -149,7 +149,7 @@ public partial class DocumentGroup : DockContainer
         }
     }
 
-    protected override void LoadChildren()
+    protected override void InitChildren()
     {
         if (root is null)
         {
@@ -159,10 +159,6 @@ public partial class DocumentGroup : DockContainer
         if (SelectedIndex < 0)
         {
             SelectedIndex = 0;
-        }
-        else if (SelectedIndex >= Children.Count)
-        {
-            SelectedIndex = Children.Count - 1;
         }
 
         int index = 0;
@@ -186,19 +182,53 @@ public partial class DocumentGroup : DockContainer
         UpdateTabWidths();
     }
 
-    protected override void UnloadChildren()
+    protected override void NewChildren(DockModule[] children, int startingIndex)
     {
         if (root is null)
         {
             return;
         }
 
-        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
+        int index = startingIndex;
+        foreach (Document document in children.Cast<Document>())
         {
-            tabItem.Detach();
+            DockTabItem tabItem = new(document)
+            {
+                IsSelected = index++ == SelectedIndex
+            };
+
+            tabItem.SetBinding(BorderBrushProperty, new Binding()
+            {
+                Source = root,
+                Path = new(nameof(BorderBrush))
+            });
+
+            root.TabItems.Insert(index - 1, tabItem);
         }
 
-        root.TabItems.Clear();
+        UpdateVisualState();
+        UpdateTabWidths();
+    }
+
+    protected override void OldChildren(DockModule[] children, int startingIndex)
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        foreach (Document document in children.Cast<Document>())
+        {
+            if (root.TabItems.Cast<DockTabItem>().FirstOrDefault(item => item.Document == document) is DockTabItem tabItem)
+            {
+                tabItem.Detach();
+
+                root.TabItems.Remove(tabItem);
+            }
+        }
+
+        UpdateVisualState();
+        UpdateTabWidths();
     }
 
     protected override bool ValidateChildren()

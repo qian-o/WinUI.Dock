@@ -5,27 +5,41 @@ namespace WinUI.Dock;
 [ContentProperty(Name = nameof(Children))]
 public abstract partial class DockContainer : DockModule
 {
+    private bool isInitChildren;
+
     protected DockContainer()
     {
-        Children.CollectionChanged += (_, _) =>
+        Children.CollectionChanged += (_, e) =>
         {
-            if (IsListening && ValidateChildren())
+            if (ValidateChildren())
             {
-                UnloadChildren();
+                DockModule[] newChildren = e.NewItems?.Cast<DockModule>().ToArray() ?? [];
+                DockModule[] oldChildren = e.OldItems?.Cast<DockModule>().ToArray() ?? [];
 
-                foreach (DockModule module in Children)
+                foreach (DockModule module in newChildren)
                 {
                     module.Attach(this);
                 }
 
-                LoadChildren();
+                foreach (DockModule module in oldChildren)
+                {
+                    module.Detach();
+                }
+
+                if (isInitChildren)
+                {
+                    NewChildren(newChildren, e.NewStartingIndex);
+                    OldChildren(oldChildren, e.OldStartingIndex);
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException();
             }
         };
     }
 
     public ObservableCollection<DockModule> Children { get; } = [];
-
-    internal bool IsListening { get; set; } = true;
 
     internal void DetachEmptyContainer()
     {
@@ -48,15 +62,18 @@ public abstract partial class DockContainer : DockModule
         base.OnApplyTemplate();
 
         InitTemplate();
+        InitChildren();
 
-        LoadChildren();
+        isInitChildren = true;
     }
 
     protected abstract void InitTemplate();
 
-    protected abstract void LoadChildren();
+    protected abstract void InitChildren();
 
-    protected abstract void UnloadChildren();
+    protected abstract void NewChildren(DockModule[] children, int startingIndex);
+
+    protected abstract void OldChildren(DockModule[] children, int startingIndex);
 
     protected abstract bool ValidateChildren();
 
