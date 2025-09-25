@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Nodes;
-using Microsoft.UI.Xaml.Data;
 
 namespace WinUI.Dock;
 
@@ -149,56 +148,55 @@ public partial class DocumentGroup : DockContainer
         }
     }
 
-    protected override void LoadChildren()
+    protected override void InitChildren()
     {
         if (root is null)
         {
             return;
         }
 
-        if (SelectedIndex < 0)
-        {
-            SelectedIndex = 0;
-        }
-        else if (SelectedIndex >= Children.Count)
-        {
-            SelectedIndex = Children.Count - 1;
-        }
+        root.TabItems.Clear();
 
-        int index = 0;
         foreach (Document document in Children.Cast<Document>())
         {
-            DockTabItem tabItem = new(document)
-            {
-                IsSelected = index++ == SelectedIndex
-            };
+            root.TabItems.Add(new DockTabItem(root, document));
+        }
 
-            tabItem.SetBinding(BorderBrushProperty, new Binding()
-            {
-                Source = root,
-                Path = new(nameof(BorderBrush))
-            });
-
-            root.TabItems.Add(tabItem);
+        if (Children.Count is not 0)
+        {
+            SelectedIndex = 0;
         }
 
         UpdateVisualState();
         UpdateTabWidths();
     }
 
-    protected override void UnloadChildren()
+    protected override void SynchronizeChildren(DockModule[] oldChildren,
+                                                int oldStartingIndex,
+                                                DockModule[] newChildren,
+                                                int newStartingIndex)
     {
         if (root is null)
         {
             return;
         }
 
-        foreach (DockTabItem tabItem in root.TabItems.Cast<DockTabItem>())
+        for (int i = 0; i < oldChildren.Length; i++)
         {
+            DockTabItem tabItem = (DockTabItem)root.TabItems[oldStartingIndex++];
+
             tabItem.Detach();
+
+            root.TabItems.Remove(tabItem);
         }
 
-        root.TabItems.Clear();
+        foreach (Document document in newChildren.Cast<Document>())
+        {
+            root.TabItems.Insert(newStartingIndex++, new DockTabItem(root, document));
+        }
+
+        UpdateVisualState();
+        UpdateTabWidths();
     }
 
     protected override bool ValidateChildren()

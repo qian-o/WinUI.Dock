@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace WinUI.Dock;
 
@@ -7,25 +8,31 @@ public abstract partial class DockContainer : DockModule
 {
     protected DockContainer()
     {
-        Children.CollectionChanged += (_, _) =>
+        Children.CollectionChanged += (_, e) =>
         {
-            if (IsListening && ValidateChildren())
+            if (ValidateChildren())
             {
-                UnloadChildren();
-
                 foreach (DockModule module in Children)
                 {
                     module.Attach(this);
                 }
 
-                LoadChildren();
+                if (e.Action is NotifyCollectionChangedAction.Reset)
+                {
+                    InitChildren();
+                }
+                else
+                {
+                    SynchronizeChildren(e.OldItems?.Cast<DockModule>().ToArray() ?? [],
+                                        e.OldStartingIndex,
+                                        e.NewItems?.Cast<DockModule>().ToArray() ?? [],
+                                        e.NewStartingIndex);
+                }
             }
         };
     }
 
     public ObservableCollection<DockModule> Children { get; } = [];
-
-    internal bool IsListening { get; set; } = true;
 
     internal void DetachEmptyContainer()
     {
@@ -48,15 +55,17 @@ public abstract partial class DockContainer : DockModule
         base.OnApplyTemplate();
 
         InitTemplate();
-
-        LoadChildren();
+        InitChildren();
     }
 
     protected abstract void InitTemplate();
 
-    protected abstract void LoadChildren();
+    protected abstract void InitChildren();
 
-    protected abstract void UnloadChildren();
+    protected abstract void SynchronizeChildren(DockModule[] oldChildren,
+                                                int oldStartingIndex,
+                                                DockModule[] newChildren,
+                                                int newStartingIndex);
 
     protected abstract bool ValidateChildren();
 

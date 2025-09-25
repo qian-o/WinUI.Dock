@@ -30,105 +30,44 @@ public partial class LayoutPanel : DockContainer
         root = GetTemplateChild("PART_Root") as Grid;
     }
 
-    protected override void LoadChildren()
+    protected override void InitChildren()
     {
         if (root is null)
         {
             return;
         }
 
-        if (Orientation is Orientation.Vertical)
+        root.Children.Clear();
+
+        foreach (DockContainer container in Children.Cast<DockContainer>())
         {
-            foreach (DockContainer container in Children.Cast<DockContainer>())
-            {
-                bool isNaN = double.IsNaN(container.Height);
-
-                RowDefinition row = new()
-                {
-                    MinHeight = container.MinHeight,
-                    MaxHeight = container.MaxHeight,
-                    Height = isNaN ? new(1, GridUnitType.Star) : new(container.Height, GridUnitType.Pixel)
-                };
-
-                if (!isNaN)
-                {
-                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => container.Height = row.Height.Value);
-                }
-
-                root.RowDefinitions.Add(row);
-
-                Grid.SetRow(container, root.RowDefinitions.Count - 1);
-
-                root.Children.Add(container);
-            }
-
-            for (int i = 1; i < Children.Count; i++)
-            {
-                GridSplitter splitter = new()
-                {
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Top,
-                    ResizeDirection = GridSplitter.GridResizeDirection.Rows,
-                    RenderTransform = new TranslateTransform() { Y = -12 }
-                };
-
-                Grid.SetRow(splitter, i);
-
-                root.Children.Add(splitter);
-            }
+            root.Children.Add(container);
         }
-        else
-        {
-            foreach (DockContainer container in Children.Cast<DockContainer>())
-            {
-                bool isNaN = double.IsNaN(container.Width);
 
-                ColumnDefinition column = new()
-                {
-                    MinWidth = container.MinWidth,
-                    MaxWidth = container.MaxWidth,
-                    Width = isNaN ? new(1, GridUnitType.Star) : new(container.Width, GridUnitType.Pixel)
-                };
-
-                if (!isNaN)
-                {
-                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => container.Width = column.Width.Value);
-                }
-
-                root.ColumnDefinitions.Add(column);
-
-                Grid.SetColumn(container, root.ColumnDefinitions.Count - 1);
-
-                root.Children.Add(container);
-            }
-
-            for (int i = 1; i < Children.Count; i++)
-            {
-                GridSplitter splitter = new()
-                {
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Stretch,
-                    ResizeDirection = GridSplitter.GridResizeDirection.Columns,
-                    RenderTransform = new TranslateTransform() { X = -12 }
-                };
-
-                Grid.SetColumn(splitter, i);
-
-                root.Children.Add(splitter);
-            }
-        }
+        UpdateLayoutStructure();
     }
 
-    protected override void UnloadChildren()
+    protected override void SynchronizeChildren(DockModule[] oldChildren,
+                                                int oldStartingIndex,
+                                                DockModule[] newChildren,
+                                                int newStartingIndex)
     {
         if (root is null)
         {
             return;
         }
 
-        root.ColumnDefinitions.Clear();
-        root.RowDefinitions.Clear();
-        root.Children.Clear();
+        foreach (DockContainer container in oldChildren.Cast<DockContainer>())
+        {
+            root.Children.Remove(container);
+        }
+
+        foreach (DockContainer container in newChildren.Cast<DockContainer>())
+        {
+            root.Children.Add(container);
+        }
+
+        UpdateLayoutStructure();
     }
 
     protected override bool ValidateChildren()
@@ -176,5 +115,97 @@ public partial class LayoutPanel : DockContainer
         reader.ReadDockContainerChildren(this);
 
         Orientation = (Orientation)reader[nameof(Orientation)].Deserialize<int>();
+    }
+
+    private void UpdateLayoutStructure()
+    {
+        if (root is null)
+        {
+            return;
+        }
+
+        root.RowDefinitions.Clear();
+        root.ColumnDefinitions.Clear();
+        foreach (UIElement element in root.Children.Where(static item => item is GridSplitter))
+        {
+            root.Children.Remove(element);
+        }
+
+        if (Orientation is Orientation.Vertical)
+        {
+            foreach (DockModule module in Children)
+            {
+                bool isNaN = double.IsNaN(module.Height);
+
+                RowDefinition row = new()
+                {
+                    MinHeight = module.MinHeight,
+                    MaxHeight = module.MaxHeight,
+                    Height = isNaN ? new(1, GridUnitType.Star) : new(module.Height, GridUnitType.Pixel)
+                };
+
+                if (!isNaN)
+                {
+                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => module.Height = row.Height.Value);
+                }
+
+                root.RowDefinitions.Add(row);
+
+                Grid.SetRow(module, root.RowDefinitions.Count - 1);
+            }
+
+            for (int i = 1; i < Children.Count; i++)
+            {
+                GridSplitter splitter = new()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    ResizeDirection = GridSplitter.GridResizeDirection.Rows,
+                    RenderTransform = new TranslateTransform() { Y = -12 }
+                };
+
+                Grid.SetRow(splitter, i);
+
+                root.Children.Add(splitter);
+            }
+        }
+        else
+        {
+            foreach (DockModule module in Children)
+            {
+                bool isNaN = double.IsNaN(module.Width);
+
+                ColumnDefinition column = new()
+                {
+                    MinWidth = module.MinWidth,
+                    MaxWidth = module.MaxWidth,
+                    Width = isNaN ? new(1, GridUnitType.Star) : new(module.Width, GridUnitType.Pixel)
+                };
+
+                if (!isNaN)
+                {
+                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => module.Width = column.Width.Value);
+                }
+
+                root.ColumnDefinitions.Add(column);
+
+                Grid.SetColumn(module, root.ColumnDefinitions.Count - 1);
+            }
+
+            for (int i = 1; i < Children.Count; i++)
+            {
+                GridSplitter splitter = new()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    ResizeDirection = GridSplitter.GridResizeDirection.Columns,
+                    RenderTransform = new TranslateTransform() { X = -12 }
+                };
+
+                Grid.SetColumn(splitter, i);
+
+                root.Children.Add(splitter);
+            }
+        }
     }
 }

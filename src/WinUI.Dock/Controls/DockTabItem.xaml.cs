@@ -14,9 +14,11 @@ public sealed partial class DockTabItem : TabViewItem
     private string managerKey = string.Empty;
     private string documentKey = string.Empty;
 
-    public DockTabItem(Document document)
+    public DockTabItem(TabView root, Document document)
     {
         InitializeComponent();
+
+        SetBinding(BorderBrushProperty, new Binding() { Source = root, Path = new(nameof(BorderBrush)) });
 
         Document = document;
 
@@ -175,14 +177,16 @@ public sealed partial class DockTabItem : TabViewItem
 
     private void Close_Click(object _, RoutedEventArgs __)
     {
-        DockManager manager = Document!.Root!;
-
-        if (manager.ActiveDocument == Document)
-        {
-            manager.ActiveDocument = null;
-        }
+        DocumentGroup group = Document!.Owner!;
+        DockManager manager = Document.Root!;
+        bool wasActive = manager.ActiveDocument == Document;
 
         Document.Detach();
+
+        if (wasActive)
+        {
+            manager.ActiveDocument = group.SelectedIndex is not -1 ? (Document)group.Children[group.SelectedIndex] : null;
+        }
 
         // Reference: Comments on lines 91-92.
         FloatingWindowHelpers.CloseEmptyWindows(manager);
