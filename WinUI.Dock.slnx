@@ -8,6 +8,5 @@
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="src/Example/Example.csproj" />
   <Project Path="src/WinUI.Dock/WinUI.Dock.csproj" />
 </Solution>
