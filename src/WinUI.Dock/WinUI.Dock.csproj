@@ -1,9 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0-windows10.0.19041.0;net10.0</TargetFrameworks>
-        <IsTrimmable>true</IsTrimmable>
-        <NoWarn>IDE0130</NoWarn>
+        <TargetFrameworks>$(StandardTargetFramework);$(StandardTargetFramework)-windows10.0.19041.0</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -32,16 +30,6 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
-        <PackageReference Include="XAMLTools.MSBuild">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <XAMLCombineItems Include="*.xaml">
-            <TargetFile>Themes\Generic.xaml</TargetFile>
-        </XAMLCombineItems>
     </ItemGroup>
 
     <Choose>

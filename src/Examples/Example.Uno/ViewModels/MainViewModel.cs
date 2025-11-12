@@ -6,7 +6,7 @@ using Windows.Storage.Pickers;
 using WinRT.Interop;
 using WinUI.Dock;
 
-namespace Example.ViewModels;
+namespace Example.Uno.ViewModels;
 
 public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavior
 {

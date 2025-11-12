@@ -1,4 +1,4 @@
-﻿using Example;
+﻿using Example.Uno;
 using Microsoft.Extensions.Logging;
 using Uno.Extensions;
 using Uno.UI.Adapter.Microsoft.Extensions.Logging;

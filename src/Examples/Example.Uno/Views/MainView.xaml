@@ -1,11 +1,7 @@
-﻿<Page x:Class="Example.Views.MainView"
+﻿<Page x:Class="Example.Uno.Views.MainView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:dock="using:WinUI.Dock"
-      xmlns:vm="using:Example.ViewModels">
-    <Page.DataContext>
-        <vm:MainViewModel />
-    </Page.DataContext>
+      xmlns:dock="using:WinUI.Dock">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -15,13 +11,13 @@
 
         <MenuBar Grid.Row="0">
             <MenuBarItem Title="File">
-                <MenuFlyoutItem Command="{Binding OpenCommand}"
+                <MenuFlyoutItem Command="{x:Bind ViewModel.OpenCommand}"
                                 CommandParameter="{x:Bind Manager}"
                                 Text="Open" />
-                <MenuFlyoutItem Command="{Binding SaveCommand}"
+                <MenuFlyoutItem Command="{x:Bind ViewModel.SaveCommand}"
                                 CommandParameter="{x:Bind Manager}"
                                 Text="Save" />
-                <MenuFlyoutItem Command="{Binding ExitCommand}"
+                <MenuFlyoutItem Command="{x:Bind ViewModel.ExitCommand}"
                                 Text="Exit" />
             </MenuBarItem>
 
@@ -32,15 +28,15 @@
 
         <dock:DockManager x:Name="Manager"
                           Grid.Row="1"
-                          Adapter="{Binding}"
-                          Behavior="{Binding}">
+                          Adapter="{x:Bind ViewModel}"
+                          Behavior="{x:Bind ViewModel}">
             <dock:LayoutPanel Orientation="Vertical">
                 <dock:LayoutPanel Orientation="Horizontal">
                     <dock:DocumentGroup ShowWhenEmpty="True">
                         <dock:Document Title="MainView.xaml"
                                        CanClose="True">
                             <Button VerticalAlignment="Top"
-                                    Command="{Binding OpenPropertiesCommand}"
+                                    Command="{x:Bind ViewModel.OpenPropertiesCommand}"
                                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
                                     Content="Open Properties" />
                         </dock:Document>
@@ -81,4 +77,5 @@
             </dock:LayoutPanel>
         </dock:DockManager>
     </Grid>
+    
 </Page>

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>$(StandardTargetFramework)-windows10.0.19041.0</TargetFramework>
+        <UseWinUI>true</UseWinUI>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <EnableMsixTooling>true</EnableMsixTooling>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" />
+    </ItemGroup>
+
+</Project>

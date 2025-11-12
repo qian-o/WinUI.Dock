@@ -14,7 +14,6 @@
         <PackageVersion Include="Roslynator.Analyzers" Version="4.14.1" />
         <PackageVersion Include="Uno.Fonts.Fluent" Version="2.8.1" />
         <PackageVersion Include="Uno.WinUI" Version="6.4.43" />
-        <PackageVersion Include="XAMLTools.MSBuild" Version="1.0.0-alpha0167" />
     </ItemGroup>
 
 </Project>

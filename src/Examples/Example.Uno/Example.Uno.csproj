@@ -2,16 +2,17 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net9.0-desktop;net9.0-windows10.0.19041.0</TargetFrameworks>
+        <TargetFramework>$(StandardTargetFramework)-desktop</TargetFramework>
         <UnoSingleProject>true</UnoSingleProject>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" />
+        <ProjectReference Include="..\..\WinUI.Dock\WinUI.Dock.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WinUI.Dock\WinUI.Dock.csproj" />
+        <PackageReference Include="CommunityToolkit.Mvvm" />
     </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
-﻿using Example.Views;
+﻿using Example.WinUI.Views;
+using Microsoft.UI.Xaml;
 
-namespace Example;
+namespace Example.WinUI;
 
 public partial class App : Application
 {
@@ -9,10 +10,11 @@ public partial class App : Application
         InitializeComponent();
     }
 
-    public static Window MainWindow { get; } = new() { Content = new MainView() };
+    public static Window MainWindow { get; } = new();
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        MainWindow.Content = new MainView();
         MainWindow.Activate();
     }
 }

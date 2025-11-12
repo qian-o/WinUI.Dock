@@ -1,17 +1,18 @@
 ﻿<Project>
 
     <PropertyGroup>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <!-- Target & Compatibility -->
+        <StandardTargetFramework>net10.0</StandardTargetFramework>
+
+        <!-- Code Style & Language Features -->
+        <NoWarn>IDE0130</NoWarn>
         <Nullable>enable</Nullable>
-    </PropertyGroup>
-    
-    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-        <AnalysisLevel>latest</AnalysisLevel>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <ItemGroup>
         <PackageReference Include="Roslynator.Analyzers">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
