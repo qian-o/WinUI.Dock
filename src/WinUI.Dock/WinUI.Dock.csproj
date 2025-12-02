@@ -30,6 +30,16 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+        <PackageReference Include="XAMLTools.MSBuild">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <XAMLCombineItems Include="*.xaml">
+            <TargetFile>Themes\Generic.xaml</TargetFile>
+        </XAMLCombineItems>
     </ItemGroup>
 
     <Choose>
