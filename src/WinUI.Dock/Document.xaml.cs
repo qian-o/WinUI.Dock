@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.UI.Xaml.Input;
+using System.ComponentModel;
 using System.Text.Json.Nodes;
 
 namespace WinUI.Dock;
@@ -34,6 +35,9 @@ public partial class Document : DockModule
     public Document()
     {
         DefaultStyleKey = typeof(Document);
+
+        this.AddHandler(UIElement.PointerPressedEvent,
+            new PointerEventHandler(OnChildGotFocus), true);
 
         ResetPreferredSide(null);
     }
@@ -226,5 +230,10 @@ public partial class Document : DockModule
         Document document = (Document)d;
 
         document.ActualTitle = document.Title.Split("##").LastOrDefault() ?? document.Title;
+    }
+
+    private void OnChildGotFocus(object sender, PointerRoutedEventArgs e)
+    {
+        Root?.ActiveDocument = this;
     }
 }
