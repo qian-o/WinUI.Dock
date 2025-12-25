@@ -1,4 +1,4 @@
-<Solution>
+﻿<Solution>
   <Folder Name="/Examples/">
     <Project Path="src/Examples/Example.Uno/Example.Uno.csproj" />
     <Project Path="src/Examples/Example.WinUI/Example.WinUI.csproj" />
