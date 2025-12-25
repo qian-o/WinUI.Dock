@@ -50,7 +50,6 @@
         </When>
         <Otherwise>
             <ItemGroup>
-                <PackageReference Include="Uno.Fonts.Fluent" />
                 <PackageReference Include="Uno.WinUI" />
             </ItemGroup>
 
