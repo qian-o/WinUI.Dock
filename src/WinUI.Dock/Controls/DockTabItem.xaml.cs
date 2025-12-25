@@ -75,10 +75,7 @@ public sealed partial class DockTabItem : TabViewItem
     {
         base.OnPointerPressed(e);
 
-        if (Document is not null)
-        {
-            Document.Root!.ActiveDocument = Document;
-        }
+        Document!.Root!.ActiveDocument = Document;
     }
 
     private void OnDragStarting(UIElement _, DragStartingEventArgs args)
@@ -105,6 +102,11 @@ public sealed partial class DockTabItem : TabViewItem
             DragDropHelpers.RemoveManagerKey(managerKey);
             DragDropHelpers.RemoveDocumentKey(documentKey);
         }
+    }
+
+    private void ContentOptions_PointerPressed(object _, PointerRoutedEventArgs __)
+    {
+        Document!.Root!.ActiveDocument = Document;
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)
@@ -190,10 +192,5 @@ public sealed partial class DockTabItem : TabViewItem
 
         // Reference: Comments on lines 91-92.
         FloatingWindowHelpers.CloseEmptyWindows(manager);
-    }
-
-    private void Content_PointerPressed(object _, PointerRoutedEventArgs __)
-    {
-        Document!.Root!.ActiveDocument = Document;
     }
 }

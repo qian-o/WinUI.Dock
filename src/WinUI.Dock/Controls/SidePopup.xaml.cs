@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace WinUI.Dock;
@@ -138,6 +139,11 @@ public sealed partial class SidePopup : UserControl
 
             DragDropHelpers.RemoveDocumentKey(documentKey);
         }
+    }
+
+    private void Header_PointerPressed(object _, PointerRoutedEventArgs __)
+    {
+        Document!.Root!.ActiveDocument = Document;
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)

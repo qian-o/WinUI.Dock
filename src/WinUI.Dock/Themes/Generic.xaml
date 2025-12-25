@@ -78,7 +78,9 @@ LayoutPanel.xaml
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="dock:Document">
-          <ContentPresenter Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+          <Border Background="Transparent">
+            <ContentPresenter Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+          </Border>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
