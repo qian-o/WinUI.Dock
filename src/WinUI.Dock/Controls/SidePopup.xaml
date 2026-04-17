@@ -24,9 +24,6 @@
                         Background="{ThemeResource DockFillDefaultBrush}"
                         BorderBrush="{ThemeResource DockStrokeDefaultBrush}"
                         BorderThickness="0,0,0,1"
-                        CanDrag="True"
-                        DragStarting="Header_DragStarting"
-                        DropCompleted="Header_DropCompleted"
                         PointerPressed="Header_PointerPressed">
                     <Grid Margin="8,0,8,0"
                           VerticalAlignment="Center">

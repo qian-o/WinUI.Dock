@@ -104,11 +104,6 @@ public sealed partial class FloatingWindow : Window
         FloatingWindowHelpers.AddWindow(manager, this);
     }
 
-    private void OnDragEnter(object _, DragEventArgs __)
-    {
-        Activate();
-    }
-
     private void TitleBar_DragStarted(object _, DragStartedEventArgs __)
     {
         PointInt32 point = PointerHelpers.GetPointerPosition();

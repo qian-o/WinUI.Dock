@@ -4,7 +4,6 @@
                     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls">
 
     <Style TargetType="dock:DockManager">
-        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DockManager">

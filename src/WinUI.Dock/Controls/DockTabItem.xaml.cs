@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
 namespace WinUI.Dock;
@@ -11,9 +10,6 @@ namespace WinUI.Dock;
 [EditorBrowsable(EditorBrowsableState.Never)]
 public sealed partial class DockTabItem : TabViewItem
 {
-    private string managerKey = string.Empty;
-    private string documentKey = string.Empty;
-
     public DockTabItem(TabView root, Document document)
     {
         InitializeComponent();
@@ -75,38 +71,32 @@ public sealed partial class DockTabItem : TabViewItem
     {
         base.OnPointerPressed(e);
 
-        Document!.Root!.ActiveDocument = Document;
-    }
-
-    private void OnDragStarting(UIElement _, DragStartingEventArgs args)
-    {
-        args.Data.SetData(DragDropHelpers.ManagerKey, managerKey = DragDropHelpers.GetManagerKey(Document!.Root!));
-        args.Data.SetData(DragDropHelpers.DocumentKey, documentKey = DragDropHelpers.GetDocumentKey(Document!));
-
-        Document.Detach();
-    }
-
-    private void OnDropCompleted(UIElement _, DropCompletedEventArgs args)
-    {
-        if (DragDropHelpers.GetManager(managerKey) is DockManager manager && DragDropHelpers.GetDocument(documentKey) is Document document)
+        if (Document?.Root is null || Document.Owner is null)
         {
-            // In multi-window drag-and-drop operations, if the original window closes prematurely,
-            // it may lead to incorrect handling of the drop result.
-            FloatingWindowHelpers.CloseEmptyWindows(manager);
+            return;
+        }
 
-            if (args.DropResult is not DataPackageOperation.Move)
-            {
-                new FloatingWindow(manager, document).Activate();
-            }
+        Document.Root.ActiveDocument = Document;
 
-            DragDropHelpers.RemoveManagerKey(managerKey);
-            DragDropHelpers.RemoveDocumentKey(documentKey);
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this);
         }
     }
 
-    private void ContentOptions_PointerPressed(object _, PointerRoutedEventArgs __)
+    private void ContentOptions_PointerPressed(object _, PointerRoutedEventArgs e)
     {
-        Document!.Root!.ActiveDocument = Document;
+        if (Document?.Root is null || Document.Owner is null)
+        {
+            return;
+        }
+
+        Document.Root.ActiveDocument = Document;
+
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this);
+        }
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)
@@ -161,7 +151,6 @@ public sealed partial class DockTabItem : TabViewItem
 
         Document.Detach();
 
-        // Reference: Comments on lines 91-92.
         FloatingWindowHelpers.CloseEmptyWindows(manager);
 
         static void TryInsert(ObservableCollection<Document> documents, Document document)
@@ -190,7 +179,6 @@ public sealed partial class DockTabItem : TabViewItem
             manager.ActiveDocument = group.SelectedIndex is not -1 ? (Document)group.Children[group.SelectedIndex] : null;
         }
 
-        // Reference: Comments on lines 91-92.
         FloatingWindowHelpers.CloseEmptyWindows(manager);
     }
 }

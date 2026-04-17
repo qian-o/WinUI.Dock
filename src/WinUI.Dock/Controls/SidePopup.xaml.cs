@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace WinUI.Dock;
 
@@ -10,8 +9,6 @@ namespace WinUI.Dock;
 public sealed partial class SidePopup : UserControl
 {
     private readonly Popup popup;
-
-    private string documentKey = string.Empty;
 
     public SidePopup(Document document, DockManager manager, DockSide side)
     {
@@ -121,29 +118,24 @@ public sealed partial class SidePopup : UserControl
         }
     }
 
-    private void Header_DragStarting(UIElement _, DragStartingEventArgs args)
+    private void Header_PointerPressed(object _, PointerRoutedEventArgs e)
     {
-        args.Data.SetData(DragDropHelpers.DocumentKey, documentKey = DragDropHelpers.GetDocumentKey(Document!));
-
-        Detach(true);
-    }
-
-    private void Header_DropCompleted(UIElement _, DropCompletedEventArgs args)
-    {
-        if (DragDropHelpers.GetDocument(documentKey) is Document document)
+        if (Document is null)
         {
-            if (args.DropResult is not DataPackageOperation.Move)
-            {
-                new FloatingWindow(Manager, document).Activate();
-            }
+            return;
+        }
 
-            DragDropHelpers.RemoveDocumentKey(documentKey);
+        Document.Root!.ActiveDocument = Document;
+
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            DragService.BeginSidePopupDrag(Document, Manager, this);
         }
     }
 
-    private void Header_PointerPressed(object _, PointerRoutedEventArgs __)
+    internal void DetachForDrag()
     {
-        Document!.Root!.ActiveDocument = Document;
+        Detach(true);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)

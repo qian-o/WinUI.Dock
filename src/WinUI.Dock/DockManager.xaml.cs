@@ -200,23 +200,9 @@ public partial class DockManager : Control
         preview = GetTemplateChild("PART_Preview") as Preview;
     }
 
-    protected override void OnDragEnter(DragEventArgs e)
+    internal void ShowDockTargets()
     {
-        base.OnDragEnter(e);
-
-        Behavior?.ActivateMainWindow();
-
-        if (e.DataView.Contains(DragDropHelpers.DocumentKey))
-        {
-            VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
-        }
-    }
-
-    protected override void OnDragLeave(DragEventArgs e)
-    {
-        base.OnDragLeave(e);
-
-        VisualStateManager.GoToState(this, "HideDockTargets", false);
+        VisualStateManager.GoToState(this, Panel is null || Panel.Children.Count is 0 ? "ShowAllDockTargets" : "ShowSideDockTargets", false);
     }
 
     internal void ShowDockPreview(Document document, DockTarget dockTarget)

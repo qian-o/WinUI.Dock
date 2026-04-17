@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Numerics;
 using System.Text.Json.Nodes;
+using Microsoft.UI.Xaml.Hosting;
 
 namespace WinUI.Dock;
 
@@ -119,23 +121,6 @@ public partial class DocumentGroup : DockContainer
         set => base.MaxHeight = value;
     }
 
-    protected override void OnDragEnter(DragEventArgs e)
-    {
-        base.OnDragEnter(e);
-
-        if (e.DataView.Contains(DragDropHelpers.DocumentKey))
-        {
-            VisualStateManager.GoToState(this, "ShowDockTargets", false);
-        }
-    }
-
-    protected override void OnDragLeave(DragEventArgs e)
-    {
-        base.OnDragLeave(e);
-
-        VisualStateManager.GoToState(this, "HideDockTargets", false);
-    }
-
     protected override void InitTemplate()
     {
         root = GetTemplateChild("PART_Root") as TabView;
@@ -181,6 +166,48 @@ public partial class DocumentGroup : DockContainer
             return;
         }
 
+        // Detect Move operation: same single item repositioned — reuse existing DockTabItem.
+        if (oldChildren.Length is 1
+            && newChildren.Length is 1
+            && oldChildren[0] == newChildren[0])
+        {
+            int from = oldStartingIndex;
+            int to = newStartingIndex;
+
+            // Measure the width of the tab being moved BEFORE the move.
+            double movedWidth = root.TabItems[from] is DockTabItem srcTab ? srcTab.ActualWidth : 0;
+
+            object tabItem = root.TabItems[from];
+
+            root.TabItems.RemoveAt(from);
+            root.TabItems.Insert(to, tabItem);
+
+            SelectedIndex = to;
+
+            // Animate displaced tabs using composition FLIP animation.
+            if (movedWidth > 0)
+            {
+                int min = Math.Min(from, to);
+                int max = Math.Max(from, to);
+                float startOffset = from < to ? (float)movedWidth : -(float)movedWidth;
+
+                for (int i = min; i <= max; i++)
+                {
+                    if (i == to)
+                    {
+                        continue;
+                    }
+
+                    if (root.TabItems[i] is UIElement element)
+                    {
+                        AnimateTabTranslation(element, startOffset);
+                    }
+                }
+            }
+
+            return;
+        }
+
         for (int i = 0; i < oldChildren.Length; i++)
         {
             DockTabItem tabItem = (DockTabItem)root.TabItems[oldStartingIndex++];
@@ -222,6 +249,16 @@ public partial class DocumentGroup : DockContainer
         {
             newRoot.ActiveDocumentChanged += OnActiveDocumentChanged;
         }
+    }
+
+    internal void ShowDockTargets()
+    {
+        VisualStateManager.GoToState(this, "ShowDockTargets", false);
+    }
+
+    internal void HideDockTargets()
+    {
+        VisualStateManager.GoToState(this, "HideDockTargets", false);
     }
 
     internal void ShowDockPreview(DockTarget dockTarget)
@@ -450,5 +487,35 @@ public partial class DocumentGroup : DockContainer
     private static void OnCompactTabsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((DocumentGroup)d).UpdateTabWidths();
+    }
+
+    private static void AnimateTabTranslation(UIElement element, float fromOffsetX)
+    {
+        ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+        var compositor = visual.Compositor;
+
+        var animation = compositor.CreateVector3KeyFrameAnimation();
+        animation.InsertKeyFrame(0f, new Vector3(fromOffsetX, 0, 0));
+        animation.InsertKeyFrame(1f, Vector3.Zero);
+        animation.Duration = TimeSpan.FromMilliseconds(150);
+
+        visual.StartAnimation("Translation", animation);
+    }
+
+    internal double GetActualTabItemWidth()
+    {
+        if (root is null || root.TabItems.Count is 0)
+        {
+            return 0;
+        }
+
+        if (root.TabItems[0] is DockTabItem tab)
+        {
+            return tab.ActualWidth;
+        }
+
+        return 0;
     }
 }

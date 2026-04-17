@@ -50,6 +50,10 @@
                                              ItemTemplate="{TemplateBinding TabItemTemplate}"
                                              ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
                                              ItemsSource="{TemplateBinding TabItemsSource}">
+                                <TabViewListView.ItemContainerTransitions>
+                                    <TransitionCollection />
+                                </TabViewListView.ItemContainerTransitions>
+
                                 <TabViewListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <ItemsStackPanel Orientation="Horizontal" />
@@ -174,11 +178,13 @@
                                 CornerRadius="4,4,0,0"
                                 Visibility="Collapsed" />
 
+                        <!--  Inverse corner: 4×4 Border where CornerRadius equals size, so the entire border is a quarter-circle arc  -->
                         <Border x:Name="LeftRadius"
                                 Grid.Column="0"
-                                Width="8"
-                                Height="8"
-                                Margin="0,0,-1.5,0"
+                                Width="4"
+                                Height="4"
+                                Margin="0,0,-1,0"
+                                HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="0,0,1,1"
@@ -187,9 +193,10 @@
 
                         <Border x:Name="RightRadius"
                                 Grid.Column="2"
-                                Width="8"
-                                Height="8"
-                                Margin="-1.5,0,0,0"
+                                Width="4"
+                                Height="4"
+                                Margin="-1,0,0,0"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="1,0,0,1"

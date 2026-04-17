@@ -3,7 +3,6 @@
                     xmlns:dock="using:WinUI.Dock">
 
     <Style TargetType="dock:DocumentGroup">
-        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DocumentGroup">
