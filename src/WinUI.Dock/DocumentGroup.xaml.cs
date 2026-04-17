@@ -295,6 +295,10 @@ public partial class DocumentGroup : DockContainer
             if ((dockTarget is DockTarget.SplitLeft or DockTarget.SplitRight && Owner.Orientation is Orientation.Horizontal)
                 || (dockTarget is DockTarget.SplitTop or DockTarget.SplitBottom && Owner.Orientation is Orientation.Vertical))
             {
+                double currentDockSize = double.IsNaN(DockSize) ? 1.0 : DockSize;
+                group.DockSize = currentDockSize / 2.0;
+                DockSize = currentDockSize / 2.0;
+
                 switch (dockTarget)
                 {
                     case DockTarget.SplitLeft or DockTarget.SplitTop:

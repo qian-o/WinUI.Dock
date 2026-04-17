@@ -13,10 +13,13 @@ public partial class LayoutPanel : DockContainer
                                                                                                 new PropertyMetadata(Orientation.Vertical));
 
     private Grid? root;
+    private bool pixelHintsConverted;
 
     public LayoutPanel()
     {
         DefaultStyleKey = typeof(LayoutPanel);
+
+        SizeChanged += OnSizeChanged;
     }
 
     public Orientation Orientation
@@ -82,22 +85,12 @@ public partial class LayoutPanel : DockContainer
 
     internal double CalculateHeight(DockModule module)
     {
-        if (double.IsNaN(module.Height))
-        {
-            return Math.Clamp(ActualHeight / (Children.Count + 1), module.MinHeight, module.MaxHeight);
-        }
-
-        return Math.Clamp(module.Height, module.MinHeight, module.MaxHeight);
+        return Math.Clamp(ActualHeight * 0.25, module.MinHeight, module.MaxHeight);
     }
 
     internal double CalculateWidth(DockModule module)
     {
-        if (double.IsNaN(module.Width))
-        {
-            return Math.Clamp(ActualWidth / (Children.Count + 1), module.MinWidth, module.MaxWidth);
-        }
-
-        return Math.Clamp(module.Width, module.MinWidth, module.MaxWidth);
+        return Math.Clamp(ActualWidth * 0.25, module.MinWidth, module.MaxWidth);
     }
 
     internal override void SaveLayout(JsonObject writer)
@@ -117,6 +110,108 @@ public partial class LayoutPanel : DockContainer
         Orientation = (Orientation)reader[nameof(Orientation)].Deserialize<int>();
     }
 
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (!pixelHintsConverted)
+        {
+            TryConvertPixelHints();
+        }
+    }
+
+    private void TryConvertPixelHints()
+    {
+        if (root is null || Children.Count is 0)
+        {
+            return;
+        }
+
+        bool isVertical = Orientation is Orientation.Vertical;
+        double totalSize = isVertical ? ActualHeight : ActualWidth;
+
+        if (totalSize <= 0)
+        {
+            return;
+        }
+
+        double spacing = isVertical ? root.RowSpacing : root.ColumnSpacing;
+        double totalSpacing = Math.Max(0, Children.Count - 1) * spacing;
+        double availableSize = totalSize - totalSpacing;
+
+        if (availableSize <= 0)
+        {
+            return;
+        }
+
+        bool hasPixelHints = false;
+        double totalPixels = 0;
+        double totalStars = 0;
+
+        foreach (DockModule child in Children)
+        {
+            if (!double.IsNaN(child.DockSize))
+            {
+                totalStars += child.DockSize;
+            }
+            else
+            {
+                double pixelHint = isVertical ? child.Height : child.Width;
+
+                if (!double.IsNaN(pixelHint))
+                {
+                    hasPixelHints = true;
+                    totalPixels += pixelHint;
+                }
+                else
+                {
+                    totalStars += 1.0;
+                }
+            }
+        }
+
+        if (!hasPixelHints)
+        {
+            pixelHintsConverted = true;
+            return;
+        }
+
+        double starSpace = availableSize - totalPixels;
+
+        if (starSpace <= 0)
+        {
+            starSpace = availableSize;
+        }
+
+        double pixelsPerStar = totalStars > 0 ? starSpace / totalStars : availableSize;
+
+        foreach (DockModule child in Children)
+        {
+            if (!double.IsNaN(child.DockSize))
+            {
+                continue;
+            }
+
+            double pixelHint = isVertical ? child.Height : child.Width;
+
+            if (!double.IsNaN(pixelHint))
+            {
+                child.DockSize = pixelHint / pixelsPerStar;
+
+                if (isVertical)
+                {
+                    child.Height = double.NaN;
+                }
+                else
+                {
+                    child.Width = double.NaN;
+                }
+            }
+        }
+
+        pixelHintsConverted = true;
+
+        UpdateLayoutStructure();
+    }
+
     private void UpdateLayoutStructure()
     {
         if (root is null)
@@ -126,32 +221,41 @@ public partial class LayoutPanel : DockContainer
 
         root.RowDefinitions.Clear();
         root.ColumnDefinitions.Clear();
-        foreach (UIElement element in root.Children.Where(static item => item is GridSplitter))
+
+        foreach (UIElement element in root.Children.OfType<GridSplitter>().ToArray())
         {
             root.Children.Remove(element);
         }
 
         if (Orientation is Orientation.Vertical)
         {
-            foreach (DockModule module in Children)
+            for (int i = 0; i < Children.Count; i++)
             {
-                bool isNaN = double.IsNaN(module.Height);
+                DockModule module = Children[i];
+                bool isPixelFallback = double.IsNaN(module.DockSize) && !double.IsNaN(module.Height);
+                double star = double.IsNaN(module.DockSize) ? 1.0 : module.DockSize;
 
                 RowDefinition row = new()
                 {
                     MinHeight = module.MinHeight,
                     MaxHeight = module.MaxHeight,
-                    Height = isNaN ? new(1, GridUnitType.Star) : new(module.Height, GridUnitType.Pixel)
+                    Height = isPixelFallback
+                        ? new(module.Height, GridUnitType.Pixel)
+                        : new(star, GridUnitType.Star)
                 };
 
-                if (!isNaN)
+                if (isPixelFallback)
                 {
                     row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => module.Height = row.Height.Value);
+                }
+                else
+                {
+                    row.RegisterPropertyChangedCallback(RowDefinition.HeightProperty, (_, _) => module.DockSize = row.Height.Value);
                 }
 
                 root.RowDefinitions.Add(row);
 
-                Grid.SetRow(module, root.RowDefinitions.Count - 1);
+                Grid.SetRow(module, i);
             }
 
             for (int i = 1; i < Children.Count; i++)
@@ -171,25 +275,33 @@ public partial class LayoutPanel : DockContainer
         }
         else
         {
-            foreach (DockModule module in Children)
+            for (int i = 0; i < Children.Count; i++)
             {
-                bool isNaN = double.IsNaN(module.Width);
+                DockModule module = Children[i];
+                bool isPixelFallback = double.IsNaN(module.DockSize) && !double.IsNaN(module.Width);
+                double star = double.IsNaN(module.DockSize) ? 1.0 : module.DockSize;
 
                 ColumnDefinition column = new()
                 {
                     MinWidth = module.MinWidth,
                     MaxWidth = module.MaxWidth,
-                    Width = isNaN ? new(1, GridUnitType.Star) : new(module.Width, GridUnitType.Pixel)
+                    Width = isPixelFallback
+                        ? new(module.Width, GridUnitType.Pixel)
+                        : new(star, GridUnitType.Star)
                 };
 
-                if (!isNaN)
+                if (isPixelFallback)
                 {
                     column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => module.Width = column.Width.Value);
+                }
+                else
+                {
+                    column.RegisterPropertyChangedCallback(ColumnDefinition.WidthProperty, (_, _) => module.DockSize = column.Width.Value);
                 }
 
                 root.ColumnDefinitions.Add(column);
 
-                Grid.SetColumn(module, root.ColumnDefinitions.Count - 1);
+                Grid.SetColumn(module, i);
             }
 
             for (int i = 1; i < Children.Count; i++)

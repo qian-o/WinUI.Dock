@@ -17,6 +17,11 @@ public abstract partial class DockModule : Control
                                                                                          typeof(DockModule),
                                                                                          new PropertyMetadata(null, (d, e) => ((DockModule)d).OnRootChanged((DockManager?)e.OldValue, (DockManager?)e.NewValue)));
 
+    public static readonly DependencyProperty DockSizeProperty = DependencyProperty.Register(nameof(DockSize),
+                                                                                              typeof(double),
+                                                                                              typeof(DockModule),
+                                                                                              new PropertyMetadata(double.NaN));
+
     public DockModule? Owner
     {
         get => (DockModule)GetValue(OwnerProperty);
@@ -27,6 +32,12 @@ public abstract partial class DockModule : Control
     {
         get => (DockManager)GetValue(RootProperty);
         internal set => SetValue(RootProperty, value);
+    }
+
+    public double DockSize
+    {
+        get => (double)GetValue(DockSizeProperty);
+        set => SetValue(DockSizeProperty, value);
     }
 
     [Browsable(false)]
@@ -303,6 +314,8 @@ public abstract partial class DockModule : Control
 
     internal void CopyDimensions(DockModule source)
     {
+        DockSize = source.DockSize;
+
         MinWidth = source.MinWidth;
         Width = source.Width;
         MaxWidth = source.MaxWidth;
@@ -322,6 +335,8 @@ public abstract partial class DockModule : Control
 
     internal void ClearDimensions()
     {
+        DockSize = double.NaN;
+
         MinWidth = 0;
         Width = double.NaN;
         MaxWidth = double.PositiveInfinity;

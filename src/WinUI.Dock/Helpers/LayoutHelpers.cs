@@ -74,6 +74,7 @@ internal static class LayoutHelpers
 
     public static void WriteDockModuleProperties(this JsonObject writer, DockModule module)
     {
+        writer[nameof(DockModule.DockSize)] = module.DockSize;
         writer[nameof(DockModule.MinWidth)] = module.MinWidth;
         writer[nameof(DockModule.MaxWidth)] = module.MaxWidth;
         writer[nameof(DockModule.Width)] = module.Width;
@@ -84,6 +85,11 @@ internal static class LayoutHelpers
 
     public static void ReadDockModuleProperties(this JsonObject reader, DockModule module)
     {
+        if (reader.ContainsKey(nameof(DockModule.DockSize)))
+        {
+            module.DockSize = reader[nameof(DockModule.DockSize)].Deserialize<double>();
+        }
+
         module.MinWidth = reader[nameof(DockModule.MinWidth)].Deserialize<double>();
         module.MaxWidth = reader[nameof(DockModule.MaxWidth)].Deserialize<double>();
         module.Width = reader[nameof(DockModule.Width)].Deserialize<double>();

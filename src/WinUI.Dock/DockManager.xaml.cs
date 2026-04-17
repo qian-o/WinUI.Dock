@@ -267,6 +267,7 @@ public partial class DockManager : Control
 
         DocumentGroup group = new();
         group.Children.Add(document);
+        group.DockSize = 1.0;
 
         Adapter?.OnCreated(group, document);
 
@@ -281,6 +282,7 @@ public partial class DockManager : Control
 
                     if (Panel is not null)
                     {
+                        Panel.DockSize = 3.0;
                         panel.Children.Add(Panel);
                     }
                 }
@@ -291,6 +293,7 @@ public partial class DockManager : Control
 
                     if (Panel is not null)
                     {
+                        Panel.DockSize = 3.0;
                         panel.Children.Add(Panel);
                     }
                 }
@@ -301,6 +304,7 @@ public partial class DockManager : Control
 
                     if (Panel is not null)
                     {
+                        Panel.DockSize = 3.0;
                         panel.Children.Insert(0, Panel);
                     }
                 }
@@ -311,6 +315,7 @@ public partial class DockManager : Control
 
                     if (Panel is not null)
                     {
+                        Panel.DockSize = 3.0;
                         panel.Children.Insert(0, Panel);
                     }
                 }
