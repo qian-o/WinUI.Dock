@@ -119,7 +119,7 @@ public sealed partial class SidePopup : UserControl
         }
     }
 
-    private void Header_PointerPressed(object _, PointerRoutedEventArgs e)
+    private void Header_PointerPressed(object sender, PointerRoutedEventArgs e)
     {
         if (Document is null)
         {
@@ -135,7 +135,22 @@ public sealed partial class SidePopup : UserControl
             Point cursorInClient = new(elementInClient.X + localPos.X, elementInClient.Y + localPos.Y);
 
             DragService.BeginSidePopupDrag(Document, Manager, this, cursorInClient);
+
+            if (sender is UIElement senderElement)
+            {
+                senderElement.CapturePointer(e.Pointer);
+            }
         }
+    }
+
+    private void Header_PointerReleased(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is UIElement senderElement)
+        {
+            senderElement.ReleasePointerCapture(e.Pointer);
+        }
+
+        DragService.NotifyPointerReleased();
     }
 
     internal void DetachForDrag()

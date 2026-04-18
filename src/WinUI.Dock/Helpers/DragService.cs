@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Windows.Foundation;
@@ -46,6 +47,10 @@ internal static class DragService
     private static DocumentGroup? hoveredGroup;
     private static DockTarget? hoveredTarget;
 
+    // Pointer-event-based button state (cross-platform, does not rely on P/Invoke).
+    private static bool pointerReleasedByEvent;
+    private static bool hasPointerCapture;
+
     public static bool IsDragging => isActive;
 
     public static void BeginTabDrag(Document document, DocumentGroup group, int index, FrameworkElement tabElement, Point cursorInClient)
@@ -55,16 +60,24 @@ internal static class DragService
             return;
         }
 
-        dragDocument = document;
-        sourceGroup = group;
-        sourceIndex = index;
-        sourceManager = document.Root!;
-        sourceSidePopup = null;
-        sourceTabElement = tabElement;
-        startScreenPoint = PointerHelpers.GetPointerPosition();
+        try
+        {
+            dragDocument = document;
+            sourceGroup = group;
+            sourceIndex = index;
+            sourceManager = document.Root!;
+            sourceSidePopup = null;
+            sourceTabElement = tabElement;
+            startScreenPoint = PointerHelpers.GetPointerPosition();
+            hasPointerCapture = true;
 
-        DetectSourceWindow(cursorInClient);
-        StartTimer();
+            DetectSourceWindow(cursorInClient);
+            StartTimer();
+        }
+        catch
+        {
+            Cleanup();
+        }
     }
 
     public static void BeginSidePopupDrag(Document document, DockManager manager, SidePopup popup, Point cursorInClient)
@@ -74,15 +87,41 @@ internal static class DragService
             return;
         }
 
-        dragDocument = document;
-        sourceGroup = null;
-        sourceIndex = -1;
-        sourceManager = manager;
-        sourceSidePopup = popup;
-        startScreenPoint = PointerHelpers.GetPointerPosition();
+        try
+        {
+            dragDocument = document;
+            sourceGroup = null;
+            sourceIndex = -1;
+            sourceManager = manager;
+            sourceSidePopup = popup;
+            startScreenPoint = PointerHelpers.GetPointerPosition();
+            hasPointerCapture = true;
 
-        DetectSourceWindow(cursorInClient);
-        StartTimer();
+            DetectSourceWindow(cursorInClient);
+            StartTimer();
+        }
+        catch
+        {
+            Cleanup();
+        }
+    }
+
+    /// <summary>
+    /// Called by the originating element's PointerReleased/PointerCaptureLost handler
+    /// to signal that the pointer button has been released.
+    /// </summary>
+    public static void NotifyPointerReleased()
+    {
+        pointerReleasedByEvent = true;
+    }
+
+    /// <summary>
+    /// Called when the originating element loses pointer capture
+    /// (e.g., when the element is removed from the visual tree during floating drag).
+    /// </summary>
+    public static void NotifyCaptureLost()
+    {
+        hasPointerCapture = false;
     }
 
     public static void Cancel()
@@ -169,6 +208,7 @@ internal static class DragService
         isActive = true;
         isTabReorder = false;
         isFloatingDrag = false;
+        pointerReleasedByEvent = false;
 
         pollTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         pollTimer.Interval = TimeSpan.FromMilliseconds(PollIntervalMs);
@@ -178,7 +218,10 @@ internal static class DragService
 
     private static void OnTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (!PointerHelpers.IsPointerButtonPressed())
+        // Use pointer-event flag as primary signal (works cross-platform).
+        // Fall back to P/Invoke only when pointer capture has been lost
+        // (e.g., during floating drag after the source element is destroyed).
+        if (pointerReleasedByEvent || (!hasPointerCapture && !PointerHelpers.IsPointerButtonPressed()))
         {
             CompleteDrag();
 
@@ -742,10 +785,44 @@ internal static class DragService
 
         previewFloatingWindow.Activate();
 
-        // OS-level click-through and window transparency via P/Invoke.
-        previewNativeHandle = PointerHelpers.GetNativeWindowHandle(previewFloatingWindow);
-        PointerHelpers.SetWindowTransparent(previewNativeHandle);
-        PointerHelpers.SetWindowAlpha(previewNativeHandle, 0.6);
+        // Make the preview window semi-transparent.
+        // On Windows: uses DWM + ICompositionSupportsSystemBackdrop + Content.Opacity
+        //   (WS_EX_LAYERED is incompatible with WinUI 3 DirectComposition).
+        // On macOS: uses NSWindow.setAlphaValue: via objc_msgSend.
+        // On Linux: uses _NET_WM_WINDOW_OPACITY X11 property.
+#if WINDOWS
+        PointerHelpers.SetWindowAlpha(previewFloatingWindow, 0.6);
+#else
+        // Defer to next dispatch cycle so the native window is ready.
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+        {
+            if (previewFloatingWindow is null)
+            {
+                return;
+            }
+
+            previewNativeHandle = PointerHelpers.GetNativeWindowHandle(previewFloatingWindow);
+            PointerHelpers.SetWindowAlpha(previewNativeHandle, 0.6);
+        });
+#endif
+
+        // OS-level click-through via P/Invoke.
+        // Defer to the next dispatch cycle so WinUI has finished
+        // processing Activate() and applying its own window styles.
+        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+        {
+            if (previewFloatingWindow is null)
+            {
+                return;
+            }
+
+            if (previewNativeHandle == nint.Zero)
+            {
+                previewNativeHandle = PointerHelpers.GetNativeWindowHandle(previewFloatingWindow);
+            }
+
+            PointerHelpers.SetWindowTransparent(previewNativeHandle);
+        });
     }
 
     private static void MovePreviewWindow(PointInt32 screenPoint)
@@ -781,7 +858,12 @@ internal static class DragService
         }
 
         // Restore window state.
+#if WINDOWS
+        PointerHelpers.ClearWindowAlpha(previewFloatingWindow);
+#else
         PointerHelpers.ClearWindowAlpha(previewNativeHandle);
+#endif
+
         PointerHelpers.ClearWindowTransparent(previewNativeHandle);
 
         // Detach from DragService tracking — the FloatingWindow is now a normal one.
@@ -928,6 +1010,8 @@ internal static class DragService
         isActive = false;
         isTabReorder = false;
         isFloatingDrag = false;
+        pointerReleasedByEvent = false;
+        hasPointerCapture = false;
 
         dragDocument = null;
         sourceGroup = null;

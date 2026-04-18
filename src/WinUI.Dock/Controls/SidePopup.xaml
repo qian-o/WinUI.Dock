@@ -24,7 +24,8 @@
                         Background="{ThemeResource DockFillDefaultBrush}"
                         BorderBrush="{ThemeResource DockStrokeDefaultBrush}"
                         BorderThickness="0,0,0,1"
-                        PointerPressed="Header_PointerPressed">
+                        PointerPressed="Header_PointerPressed"
+                        PointerReleased="Header_PointerReleased">
                     <Grid Margin="8,0,8,0"
                           VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>

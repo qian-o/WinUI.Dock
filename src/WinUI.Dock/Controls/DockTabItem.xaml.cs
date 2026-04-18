@@ -83,7 +83,23 @@ public sealed partial class DockTabItem : TabViewItem
             Point cursorInClient = ComputeCursorInClient(e);
 
             DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this, cursorInClient);
+            CapturePointer(e.Pointer);
         }
+    }
+
+    protected override void OnPointerReleased(PointerRoutedEventArgs e)
+    {
+        base.OnPointerReleased(e);
+
+        ReleasePointerCapture(e.Pointer);
+        DragService.NotifyPointerReleased();
+    }
+
+    protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
+    {
+        base.OnPointerCaptureLost(e);
+
+        DragService.NotifyCaptureLost();
     }
 
     private void ContentOptions_PointerPressed(object _, PointerRoutedEventArgs e)
@@ -100,6 +116,7 @@ public sealed partial class DockTabItem : TabViewItem
             Point cursorInClient = ComputeCursorInClient(e);
 
             DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this, cursorInClient);
+            CapturePointer(e.Pointer);
         }
     }
 

@@ -1,5 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using Windows.Graphics;
+#if WINDOWS
+using WinRT;
+#endif
 using WinRT.Interop;
 
 namespace WinUI.Dock;
@@ -39,6 +42,30 @@ internal static unsafe partial class PointerHelpers
 
     [LibraryImport("USER32.dll")]
     private static partial int SetLayeredWindowAttributes(nint hwnd, uint crKey, byte bAlpha, uint dwFlags);
+
+    [LibraryImport("Dwmapi.dll")]
+    private static partial int DwmExtendFrameIntoClientArea(nint hWnd, ref MARGINS pMarInset);
+
+    [LibraryImport("Dwmapi.dll")]
+    private static partial int DwmEnableBlurBehindWindow(nint hWnd, ref DWM_BLURBEHIND pBlurBehind);
+
+    [LibraryImport("gdi32.dll")]
+    private static partial nint CreateRectRgn(int x1, int y1, int x2, int y2);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MARGINS
+    {
+        public int Left, Right, Top, Bottom;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct DWM_BLURBEHIND
+    {
+        public uint dwFlags;
+        public int fEnable;
+        public nint hRgnBlur;
+        public int fTransitionOnMaximized;
+    }
     #endregion
 
     #region Library Imports (Linux)
@@ -84,6 +111,17 @@ internal static unsafe partial class PointerHelpers
 
     [LibraryImport("libX11.so")]
     private static partial int XDeleteProperty(nint display, nint window, nint property);
+
+    [LibraryImport("libX11.so")]
+    private static partial int XGetWindowProperty(nint display, nint window, nint property,
+                                                  long offset, long length,
+                                                  [MarshalAs(UnmanagedType.I1)] bool delete,
+                                                  nint reqType, out nint actualType,
+                                                  out int actualFormat, out nuint nItems,
+                                                  out nuint bytesAfter, out nint prop);
+
+    [LibraryImport("libX11.so")]
+    private static partial int XFree(nint data);
     #endregion
 
     #region Library Imports (macOS)
@@ -104,6 +142,12 @@ internal static unsafe partial class PointerHelpers
 
     [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
     private static partial void ObjCMsgSendDouble(nint receiver, nint selector, double value);
+
+    [LibraryImport("libobjc.dylib")]
+    private static partial nint objc_getClass([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
+
+    [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint ObjCMsgSend(nint receiver, nint selector);
     #endregion
 
     #region Constants
@@ -169,7 +213,32 @@ internal static unsafe partial class PointerHelpers
 
     public static nint GetNativeWindowHandle(Window window)
     {
-        return WindowNative.GetWindowHandle(window);
+        try
+        {
+            nint handle = WindowNative.GetWindowHandle(window);
+
+            if (handle != nint.Zero)
+            {
+                return handle;
+            }
+        }
+        catch
+        {
+            // WindowNative may not be fully supported on all Uno backends.
+        }
+
+        // Platform-specific fallback: get the currently active/key window handle.
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return GetKeyWindowMacOS();
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return GetActiveWindowLinux();
+        }
+
+        return nint.Zero;
     }
 
     public static void SetWindowTransparent(nint handle)
@@ -227,10 +296,9 @@ internal static unsafe partial class PointerHelpers
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
-
-            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle | WS_EX_LAYERED);
-            _ = SetLayeredWindowAttributes(handle, 0, (byte)(alpha * 255), LWA_ALPHA);
+            // WS_EX_LAYERED + SetLayeredWindowAttributes is incompatible with
+            // WinUI 3's WS_EX_NOREDIRECTIONBITMAP / DirectComposition.
+            // Windows transparency is handled via SetWindowAlpha(Window, double) overload.
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
@@ -251,9 +319,7 @@ internal static unsafe partial class PointerHelpers
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
-
-            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle & ~WS_EX_LAYERED);
+            // Windows: handled via ClearWindowAlpha(Window) overload.
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
@@ -264,6 +330,81 @@ internal static unsafe partial class PointerHelpers
             ObjCMsgSendDouble(handle, sel_registerName("setAlphaValue:"), 1.0);
         }
     }
+
+    /// <summary>
+    /// WinUI 3 window-level transparency using composition interop.
+    /// Makes the window backdrop transparent and sets content opacity.
+    /// </summary>
+#if WINDOWS
+    public static void SetWindowAlpha(Window window, double alpha)
+    {
+        try
+        {
+            // Layer 1: Remove the Win32 window background via DWM.
+            nint hwnd = WindowNative.GetWindowHandle(window);
+
+            if (hwnd != nint.Zero)
+            {
+                MARGINS margins = new() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
+                _ = DwmExtendFrameIntoClientArea(hwnd, ref margins);
+
+                DWM_BLURBEHIND blur = new()
+                {
+                    dwFlags = 0x01 | 0x02,  // DWM_BB_ENABLE | DWM_BB_BLURREGION
+                    fEnable = 1,             // TRUE
+                    hRgnBlur = CreateRectRgn(-2, -2, -1, -1)
+                };
+                _ = DwmEnableBlurBehindWindow(hwnd, ref blur);
+            }
+
+            // Layer 2: Remove the XAML composition backdrop via ICompositionSupportsSystemBackdrop.
+            var target = window.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>();
+            var compositor = new Windows.UI.Composition.Compositor();
+            target.SystemBackdrop = compositor.CreateColorBrush(
+                Windows.UI.Color.FromArgb((byte)(alpha * 255), 255, 255, 255));
+
+            // Layer 3: Set content opacity for the visual ghost effect.
+            if (window.Content is UIElement content)
+            {
+                content.Opacity = alpha;
+            }
+        }
+        catch
+        {
+            // Fallback: at minimum apply content opacity.
+            if (window.Content is UIElement content)
+            {
+                content.Opacity = alpha;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Restore WinUI 3 window from transparent state.
+    /// </summary>
+    public static void ClearWindowAlpha(Window window)
+    {
+        try
+        {
+            var target = window.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>();
+            var backdrop = target.SystemBackdrop;
+            target.SystemBackdrop = null;
+            backdrop?.Dispose();
+
+            if (window.Content is UIElement content)
+            {
+                content.Opacity = 1.0;
+            }
+        }
+        catch
+        {
+            if (window.Content is UIElement content)
+            {
+                content.Opacity = 1.0;
+            }
+        }
+    }
+#endif
 
     #region Windows
     private static PointInt32 GetPointerPositionWindows()
@@ -432,6 +573,42 @@ internal static unsafe partial class PointerHelpers
 
         return (keys[X11_ESCAPE_KEYCODE / 8] & (1 << (X11_ESCAPE_KEYCODE % 8))) != 0;
     }
+
+    private static nint GetActiveWindowLinux()
+    {
+        nint display = XOpenDisplay(nint.Zero);
+
+        if (display == nint.Zero)
+        {
+            return nint.Zero;
+        }
+
+        nint root = XDefaultRootWindow(display);
+        nint atom = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
+
+        if (atom == nint.Zero)
+        {
+            _ = XCloseDisplay(display);
+
+            return nint.Zero;
+        }
+
+        _ = XGetWindowProperty(display, root, atom, 0, 1, false, nint.Zero,
+                               out _, out _, out nuint nItems, out _, out nint prop);
+
+        nint result = nint.Zero;
+
+        if (nItems > 0 && prop != nint.Zero)
+        {
+            result = *(nint*)prop;
+
+            _ = XFree(prop);
+        }
+
+        _ = XCloseDisplay(display);
+
+        return result;
+    }
     #endregion
 
     #region macOS
@@ -454,6 +631,14 @@ internal static unsafe partial class PointerHelpers
     private static bool IsEscapePressedMacOS()
     {
         return CGEventSourceKeyState(0, MACOS_ESCAPE_KEYCODE) != 0;
+    }
+
+    private static nint GetKeyWindowMacOS()
+    {
+        nint nsApp = objc_getClass("NSApplication");
+        nint sharedApp = ObjCMsgSend(nsApp, sel_registerName("sharedApplication"));
+
+        return ObjCMsgSend(sharedApp, sel_registerName("keyWindow"));
     }
     #endregion
 }
