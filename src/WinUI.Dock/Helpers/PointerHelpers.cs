@@ -25,6 +25,22 @@ internal static unsafe partial class PointerHelpers
 
         public double Y;
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct CGSize
+    {
+        public double Width;
+
+        public double Height;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct CGRect
+    {
+        public CGPoint Origin;
+
+        public CGSize Size;
+    }
     #endregion
 
     #region Library Imports (Windows)
@@ -142,19 +158,13 @@ internal static unsafe partial class PointerHelpers
 
     #region Library Imports (macOS)
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
-    private static partial nint CGEventCreate(nint source);
+    private static partial uint CGMainDisplayID();
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
-    private static partial CGPoint CGEventGetLocation(nint eventRef);
-
-    [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
-    private static partial byte CGEventSourceButtonState(int stateID, uint button);
+    private static partial CGRect CGDisplayBounds(uint display);
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
     private static partial byte CGEventSourceKeyState(int stateID, ushort key);
-
-    [LibraryImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
-    private static partial void CFRelease(nint cf);
 
     [LibraryImport("libobjc.dylib")]
     private static partial nint sel_registerName([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
@@ -170,6 +180,12 @@ internal static unsafe partial class PointerHelpers
 
     [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint ObjCMsgSend(nint receiver, nint selector);
+
+    [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial CGPoint ObjCMsgSend_CGPoint(nint receiver, nint selector);
+
+    [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nuint ObjCMsgSend_nuint(nint receiver, nint selector);
     #endregion
 
     #region Constants
@@ -666,24 +682,31 @@ internal static unsafe partial class PointerHelpers
     #region macOS
     private static PointInt32 GetPointerPositionMacOS()
     {
-        nint evt = CGEventCreate(nint.Zero);
-        CGPoint cgPoint = CGEventGetLocation(evt);
-        CFRelease(evt);
+        // [NSEvent mouseLocation] — standard Cocoa API, no special permissions.
+        // Returns bottom-left origin; convert to top-left via main display height.
+        nint nsEvent = objc_getClass("NSEvent");
+        CGPoint point = ObjCMsgSend_CGPoint(nsEvent, sel_registerName("mouseLocation"));
+        CGRect bounds = CGDisplayBounds(CGMainDisplayID());
 
         return new()
         {
-            X = (int)cgPoint.X,
-            Y = (int)cgPoint.Y
+            X = (int)point.X,
+            Y = (int)(bounds.Size.Height - point.Y)
         };
     }
 
     private static bool IsPointerButtonPressedMacOS()
     {
-        return CGEventSourceButtonState(0, 0) != 0;
+        // [NSEvent pressedMouseButtons] — bit 0 = left button. No permissions needed.
+        nint nsEvent = objc_getClass("NSEvent");
+        nuint buttons = ObjCMsgSend_nuint(nsEvent, sel_registerName("pressedMouseButtons"));
+
+        return (buttons & 1) != 0;
     }
 
     private static bool IsEscapePressedMacOS()
     {
+        // CGEventSourceKeyState — best-effort, may need Input Monitoring permission.
         return CGEventSourceKeyState(0, MACOS_ESCAPE_KEYCODE) != 0;
     }
 
