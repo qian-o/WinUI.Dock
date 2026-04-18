@@ -52,6 +52,10 @@ internal static unsafe partial class PointerHelpers
     [LibraryImport("gdi32.dll")]
     private static partial nint CreateRectRgn(int x1, int y1, int x2, int y2);
 
+    [LibraryImport("CoreMessaging.dll")]
+    private static partial int CreateDispatcherQueueController(
+        DispatcherQueueOptions options, out nint dispatcherQueueController);
+
     [StructLayout(LayoutKind.Sequential)]
     private struct MARGINS
     {
@@ -66,6 +70,18 @@ internal static unsafe partial class PointerHelpers
         public nint hRgnBlur;
         public int fTransitionOnMaximized;
     }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct DispatcherQueueOptions
+    {
+        public int dwSize;
+        public int threadType;
+        public int apartmentType;
+    }
+
+#if WINDOWS
+    private static Windows.UI.Composition.Compositor? _compositor;
+#endif
     #endregion
 
     #region Library Imports (Linux)
@@ -126,6 +142,9 @@ internal static unsafe partial class PointerHelpers
 
     #region Library Imports (macOS)
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static partial nint CGEventCreate(nint source);
+
+    [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
     private static partial CGPoint CGEventGetLocation(nint eventRef);
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
@@ -133,6 +152,9 @@ internal static unsafe partial class PointerHelpers
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
     private static partial byte CGEventSourceKeyState(int stateID, ushort key);
+
+    [LibraryImport("/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation")]
+    private static partial void CFRelease(nint cf);
 
     [LibraryImport("libobjc.dylib")]
     private static partial nint sel_registerName([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
@@ -296,9 +318,13 @@ internal static unsafe partial class PointerHelpers
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            // WS_EX_LAYERED + SetLayeredWindowAttributes is incompatible with
-            // WinUI 3's WS_EX_NOREDIRECTIONBITMAP / DirectComposition.
-            // Windows transparency is handled via SetWindowAlpha(Window, double) overload.
+            // For Uno Skia Desktop on Windows: use WS_EX_LAYERED.
+            // (Uno does not use WS_EX_NOREDIRECTIONBITMAP / DirectComposition,
+            //  so layered window alpha works here unlike native WinUI 3.)
+            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
+
+            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle | WS_EX_LAYERED);
+            _ = SetLayeredWindowAttributes(handle, 0, (byte)(alpha * 255), LWA_ALPHA);
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
@@ -319,7 +345,9 @@ internal static unsafe partial class PointerHelpers
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            // Windows: handled via ClearWindowAlpha(Window) overload.
+            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
+
+            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle & ~WS_EX_LAYERED);
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
@@ -336,6 +364,29 @@ internal static unsafe partial class PointerHelpers
     /// Makes the window backdrop transparent and sets content opacity.
     /// </summary>
 #if WINDOWS
+    private static Windows.UI.Composition.Compositor EnsureCompositor()
+    {
+        if (_compositor is null)
+        {
+            // Windows.UI.Composition.Compositor needs a Windows.System.DispatcherQueue.
+            // WinUI 3 may already have one; if not, create it.
+            if (Windows.System.DispatcherQueue.GetForCurrentThread() is null)
+            {
+                DispatcherQueueOptions options = new()
+                {
+                    dwSize = Marshal.SizeOf<DispatcherQueueOptions>(),
+                    threadType = 2,    // DQTYPE_THREAD_CURRENT
+                    apartmentType = 2  // DQTAT_COM_STA
+                };
+                _ = CreateDispatcherQueueController(options, out _);
+            }
+
+            _compositor = new Windows.UI.Composition.Compositor();
+        }
+
+        return _compositor;
+    }
+
     public static void SetWindowAlpha(Window window, double alpha)
     {
         try
@@ -357,13 +408,14 @@ internal static unsafe partial class PointerHelpers
                 _ = DwmEnableBlurBehindWindow(hwnd, ref blur);
             }
 
-            // Layer 2: Remove the XAML composition backdrop via ICompositionSupportsSystemBackdrop.
+            // Layer 2: Set a fully transparent composition backdrop
+            //          to remove the XAML default opaque background.
             var target = window.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>();
-            var compositor = new Windows.UI.Composition.Compositor();
+            var compositor = EnsureCompositor();
             target.SystemBackdrop = compositor.CreateColorBrush(
-                Windows.UI.Color.FromArgb((byte)(alpha * 255), 255, 255, 255));
+                Windows.UI.Color.FromArgb(0, 255, 255, 255));
 
-            // Layer 3: Set content opacity for the visual ghost effect.
+            // Layer 3: Content opacity for the visual ghost effect.
             if (window.Content is UIElement content)
             {
                 content.Opacity = alpha;
@@ -614,7 +666,9 @@ internal static unsafe partial class PointerHelpers
     #region macOS
     private static PointInt32 GetPointerPositionMacOS()
     {
-        CGPoint cgPoint = CGEventGetLocation((nint)null);
+        nint evt = CGEventCreate(nint.Zero);
+        CGPoint cgPoint = CGEventGetLocation(evt);
+        CFRelease(evt);
 
         return new()
         {

@@ -50,6 +50,7 @@ internal static class DragService
     // Pointer-event-based button state (cross-platform, does not rely on P/Invoke).
     private static bool pointerReleasedByEvent;
     private static bool hasPointerCapture;
+    private static int captureLostGraceFrames;
 
     public static bool IsDragging => isActive;
 
@@ -122,6 +123,11 @@ internal static class DragService
     public static void NotifyCaptureLost()
     {
         hasPointerCapture = false;
+
+        // Grace period: when the source element is destroyed during floating drag
+        // transition, pointer capture is lost before P/Invoke can report button state.
+        // Skip button-state checks for a few frames (~80ms) to let the platform stabilize.
+        captureLostGraceFrames = 5;
     }
 
     public static void Cancel()
@@ -219,13 +225,27 @@ internal static class DragService
     private static void OnTimerTick(DispatcherQueueTimer sender, object args)
     {
         // Use pointer-event flag as primary signal (works cross-platform).
-        // Fall back to P/Invoke only when pointer capture has been lost
-        // (e.g., during floating drag after the source element is destroyed).
-        if (pointerReleasedByEvent || (!hasPointerCapture && !PointerHelpers.IsPointerButtonPressed()))
+        if (pointerReleasedByEvent)
         {
             CompleteDrag();
 
             return;
+        }
+
+        // Fall back to P/Invoke when pointer capture has been lost
+        // (e.g., during floating drag after the source element is destroyed).
+        if (!hasPointerCapture)
+        {
+            if (captureLostGraceFrames > 0)
+            {
+                captureLostGraceFrames--;
+            }
+            else if (!PointerHelpers.IsPointerButtonPressed())
+            {
+                CompleteDrag();
+
+                return;
+            }
         }
 
         if (PointerHelpers.IsEscapePressed())
