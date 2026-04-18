@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Windows.Graphics;
+using WinRT.Interop;
 
 namespace WinUI.Dock;
 
@@ -29,9 +30,6 @@ internal static unsafe partial class PointerHelpers
 
     [LibraryImport("USER32.dll")]
     private static partial short GetAsyncKeyState(int vKey);
-
-    [LibraryImport("USER32.dll")]
-    private static partial nint GetActiveWindow();
 
     [LibraryImport("USER32.dll")]
     private static partial nint GetWindowLongPtrW(nint hWnd, int nIndex);
@@ -70,23 +68,6 @@ internal static unsafe partial class PointerHelpers
     [LibraryImport("libX11.so", StringMarshalling = StringMarshalling.Utf8)]
     private static partial nint XInternAtom(nint display, string atomName, [MarshalAs(UnmanagedType.I1)] bool onlyIfExists);
 
-    [LibraryImport("libX11.so")]
-    private static partial int XGetWindowProperty(nint display,
-                                                  nint window,
-                                                  nint property,
-                                                  nint longOffset,
-                                                  nint longLength,
-                                                  [MarshalAs(UnmanagedType.I1)] bool delete,
-                                                  nint reqType,
-                                                  out nint actualTypeReturn,
-                                                  out int actualFormatReturn,
-                                                  out nint nItemsReturn,
-                                                  out nint bytesAfterReturn,
-                                                  out nint propReturn);
-
-    [LibraryImport("libX11.so")]
-    private static partial int XFree(nint data);
-
     [LibraryImport("libXext.so.6")]
     private static partial void XShapeCombineRectangles(nint display, nint window, int destKind,
                                                         int xOff, int yOff, nint rectangles,
@@ -116,13 +97,7 @@ internal static unsafe partial class PointerHelpers
     private static partial byte CGEventSourceKeyState(int stateID, ushort key);
 
     [LibraryImport("libobjc.dylib")]
-    private static partial nint objc_getClass([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
-
-    [LibraryImport("libobjc.dylib")]
     private static partial nint sel_registerName([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
-
-    [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint ObjCMsgSend(nint receiver, nint selector);
 
     [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
     private static partial void ObjCMsgSendBool(nint receiver, nint selector, [MarshalAs(UnmanagedType.I1)] bool value);
@@ -192,24 +167,9 @@ internal static unsafe partial class PointerHelpers
         return isEscapePressed();
     }
 
-    public static nint GetActiveWindowHandle()
+    public static nint GetNativeWindowHandle(Window window)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            return GetActiveWindow();
-        }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-        {
-            return GetActiveWindowLinux();
-        }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-        {
-            return GetActiveWindowMacOS();
-        }
-
-        return nint.Zero;
+        return WindowNative.GetWindowHandle(window);
     }
 
     public static void SetWindowTransparent(nint handle)
@@ -331,37 +291,6 @@ internal static unsafe partial class PointerHelpers
     #endregion
 
     #region Linux
-    private static nint GetActiveWindowLinux()
-    {
-        nint display = XOpenDisplay(nint.Zero);
-
-        if (display == nint.Zero)
-        {
-            return nint.Zero;
-        }
-
-        nint root = XDefaultRootWindow(display);
-        nint atom = XInternAtom(display, "_NET_ACTIVE_WINDOW", false);
-
-        int result = XGetWindowProperty(display, root, atom,
-                                        0, 1, false, nint.Zero,
-                                        out _, out _, out nint nItems,
-                                        out _, out nint prop);
-
-        nint activeWindow = nint.Zero;
-
-        if (result == 0 && nItems > 0 && prop != nint.Zero)
-        {
-            activeWindow = Marshal.ReadIntPtr(prop);
-
-            _ = XFree(prop);
-        }
-
-        _ = XCloseDisplay(display);
-
-        return activeWindow;
-    }
-
     private static void SetWindowTransparentLinux(nint xWindow)
     {
         nint display = XOpenDisplay(nint.Zero);
@@ -506,14 +435,6 @@ internal static unsafe partial class PointerHelpers
     #endregion
 
     #region macOS
-    private static nint GetActiveWindowMacOS()
-    {
-        nint nsAppClass = objc_getClass("NSApplication");
-        nint sharedApp = ObjCMsgSend(nsAppClass, sel_registerName("sharedApplication"));
-
-        return ObjCMsgSend(sharedApp, sel_registerName("keyWindow"));
-    }
-
     private static PointInt32 GetPointerPositionMacOS()
     {
         CGPoint cgPoint = CGEventGetLocation((nint)null);

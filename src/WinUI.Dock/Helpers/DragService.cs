@@ -743,7 +743,7 @@ internal static class DragService
         previewFloatingWindow.Activate();
 
         // OS-level click-through and window transparency via P/Invoke.
-        previewNativeHandle = PointerHelpers.GetActiveWindowHandle();
+        previewNativeHandle = PointerHelpers.GetNativeWindowHandle(previewFloatingWindow);
         PointerHelpers.SetWindowTransparent(previewNativeHandle);
         PointerHelpers.SetWindowAlpha(previewNativeHandle, 0.6);
     }

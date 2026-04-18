@@ -85,6 +85,7 @@ public sealed partial class FloatingWindow : Window
 
         OverlappedPresenter presenter = OverlappedPresenter.Create();
         presenter.SetBorderAndTitleBar(true, false);
+        presenter.IsResizable = true;
 
         AppWindow.SetPresenter(presenter);
 
