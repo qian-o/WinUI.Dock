@@ -97,10 +97,7 @@ public partial class MainViewModel : ObservableObject, IDockAdapter, IDockBehavi
         };
     }
 
-    void IDockBehavior.ActivateMainWindow()
-    {
-        App.MainWindow.Activate();
-    }
+    Window IDockBehavior.MainWindow => App.MainWindow;
 
     void IDockBehavior.OnDocked(Document src, DockManager dest, DockTarget target)
     {

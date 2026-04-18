@@ -80,7 +80,9 @@ public sealed partial class DockTabItem : TabViewItem
 
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
-            DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this);
+            Point cursorInClient = ComputeCursorInClient(e);
+
+            DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this, cursorInClient);
         }
     }
 
@@ -95,8 +97,18 @@ public sealed partial class DockTabItem : TabViewItem
 
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
-            DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this);
+            Point cursorInClient = ComputeCursorInClient(e);
+
+            DragService.BeginTabDrag(Document, Document.Owner, Document.Owner.Children.IndexOf(Document), this, cursorInClient);
         }
+    }
+
+    private Point ComputeCursorInClient(PointerRoutedEventArgs e)
+    {
+        Point localPos = e.GetCurrentPoint(this).Position;
+        Point elementInClient = TransformToVisual(null).TransformPoint(new Point(0, 0));
+
+        return new Point(elementInClient.X + localPos.X, elementInClient.Y + localPos.Y);
     }
 
     private void Pin_Click(object _, RoutedEventArgs __)

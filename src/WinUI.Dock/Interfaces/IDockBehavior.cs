@@ -2,7 +2,7 @@
 
 public interface IDockBehavior
 {
-    void ActivateMainWindow();
+    Window? MainWindow { get; }
 
     void OnDocked(Document src, DockManager dest, DockTarget target);
 

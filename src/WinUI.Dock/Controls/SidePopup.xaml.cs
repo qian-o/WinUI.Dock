@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Windows.Foundation;
 
 namespace WinUI.Dock;
 
@@ -129,7 +130,11 @@ public sealed partial class SidePopup : UserControl
 
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
-            DragService.BeginSidePopupDrag(Document, Manager, this);
+            Point localPos = e.GetCurrentPoint(this).Position;
+            Point elementInClient = TransformToVisual(null).TransformPoint(new Point(0, 0));
+            Point cursorInClient = new(elementInClient.X + localPos.X, elementInClient.Y + localPos.Y);
+
+            DragService.BeginSidePopupDrag(Document, Manager, this, cursorInClient);
         }
     }
 

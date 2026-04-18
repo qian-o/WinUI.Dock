@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Windows.Foundation;
@@ -26,8 +25,9 @@ internal static class DragService
     private static FloatingWindow? sourceFloatingWindow;
     private static FrameworkElement? sourceTabElement;
 
-    // Main window HWND (discovered lazily, persists across drags)
-    private static nint mainWindowHwnd;
+    // Main window (cross-platform via AppWindow)
+    private static AppWindow? mainWindowAppWindow;
+    private static PointInt32 mainWindowClientOrigin;
 
     // Drag mode
     private static bool isActive;
@@ -36,20 +36,19 @@ internal static class DragService
 
     // Preview window (real FloatingWindow used as semi-transparent drag preview)
     private static FloatingWindow? previewFloatingWindow;
-    private static nint previewHwnd;
+    private static nint previewNativeHandle;
     private static PointInt32 previewOffset;
     private static SizeInt32 capturedSourceSize;
 
     // Hit-test state
     private static DockManager? hoveredManager;
-    private static nint hoveredWindowHwnd;
     private static FloatingWindow? hoveredFloatingWindow;
     private static DocumentGroup? hoveredGroup;
     private static DockTarget? hoveredTarget;
 
     public static bool IsDragging => isActive;
 
-    public static void BeginTabDrag(Document document, DocumentGroup group, int index, FrameworkElement tabElement)
+    public static void BeginTabDrag(Document document, DocumentGroup group, int index, FrameworkElement tabElement, Point cursorInClient)
     {
         if (isActive)
         {
@@ -64,11 +63,11 @@ internal static class DragService
         sourceTabElement = tabElement;
         startScreenPoint = PointerHelpers.GetPointerPosition();
 
-        DetectSourceWindow();
+        DetectSourceWindow(cursorInClient);
         StartTimer();
     }
 
-    public static void BeginSidePopupDrag(Document document, DockManager manager, SidePopup popup)
+    public static void BeginSidePopupDrag(Document document, DockManager manager, SidePopup popup, Point cursorInClient)
     {
         if (isActive)
         {
@@ -82,7 +81,7 @@ internal static class DragService
         sourceSidePopup = popup;
         startScreenPoint = PointerHelpers.GetPointerPosition();
 
-        DetectSourceWindow();
+        DetectSourceWindow(cursorInClient);
         StartTimer();
     }
 
@@ -126,7 +125,7 @@ internal static class DragService
         Cleanup();
     }
 
-    private static void DetectSourceWindow()
+    private static void DetectSourceWindow(Point cursorInClient)
     {
         // Determine if the drag started from a FloatingWindow.
         sourceFloatingWindow = null;
@@ -148,15 +147,20 @@ internal static class DragService
             }
         }
 
-        // If not from a FloatingWindow, capture the main window HWND.
+        // If not from a FloatingWindow, capture the main window's AppWindow.
         if (sourceFloatingWindow is null)
         {
-            nint hwnd = PointerHelpers.GetWindowAtScreenPoint(startScreenPoint);
+            mainWindowAppWindow = sourceManager?.Behavior?.MainWindow?.AppWindow;
 
-            if (hwnd != nint.Zero)
+            // Compute client origin from the cursor screen position and its visual-tree position.
+            // clientOrigin = screenPoint - cursorInClient * scale
+            double scale = sourceManager?.XamlRoot?.RasterizationScale ?? 1.0;
+
+            mainWindowClientOrigin = new PointInt32
             {
-                mainWindowHwnd = hwnd;
-            }
+                X = startScreenPoint.X - (int)(cursorInClient.X * scale),
+                Y = startScreenPoint.Y - (int)(cursorInClient.Y * scale)
+            };
         }
     }
 
@@ -335,7 +339,6 @@ internal static class DragService
         MovePreviewWindow(screenPoint);
 
         // Determine which window the cursor is over.
-        nint hwnd = nint.Zero;
         DockManager? manager = null;
         FloatingWindow? floatingWindow = null;
 
@@ -363,20 +366,21 @@ internal static class DragService
             }
         }
 
-        // If not in any floating window, check main window by bounds.
-        // We avoid WindowFromPoint here because the preview window (WS_EX_TRANSPARENT)
-        // intercepts it, preventing the main window from being detected.
-        if (manager is null && mainWindowHwnd != nint.Zero && sourceManager is not null)
+        // If not in any floating window, check main window via AppWindow bounds.
+        if (manager is null && mainWindowAppWindow is not null && sourceManager is not null)
         {
-            if (PointerHelpers.IsPointInWindow(mainWindowHwnd, screenPoint))
+            PointInt32 pos = mainWindowAppWindow.Position;
+            SizeInt32 size = mainWindowAppWindow.Size;
+
+            if (screenPoint.X >= pos.X && screenPoint.X < pos.X + size.Width &&
+                screenPoint.Y >= pos.Y && screenPoint.Y < pos.Y + size.Height)
             {
                 manager = sourceManager;
-                hwnd = mainWindowHwnd;
             }
         }
 
-        // Manager changed?
-        if (manager != hoveredManager || hwnd != hoveredWindowHwnd)
+        // Window changed?
+        if (manager != hoveredManager || floatingWindow != hoveredFloatingWindow)
         {
             if (hoveredManager is not null)
             {
@@ -393,7 +397,6 @@ internal static class DragService
 
             hoveredTarget = null;
             hoveredManager = manager;
-            hoveredWindowHwnd = hwnd;
             hoveredFloatingWindow = floatingWindow;
 
             if (hoveredManager is not null)
@@ -405,7 +408,7 @@ internal static class DragService
                 }
                 else
                 {
-                    hoveredManager.Behavior?.ActivateMainWindow();
+                    hoveredManager.Behavior?.MainWindow?.Activate();
                 }
 
                 hoveredManager.ShowDockTargets();
@@ -445,20 +448,15 @@ internal static class DragService
             return;
         }
 
-        if (hwnd == nint.Zero)
-        {
-            return;
-        }
-
+        // On the main window — use cached client origin for coordinate conversion.
         double managerScale = manager.XamlRoot?.RasterizationScale ?? 1.0;
-        PointInt32 clientOrigin = PointerHelpers.GetClientOrigin(hwnd);
 
         try
         {
             Point managerPos = manager.TransformToVisual(null).TransformPoint(new Point(0, 0));
 
-            localX = (screenPoint.X - clientOrigin.X) / managerScale - managerPos.X;
-            localY = (screenPoint.Y - clientOrigin.Y) / managerScale - managerPos.Y;
+            localX = (screenPoint.X - mainWindowClientOrigin.X) / managerScale - managerPos.X;
+            localY = (screenPoint.Y - mainWindowClientOrigin.Y) / managerScale - managerPos.Y;
         }
         catch
         {
@@ -491,7 +489,7 @@ internal static class DragService
         // Not on manager edges — check DocumentGroups.
         if (manager.Panel is not null)
         {
-            UpdateGroupHitTest(manager.Panel, screenPoint, hwnd, managerScale, clientOrigin);
+            UpdateGroupHitTest(manager.Panel, screenPoint, mainWindowClientOrigin, managerScale);
         }
     }
 
@@ -540,11 +538,11 @@ internal static class DragService
         hoveredManager?.HideDockPreview();
     }
 
-    private static void UpdateGroupHitTest(LayoutPanel panel, PointInt32 screenPoint, nint hwnd, double scale, PointInt32 clientOrigin)
+    private static void UpdateGroupHitTest(LayoutPanel panel, PointInt32 screenPoint, PointInt32 clientOrigin, double scale)
     {
         foreach (DocumentGroup group in GetAllDocumentGroups(panel))
         {
-            if (ElementContainsScreenPoint(group, screenPoint, hwnd, scale, clientOrigin))
+            if (ElementContainsScreenPoint(group, screenPoint, clientOrigin, scale))
             {
                 Point groupPos;
 
@@ -684,12 +682,10 @@ internal static class DragService
                     tabScreenX = fwPos.X + tabPos.X * scale;
                     tabScreenY = fwPos.Y + tabPos.Y * scale;
                 }
-                else if (mainWindowHwnd != nint.Zero)
+                else if (mainWindowAppWindow is not null)
                 {
-                    PointInt32 clientOrigin = PointerHelpers.GetClientOrigin(mainWindowHwnd);
-
-                    tabScreenX = clientOrigin.X + tabPos.X * scale;
-                    tabScreenY = clientOrigin.Y + tabPos.Y * scale;
+                    tabScreenX = mainWindowClientOrigin.X + tabPos.X * scale;
+                    tabScreenY = mainWindowClientOrigin.Y + tabPos.Y * scale;
                 }
                 else
                 {
@@ -746,15 +742,10 @@ internal static class DragService
 
         previewFloatingWindow.Activate();
 
-        // Make the preview window click-through so it doesn't interfere with hit-testing.
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            previewHwnd = PointerHelpers.GetActiveWindowHandle();
-            PointerHelpers.SetWindowTransparent(previewHwnd);
-
-            // Set window-level semi-transparency (alpha ≈ 0.6).
-            PointerHelpers.SetWindowAlpha(previewHwnd, 153);
-        }
+        // OS-level click-through and window transparency via P/Invoke.
+        previewNativeHandle = PointerHelpers.GetActiveWindowHandle();
+        PointerHelpers.SetWindowTransparent(previewNativeHandle);
+        PointerHelpers.SetWindowAlpha(previewNativeHandle, 0.6);
     }
 
     private static void MovePreviewWindow(PointInt32 screenPoint)
@@ -772,7 +763,7 @@ internal static class DragService
         {
             previewFloatingWindow.Close();
             previewFloatingWindow = null;
-            previewHwnd = nint.Zero;
+            previewNativeHandle = nint.Zero;
         }
     }
 
@@ -789,13 +780,13 @@ internal static class DragService
             presenter.IsAlwaysOnTop = false;
         }
 
-        // Remove window-level transparency and click-through so the window is interactive again.
-        PointerHelpers.ClearWindowAlpha(previewHwnd);
-        PointerHelpers.ClearWindowTransparent(previewHwnd);
+        // Restore window state.
+        PointerHelpers.ClearWindowAlpha(previewNativeHandle);
+        PointerHelpers.ClearWindowTransparent(previewNativeHandle);
 
         // Detach from DragService tracking — the FloatingWindow is now a normal one.
         previewFloatingWindow = null;
-        previewHwnd = nint.Zero;
+        previewNativeHandle = nint.Zero;
     }
 
     private static void HideAllDockTargets()
@@ -907,7 +898,7 @@ internal static class DragService
         }
     }
 
-    private static bool ElementContainsScreenPoint(FrameworkElement element, PointInt32 screenPoint, nint hwnd, double scale, PointInt32 clientOrigin)
+    private static bool ElementContainsScreenPoint(FrameworkElement element, PointInt32 screenPoint, PointInt32 clientOrigin, double scale)
     {
         try
         {
@@ -946,7 +937,6 @@ internal static class DragService
         sourceTabElement = null;
 
         hoveredManager = null;
-        hoveredWindowHwnd = nint.Zero;
         hoveredFloatingWindow = null;
         hoveredGroup = null;
         hoveredTarget = null;

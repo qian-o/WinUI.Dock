@@ -15,18 +15,6 @@ internal static unsafe partial class PointerHelpers
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct LPRect
-    {
-        public int Left;
-
-        public int Top;
-
-        public int Right;
-
-        public int Bottom;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
     private struct CGPoint
     {
         public double X;
@@ -35,21 +23,12 @@ internal static unsafe partial class PointerHelpers
     }
     #endregion
 
-    #region Library Imports
+    #region Library Imports (Windows)
     [LibraryImport("USER32.dll")]
     private static partial int GetCursorPos(LPPoint* lpPoint);
 
     [LibraryImport("USER32.dll")]
     private static partial short GetAsyncKeyState(int vKey);
-
-    [LibraryImport("USER32.dll")]
-    private static partial nint WindowFromPoint(LPPoint point);
-
-    [LibraryImport("USER32.dll")]
-    private static partial nint GetAncestor(nint hwnd, uint gaFlags);
-
-    [LibraryImport("USER32.dll")]
-    private static partial int ClientToScreen(nint hWnd, LPPoint* lpPoint);
 
     [LibraryImport("USER32.dll")]
     private static partial nint GetActiveWindow();
@@ -61,11 +40,10 @@ internal static unsafe partial class PointerHelpers
     private static partial nint SetWindowLongPtrW(nint hWnd, int nIndex, nint dwNewLong);
 
     [LibraryImport("USER32.dll")]
-    private static partial int GetWindowRect(nint hWnd, LPRect* lpRect);
-
-    [LibraryImport("USER32.dll")]
     private static partial int SetLayeredWindowAttributes(nint hwnd, uint crKey, byte bAlpha, uint dwFlags);
+    #endregion
 
+    #region Library Imports (Linux)
     [LibraryImport("libX11.so")]
     private static partial nint XOpenDisplay(nint display);
 
@@ -86,17 +64,76 @@ internal static unsafe partial class PointerHelpers
     [LibraryImport("libX11.so")]
     private static partial int XCloseDisplay(nint display);
 
+    [LibraryImport("libX11.so")]
+    private static partial int XQueryKeymap(nint display, byte* keys_return);
+
+    [LibraryImport("libX11.so", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial nint XInternAtom(nint display, string atomName, [MarshalAs(UnmanagedType.I1)] bool onlyIfExists);
+
+    [LibraryImport("libX11.so")]
+    private static partial int XGetWindowProperty(nint display,
+                                                  nint window,
+                                                  nint property,
+                                                  nint longOffset,
+                                                  nint longLength,
+                                                  [MarshalAs(UnmanagedType.I1)] bool delete,
+                                                  nint reqType,
+                                                  out nint actualTypeReturn,
+                                                  out int actualFormatReturn,
+                                                  out nint nItemsReturn,
+                                                  out nint bytesAfterReturn,
+                                                  out nint propReturn);
+
+    [LibraryImport("libX11.so")]
+    private static partial int XFree(nint data);
+
+    [LibraryImport("libXext.so.6")]
+    private static partial void XShapeCombineRectangles(nint display, nint window, int destKind,
+                                                        int xOff, int yOff, nint rectangles,
+                                                        int nRects, int op, int ordering);
+
+    [LibraryImport("libXext.so.6")]
+    private static partial void XShapeCombineMask(nint display, nint window, int destKind,
+                                                   int xOff, int yOff, nint src, int op);
+
+    [LibraryImport("libX11.so")]
+    private static partial int XChangeProperty(nint display, nint window, nint property,
+                                               nint type, int format, int mode,
+                                               byte* data, int nElements);
+
+    [LibraryImport("libX11.so")]
+    private static partial int XDeleteProperty(nint display, nint window, nint property);
+    #endregion
+
+    #region Library Imports (macOS)
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
     private static partial CGPoint CGEventGetLocation(nint eventRef);
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
     private static partial byte CGEventSourceButtonState(int stateID, uint button);
+
+    [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")]
+    private static partial byte CGEventSourceKeyState(int stateID, ushort key);
+
+    [LibraryImport("libobjc.dylib")]
+    private static partial nint objc_getClass([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
+
+    [LibraryImport("libobjc.dylib")]
+    private static partial nint sel_registerName([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
+
+    [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint ObjCMsgSend(nint receiver, nint selector);
+
+    [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void ObjCMsgSendBool(nint receiver, nint selector, [MarshalAs(UnmanagedType.I1)] bool value);
+
+    [LibraryImport("libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void ObjCMsgSendDouble(nint receiver, nint selector, double value);
     #endregion
 
     #region Constants
     private const int VK_LBUTTON = 0x01;
     private const int VK_ESCAPE = 0x1B;
-    private const uint GA_ROOT = 2;
     private const int GWL_EXSTYLE = -20;
     private const nint WS_EX_TRANSPARENT = 0x00000020;
     private const nint WS_EX_TOOLWINDOW = 0x00000080;
@@ -104,13 +141,15 @@ internal static unsafe partial class PointerHelpers
     private const nint WS_EX_NOACTIVATE = 0x08000000;
     private const nint WS_EX_LAYERED = 0x00080000;
     private const uint LWA_ALPHA = 0x02;
+    private const int X11_ESCAPE_KEYCODE = 9;
+    private const ushort MACOS_ESCAPE_KEYCODE = 53;
+    private const int ShapeInput = 2;
+    private const int ShapeSet = 0;
     #endregion
 
     private static readonly Func<PointInt32> getPointerPosition;
     private static readonly Func<bool> isPointerButtonPressed;
     private static readonly Func<bool> isEscapePressed;
-    private static readonly Func<PointInt32, nint> getWindowAtScreenPoint;
-    private static readonly Func<nint, PointInt32> getClientOrigin;
 
     static PointerHelpers()
     {
@@ -119,24 +158,18 @@ internal static unsafe partial class PointerHelpers
             getPointerPosition = GetPointerPositionWindows;
             isPointerButtonPressed = IsPointerButtonPressedWindows;
             isEscapePressed = IsEscapePressedWindows;
-            getWindowAtScreenPoint = GetWindowAtScreenPointWindows;
-            getClientOrigin = GetClientOriginWindows;
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             getPointerPosition = GetPointerPositionLinux;
             isPointerButtonPressed = IsPointerButtonPressedLinux;
-            isEscapePressed = static () => false;
-            getWindowAtScreenPoint = static _ => nint.Zero;
-            getClientOrigin = static _ => default;
+            isEscapePressed = IsEscapePressedLinux;
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             getPointerPosition = GetPointerPositionMacOS;
             isPointerButtonPressed = IsPointerButtonPressedMacOS;
-            isEscapePressed = static () => false;
-            getWindowAtScreenPoint = static _ => nint.Zero;
-            getClientOrigin = static _ => default;
+            isEscapePressed = IsEscapePressedMacOS;
         }
         else
         {
@@ -159,88 +192,120 @@ internal static unsafe partial class PointerHelpers
         return isEscapePressed();
     }
 
-    public static nint GetWindowAtScreenPoint(PointInt32 screenPoint)
-    {
-        return getWindowAtScreenPoint(screenPoint);
-    }
-
-    public static PointInt32 GetClientOrigin(nint hwnd)
-    {
-        return getClientOrigin(hwnd);
-    }
-
     public static nint GetActiveWindowHandle()
     {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? GetActiveWindow() : nint.Zero;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return GetActiveWindow();
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return GetActiveWindowLinux();
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return GetActiveWindowMacOS();
+        }
+
+        return nint.Zero;
     }
 
-    public static void SetWindowTransparent(nint hwnd)
+    public static void SetWindowTransparent(nint handle)
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || hwnd == nint.Zero)
+        if (handle == nint.Zero)
         {
             return;
         }
 
-        nint exStyle = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
 
-        _ = SetWindowLongPtrW(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE | WS_EX_TOPMOST);
+            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE | WS_EX_TOPMOST);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            SetWindowTransparentLinux(handle);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            ObjCMsgSendBool(handle, sel_registerName("setIgnoresMouseEvents:"), true);
+        }
     }
 
-    public static void ClearWindowTransparent(nint hwnd)
+    public static void ClearWindowTransparent(nint handle)
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || hwnd == nint.Zero)
+        if (handle == nint.Zero)
         {
             return;
         }
 
-        nint exStyle = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
 
-        _ = SetWindowLongPtrW(hwnd, GWL_EXSTYLE, exStyle & ~(WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE | WS_EX_TOPMOST));
+            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle & ~(WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE | WS_EX_TOPMOST));
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            ClearWindowTransparentLinux(handle);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            ObjCMsgSendBool(handle, sel_registerName("setIgnoresMouseEvents:"), false);
+        }
     }
 
-    public static bool IsPointInWindow(nint hwnd, PointInt32 point)
+    public static void SetWindowAlpha(nint handle, double alpha)
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || hwnd == nint.Zero)
-        {
-            return false;
-        }
-
-        LPRect rect;
-
-        if (GetWindowRect(hwnd, &rect) == 0)
-        {
-            return false;
-        }
-
-        return point.X >= rect.Left && point.X <= rect.Right
-            && point.Y >= rect.Top && point.Y <= rect.Bottom;
-    }
-
-    public static void SetWindowAlpha(nint hwnd, byte alpha)
-    {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || hwnd == nint.Zero)
+        if (handle == nint.Zero)
         {
             return;
         }
 
-        nint exStyle = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
 
-        _ = SetWindowLongPtrW(hwnd, GWL_EXSTYLE, exStyle | WS_EX_LAYERED);
-        _ = SetLayeredWindowAttributes(hwnd, 0, alpha, LWA_ALPHA);
+            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle | WS_EX_LAYERED);
+            _ = SetLayeredWindowAttributes(handle, 0, (byte)(alpha * 255), LWA_ALPHA);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            SetWindowAlphaLinux(handle, alpha);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            ObjCMsgSendDouble(handle, sel_registerName("setAlphaValue:"), alpha);
+        }
     }
 
-    public static void ClearWindowAlpha(nint hwnd)
+    public static void ClearWindowAlpha(nint handle)
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || hwnd == nint.Zero)
+        if (handle == nint.Zero)
         {
             return;
         }
 
-        nint exStyle = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            nint exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
 
-        _ = SetWindowLongPtrW(hwnd, GWL_EXSTYLE, exStyle & ~WS_EX_LAYERED);
+            _ = SetWindowLongPtrW(handle, GWL_EXSTYLE, exStyle & ~WS_EX_LAYERED);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            ClearWindowAlphaLinux(handle);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            ObjCMsgSendDouble(handle, sel_registerName("setAlphaValue:"), 1.0);
+        }
     }
 
+    #region Windows
     private static PointInt32 GetPointerPositionWindows()
     {
         LPPoint point = default;
@@ -263,27 +328,102 @@ internal static unsafe partial class PointerHelpers
     {
         return (GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0;
     }
+    #endregion
 
-    private static nint GetWindowAtScreenPointWindows(PointInt32 screenPoint)
+    #region Linux
+    private static nint GetActiveWindowLinux()
     {
-        LPPoint point = new() { X = screenPoint.X, Y = screenPoint.Y };
+        nint display = XOpenDisplay(nint.Zero);
 
-        nint hwnd = WindowFromPoint(point);
+        if (display == nint.Zero)
+        {
+            return nint.Zero;
+        }
 
-        return hwnd != nint.Zero ? GetAncestor(hwnd, GA_ROOT) : nint.Zero;
+        nint root = XDefaultRootWindow(display);
+        nint atom = XInternAtom(display, "_NET_ACTIVE_WINDOW", false);
+
+        int result = XGetWindowProperty(display, root, atom,
+                                        0, 1, false, nint.Zero,
+                                        out _, out _, out nint nItems,
+                                        out _, out nint prop);
+
+        nint activeWindow = nint.Zero;
+
+        if (result == 0 && nItems > 0 && prop != nint.Zero)
+        {
+            activeWindow = Marshal.ReadIntPtr(prop);
+
+            _ = XFree(prop);
+        }
+
+        _ = XCloseDisplay(display);
+
+        return activeWindow;
     }
 
-    private static PointInt32 GetClientOriginWindows(nint hwnd)
+    private static void SetWindowTransparentLinux(nint xWindow)
     {
-        LPPoint point = default;
+        nint display = XOpenDisplay(nint.Zero);
 
-        _ = ClientToScreen(hwnd, &point);
-
-        return new()
+        if (display == nint.Zero)
         {
-            X = point.X,
-            Y = point.Y
-        };
+            return;
+        }
+
+        // Set input shape to empty region → window becomes click-through.
+        XShapeCombineRectangles(display, xWindow, ShapeInput, 0, 0, nint.Zero, 0, ShapeSet, 0);
+
+        _ = XCloseDisplay(display);
+    }
+
+    private static void ClearWindowTransparentLinux(nint xWindow)
+    {
+        nint display = XOpenDisplay(nint.Zero);
+
+        if (display == nint.Zero)
+        {
+            return;
+        }
+
+        // Remove input shape → restore default rectangular input region.
+        XShapeCombineMask(display, xWindow, ShapeInput, 0, 0, nint.Zero, ShapeSet);
+
+        _ = XCloseDisplay(display);
+    }
+
+    private static void SetWindowAlphaLinux(nint xWindow, double alpha)
+    {
+        nint display = XOpenDisplay(nint.Zero);
+
+        if (display == nint.Zero)
+        {
+            return;
+        }
+
+        nint opacityAtom = XInternAtom(display, "_NET_WM_WINDOW_OPACITY", false);
+        nint cardinalAtom = XInternAtom(display, "CARDINAL", false);
+
+        // _NET_WM_WINDOW_OPACITY uses a 32-bit cardinal, 0 = fully transparent, 0xFFFFFFFF = fully opaque.
+        uint opacityValue = (uint)(alpha * 0xFFFFFFFF);
+
+        _ = XChangeProperty(display, xWindow, opacityAtom, cardinalAtom, 32, 0, (byte*)&opacityValue, 1);
+        _ = XCloseDisplay(display);
+    }
+
+    private static void ClearWindowAlphaLinux(nint xWindow)
+    {
+        nint display = XOpenDisplay(nint.Zero);
+
+        if (display == nint.Zero)
+        {
+            return;
+        }
+
+        nint opacityAtom = XInternAtom(display, "_NET_WM_WINDOW_OPACITY", false);
+
+        _ = XDeleteProperty(display, xWindow, opacityAtom);
+        _ = XCloseDisplay(display);
     }
 
     private static PointInt32 GetPointerPositionLinux()
@@ -347,6 +487,33 @@ internal static unsafe partial class PointerHelpers
         return (mask & 0x100) != 0;
     }
 
+    private static bool IsEscapePressedLinux()
+    {
+        nint display = XOpenDisplay((nint)null);
+
+        if (display == nint.Zero)
+        {
+            return false;
+        }
+
+        byte* keys = stackalloc byte[32];
+
+        _ = XQueryKeymap(display, keys);
+        _ = XCloseDisplay(display);
+
+        return (keys[X11_ESCAPE_KEYCODE / 8] & (1 << (X11_ESCAPE_KEYCODE % 8))) != 0;
+    }
+    #endregion
+
+    #region macOS
+    private static nint GetActiveWindowMacOS()
+    {
+        nint nsAppClass = objc_getClass("NSApplication");
+        nint sharedApp = ObjCMsgSend(nsAppClass, sel_registerName("sharedApplication"));
+
+        return ObjCMsgSend(sharedApp, sel_registerName("keyWindow"));
+    }
+
     private static PointInt32 GetPointerPositionMacOS()
     {
         CGPoint cgPoint = CGEventGetLocation((nint)null);
@@ -362,4 +529,10 @@ internal static unsafe partial class PointerHelpers
     {
         return CGEventSourceButtonState(0, 0) != 0;
     }
+
+    private static bool IsEscapePressedMacOS()
+    {
+        return CGEventSourceKeyState(0, MACOS_ESCAPE_KEYCODE) != 0;
+    }
+    #endregion
 }
