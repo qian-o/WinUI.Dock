@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Windows.Foundation;
@@ -37,7 +36,6 @@ internal static class DragService
 
     // Preview window (real FloatingWindow used as semi-transparent drag preview)
     private static FloatingWindow? previewFloatingWindow;
-    private static nint previewNativeHandle;
     private static PointInt32 previewOffset;
     private static SizeInt32 capturedSourceSize;
 
@@ -797,52 +795,23 @@ internal static class DragService
             Y = cursorPos.Y - previewOffset.Y
         });
 
-        // Make always-on-top during drag.
+        // Make the preview window fully transparent and borderless (like WPF AllowsTransparency).
+        previewFloatingWindow.SystemBackdrop = new TransparentBackdrop();
+
         if (previewFloatingWindow.AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsAlwaysOnTop = true;
+            presenter.SetBorderAndTitleBar(false, false);
+            presenter.IsResizable = false;
         }
 
         previewFloatingWindow.Activate();
 
-        // Make the preview window semi-transparent.
-        // On Windows: uses DWM + ICompositionSupportsSystemBackdrop + Content.Opacity
-        //   (WS_EX_LAYERED is incompatible with WinUI 3 DirectComposition).
-        // On macOS: uses NSWindow.setAlphaValue: via objc_msgSend.
-        // On Linux: uses _NET_WM_WINDOW_OPACITY X11 property.
-#if WINDOWS
-        PointerHelpers.SetWindowAlpha(previewFloatingWindow, 0.6);
-#else
-        // Defer to next dispatch cycle so the native window is ready.
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+        // Make the preview content semi-transparent to indicate drag state.
+        if (previewFloatingWindow.Content is UIElement previewContent)
         {
-            if (previewFloatingWindow is null)
-            {
-                return;
-            }
-
-            previewNativeHandle = PointerHelpers.GetNativeWindowHandle(previewFloatingWindow);
-            PointerHelpers.SetWindowAlpha(previewNativeHandle, 0.6);
-        });
-#endif
-
-        // OS-level click-through via P/Invoke.
-        // Defer to the next dispatch cycle so WinUI has finished
-        // processing Activate() and applying its own window styles.
-        DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
-        {
-            if (previewFloatingWindow is null)
-            {
-                return;
-            }
-
-            if (previewNativeHandle == nint.Zero)
-            {
-                previewNativeHandle = PointerHelpers.GetNativeWindowHandle(previewFloatingWindow);
-            }
-
-            PointerHelpers.SetWindowTransparent(previewNativeHandle);
-        });
+            previewContent.Opacity = 0.6;
+        }
     }
 
     private static void MovePreviewWindow(PointInt32 screenPoint)
@@ -860,7 +829,6 @@ internal static class DragService
         {
             previewFloatingWindow.Close();
             previewFloatingWindow = null;
-            previewNativeHandle = nint.Zero;
         }
     }
 
@@ -871,24 +839,24 @@ internal static class DragService
             return;
         }
 
-        // Remove always-on-top.
+        // Restore normal window appearance.
+        previewFloatingWindow.SystemBackdrop = null;
+
         if (previewFloatingWindow.AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsAlwaysOnTop = false;
+            presenter.SetBorderAndTitleBar(true, false);
+            presenter.IsResizable = true;
         }
 
-        // Restore window state.
-#if WINDOWS
-        PointerHelpers.ClearWindowAlpha(previewFloatingWindow);
-#else
-        PointerHelpers.ClearWindowAlpha(previewNativeHandle);
-#endif
-
-        PointerHelpers.ClearWindowTransparent(previewNativeHandle);
+        // Restore content opacity.
+        if (previewFloatingWindow.Content is UIElement previewContent)
+        {
+            previewContent.Opacity = 1.0;
+        }
 
         // Detach from DragService tracking — the FloatingWindow is now a normal one.
         previewFloatingWindow = null;
-        previewNativeHandle = nint.Zero;
     }
 
     private static void HideAllDockTargets()
