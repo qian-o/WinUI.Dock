@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Experiments/">
+    <Project Path="sources/Experiments/Playground/Playground.csproj" Id="6120e5eb-c3f5-4014-856c-e880e95635f9" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
