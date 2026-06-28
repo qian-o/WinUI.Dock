@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageVersion Include="Microsoft.WindowsAppSDK" Version="2.2.0" />
         <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
     </ItemGroup>
 
